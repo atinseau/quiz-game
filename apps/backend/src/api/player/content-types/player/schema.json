@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "players",
+  "info": {
+    "singularName": "player",
+    "pluralName": "players",
+    "displayName": "Player",
+    "description": "Quiz app player synced from Clerk"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "clerkId": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "unique": true,
+      "required": true
+    },
+    "username": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
