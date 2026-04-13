@@ -67,10 +67,8 @@ describe("gameStore", () => {
 
     usePlayerStore.setState({ players: [] });
     usePackStore.setState({
-      packs: [],
       selectedPack: null,
       completedSlugs: [],
-      loading: false,
     });
     useGameStore.getState().reset();
     // Clear navigated paths again after reset (which navigates to /)

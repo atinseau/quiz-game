@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, mock, test } from "bun:test";
+import { beforeEach, describe, expect, test } from "bun:test";
 
 const storage: Record<string, string> = {};
 globalThis.localStorage = {
@@ -16,13 +16,7 @@ globalThis.localStorage = {
   key: () => null,
 };
 
-// Mock the API module before importing the store
-mock.module("../lib/api", () => ({
-  fetchPacks: () => Promise.resolve([]),
-}));
-
 import type { ApiPack } from "../types";
-// Import after mocking
 import { usePackStore } from "./packStore";
 
 const fakePack: ApiPack = {
@@ -42,10 +36,8 @@ describe("packStore", () => {
   beforeEach(() => {
     localStorage.clear();
     usePackStore.setState({
-      packs: [],
       selectedPack: null,
       completedSlugs: [],
-      loading: false,
     });
   });
 

@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowLeft,
   Check,
@@ -20,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { fetchPacks } from "../lib/api";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
 import { usePlayerStore } from "../stores/playerStore";
@@ -30,9 +32,12 @@ export function HomeScreen() {
   const players = usePlayerStore((s) => s.players);
   const addPlayer = usePlayerStore((s) => s.addPlayer);
   const removePlayer = usePlayerStore((s) => s.removePlayer);
-  const { packs, loadPacks, selectPack, selectedPack, completedSlugs } =
-    usePackStore();
+  const { selectPack, selectedPack, completedSlugs } = usePackStore();
   const startGame = useGameStore((s) => s.startGame);
+  const { data: packs = [] } = useQuery({
+    queryKey: ["packs"],
+    queryFn: fetchPacks,
+  });
 
   const [inputValue, setInputValue] = useState("");
   const [gender, setGender] = useState<Gender>("homme");
@@ -63,10 +68,6 @@ export function HomeScreen() {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, [computePerPage]);
-
-  useEffect(() => {
-    loadPacks();
-  }, [loadPacks]);
 
   const handleAdd = () => {
     if (addPlayer(inputValue, gender)) setInputValue("");
