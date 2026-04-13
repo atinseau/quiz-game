@@ -1,14 +1,28 @@
-interface Props {
-  players: string[];
-  scores: Record<string, number>;
-  totalQuestions: number;
-  onReset: () => void;
-}
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useGameStore } from "../stores/gameStore";
+import { usePlayerStore } from "../stores/playerStore";
 
 const MEDALS = ["text-yellow-400", "text-gray-300", "text-amber-600"];
 
-export function EndScreen({ players, scores, totalQuestions, onReset }: Props) {
+export function EndScreen() {
+  const navigate = useNavigate();
+
+  const scores = useGameStore((s) => s.scores);
+  const reset = useGameStore((s) => s.reset);
+  const totalQuestions = useGameStore((s) => s.totalQuestions)();
+  const players = usePlayerStore((s) => s.players);
+
   const isSolo = players.length === 1;
+
+  // Route guard: if no scores, redirect home
+  useEffect(() => {
+    if (Object.keys(scores).length === 0) {
+      navigate("/", { replace: true });
+    }
+  }, [scores, navigate]);
+
+  if (Object.keys(scores).length === 0) return null;
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -43,7 +57,7 @@ export function EndScreen({ players, scores, totalQuestions, onReset }: Props) {
         )}
 
         <button
-          onClick={onReset}
+          onClick={reset}
           className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
         >
           Nouvelle partie
