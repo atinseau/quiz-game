@@ -1,65 +1,55 @@
-import type { Question, FeedbackState, GameMode } from "../types";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { CHRONO_DURATION } from "../types";
 import { BlindInput, QcmChoices, VraiFaux, TextInput } from "./AnswerInputs";
 import { Feedback } from "./Feedback";
 import { StealZone } from "./StealZone";
 import { ScoreBoard, SoloScore } from "./ScoreBoard";
+import { useGameStore } from "../stores/gameStore";
+import { usePlayerStore } from "../stores/playerStore";
 
-interface Props {
-  currentQuestion: Question;
-  currentQuestionIndex: number;
-  currentPlayerIndex: number;
-  currentPlayer: string;
-  totalQuestions: number;
-  players: string[];
-  scores: Record<string, number>;
-  combos: Record<string, number>;
-  isSolo: boolean;
-  answered: boolean;
-  blindMode: boolean;
-  feedback: FeedbackState;
-  showForceBtn: boolean;
-  stealConfirmMode: boolean;
-  canSteal: boolean;
-  gameMode: GameMode;
-  timeLeft: number;
-  onSubmitAnswer: (answer: string | boolean) => void;
-  onSubmitBlind: (value: string) => void;
-  onRevealChoices: () => void;
-  onSteal: (stealer: string) => void;
-  onConfirmSteal: (valid: boolean) => void;
-  onForcePoint: () => void;
-  onNextQuestion: () => void;
-  onReset: () => void;
-}
+export function GameScreen() {
+  const navigate = useNavigate();
 
-export function GameScreen({
-  currentQuestion,
-  currentQuestionIndex,
-  currentPlayerIndex,
-  currentPlayer,
-  totalQuestions,
-  players,
-  scores,
-  combos,
-  isSolo,
-  answered,
-  blindMode,
-  feedback,
-  showForceBtn,
-  stealConfirmMode,
-  canSteal,
-  gameMode,
-  timeLeft,
-  onSubmitAnswer,
-  onSubmitBlind,
-  onRevealChoices,
-  onSteal,
-  onConfirmSteal,
-  onForcePoint,
-  onNextQuestion,
-  onReset,
-}: Props) {
+  const questions = useGameStore((s) => s.questions);
+  const currentQuestionIndex = useGameStore((s) => s.currentQuestionIndex);
+  const currentPlayerIndex = useGameStore((s) => s.currentPlayerIndex);
+  const scores = useGameStore((s) => s.scores);
+  const combos = useGameStore((s) => s.combos);
+  const answered = useGameStore((s) => s.answered);
+  const blindMode = useGameStore((s) => s.blindMode);
+  const feedback = useGameStore((s) => s.feedback);
+  const showForceBtn = useGameStore((s) => s.showForceBtn);
+  const stealConfirmMode = useGameStore((s) => s.stealConfirmMode);
+  const gameMode = useGameStore((s) => s.gameMode);
+  const timeLeft = useGameStore((s) => s.timeLeft);
+
+  const currentQuestion = useGameStore((s) => s.currentQuestion)();
+  const currentPlayer = useGameStore((s) => s.currentPlayer)();
+  const totalQuestions = useGameStore((s) => s.totalQuestions)();
+  const isSolo = useGameStore((s) => s.isSolo)();
+  const canSteal = useGameStore((s) => s.canSteal)();
+
+  const submitAnswer = useGameStore((s) => s.submitAnswer);
+  const submitBlindAnswer = useGameStore((s) => s.submitBlindAnswer);
+  const revealChoices = useGameStore((s) => s.revealChoices);
+  const initiateSteal = useGameStore((s) => s.initiateSteal);
+  const confirmSteal = useGameStore((s) => s.confirmSteal);
+  const forcePoint = useGameStore((s) => s.forcePoint);
+  const nextQuestion = useGameStore((s) => s.nextQuestion);
+  const reset = useGameStore((s) => s.reset);
+
+  const players = usePlayerStore((s) => s.players);
+
+  // Route guard: if no questions loaded, redirect home
+  useEffect(() => {
+    if (questions.length === 0) {
+      navigate("/", { replace: true });
+    }
+  }, [questions.length, navigate]);
+
+  if (questions.length === 0 || !currentQuestion) return null;
+
   return (
     <>
       <div className="flex items-center justify-center min-h-screen">
@@ -113,23 +103,23 @@ export function GameScreen({
 
           {/* Answer inputs */}
           {currentQuestion.type === "qcm" && blindMode && !answered && (
-            <BlindInput onSubmit={onSubmitBlind} onReveal={onRevealChoices} />
+            <BlindInput onSubmit={submitBlindAnswer} onReveal={revealChoices} />
           )}
 
           {currentQuestion.type === "qcm" && !blindMode && (
             <QcmChoices
               choices={currentQuestion.choices || []}
               disabled={answered}
-              onSelect={(c) => onSubmitAnswer(c)}
+              onSelect={(c) => submitAnswer(c)}
             />
           )}
 
           {currentQuestion.type === "vrai_faux" && (
-            <VraiFaux disabled={answered} onSelect={(v) => onSubmitAnswer(v)} />
+            <VraiFaux disabled={answered} onSelect={(v) => submitAnswer(v)} />
           )}
 
           {currentQuestion.type === "texte" && (
-            <TextInput disabled={answered} onSubmit={(v) => onSubmitAnswer(v)} />
+            <TextInput disabled={answered} onSubmit={(v) => submitAnswer(v)} />
           )}
 
           {/* Feedback */}
@@ -142,7 +132,7 @@ export function GameScreen({
               currentPlayerIndex={currentPlayerIndex}
               isSolo={false}
               answered={answered}
-              onSteal={onSteal}
+              onSteal={initiateSteal}
             />
           )}
 
@@ -152,13 +142,13 @@ export function GameScreen({
               {stealConfirmMode ? (
                 <>
                   <button
-                    onClick={() => onConfirmSteal(true)}
+                    onClick={() => confirmSteal(true)}
                     className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
                   >
                     Valider le vol
                   </button>
                   <button
-                    onClick={() => onConfirmSteal(false)}
+                    onClick={() => confirmSteal(false)}
                     className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
                   >
                     Refuser
@@ -167,14 +157,14 @@ export function GameScreen({
               ) : (
                 <>
                   <button
-                    onClick={onNextQuestion}
+                    onClick={nextQuestion}
                     className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
                   >
                     Question suivante
                   </button>
                   {showForceBtn && gameMode !== "chrono" && (
                     <button
-                      onClick={onForcePoint}
+                      onClick={forcePoint}
                       className="bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-5 rounded-xl text-lg transition-colors"
                     >
                       Compter le point
@@ -198,7 +188,7 @@ export function GameScreen({
 
       {/* Floating reset button */}
       <button
-        onClick={onReset}
+        onClick={reset}
         className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-500 text-white p-3 rounded-full shadow-lg transition-colors"
         title="Recommencer la partie"
       >
