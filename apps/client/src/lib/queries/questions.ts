@@ -1,5 +1,5 @@
-import type { Question } from "../../types";
-import { api, type StrapiList } from "../api";
+import type { Question, StrapiList } from "../../types";
+import { api } from "../api";
 
 export async function fetchPackQuestions(
   packSlug: string,

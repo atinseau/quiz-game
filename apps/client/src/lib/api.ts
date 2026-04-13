@@ -22,7 +22,3 @@ export const api = ky.create({
     ],
   },
 });
-
-export interface StrapiList<T> {
-  data: T[];
-}

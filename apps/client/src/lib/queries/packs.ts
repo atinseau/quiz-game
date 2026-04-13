@@ -1,5 +1,5 @@
-import type { ApiPack } from "../../types";
-import { api, type StrapiList } from "../api";
+import type { ApiPack, StrapiList } from "../../types";
+import { api } from "../api";
 
 export async function fetchPacks(): Promise<ApiPack[]> {
   const json = await api

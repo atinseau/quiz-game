@@ -1,3 +1,7 @@
+export interface StrapiList<T> {
+  data: T[];
+}
+
 export type Gender = "homme" | "femme";
 
 export interface Player {
