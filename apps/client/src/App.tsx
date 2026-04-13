@@ -13,18 +13,18 @@ import { Button } from "@/components/ui/button";
 import { EndScreen } from "./components/EndScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
-import { apiFetch } from "./lib/api";
+import { api } from "./lib/api";
 import { useGameStore } from "./stores/gameStore";
 import { setNavigate } from "./stores/router";
 import { useSettingsStore } from "./stores/settingsStore";
 
 function useSyncPlayer() {
-  const { isSignedIn, getToken } = useAuth();
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     if (!isSignedIn) return;
-    apiFetch("/player/me", getToken).catch(console.error);
-  }, [isSignedIn, getToken]);
+    api.get("player/me").catch(console.error);
+  }, [isSignedIn]);
 }
 
 function AuthHeader() {

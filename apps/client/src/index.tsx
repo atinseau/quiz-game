@@ -1,7 +1,9 @@
-import { ClerkProvider } from "@clerk/clerk-react";
+import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { initApi } from "./lib/api";
 
 const CLERK_KEY = process.env.PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -18,13 +20,27 @@ const queryClient = new QueryClient({
   },
 });
 
+function ApiInit({ children }: { children: React.ReactNode }) {
+  const { getToken } = useAuth();
+  const initialized = useRef(false);
+
+  if (!initialized.current) {
+    initApi(() => getToken());
+    initialized.current = true;
+  }
+
+  return children;
+}
+
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Missing #root element");
 const root = createRoot(rootEl);
 root.render(
   <ClerkProvider publishableKey={CLERK_KEY} afterSignOutUrl="/">
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ApiInit>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </ApiInit>
   </ClerkProvider>,
 );

@@ -1,15 +1,42 @@
+import ky from "ky";
 import type { ApiPack, Question } from "../types";
 
-const API_URL = "http://localhost:1337/api";
+interface StrapiList<T> {
+  data: T[];
+}
+
+let _getToken: (() => Promise<string | null>) | null = null;
+
+export function initApi(getToken: () => Promise<string | null>) {
+  _getToken = getToken;
+}
+
+const API_URL = process.env.PUBLIC_API_URL || "http://localhost:1337/api";
+
+export const api = ky.create({
+  prefix: API_URL,
+  hooks: {
+    beforeRequest: [
+      async ({ request }) => {
+        if (!_getToken) return;
+        const token = await _getToken();
+        if (token) {
+          request.headers.set("Authorization", `Bearer ${token}`);
+        }
+      },
+    ],
+  },
+});
 
 export async function fetchPacks(): Promise<ApiPack[]> {
-  const res = await fetch(
-    `${API_URL}/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true`,
-  );
-  if (!res.ok) throw new Error("Failed to fetch packs");
-  const json = await res.json();
-  // biome-ignore lint/suspicious/noExplicitAny: Strapi REST response
-  return json.data.map((pack: any) => ({
+  const json = await api
+    .get(
+      "question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true",
+    )
+    // biome-ignore lint/suspicious/noExplicitAny: Strapi REST shape
+    .json<StrapiList<any>>();
+
+  return json.data.map((pack) => ({
     documentId: pack.documentId,
     slug: pack.slug,
     name: pack.name,
@@ -26,44 +53,18 @@ export async function fetchPacks(): Promise<ApiPack[]> {
 export async function fetchPackQuestions(
   packSlug: string,
 ): Promise<Question[]> {
-  const res = await fetch(
-    `${API_URL}/questions?filters[pack][slug][$eq]=${encodeURIComponent(packSlug)}&populate=category&pagination[pageSize]=1000`,
-  );
-  if (!res.ok) throw new Error("Failed to fetch questions");
-  const json = await res.json();
-  // biome-ignore lint/suspicious/noExplicitAny: Strapi REST response
-  return json.data.map((q: any) => ({
+  const json = await api
+    .get(
+      `questions?filters[pack][slug][$eq]=${encodeURIComponent(packSlug)}&populate=category&pagination[pageSize]=1000`,
+    )
+    // biome-ignore lint/suspicious/noExplicitAny: Strapi REST shape
+    .json<StrapiList<any>>();
+
+  return json.data.map((q) => ({
     type: q.type,
     question: q.text,
     choices: q.choices ?? undefined,
     answer: q.type === "vrai_faux" ? q.answer === "true" : q.answer,
     category: q.category?.name ?? "Divers",
   }));
-}
-
-export async function apiFetch(
-  path: string,
-  getToken: () => Promise<string | null>,
-  options: RequestInit = {},
-) {
-  const token = await getToken();
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    ...((options.headers as Record<string, string>) || {}),
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const res = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers,
-  });
-
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status} ${res.statusText}`);
-  }
-
-  return res.json();
 }
