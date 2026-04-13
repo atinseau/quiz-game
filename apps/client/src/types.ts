@@ -11,9 +11,6 @@ export interface Question {
 export interface RawQuestionData {
   [category: string]: Omit<Question, "category">[];
 }
-
-export type Screen = "home" | "game" | "end";
-
 export type GameMode = "classic" | "voleur" | "chrono";
 
 export interface GameModeInfo {
