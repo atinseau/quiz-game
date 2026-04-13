@@ -386,7 +386,43 @@ Les 14 packs actuels (fichiers `public/questions/questions-N.json` + `packs.json
 
 ## 3. Phase 2 - Multi-appareil (WebSocket)
 
-> **Objectif** : Permettre à chaque joueur de jouer sur son propre téléphone, synchronisé en temps réel.
+> **Objectif** : Permettre à chaque joueur de jouer sur son propre téléphone, synchronisé en temps réel. Connexion obligatoire pour accéder au jeu.
+
+### 3.0 Auth obligatoire & Landing Page
+
+**Règle** : Connexion Clerk obligatoire pour accéder au jeu, quel que soit le mode (1 appareil ou multi-appareil).
+
+**Landing page** (route `/`, non authentifié) :
+- Branding du jeu (nom, logo, ambiance soirée)
+- Intro fun et courte : 2-3 phrases qui donnent envie
+- Présentation des modes de jeu en cartes visuelles (Classique, Voleur, Chrono) avec description courte (1 ligne chacun)
+- Bouton "Voir les règles" → ouvre un modal avec les règles détaillées de chaque mode :
+  - Classique : tour par tour, combo, scoring
+  - Voleur : vol de points, pénalités
+  - Chrono : timer 15s, timeout -0.5pt
+  - Mode alcool (teaser / bientôt)
+- Bouton "Se connecter" → Clerk sign-in/sign-up
+- Design festif (confettis, glow, animations) cohérent avec le thème soirée
+
+**Routing** :
+- `/` → Landing page (non authentifié)
+- `/play` → HomeScreen actuel (pack selection → players → mode) — **requiert auth**
+- `/game` → GameScreen — **requiert auth**
+- `/end` → EndScreen — **requiert auth**
+- Si non connecté et tente d'accéder à `/play`, `/game`, `/end` → redirect vers `/`
+
+**Composant AuthGuard** :
+```tsx
+// Wraps routes that require authentication
+function AuthGuard({ children }) {
+  const { isSignedIn, isLoaded } = useAuth();
+  if (!isLoaded) return <LoadingSpinner />;
+  if (!isSignedIn) return <Navigate to="/" />;
+  return children;
+}
+```
+
+**Impact sur le mode multi-appareil** : Chaque joueur sur son téléphone doit être connecté avec son compte Clerk. Le `clerkId` sert d'identifiant unique dans les rooms WebSocket.
 
 ### 3.1 Architecture WebSocket
 
@@ -437,17 +473,22 @@ type ServerMessage =
 
 ### 3.2 Flux utilisateur multi-appareil
 
+Tous les joueurs sont déjà connectés (Clerk obligatoire). Le nom et le genre viennent du profil Clerk / Player backend.
+
 ```
-[Écran d'accueil]
+[/play — HomeScreen, authentifié]
     │
-    ├── "Créer une partie" → Saisie nom + genre → Room créée → Code affiché (ex: QUIZ-ABCD)
-    │                                                            │
-    │                                              Attente des joueurs (lobby)
-    │                                              Liste des joueurs connectés en temps réel
-    │                                              Bouton "Lancer la partie" (host uniquement)
+    ├── "Créer une partie" → Room créée → Code affiché (ex: QUIZ-ABCD)
+    │                                       │
+    │                         Attente des joueurs (lobby)
+    │                         Liste des joueurs connectés en temps réel
+    │                         Bouton "Lancer la partie" (host uniquement)
+    │                         Host choisit : pack + mode de jeu
     │
-    └── "Rejoindre une partie" → Saisie code room → Saisie nom + genre → Rejoint le lobby
+    └── "Rejoindre une partie" → Saisie code room → Rejoint le lobby
 ```
+
+**Identité joueur** : Le serveur WS identifie chaque joueur par son `clerkId` (envoyé dans le JWT au connect). Le nom et genre sont récupérés depuis le Player backend.
 
 ### 3.3 Modes de jeu en multi-appareil
 
@@ -781,8 +822,9 @@ Phase 1 — Fondations
   └── 1.8 Refonte thème soirée (palette néon, animations, confettis)
 
 Phase 2 — Multi-appareil
+  ├── 2.0 Auth obligatoire + Landing page (intro, règles, Clerk sign-in)
   ├── 2.1 Serveur WebSocket Bun (intégré au serveur client)
-  ├── 2.2 Système de rooms (create/join/lobby)
+  ├── 2.2 Système de rooms (create/join/lobby, identité via clerkId)
   ├── 2.3 Sync état de jeu (questions, scores, timer — serveur = source de vérité)
   ├── 2.4 Mode classique multi-appareil
   ├── 2.5 Mode chrono multi-appareil
