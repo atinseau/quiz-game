@@ -1,7 +1,7 @@
 import { verifyToken } from '@clerk/backend';
 
-export default (config, { strapi }) => {
-  return async (ctx, next) => {
+export default (_config: unknown, { strapi }: { strapi: any }) => {
+  return async (ctx: any, next: () => Promise<void>) => {
     const authHeader = ctx.request.header.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
