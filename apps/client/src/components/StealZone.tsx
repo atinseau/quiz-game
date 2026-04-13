@@ -5,7 +5,6 @@ interface Props {
   players: string[];
   currentPlayerIndex: number;
   isSolo: boolean;
-  answered: boolean;
   onSteal: (stealer: string) => void;
 }
 
@@ -13,10 +12,9 @@ export function StealZone({
   players,
   currentPlayerIndex,
   isSolo,
-  answered,
   onSteal,
 }: Props) {
-  if (isSolo || answered) return null;
+  if (isSolo) return null;
 
   const otherPlayers = players.filter((_, i) => i !== currentPlayerIndex);
 

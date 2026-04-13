@@ -134,6 +134,7 @@ export function GameScreen() {
 
             {currentQuestion.type === "texte" && (
               <TextInput
+                key={currentQuestionIndex}
                 disabled={answered}
                 onSubmit={(v) => submitAnswer(v)}
               />
@@ -148,7 +149,6 @@ export function GameScreen() {
                 players={players}
                 currentPlayerIndex={currentPlayerIndex}
                 isSolo={false}
-                answered={answered}
                 onSteal={initiateSteal}
               />
             )}

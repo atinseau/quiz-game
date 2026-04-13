@@ -1,0 +1,18 @@
+[
+  {
+    "file": "questions-test.json",
+    "name": "Pack Test",
+    "description": "Pack de test avec questions variées (QCM, Vrai/Faux, Texte).",
+    "icon": "🧪",
+    "gradient": "from-emerald-600 to-teal-700",
+    "questionCount": 6
+  },
+  {
+    "file": "questions-test-2.json",
+    "name": "Pack Test 2",
+    "description": "Deuxième pack pour tester la pagination et sélection.",
+    "icon": "🔬",
+    "gradient": "from-sky-600 to-indigo-700",
+    "questionCount": 3
+  }
+]

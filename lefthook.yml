@@ -5,6 +5,8 @@ pre-commit:
       run: bun run check-types
     test:
       run: bun run test
+    e2e:
+      run: bun run e2e
     biome:
       run: bunx biome check --staged --no-errors-on-unmatched
       stage_fixed: true

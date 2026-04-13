@@ -9,6 +9,7 @@
     "build": "bun --filter '*' --parallel build",
     "check-types": "bun --filter '*' check-types",
     "test": "bun --filter '*' test",
+    "e2e": "bun --filter '@quiz-app/client' e2e",
     "lint": "biome check .",
     "lint:fix": "biome check --fix .",
     "format": "biome format --write .",

@@ -4,7 +4,7 @@ const soundSteal = new Audio("/steal.mp3");
 
 function play(audio: HTMLAudioElement) {
   audio.currentTime = 0;
-  audio.play();
+  audio.play().catch(() => {});
 }
 
 export const sounds = {
