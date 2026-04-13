@@ -14,7 +14,8 @@
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
     "check-types": "tsc --noEmit",
-    "test": "echo 'No tests yet'"
+    "test": "echo 'No tests yet'",
+    "seed": "bun run scripts/seed-packs.ts"
   },
   "dependencies": {
     "@clerk/backend": "^3.2.8",
