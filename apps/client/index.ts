@@ -41,7 +41,10 @@ const server = Bun.serve({
       });
     }
 
-    return new Response("Not Found", { status: 404 });
+    // SPA fallback: serve index.html for all non-API routes (React Router handles client-side routing)
+    return new Response(Bun.file("index.html"), {
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
   },
   development: {
     hmr: true,
