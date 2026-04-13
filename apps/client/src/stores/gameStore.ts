@@ -499,7 +499,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       _timerRef: null,
     });
 
-    getNavigate()("/");
+    getNavigate()("/play");
   },
 
   restoreFromStorage: () => {

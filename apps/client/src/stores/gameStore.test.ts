@@ -159,7 +159,7 @@ describe("gameStore", () => {
     expect(state.combos[player]).toBe(1);
   });
 
-  test("reset clears all game state and navigates to /", async () => {
+  test("reset clears all game state and navigates to /play", async () => {
     await useGameStore.getState().startGame("histoire", "classic");
     navigatedPaths.length = 0;
 
@@ -172,6 +172,6 @@ describe("gameStore", () => {
     expect(state.scores).toEqual({});
     expect(state.combos).toEqual({});
     expect(state.gameMode).toBe("classic");
-    expect(navigatedPaths).toContain("/");
+    expect(navigatedPaths).toContain("/play");
   });
 });
