@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "question_packs",
+  "info": {
+    "singularName": "question-pack",
+    "pluralName": "question-packs",
+    "displayName": "QuestionPack"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "gradient": {
+      "type": "string"
+    },
+    "isFree": {
+      "type": "boolean",
+      "default": true
+    },
+    "stripePriceId": {
+      "type": "string"
+    },
+    "published": {
+      "type": "boolean",
+      "default": true
+    },
+    "displayOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "mappedBy": "packs"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question",
+      "mappedBy": "pack"
+    }
+  }
+}

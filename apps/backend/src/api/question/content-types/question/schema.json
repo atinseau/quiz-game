@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "questions",
+  "info": {
+    "singularName": "question",
+    "pluralName": "questions",
+    "displayName": "Question"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": ["qcm", "vrai_faux", "texte"],
+      "required": true
+    },
+    "text": {
+      "type": "text",
+      "required": true
+    },
+    "choices": {
+      "type": "json"
+    },
+    "answer": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "questions"
+    },
+    "pack": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::question-pack.question-pack",
+      "inversedBy": "questions"
+    },
+    "displayOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
