@@ -1,18 +1,19 @@
 import { useState, useEffect, useCallback, useRef, type KeyboardEvent } from "react";
 import type { PackMeta, GameMode } from "../types";
 import { GAME_MODES } from "../types";
-import { getFinishedChunks } from "../utils/storage";
+import { usePlayerStore } from "../stores/playerStore";
+import { usePackStore } from "../stores/packStore";
+import { useGameStore } from "../stores/gameStore";
 
-interface Props {
-  players: string[];
-  selectedChunk: string | null;
-  onAddPlayer: (name: string) => boolean;
-  onRemovePlayer: (name: string) => void;
-  onSelectChunk: (chunk: string) => void;
-  onStart: (chunk: string, mode: GameMode) => void;
-}
+export function HomeScreen() {
+  const players = usePlayerStore((s) => s.players);
+  const addPlayer = usePlayerStore((s) => s.addPlayer);
+  const removePlayer = usePlayerStore((s) => s.removePlayer);
+  const selectedChunk = usePackStore((s) => s.selectedChunk);
+  const selectChunk = usePackStore((s) => s.selectChunk);
+  const finishedChunks = usePackStore((s) => s.finishedChunks);
+  const startGame = useGameStore((s) => s.startGame);
 
-export function HomeScreen({ players, selectedChunk, onAddPlayer, onRemovePlayer, onSelectChunk, onStart }: Props) {
   const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
   const [packs, setPacks] = useState<PackMeta[]>([]);
@@ -21,7 +22,6 @@ export function HomeScreen({ players, selectedChunk, onAddPlayer, onRemovePlayer
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(6);
   const gridRef = useRef<HTMLDivElement>(null);
-  const finishedChunks = getFinishedChunks();
 
   // Calcul dynamique du nombre de cards par page selon l'espace dispo
   const computePerPage = useCallback(() => {
@@ -52,13 +52,13 @@ export function HomeScreen({ players, selectedChunk, onAddPlayer, onRemovePlayer
         setPacks(data);
         if (!selectedChunk) {
           const firstUnfinished = data.find((p) => !finishedChunks.includes(p.file));
-          onSelectChunk(firstUnfinished?.file || data[0]?.file || "");
+          selectChunk(firstUnfinished?.file || data[0]?.file || "");
         }
       });
   }, []);
 
   const handleAdd = () => {
-    if (onAddPlayer(inputValue)) setInputValue("");
+    if (addPlayer(inputValue)) setInputValue("");
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -106,7 +106,7 @@ export function HomeScreen({ players, selectedChunk, onAddPlayer, onRemovePlayer
                       <button
                         key={pack.file}
                         onClick={() => {
-                          onSelectChunk(pack.file);
+                          selectChunk(pack.file);
                           setStep("players");
                         }}
                         className={`relative text-left rounded-xl overflow-hidden transition-all duration-200 ${
@@ -233,7 +233,7 @@ export function HomeScreen({ players, selectedChunk, onAddPlayer, onRemovePlayer
                 <div key={p} className="flex items-center gap-2 bg-gray-800 rounded-full px-4 py-1.5">
                   <span className="font-medium text-sm">{p}</span>
                   <button
-                    onClick={() => onRemovePlayer(p)}
+                    onClick={() => removePlayer(p)}
                     className="text-gray-500 hover:text-red-400 text-lg leading-none"
                   >
                     &times;
@@ -299,7 +299,7 @@ export function HomeScreen({ players, selectedChunk, onAddPlayer, onRemovePlayer
               key={mode.id}
               onClick={() => {
                 setSelectedMode(mode.id);
-                if (selectedChunk) onStart(selectedChunk, mode.id);
+                if (selectedChunk) startGame(selectedChunk, mode.id);
               }}
               className="w-full text-left rounded-xl overflow-hidden ring-1 ring-gray-800 hover:ring-gray-600 hover:scale-[1.01] transition-all duration-200"
             >
