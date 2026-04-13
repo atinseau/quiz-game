@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { fetchPacks } from "../lib/api";
+import { fetchPacks } from "../lib/queries/packs";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
 import { usePlayerStore } from "../stores/playerStore";

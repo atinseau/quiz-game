@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { fetchPackQuestions } from "../lib/api";
+import { fetchPackQuestions } from "../lib/queries/questions";
 import type { FeedbackState, GameMode, Player, Question } from "../types";
 import {
   BLIND_MULTIPLIER,
