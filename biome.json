@@ -35,13 +35,7 @@
   "css": {
     "parser": {
       "cssModules": true,
-      "allowWrongLineComments": true
-    },
-    "formatter": {
-      "enabled": false
-    },
-    "linter": {
-      "enabled": false
+      "tailwindDirectives": true
     }
   },
   "formatter": {
@@ -58,8 +52,7 @@
       "!**/.tmp",
       "!**/.strapi",
       "!**/.cache",
-      "!**/apps/backend/types",
-      "!**/*.css"
+      "!**/apps/backend/types"
     ]
   }
 }
