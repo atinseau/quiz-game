@@ -1,5 +1,6 @@
 import {
   ArrowLeft,
+  Check,
   ChevronLeft,
   ChevronRight,
   Gamepad2,
@@ -40,6 +41,7 @@ export function HomeScreen() {
   const [_selectedMode, setSelectedMode] = useState<GameMode>("classic");
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(6);
+  const [showOnlyNew, setShowOnlyNew] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const computePerPage = useCallback(() => {
@@ -109,8 +111,26 @@ export function HomeScreen() {
             />
           </div>
 
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm text-muted-foreground">
+              {packs.filter((p) => completedSlugs.includes(p.slug)).length}/
+              {packs.length} packs terminés
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setShowOnlyNew(!showOnlyNew);
+                setPage(0);
+              }}
+            >
+              {showOnlyNew ? "Voir tous" : "Non terminés"}
+            </Button>
+          </div>
+
           {(() => {
             const filtered = packs.filter((p) => {
+              if (showOnlyNew && completedSlugs.includes(p.slug)) return false;
               if (!search.trim()) return true;
               const q = search.toLowerCase();
               return (
@@ -166,7 +186,8 @@ export function HomeScreen() {
                                 variant="secondary"
                                 className="mt-1 bg-white/20 text-white border-none text-xs"
                               >
-                                Termine
+                                <Check className="w-3 h-3 mr-1 inline" />{" "}
+                                Terminé
                               </Badge>
                             )}
                           </div>
