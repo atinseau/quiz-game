@@ -99,7 +99,7 @@ describe("gameStore", () => {
 
     // First give correct answer to build combo
     const q1 = useGameStore.getState().currentQuestion();
-    useGameStore.getState().submitAnswer(q1?.answer!);
+    useGameStore.getState().submitAnswer(q1!.answer);
 
     // Move to next question
     useGameStore.getState().nextQuestion();
