@@ -1,11 +1,6 @@
 import { create } from "zustand";
-import type {
-  FeedbackState,
-  GameMode,
-  Player,
-  Question,
-  RawQuestionData,
-} from "../types";
+import { fetchPackQuestions } from "../lib/api";
+import type { FeedbackState, GameMode, Player, Question } from "../types";
 import {
   BLIND_MULTIPLIER,
   CHRONO_DURATION,
@@ -26,16 +21,16 @@ import { getNavigate } from "./router";
 
 function randomizeQuestion(questions: Question[], idx: number): void {
   if (idx >= questions.length) return;
-  const q = questions[idx]!;
-  if (q.choices) {
-    // Fisher-Yates shuffle on choices
-    const arr = [...q.choices];
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j]!, arr[i]!];
-    }
-    questions[idx] = { ...q, choices: arr };
+  const q = questions[idx];
+  if (!q?.choices) return;
+  const arr = [...q.choices];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = arr[i];
+    arr[i] = arr[j] as string;
+    arr[j] = tmp as string;
   }
+  questions[idx] = { ...q, choices: arr };
 }
 
 function formatCorrectAnswer(q: Question): string {
@@ -77,7 +72,7 @@ interface GameStoreState {
   _persist: () => void;
 
   // Actions
-  startGame: (chunk: string, mode: GameMode) => Promise<void>;
+  startGame: (packSlug: string, mode: GameMode) => Promise<void>;
   submitAnswer: (answer: string | boolean) => void;
   submitBlindAnswer: (input: string) => void;
   revealChoices: () => void;
@@ -195,7 +190,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       gameMode,
     } = get();
     const players = usePlayerStore.getState().players;
-    const selectedChunk = usePackStore.getState().selectedChunk;
+    const selectedPackSlug = usePackStore.getState().selectedPack?.slug ?? null;
     saveGameState({
       players,
       scores,
@@ -203,27 +198,21 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       questions,
       currentQuestionIndex,
       currentPlayerIndex,
-      selectedChunk,
+      selectedPackSlug,
       gameMode,
     });
   },
 
   // --- Actions ---
-  startGame: async (chunk: string, mode: GameMode) => {
-    const res = await fetch(`/packs/${chunk}`);
-    const raw: RawQuestionData = await res.json();
-
-    const questions: Question[] = [];
-    for (const [category, qs] of Object.entries(raw)) {
-      for (const q of qs) {
-        questions.push({ ...q, category });
-      }
-    }
+  startGame: async (packSlug: string, mode: GameMode) => {
+    const questions = await fetchPackQuestions(packSlug);
 
     // Shuffle all questions (Fisher-Yates)
     for (let i = questions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [questions[i], questions[j]] = [questions[j]!, questions[i]!];
+      const tmp = questions[i];
+      questions[i] = questions[j] as Question;
+      questions[j] = tmp as Question;
     }
 
     // Randomize choices of first question
@@ -253,7 +242,6 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       timeLeft: CHRONO_DURATION,
     });
 
-    usePackStore.getState().selectChunk(chunk);
     get()._persist();
 
     if (mode === "chrono") get()._startTimer();
@@ -456,8 +444,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
     if (nextIdx >= questions.length) {
       // Game over
-      const chunk = usePackStore.getState().selectedChunk;
-      if (chunk) usePackStore.getState().markFinished(chunk);
+      const slug = usePackStore.getState().selectedPack?.slug;
+      if (slug) usePackStore.getState().markCompleted(slug);
       clearGameState();
       getNavigate()("/end");
       return;
@@ -517,10 +505,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     // Hydrate player store
     usePlayerStore.setState({ players: saved.players });
 
-    // Hydrate pack store
-    if (saved.selectedChunk) {
-      usePackStore.getState().selectChunk(saved.selectedChunk);
-    }
+    // Pack store will be hydrated when packs are loaded from API
 
     set({
       questions: saved.questions,

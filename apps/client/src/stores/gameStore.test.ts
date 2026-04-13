@@ -32,20 +32,27 @@ setNavigate(((path: string) => {
   // biome-ignore lint/suspicious/noExplicitAny: test mock
 }) as any);
 
-// Mock fetch
-const mockQuestions = {
-  Histoire: [
+// Mock fetch — returns Strapi-style API response
+const mockStrapiResponse = {
+  data: [
     {
       type: "qcm",
-      question: "Q1?",
+      text: "Q1?",
       choices: ["A", "B", "C", "D"],
       answer: "A",
+      category: { name: "Histoire" },
     },
-    { type: "texte", question: "Q2?", answer: "Paris" },
+    {
+      type: "texte",
+      text: "Q2?",
+      choices: null,
+      answer: "Paris",
+      category: { name: "Histoire" },
+    },
   ],
 };
 globalThis.fetch = mock(
-  () => Promise.resolve(new Response(JSON.stringify(mockQuestions))),
+  () => Promise.resolve(new Response(JSON.stringify(mockStrapiResponse))),
   // biome-ignore lint/suspicious/noExplicitAny: test mock
 ) as any;
 
@@ -59,7 +66,12 @@ describe("gameStore", () => {
     navigatedPaths.length = 0;
 
     usePlayerStore.setState({ players: [] });
-    usePackStore.setState({ selectedChunk: null, finishedChunks: [] });
+    usePackStore.setState({
+      packs: [],
+      selectedPack: null,
+      completedSlugs: [],
+      loading: false,
+    });
     useGameStore.getState().reset();
     // Clear navigated paths again after reset (which navigates to /)
     navigatedPaths.length = 0;
@@ -70,7 +82,7 @@ describe("gameStore", () => {
   });
 
   test("startGame loads questions, inits scores, navigates to /game", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
 
     const state = useGameStore.getState();
     expect(state.questions.length).toBe(2);
@@ -83,7 +95,7 @@ describe("gameStore", () => {
   });
 
   test("submitAnswer correct increments score and combo", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
 
     // Find the current question and give the correct answer
     const q = useGameStore.getState().currentQuestion();
@@ -97,7 +109,7 @@ describe("gameStore", () => {
   });
 
   test("submitAnswer incorrect sets combo to 0", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
 
     // First give correct answer to build combo
     const q1 = useGameStore.getState().currentQuestion();
@@ -116,7 +128,7 @@ describe("gameStore", () => {
   });
 
   test("nextQuestion advances index and player", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
     useGameStore.getState().submitAnswer("anything");
     useGameStore.getState().nextQuestion();
 
@@ -126,7 +138,7 @@ describe("gameStore", () => {
   });
 
   test("nextQuestion navigates to /end when questions exhausted", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
     navigatedPaths.length = 0;
 
     // Answer and advance through all questions
@@ -139,7 +151,7 @@ describe("gameStore", () => {
   });
 
   test("forcePoint awards points with combo", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
 
     const player = usePlayerStore.getState().players[0]?.name ?? "";
     useGameStore.getState().forcePoint();
@@ -150,7 +162,7 @@ describe("gameStore", () => {
   });
 
   test("reset clears all game state and navigates to /", async () => {
-    await useGameStore.getState().startGame("histoire.json", "classic");
+    await useGameStore.getState().startGame("histoire", "classic");
     navigatedPaths.length = 0;
 
     useGameStore.getState().reset();

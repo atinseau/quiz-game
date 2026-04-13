@@ -63,7 +63,7 @@ export interface GameState {
   questions: Question[];
   currentQuestionIndex: number;
   currentPlayerIndex: number;
-  selectedChunk: string | null;
+  selectedPackSlug: string | null;
   gameMode?: GameMode;
 }
 

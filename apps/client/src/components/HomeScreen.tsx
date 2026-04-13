@@ -22,22 +22,20 @@ import { Input } from "@/components/ui/input";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
 import { usePlayerStore } from "../stores/playerStore";
-import type { GameMode, Gender, PackMeta } from "../types";
+import type { GameMode, Gender } from "../types";
 import { GAME_MODES } from "../types";
 
 export function HomeScreen() {
   const players = usePlayerStore((s) => s.players);
   const addPlayer = usePlayerStore((s) => s.addPlayer);
   const removePlayer = usePlayerStore((s) => s.removePlayer);
-  const selectedChunk = usePackStore((s) => s.selectedChunk);
-  const selectChunk = usePackStore((s) => s.selectChunk);
-  const finishedChunks = usePackStore((s) => s.finishedChunks);
+  const { packs, loadPacks, selectPack, selectedPack, completedSlugs } =
+    usePackStore();
   const startGame = useGameStore((s) => s.startGame);
 
   const [inputValue, setInputValue] = useState("");
   const [gender, setGender] = useState<Gender>("homme");
   const [search, setSearch] = useState("");
-  const [packs, setPacks] = useState<PackMeta[]>([]);
   const [step, setStep] = useState<"pack" | "mode" | "players">("pack");
   const [_selectedMode, setSelectedMode] = useState<GameMode>("classic");
   const [page, setPage] = useState(0);
@@ -65,18 +63,8 @@ export function HomeScreen() {
   }, [computePerPage]);
 
   useEffect(() => {
-    fetch("/packs.json")
-      .then((r) => r.json())
-      .then((data: PackMeta[]) => {
-        setPacks(data);
-        if (!selectedChunk) {
-          const firstUnfinished = data.find(
-            (p) => !finishedChunks.includes(p.file),
-          );
-          selectChunk(firstUnfinished?.file || data[0]?.file || "");
-        }
-      });
-  }, [selectedChunk, selectChunk, finishedChunks.includes]);
+    loadPacks();
+  }, [loadPacks]);
 
   const handleAdd = () => {
     if (addPlayer(inputValue, gender)) setInputValue("");
@@ -85,8 +73,6 @@ export function HomeScreen() {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Enter") handleAdd();
   };
-
-  const selectedPack = packs.find((p) => p.file === selectedChunk);
 
   // Step 1 : Pack selection
   if (step === "pack") {
@@ -149,14 +135,14 @@ export function HomeScreen() {
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 >
                   {pageItems.map((pack) => {
-                    const done = finishedChunks.includes(pack.file);
-                    const active = pack.file === selectedChunk;
+                    const done = completedSlugs.includes(pack.slug);
+                    const active = pack.slug === selectedPack?.slug;
                     return (
                       <button
                         type="button"
-                        key={pack.file}
+                        key={pack.slug}
                         onClick={() => {
-                          selectChunk(pack.file);
+                          selectPack(pack);
                           setStep("players");
                         }}
                         className={`group relative text-left rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
@@ -210,16 +196,19 @@ export function HomeScreen() {
                     >
                       <ChevronLeft className="size-4" />
                     </Button>
-                    {Array.from({ length: totalPages }, (_, i) => (
-                      <Button
-                        key={i}
-                        variant={i === safePage ? "default" : "secondary"}
-                        size="icon"
-                        onClick={() => setPage(i)}
-                      >
-                        {i + 1}
-                      </Button>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => {
+                      const pageNum = i + 1;
+                      return (
+                        <Button
+                          key={`page-${pageNum}`}
+                          variant={i === safePage ? "default" : "secondary"}
+                          size="icon"
+                          onClick={() => setPage(i)}
+                        >
+                          {pageNum}
+                        </Button>
+                      );
+                    })}
                     <Button
                       variant="secondary"
                       size="icon"
@@ -400,7 +389,7 @@ export function HomeScreen() {
               key={mode.id}
               onClick={() => {
                 setSelectedMode(mode.id);
-                if (selectedChunk) startGame(selectedChunk, mode.id);
+                if (selectedPack) startGame(selectedPack.slug, mode.id);
               }}
               className="group w-full text-left rounded-2xl overflow-hidden ring-1 ring-border/50 hover:ring-primary/50 hover:scale-[1.01] hover:glow-purple transition-all duration-300 cursor-pointer"
             >

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "bun:test";
+import { beforeEach, describe, expect, mock, test } from "bun:test";
 
 const storage: Record<string, string> = {};
 globalThis.localStorage = {
@@ -16,54 +16,72 @@ globalThis.localStorage = {
   key: () => null,
 };
 
-// Import after mocking localStorage
+// Mock the API module before importing the store
+mock.module("../lib/api", () => ({
+  fetchPacks: () => Promise.resolve([]),
+}));
+
+import type { ApiPack } from "../types";
+// Import after mocking
 import { usePackStore } from "./packStore";
+
+const fakePack: ApiPack = {
+  documentId: "doc-1",
+  slug: "pack-1",
+  name: "Pack 1",
+  description: "desc",
+  icon: "🎯",
+  gradient: "from-blue-500 to-blue-700",
+  isFree: true,
+  published: true,
+  displayOrder: 0,
+  questionCount: 10,
+};
 
 describe("packStore", () => {
   beforeEach(() => {
-    // Clear localStorage
     localStorage.clear();
-    // Reset store state
     usePackStore.setState({
-      selectedChunk: null,
-      finishedChunks: [],
+      packs: [],
+      selectedPack: null,
+      completedSlugs: [],
+      loading: false,
     });
   });
 
-  test("selectChunk sets selectedChunk", () => {
-    const { selectChunk } = usePackStore.getState();
-    selectChunk("chunk-1");
-    expect(usePackStore.getState().selectedChunk).toBe("chunk-1");
+  test("selectPack sets selectedPack", () => {
+    const { selectPack } = usePackStore.getState();
+    selectPack(fakePack);
+    expect(usePackStore.getState().selectedPack).toEqual(fakePack);
   });
 
-  test("markFinished adds chunk to finishedChunks and persists to localStorage", () => {
-    const { markFinished } = usePackStore.getState();
-    markFinished("chunk-1");
+  test("markCompleted adds slug to completedSlugs and persists to localStorage", () => {
+    const { markCompleted } = usePackStore.getState();
+    markCompleted("pack-1");
 
-    expect(usePackStore.getState().finishedChunks).toContain("chunk-1");
+    expect(usePackStore.getState().completedSlugs).toContain("pack-1");
     expect(
-      JSON.parse(localStorage.getItem("quiz-finished-chunks") ?? "[]"),
-    ).toContain("chunk-1");
+      JSON.parse(localStorage.getItem("quiz-completed-packs") ?? "[]"),
+    ).toContain("pack-1");
   });
 
-  test("markFinished does not duplicate", () => {
-    const { markFinished } = usePackStore.getState();
-    markFinished("chunk-1");
-    markFinished("chunk-1");
+  test("markCompleted does not duplicate", () => {
+    const { markCompleted } = usePackStore.getState();
+    markCompleted("pack-1");
+    markCompleted("pack-1");
 
     expect(
-      usePackStore.getState().finishedChunks.filter((c) => c === "chunk-1")
+      usePackStore.getState().completedSlugs.filter((c) => c === "pack-1")
         .length,
     ).toBe(1);
   });
 
-  test("reset clears selectedChunk but keeps finishedChunks", () => {
-    const { selectChunk, markFinished, reset } = usePackStore.getState();
-    selectChunk("chunk-1");
-    markFinished("chunk-2");
+  test("reset clears selectedPack", () => {
+    const { selectPack, markCompleted, reset } = usePackStore.getState();
+    selectPack(fakePack);
+    markCompleted("pack-2");
     reset();
 
-    expect(usePackStore.getState().selectedChunk).toBeNull();
-    expect(usePackStore.getState().finishedChunks).toContain("chunk-2");
+    expect(usePackStore.getState().selectedPack).toBeNull();
   });
 });
