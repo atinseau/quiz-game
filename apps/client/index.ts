@@ -4,6 +4,9 @@ const server = Bun.serve({
   port: 3000,
   routes: {
     "/": index,
+    "/play": index,
+    "/game": index,
+    "/end": index,
   },
   async fetch(req) {
     const url = new URL(req.url);

@@ -64,7 +64,11 @@ async function mockNetwork(page: Page) {
 export const test = base.extend<{ mockApp: Page }>({
   mockApp: async ({ page }, use) => {
     await mockNetwork(page);
-    await page.goto("/");
+    // Bypass AuthGuard for E2E tests (Clerk SDK can't fully initialize with mocked endpoints)
+    await page.addInitScript(() => {
+      (window as any).__clerk_test_bypass__ = true;
+    });
+    await page.goto("/play");
     await page
       .getByText("Pack Test", { exact: false })
       .first()

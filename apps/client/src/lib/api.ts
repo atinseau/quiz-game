@@ -6,7 +6,7 @@ export function initApi(getToken: () => Promise<string | null>) {
   _getToken = getToken;
 }
 
-const API_URL = process.env.PUBLIC_API_URL || "http://localhost:1337/api";
+const API_URL = "http://localhost:1337/api";
 
 export const api = ky.create({
   prefix: API_URL,
