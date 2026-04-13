@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGameStore } from "../stores/gameStore";
 import { usePlayerStore } from "../stores/playerStore";
+import { fireGameEnd } from "../utils/confetti";
 
 const MEDAL_ICONS = [Crown, Medal, Medal] as const;
 const MEDAL_COLORS = [
@@ -28,6 +29,10 @@ export function EndScreen() {
       navigate("/", { replace: true });
     }
   }, [scores, navigate]);
+
+  useEffect(() => {
+    fireGameEnd();
+  }, []);
 
   if (Object.keys(scores).length === 0) return null;
 
@@ -72,13 +77,17 @@ export function EndScreen() {
                       key={p.name}
                       className={`flex items-center justify-between rounded-xl px-5 py-4 transition-all ${
                         isWinner
-                          ? "bg-yellow-500/10 border border-yellow-500/30 glow-pink"
+                          ? "bg-yellow-500/10 border border-yellow-500/30 glow-pink animate-bounce-in"
                           : "bg-card border border-border/50"
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <MedalIcon className={`size-6 ${medalColor}`} />
-                        <span className="font-semibold text-lg">{p.name}</span>
+                        <span
+                          className={`font-semibold text-lg ${isWinner ? "text-glow-pink" : ""}`}
+                        >
+                          {p.name}
+                        </span>
                       </div>
                       <span className={`text-2xl font-bold ${medalColor}`}>
                         {scores[p.name]} pts

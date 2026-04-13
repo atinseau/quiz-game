@@ -10,6 +10,7 @@ import {
   STEAL_GAIN,
   STEAL_LOSS,
 } from "../types";
+import { fireCorrectAnswer } from "../utils/confetti";
 import { checkAnswer, fuzzyMatch } from "../utils/fuzzyMatch";
 import { sounds } from "../utils/sounds";
 import { clearGameState, loadGameState, saveGameState } from "../utils/storage";
@@ -272,6 +273,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const points = 1 + (combo - 1) * 0.5;
       scores[player] = (scores[player] ?? 0) + points;
       sounds.win();
+      fireCorrectAnswer();
       set({
         scores,
         combos,
@@ -326,6 +328,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const points = basePoints * BLIND_MULTIPLIER;
       scores[player] = (scores[player] ?? 0) + points;
       sounds.win();
+      fireCorrectAnswer();
       set({
         scores,
         combos,
@@ -420,6 +423,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     scores[player] = (scores[player] ?? 0) + points;
 
     sounds.win();
+    fireCorrectAnswer();
     set({
       scores,
       combos,
