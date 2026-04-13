@@ -1,8 +1,11 @@
+import { useSettingsStore } from "../stores/settingsStore";
+
 const soundWin = new Audio("/win.mp3");
 const soundFail = new Audio("/fail.mp3");
 const soundSteal = new Audio("/steal.mp3");
 
 function play(audio: HTMLAudioElement) {
+  if (useSettingsStore.getState().muted) return;
   audio.currentTime = 0;
   audio.play().catch(() => {});
 }

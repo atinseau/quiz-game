@@ -6,7 +6,7 @@ import {
   UserButton,
   useAuth,
 } from "@clerk/clerk-react";
-import { LogIn, UserPlus } from "lucide-react";
+import { LogIn, UserPlus, Volume2, VolumeX } from "lucide-react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { HomeScreen } from "./components/HomeScreen";
 import { apiFetch } from "./lib/api";
 import { useGameStore } from "./stores/gameStore";
 import { setNavigate } from "./stores/router";
+import { useSettingsStore } from "./stores/settingsStore";
 
 function useSyncPlayer() {
   const { isSignedIn, getToken } = useAuth();
@@ -28,9 +29,22 @@ function useSyncPlayer() {
 
 function AuthHeader() {
   useSyncPlayer();
+  const { muted, toggleMute } = useSettingsStore();
 
   return (
     <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleMute}
+        title={muted ? "Activer le son" : "Couper le son"}
+      >
+        {muted ? (
+          <VolumeX className="w-5 h-5" />
+        ) : (
+          <Volume2 className="w-5 h-5" />
+        )}
+      </Button>
       <SignedOut>
         <SignInButton mode="modal">
           <Button variant="default" size="sm">
