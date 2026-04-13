@@ -3,7 +3,7 @@ const API_URL = "http://localhost:1337/api";
 export async function apiFetch(
   path: string,
   getToken: () => Promise<string | null>,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ) {
   const token = await getToken();
   const headers: Record<string, string> = {
@@ -12,7 +12,7 @@ export async function apiFetch(
   };
 
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
 
   const res = await fetch(`${API_URL}${path}`, {

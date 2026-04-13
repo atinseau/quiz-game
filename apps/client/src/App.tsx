@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import {
   SignedIn,
   SignedOut,
@@ -7,11 +5,13 @@ import {
   SignUpButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { setNavigate } from "./stores/router";
-import { useGameStore } from "./stores/gameStore";
-import { HomeScreen } from "./components/HomeScreen";
-import { GameScreen } from "./components/GameScreen";
+import { useEffect } from "react";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { EndScreen } from "./components/EndScreen";
+import { GameScreen } from "./components/GameScreen";
+import { HomeScreen } from "./components/HomeScreen";
+import { useGameStore } from "./stores/gameStore";
+import { setNavigate } from "./stores/router";
 
 function AuthHeader() {
   return (

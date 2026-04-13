@@ -1,125 +1,604 @@
 {
   "Mythologie": [
-    { "type": "qcm", "question": "Qui est le dieu grec de la mer ?", "choices": ["Zeus", "Hadès", "Poséidon", "Arès"], "answer": "Poséidon" },
-    { "type": "vrai_faux", "question": "Thor est un dieu de la mythologie grecque.", "answer": false },
-    { "type": "texte", "question": "Comment s'appelle le chien à trois têtes gardien des Enfers ?", "answer": "Cerbère" },
-    { "type": "qcm", "question": "Qui a ouvert une boîte libérant tous les maux sur Terre ?", "choices": ["Aphrodite", "Pandore", "Athéna", "Héra"], "answer": "Pandore" },
-    { "type": "vrai_faux", "question": "Loki est le fils d'Odin dans la mythologie nordique.", "answer": false },
-    { "type": "qcm", "question": "Quel héros a accompli les 12 travaux ?", "choices": ["Achille", "Ulysse", "Héraclès", "Persée"], "answer": "Héraclès" },
-    { "type": "texte", "question": "Quel est le nom du marteau de Thor ?", "answer": "Mjolnir" },
-    { "type": "qcm", "question": "Qui est la déesse romaine de l'amour ?", "choices": ["Junon", "Minerve", "Vénus", "Diane"], "answer": "Vénus" }
+    {
+      "type": "qcm",
+      "question": "Qui est le dieu grec de la mer ?",
+      "choices": ["Zeus", "Hadès", "Poséidon", "Arès"],
+      "answer": "Poséidon"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Thor est un dieu de la mythologie grecque.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle le chien à trois têtes gardien des Enfers ?",
+      "answer": "Cerbère"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui a ouvert une boîte libérant tous les maux sur Terre ?",
+      "choices": ["Aphrodite", "Pandore", "Athéna", "Héra"],
+      "answer": "Pandore"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Loki est le fils d'Odin dans la mythologie nordique.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel héros a accompli les 12 travaux ?",
+      "choices": ["Achille", "Ulysse", "Héraclès", "Persée"],
+      "answer": "Héraclès"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le nom du marteau de Thor ?",
+      "answer": "Mjolnir"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui est la déesse romaine de l'amour ?",
+      "choices": ["Junon", "Minerve", "Vénus", "Diane"],
+      "answer": "Vénus"
+    }
   ],
   "Astronomie": [
-    { "type": "qcm", "question": "Quelle planète est surnommée la planète rouge ?", "choices": ["Vénus", "Jupiter", "Mars", "Saturne"], "answer": "Mars" },
-    { "type": "vrai_faux", "question": "Le Soleil est une étoile.", "answer": true },
-    { "type": "texte", "question": "Quel est le nom de la galaxie dans laquelle se trouve la Terre ?", "answer": "Voie lactée" },
-    { "type": "qcm", "question": "Combien de planètes composent notre système solaire ?", "choices": ["7", "8", "9", "10"], "answer": "8" },
-    { "type": "vrai_faux", "question": "Pluton est toujours considérée comme une planète.", "answer": false },
-    { "type": "qcm", "question": "Quel est le plus grand satellite naturel de Jupiter ?", "choices": ["Europe", "Io", "Ganymède", "Callisto"], "answer": "Ganymède" },
-    { "type": "texte", "question": "Comment appelle-t-on l'explosion d'une étoile en fin de vie ?", "answer": "Supernova" },
-    { "type": "qcm", "question": "Quelle planète a les anneaux les plus visibles ?", "choices": ["Jupiter", "Uranus", "Neptune", "Saturne"], "answer": "Saturne" },
-    { "type": "vrai_faux", "question": "La Lune possède sa propre lumière.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Quelle planète est surnommée la planète rouge ?",
+      "choices": ["Vénus", "Jupiter", "Mars", "Saturne"],
+      "answer": "Mars"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Soleil est une étoile.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le nom de la galaxie dans laquelle se trouve la Terre ?",
+      "answer": "Voie lactée"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de planètes composent notre système solaire ?",
+      "choices": ["7", "8", "9", "10"],
+      "answer": "8"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Pluton est toujours considérée comme une planète.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est le plus grand satellite naturel de Jupiter ?",
+      "choices": ["Europe", "Io", "Ganymède", "Callisto"],
+      "answer": "Ganymède"
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on l'explosion d'une étoile en fin de vie ?",
+      "answer": "Supernova"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle planète a les anneaux les plus visibles ?",
+      "choices": ["Jupiter", "Uranus", "Neptune", "Saturne"],
+      "answer": "Saturne"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Lune possède sa propre lumière.",
+      "answer": false
+    }
   ],
   "Jeux vidéo": [
-    { "type": "qcm", "question": "Quel est le personnage principal de la série Zelda ?", "choices": ["Zelda", "Link", "Ganondorf", "Epona"], "answer": "Link" },
-    { "type": "vrai_faux", "question": "Minecraft a été créé par Notch.", "answer": true },
-    { "type": "texte", "question": "Quel est le nom du plombier moustachu de Nintendo ?", "answer": "Mario" },
-    { "type": "qcm", "question": "Dans quel jeu récolte-t-on des V-Bucks ?", "choices": ["Apex Legends", "Fortnite", "Valorant", "Call of Duty"], "answer": "Fortnite" },
-    { "type": "vrai_faux", "question": "GTA V est sorti en 2015.", "answer": false },
-    { "type": "qcm", "question": "Quelle entreprise a créé la PlayStation ?", "choices": ["Nintendo", "Microsoft", "Sony", "Sega"], "answer": "Sony" },
-    { "type": "texte", "question": "Quel jeu de football est développé par EA Sports ?", "answer": "FIFA" },
-    { "type": "qcm", "question": "Quel jeu se déroule dans la région de Hyrule ?", "choices": ["Final Fantasy", "The Legend of Zelda", "Dark Souls", "Skyrim"], "answer": "The Legend of Zelda" },
-    { "type": "vrai_faux", "question": "Tetris a été inventé par un Japonais.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Quel est le personnage principal de la série Zelda ?",
+      "choices": ["Zelda", "Link", "Ganondorf", "Epona"],
+      "answer": "Link"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Minecraft a été créé par Notch.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le nom du plombier moustachu de Nintendo ?",
+      "answer": "Mario"
+    },
+    {
+      "type": "qcm",
+      "question": "Dans quel jeu récolte-t-on des V-Bucks ?",
+      "choices": ["Apex Legends", "Fortnite", "Valorant", "Call of Duty"],
+      "answer": "Fortnite"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "GTA V est sorti en 2015.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle entreprise a créé la PlayStation ?",
+      "choices": ["Nintendo", "Microsoft", "Sony", "Sega"],
+      "answer": "Sony"
+    },
+    {
+      "type": "texte",
+      "question": "Quel jeu de football est développé par EA Sports ?",
+      "answer": "FIFA"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel jeu se déroule dans la région de Hyrule ?",
+      "choices": [
+        "Final Fantasy",
+        "The Legend of Zelda",
+        "Dark Souls",
+        "Skyrim"
+      ],
+      "answer": "The Legend of Zelda"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Tetris a été inventé par un Japonais.",
+      "answer": false
+    }
   ],
   "Langues": [
-    { "type": "qcm", "question": "Comment dit-on 'merci' en japonais ?", "choices": ["Konnichiwa", "Sayonara", "Arigatou", "Sumimasen"], "answer": "Arigatou" },
-    { "type": "vrai_faux", "question": "L'alphabet russe s'appelle le cyrillique.", "answer": true },
-    { "type": "texte", "question": "Comment dit-on 'bonjour' en espagnol ?", "answer": "Hola" },
-    { "type": "qcm", "question": "Quelle langue a le plus de mots ?", "choices": ["Français", "Anglais", "Mandarin", "Arabe"], "answer": "Anglais" },
-    { "type": "vrai_faux", "question": "Le portugais et l'espagnol sont la même langue.", "answer": false },
-    { "type": "qcm", "question": "Combien de tons y a-t-il en mandarin ?", "choices": ["2", "4", "6", "8"], "answer": "4" },
-    { "type": "texte", "question": "Quelle langue parle-t-on principalement au Brésil ?", "answer": "Portugais" },
-    { "type": "qcm", "question": "Quel pays a 4 langues officielles ?", "choices": ["Belgique", "Suisse", "Luxembourg", "Canada"], "answer": "Suisse" }
+    {
+      "type": "qcm",
+      "question": "Comment dit-on 'merci' en japonais ?",
+      "choices": ["Konnichiwa", "Sayonara", "Arigatou", "Sumimasen"],
+      "answer": "Arigatou"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'alphabet russe s'appelle le cyrillique.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment dit-on 'bonjour' en espagnol ?",
+      "answer": "Hola"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle langue a le plus de mots ?",
+      "choices": ["Français", "Anglais", "Mandarin", "Arabe"],
+      "answer": "Anglais"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le portugais et l'espagnol sont la même langue.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de tons y a-t-il en mandarin ?",
+      "choices": ["2", "4", "6", "8"],
+      "answer": "4"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle langue parle-t-on principalement au Brésil ?",
+      "answer": "Portugais"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays a 4 langues officielles ?",
+      "choices": ["Belgique", "Suisse", "Luxembourg", "Canada"],
+      "answer": "Suisse"
+    }
   ],
   "Animaux": [
-    { "type": "qcm", "question": "Quel est le seul mammifère capable de voler ?", "choices": ["Écureuil volant", "Chauve-souris", "Colugo", "Polatouche"], "answer": "Chauve-souris" },
-    { "type": "vrai_faux", "question": "Les flamants roses naissent roses.", "answer": false },
-    { "type": "texte", "question": "Quel animal est le symbole de l'Australie avec le kangourou ?", "answer": "Koala" },
-    { "type": "qcm", "question": "Combien de cœurs possède une pieuvre ?", "choices": ["1", "2", "3", "4"], "answer": "3" },
-    { "type": "vrai_faux", "question": "Les éléphants ne peuvent pas sauter.", "answer": true },
-    { "type": "qcm", "question": "Quel oiseau peut voler en arrière ?", "choices": ["Aigle", "Colibri", "Perroquet", "Hirondelle"], "answer": "Colibri" },
-    { "type": "texte", "question": "Quel est le plus grand félin du monde ?", "answer": "Tigre" },
-    { "type": "qcm", "question": "Quelle est la durée de gestation d'un éléphant en mois ?", "choices": ["12", "16", "22", "28"], "answer": "22" },
-    { "type": "vrai_faux", "question": "Les requins sont des mammifères.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Quel est le seul mammifère capable de voler ?",
+      "choices": ["Écureuil volant", "Chauve-souris", "Colugo", "Polatouche"],
+      "answer": "Chauve-souris"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les flamants roses naissent roses.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel animal est le symbole de l'Australie avec le kangourou ?",
+      "answer": "Koala"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de cœurs possède une pieuvre ?",
+      "choices": ["1", "2", "3", "4"],
+      "answer": "3"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les éléphants ne peuvent pas sauter.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel oiseau peut voler en arrière ?",
+      "choices": ["Aigle", "Colibri", "Perroquet", "Hirondelle"],
+      "answer": "Colibri"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le plus grand félin du monde ?",
+      "answer": "Tigre"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la durée de gestation d'un éléphant en mois ?",
+      "choices": ["12", "16", "22", "28"],
+      "answer": "22"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les requins sont des mammifères.",
+      "answer": false
+    }
   ],
   "Politique": [
-    { "type": "qcm", "question": "Combien d'années dure un mandat présidentiel en France ?", "choices": ["4", "5", "6", "7"], "answer": "5" },
-    { "type": "vrai_faux", "question": "L'ONU a été fondée après la Seconde Guerre mondiale.", "answer": true },
-    { "type": "texte", "question": "Qui a été le premier président des États-Unis ?", "answer": "George Washington" },
-    { "type": "qcm", "question": "Combien de pays sont membres de l'Union européenne (2024) ?", "choices": ["25", "27", "28", "30"], "answer": "27" },
-    { "type": "vrai_faux", "question": "La Suisse fait partie de l'Union européenne.", "answer": false },
-    { "type": "qcm", "question": "Quel pays n'est PAS membre permanent du Conseil de sécurité de l'ONU ?", "choices": ["France", "Allemagne", "Chine", "Russie"], "answer": "Allemagne" },
-    { "type": "texte", "question": "Quel est le siège du Parlement européen ?", "answer": "Strasbourg" },
-    { "type": "qcm", "question": "En quelle année les femmes ont-elles obtenu le droit de vote en France ?", "choices": ["1936", "1944", "1946", "1958"], "answer": "1944" }
+    {
+      "type": "qcm",
+      "question": "Combien d'années dure un mandat présidentiel en France ?",
+      "choices": ["4", "5", "6", "7"],
+      "answer": "5"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'ONU a été fondée après la Seconde Guerre mondiale.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Qui a été le premier président des États-Unis ?",
+      "answer": "George Washington"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de pays sont membres de l'Union européenne (2024) ?",
+      "choices": ["25", "27", "28", "30"],
+      "answer": "27"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Suisse fait partie de l'Union européenne.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays n'est PAS membre permanent du Conseil de sécurité de l'ONU ?",
+      "choices": ["France", "Allemagne", "Chine", "Russie"],
+      "answer": "Allemagne"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le siège du Parlement européen ?",
+      "answer": "Strasbourg"
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année les femmes ont-elles obtenu le droit de vote en France ?",
+      "choices": ["1936", "1944", "1946", "1958"],
+      "answer": "1944"
+    }
   ],
   "Mathématiques": [
-    { "type": "qcm", "question": "Quelle est la racine carrée de 144 ?", "choices": ["11", "12", "13", "14"], "answer": "12" },
-    { "type": "vrai_faux", "question": "Pi est un nombre rationnel.", "answer": false },
-    { "type": "texte", "question": "Comment appelle-t-on un triangle avec trois côtés égaux ?", "answer": "Équilatéral" },
-    { "type": "qcm", "question": "Que vaut 2 puissance 10 ?", "choices": ["512", "1024", "2048", "4096"], "answer": "1024" },
-    { "type": "vrai_faux", "question": "Zéro est un nombre pair.", "answer": true },
-    { "type": "qcm", "question": "Combien de faces a un icosaèdre ?", "choices": ["12", "16", "20", "24"], "answer": "20" },
-    { "type": "texte", "question": "Quel est le plus petit nombre premier ?", "answer": "2" },
-    { "type": "qcm", "question": "Quelle suite commence par 0, 1, 1, 2, 3, 5, 8 ?", "choices": ["Suite de Pascal", "Suite de Fibonacci", "Suite de Collatz", "Suite de Lucas"], "answer": "Suite de Fibonacci" }
+    {
+      "type": "qcm",
+      "question": "Quelle est la racine carrée de 144 ?",
+      "choices": ["11", "12", "13", "14"],
+      "answer": "12"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Pi est un nombre rationnel.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on un triangle avec trois côtés égaux ?",
+      "answer": "Équilatéral"
+    },
+    {
+      "type": "qcm",
+      "question": "Que vaut 2 puissance 10 ?",
+      "choices": ["512", "1024", "2048", "4096"],
+      "answer": "1024"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Zéro est un nombre pair.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de faces a un icosaèdre ?",
+      "choices": ["12", "16", "20", "24"],
+      "answer": "20"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le plus petit nombre premier ?",
+      "answer": "2"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle suite commence par 0, 1, 1, 2, 3, 5, 8 ?",
+      "choices": [
+        "Suite de Pascal",
+        "Suite de Fibonacci",
+        "Suite de Collatz",
+        "Suite de Lucas"
+      ],
+      "answer": "Suite de Fibonacci"
+    }
   ],
   "Médecine": [
-    { "type": "qcm", "question": "Quel organe produit l'insuline ?", "choices": ["Foie", "Rein", "Pancréas", "Rate"], "answer": "Pancréas" },
-    { "type": "vrai_faux", "question": "Le sang humain est toujours rouge.", "answer": true },
-    { "type": "texte", "question": "Comment appelle-t-on le médecin spécialiste du cœur ?", "answer": "Cardiologue" },
-    { "type": "qcm", "question": "Combien de groupes sanguins principaux existe-t-il ?", "choices": ["3", "4", "6", "8"], "answer": "4" },
-    { "type": "vrai_faux", "question": "Les antibiotiques sont efficaces contre les virus.", "answer": false },
-    { "type": "qcm", "question": "Quel os est le plus long du corps humain ?", "choices": ["Tibia", "Humérus", "Fémur", "Péroné"], "answer": "Fémur" },
-    { "type": "texte", "question": "Quel est le nom du pigment qui donne sa couleur à la peau ?", "answer": "Mélanine" },
-    { "type": "qcm", "question": "Combien de dents possède un adulte en moyenne ?", "choices": ["28", "30", "32", "34"], "answer": "32" }
+    {
+      "type": "qcm",
+      "question": "Quel organe produit l'insuline ?",
+      "choices": ["Foie", "Rein", "Pancréas", "Rate"],
+      "answer": "Pancréas"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le sang humain est toujours rouge.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on le médecin spécialiste du cœur ?",
+      "answer": "Cardiologue"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de groupes sanguins principaux existe-t-il ?",
+      "choices": ["3", "4", "6", "8"],
+      "answer": "4"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les antibiotiques sont efficaces contre les virus.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel os est le plus long du corps humain ?",
+      "choices": ["Tibia", "Humérus", "Fémur", "Péroné"],
+      "answer": "Fémur"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le nom du pigment qui donne sa couleur à la peau ?",
+      "answer": "Mélanine"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de dents possède un adulte en moyenne ?",
+      "choices": ["28", "30", "32", "34"],
+      "answer": "32"
+    }
   ],
   "Mode et Design": [
-    { "type": "qcm", "question": "Quelle maison de couture a créé le sac Birkin ?", "choices": ["Louis Vuitton", "Chanel", "Hermès", "Gucci"], "answer": "Hermès" },
-    { "type": "vrai_faux", "question": "Coco Chanel a popularisé la petite robe noire.", "answer": true },
-    { "type": "texte", "question": "Dans quelle ville se déroule la principale Fashion Week en Italie ?", "answer": "Milan" },
-    { "type": "qcm", "question": "Quel créateur est connu pour ses semelles rouges ?", "choices": ["Jimmy Choo", "Manolo Blahnik", "Christian Louboutin", "Valentino"], "answer": "Christian Louboutin" },
-    { "type": "vrai_faux", "question": "Le denim vient à l'origine de la ville de Nîmes.", "answer": true },
-    { "type": "qcm", "question": "Quel tissu est produit par les vers à soie ?", "choices": ["Lin", "Coton", "Soie", "Cachemire"], "answer": "Soie" },
-    { "type": "texte", "question": "Quel couturier français a fondé la maison Dior ?", "answer": "Christian Dior" },
-    { "type": "qcm", "question": "Quelle couleur Pantone a été élue couleur de l'année 2023 ?", "choices": ["Very Peri", "Viva Magenta", "Classic Blue", "Living Coral"], "answer": "Viva Magenta" }
+    {
+      "type": "qcm",
+      "question": "Quelle maison de couture a créé le sac Birkin ?",
+      "choices": ["Louis Vuitton", "Chanel", "Hermès", "Gucci"],
+      "answer": "Hermès"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Coco Chanel a popularisé la petite robe noire.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Dans quelle ville se déroule la principale Fashion Week en Italie ?",
+      "answer": "Milan"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel créateur est connu pour ses semelles rouges ?",
+      "choices": [
+        "Jimmy Choo",
+        "Manolo Blahnik",
+        "Christian Louboutin",
+        "Valentino"
+      ],
+      "answer": "Christian Louboutin"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le denim vient à l'origine de la ville de Nîmes.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel tissu est produit par les vers à soie ?",
+      "choices": ["Lin", "Coton", "Soie", "Cachemire"],
+      "answer": "Soie"
+    },
+    {
+      "type": "texte",
+      "question": "Quel couturier français a fondé la maison Dior ?",
+      "answer": "Christian Dior"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle couleur Pantone a été élue couleur de l'année 2023 ?",
+      "choices": ["Very Peri", "Viva Magenta", "Classic Blue", "Living Coral"],
+      "answer": "Viva Magenta"
+    }
   ],
   "Séries TV": [
-    { "type": "qcm", "question": "Dans quelle série trouve-t-on le personnage de Walter White ?", "choices": ["Dexter", "Breaking Bad", "Better Call Saul", "Ozark"], "answer": "Breaking Bad" },
-    { "type": "vrai_faux", "question": "Game of Thrones est basé sur les livres de J.R.R. Tolkien.", "answer": false },
-    { "type": "texte", "question": "Quel est le nom de la ville fictive de The Simpsons ?", "answer": "Springfield" },
-    { "type": "qcm", "question": "Combien de saisons compte la série Friends ?", "choices": ["8", "9", "10", "12"], "answer": "10" },
-    { "type": "vrai_faux", "question": "Stranger Things se déroule dans les années 80.", "answer": true },
-    { "type": "qcm", "question": "Qui joue le rôle de Sherlock dans la série BBC ?", "choices": ["Robert Downey Jr.", "Benedict Cumberbatch", "Jonny Lee Miller", "Henry Cavill"], "answer": "Benedict Cumberbatch" },
-    { "type": "texte", "question": "Quelle série coréenne de survie a explosé sur Netflix en 2021 ?", "answer": "Squid Game" },
-    { "type": "qcm", "question": "Dans The Office (US), quel est le nom du patron ?", "choices": ["Dwight Schrute", "Jim Halpert", "Michael Scott", "Andy Bernard"], "answer": "Michael Scott" }
+    {
+      "type": "qcm",
+      "question": "Dans quelle série trouve-t-on le personnage de Walter White ?",
+      "choices": ["Dexter", "Breaking Bad", "Better Call Saul", "Ozark"],
+      "answer": "Breaking Bad"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Game of Thrones est basé sur les livres de J.R.R. Tolkien.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le nom de la ville fictive de The Simpsons ?",
+      "answer": "Springfield"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de saisons compte la série Friends ?",
+      "choices": ["8", "9", "10", "12"],
+      "answer": "10"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Stranger Things se déroule dans les années 80.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Qui joue le rôle de Sherlock dans la série BBC ?",
+      "choices": [
+        "Robert Downey Jr.",
+        "Benedict Cumberbatch",
+        "Jonny Lee Miller",
+        "Henry Cavill"
+      ],
+      "answer": "Benedict Cumberbatch"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle série coréenne de survie a explosé sur Netflix en 2021 ?",
+      "answer": "Squid Game"
+    },
+    {
+      "type": "qcm",
+      "question": "Dans The Office (US), quel est le nom du patron ?",
+      "choices": [
+        "Dwight Schrute",
+        "Jim Halpert",
+        "Michael Scott",
+        "Andy Bernard"
+      ],
+      "answer": "Michael Scott"
+    }
   ],
   "Économie": [
-    { "type": "qcm", "question": "Quelle monnaie est utilisée au Royaume-Uni ?", "choices": ["Euro", "Dollar", "Livre sterling", "Franc"], "answer": "Livre sterling" },
-    { "type": "vrai_faux", "question": "Le PIB mesure la richesse produite par un pays.", "answer": true },
-    { "type": "texte", "question": "Quelle entreprise a été la première à atteindre 1000 milliards de dollars de capitalisation ?", "answer": "Apple" },
-    { "type": "qcm", "question": "Que signifie le sigle 'FMI' ?", "choices": ["Fonds Monétaire International", "Fédération Mondiale Industrielle", "Finance et Marché International", "Forum Mondial de l'Investissement"], "answer": "Fonds Monétaire International" },
-    { "type": "vrai_faux", "question": "L'inflation signifie que les prix baissent.", "answer": false },
-    { "type": "qcm", "question": "Dans quel pays se trouve la bourse du NASDAQ ?", "choices": ["Japon", "Royaume-Uni", "États-Unis", "Allemagne"], "answer": "États-Unis" },
-    { "type": "texte", "question": "Quelle crypto-monnaie a été créée par Satoshi Nakamoto ?", "answer": "Bitcoin" },
-    { "type": "qcm", "question": "Quel accord commercial lie les États-Unis, le Canada et le Mexique ?", "choices": ["ALENA", "MERCOSUR", "ASEAN", "CETA"], "answer": "ALENA" }
+    {
+      "type": "qcm",
+      "question": "Quelle monnaie est utilisée au Royaume-Uni ?",
+      "choices": ["Euro", "Dollar", "Livre sterling", "Franc"],
+      "answer": "Livre sterling"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le PIB mesure la richesse produite par un pays.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle entreprise a été la première à atteindre 1000 milliards de dollars de capitalisation ?",
+      "answer": "Apple"
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie le sigle 'FMI' ?",
+      "choices": [
+        "Fonds Monétaire International",
+        "Fédération Mondiale Industrielle",
+        "Finance et Marché International",
+        "Forum Mondial de l'Investissement"
+      ],
+      "answer": "Fonds Monétaire International"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'inflation signifie que les prix baissent.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Dans quel pays se trouve la bourse du NASDAQ ?",
+      "choices": ["Japon", "Royaume-Uni", "États-Unis", "Allemagne"],
+      "answer": "États-Unis"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle crypto-monnaie a été créée par Satoshi Nakamoto ?",
+      "answer": "Bitcoin"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel accord commercial lie les États-Unis, le Canada et le Mexique ?",
+      "choices": ["ALENA", "MERCOSUR", "ASEAN", "CETA"],
+      "answer": "ALENA"
+    }
   ],
   "Philosophie": [
-    { "type": "qcm", "question": "Qui a dit 'Je pense, donc je suis' ?", "choices": ["Platon", "Descartes", "Kant", "Nietzsche"], "answer": "Descartes" },
-    { "type": "vrai_faux", "question": "Socrate a écrit de nombreux livres.", "answer": false },
-    { "type": "texte", "question": "Quel philosophe grec a fondé l'Académie à Athènes ?", "answer": "Platon" },
-    { "type": "qcm", "question": "Quel philosophe a écrit 'Le Prince' ?", "choices": ["Machiavel", "Rousseau", "Voltaire", "Hobbes"], "answer": "Machiavel" },
-    { "type": "vrai_faux", "question": "L'existentialisme est associé à Jean-Paul Sartre.", "answer": true },
-    { "type": "qcm", "question": "Quel concept Nietzsche a-t-il développé ?", "choices": ["Le contrat social", "Le surhomme", "L'impératif catégorique", "Le cogito"], "answer": "Le surhomme" },
-    { "type": "texte", "question": "Quel philosophe des Lumières a écrit Candide ?", "answer": "Voltaire" },
-    { "type": "qcm", "question": "Quel philosophe a écrit 'L'Être et le Néant' ?", "choices": ["Camus", "Sartre", "Heidegger", "Beauvoir"], "answer": "Sartre" }
+    {
+      "type": "qcm",
+      "question": "Qui a dit 'Je pense, donc je suis' ?",
+      "choices": ["Platon", "Descartes", "Kant", "Nietzsche"],
+      "answer": "Descartes"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Socrate a écrit de nombreux livres.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel philosophe grec a fondé l'Académie à Athènes ?",
+      "answer": "Platon"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel philosophe a écrit 'Le Prince' ?",
+      "choices": ["Machiavel", "Rousseau", "Voltaire", "Hobbes"],
+      "answer": "Machiavel"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'existentialisme est associé à Jean-Paul Sartre.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel concept Nietzsche a-t-il développé ?",
+      "choices": [
+        "Le contrat social",
+        "Le surhomme",
+        "L'impératif catégorique",
+        "Le cogito"
+      ],
+      "answer": "Le surhomme"
+    },
+    {
+      "type": "texte",
+      "question": "Quel philosophe des Lumières a écrit Candide ?",
+      "answer": "Voltaire"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel philosophe a écrit 'L'Être et le Néant' ?",
+      "choices": ["Camus", "Sartre", "Heidegger", "Beauvoir"],
+      "answer": "Sartre"
+    }
   ]
 }

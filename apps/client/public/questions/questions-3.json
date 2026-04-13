@@ -1,125 +1,580 @@
 {
   "Inventions": [
-    { "type": "qcm", "question": "Qui a inventé l'ampoule électrique ?", "choices": ["Nikola Tesla", "Thomas Edison", "Alexander Graham Bell", "Benjamin Franklin"], "answer": "Thomas Edison" },
-    { "type": "vrai_faux", "question": "La dynamite a été inventée par Alfred Nobel.", "answer": true },
-    { "type": "texte", "question": "Quel pays a inventé la poudre à canon ?", "answer": "Chine" },
-    { "type": "qcm", "question": "En quelle année l'imprimerie a-t-elle été inventée par Gutenberg ?", "choices": ["1350", "1440", "1520", "1600"], "answer": "1440" },
-    { "type": "vrai_faux", "question": "Le téléphone a été inventé par Thomas Edison.", "answer": false },
-    { "type": "qcm", "question": "Qui a inventé la vaccination ?", "choices": ["Pasteur", "Jenner", "Koch", "Fleming"], "answer": "Jenner" },
-    { "type": "texte", "question": "Quel frère a réalisé le premier vol motorisé en avion ? (nom de famille)", "answer": "Wright" },
-    { "type": "qcm", "question": "Quelle invention est attribuée à Tim Berners-Lee ?", "choices": ["L'email", "Le World Wide Web", "Le GPS", "Le Wi-Fi"], "answer": "Le World Wide Web" }
+    {
+      "type": "qcm",
+      "question": "Qui a inventé l'ampoule électrique ?",
+      "choices": [
+        "Nikola Tesla",
+        "Thomas Edison",
+        "Alexander Graham Bell",
+        "Benjamin Franklin"
+      ],
+      "answer": "Thomas Edison"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La dynamite a été inventée par Alfred Nobel.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays a inventé la poudre à canon ?",
+      "answer": "Chine"
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année l'imprimerie a-t-elle été inventée par Gutenberg ?",
+      "choices": ["1350", "1440", "1520", "1600"],
+      "answer": "1440"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le téléphone a été inventé par Thomas Edison.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Qui a inventé la vaccination ?",
+      "choices": ["Pasteur", "Jenner", "Koch", "Fleming"],
+      "answer": "Jenner"
+    },
+    {
+      "type": "texte",
+      "question": "Quel frère a réalisé le premier vol motorisé en avion ? (nom de famille)",
+      "answer": "Wright"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle invention est attribuée à Tim Berners-Lee ?",
+      "choices": ["L'email", "Le World Wide Web", "Le GPS", "Le Wi-Fi"],
+      "answer": "Le World Wide Web"
+    }
   ],
   "Océans et Mers": [
-    { "type": "qcm", "question": "Quel est l'océan le plus profond ?", "choices": ["Atlantique", "Indien", "Pacifique", "Arctique"], "answer": "Pacifique" },
-    { "type": "vrai_faux", "question": "La mer Morte est le point le plus bas sur Terre.", "answer": true },
-    { "type": "texte", "question": "Comment s'appelle la fosse océanique la plus profonde ?", "answer": "Fosse des Mariannes" },
-    { "type": "qcm", "question": "Quel pourcentage de la surface de la Terre est couvert par les océans ?", "choices": ["51%", "61%", "71%", "81%"], "answer": "71%" },
-    { "type": "vrai_faux", "question": "La mer Caspienne est en réalité un lac.", "answer": true },
-    { "type": "qcm", "question": "Quel détroit sépare l'Europe de l'Afrique ?", "choices": ["Bosphore", "Gibraltar", "Malacca", "Ormuz"], "answer": "Gibraltar" },
-    { "type": "texte", "question": "Quel courant océanique chaud traverse l'Atlantique Nord ?", "answer": "Gulf Stream" },
-    { "type": "qcm", "question": "Quelle mer est la plus salée ?", "choices": ["Mer Rouge", "Mer Morte", "Mer Méditerranée", "Mer Noire"], "answer": "Mer Morte" }
+    {
+      "type": "qcm",
+      "question": "Quel est l'océan le plus profond ?",
+      "choices": ["Atlantique", "Indien", "Pacifique", "Arctique"],
+      "answer": "Pacifique"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La mer Morte est le point le plus bas sur Terre.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle la fosse océanique la plus profonde ?",
+      "answer": "Fosse des Mariannes"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pourcentage de la surface de la Terre est couvert par les océans ?",
+      "choices": ["51%", "61%", "71%", "81%"],
+      "answer": "71%"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La mer Caspienne est en réalité un lac.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel détroit sépare l'Europe de l'Afrique ?",
+      "choices": ["Bosphore", "Gibraltar", "Malacca", "Ormuz"],
+      "answer": "Gibraltar"
+    },
+    {
+      "type": "texte",
+      "question": "Quel courant océanique chaud traverse l'Atlantique Nord ?",
+      "answer": "Gulf Stream"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle mer est la plus salée ?",
+      "choices": ["Mer Rouge", "Mer Morte", "Mer Méditerranée", "Mer Noire"],
+      "answer": "Mer Morte"
+    }
   ],
   "Monuments": [
-    { "type": "qcm", "question": "Dans quel pays se trouve le Taj Mahal ?", "choices": ["Pakistan", "Inde", "Bangladesh", "Népal"], "answer": "Inde" },
-    { "type": "vrai_faux", "question": "La Tour Eiffel devait être démontée après 20 ans.", "answer": true },
-    { "type": "texte", "question": "Dans quelle ville se trouve le Colisée ?", "answer": "Rome" },
-    { "type": "qcm", "question": "Quelle est la hauteur de la Tour Eiffel (avec antenne) ?", "choices": ["280m", "310m", "330m", "350m"], "answer": "330m" },
-    { "type": "vrai_faux", "question": "La Statue de la Liberté a été offerte par l'Allemagne.", "answer": false },
-    { "type": "qcm", "question": "Quel monument se trouve sur la place Rouge à Moscou ?", "choices": ["Le Kremlin", "La cathédrale Saint-Basile", "Le Bolchoï", "L'Ermitage"], "answer": "La cathédrale Saint-Basile" },
-    { "type": "texte", "question": "Quel monument inca se trouve au Pérou à 2430m d'altitude ?", "answer": "Machu Picchu" },
-    { "type": "qcm", "question": "Combien de merveilles du monde antique existe-t-il ?", "choices": ["5", "6", "7", "8"], "answer": "7" }
+    {
+      "type": "qcm",
+      "question": "Dans quel pays se trouve le Taj Mahal ?",
+      "choices": ["Pakistan", "Inde", "Bangladesh", "Népal"],
+      "answer": "Inde"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Tour Eiffel devait être démontée après 20 ans.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Dans quelle ville se trouve le Colisée ?",
+      "answer": "Rome"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la hauteur de la Tour Eiffel (avec antenne) ?",
+      "choices": ["280m", "310m", "330m", "350m"],
+      "answer": "330m"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Statue de la Liberté a été offerte par l'Allemagne.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel monument se trouve sur la place Rouge à Moscou ?",
+      "choices": [
+        "Le Kremlin",
+        "La cathédrale Saint-Basile",
+        "Le Bolchoï",
+        "L'Ermitage"
+      ],
+      "answer": "La cathédrale Saint-Basile"
+    },
+    {
+      "type": "texte",
+      "question": "Quel monument inca se trouve au Pérou à 2430m d'altitude ?",
+      "answer": "Machu Picchu"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de merveilles du monde antique existe-t-il ?",
+      "choices": ["5", "6", "7", "8"],
+      "answer": "7"
+    }
   ],
   "Espace": [
-    { "type": "qcm", "question": "Qui a été le premier homme à marcher sur la Lune ?", "choices": ["Buzz Aldrin", "Neil Armstrong", "Youri Gagarine", "John Glenn"], "answer": "Neil Armstrong" },
-    { "type": "vrai_faux", "question": "Vénus tourne dans le sens inverse des autres planètes.", "answer": true },
-    { "type": "texte", "question": "Comment s'appelle le rover de la NASA qui s'est posé sur Mars en 2021 ?", "answer": "Perseverance" },
-    { "type": "qcm", "question": "Quelle est la température à la surface du Soleil ?", "choices": ["2 500°C", "5 500°C", "8 500°C", "12 000°C"], "answer": "5 500°C" },
-    { "type": "vrai_faux", "question": "La Station Spatiale Internationale orbite à environ 400 km d'altitude.", "answer": true },
-    { "type": "qcm", "question": "Quelle entreprise a lancé le Falcon Heavy ?", "choices": ["NASA", "Blue Origin", "SpaceX", "Boeing"], "answer": "SpaceX" },
-    { "type": "texte", "question": "Quel est le nom du premier satellite artificiel lancé en 1957 ?", "answer": "Spoutnik" },
-    { "type": "qcm", "question": "Combien de temps met la lumière du Soleil pour atteindre la Terre ?", "choices": ["4 minutes", "8 minutes", "12 minutes", "20 minutes"], "answer": "8 minutes" },
-    { "type": "vrai_faux", "question": "Il y a du son dans l'espace.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Qui a été le premier homme à marcher sur la Lune ?",
+      "choices": [
+        "Buzz Aldrin",
+        "Neil Armstrong",
+        "Youri Gagarine",
+        "John Glenn"
+      ],
+      "answer": "Neil Armstrong"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Vénus tourne dans le sens inverse des autres planètes.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle le rover de la NASA qui s'est posé sur Mars en 2021 ?",
+      "answer": "Perseverance"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la température à la surface du Soleil ?",
+      "choices": ["2 500°C", "5 500°C", "8 500°C", "12 000°C"],
+      "answer": "5 500°C"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Station Spatiale Internationale orbite à environ 400 km d'altitude.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle entreprise a lancé le Falcon Heavy ?",
+      "choices": ["NASA", "Blue Origin", "SpaceX", "Boeing"],
+      "answer": "SpaceX"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le nom du premier satellite artificiel lancé en 1957 ?",
+      "answer": "Spoutnik"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de temps met la lumière du Soleil pour atteindre la Terre ?",
+      "choices": ["4 minutes", "8 minutes", "12 minutes", "20 minutes"],
+      "answer": "8 minutes"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Il y a du son dans l'espace.",
+      "answer": false
+    }
   ],
   "Drapeaux": [
-    { "type": "qcm", "question": "Quel pays a un drapeau entièrement rouge avec une étoile jaune ?", "choices": ["Chine", "Vietnam", "Maroc", "Turquie"], "answer": "Vietnam" },
-    { "type": "vrai_faux", "question": "Le drapeau du Japon comporte un cercle rouge sur fond blanc.", "answer": true },
-    { "type": "texte", "question": "De quelle couleur est la croix sur le drapeau suisse ?", "answer": "Blanche" },
-    { "type": "qcm", "question": "Quel pays a le seul drapeau non rectangulaire ?", "choices": ["Bhoutan", "Népal", "Sri Lanka", "Suisse"], "answer": "Népal" },
-    { "type": "vrai_faux", "question": "Le drapeau italien est vert, blanc et rouge.", "answer": true },
-    { "type": "qcm", "question": "Combien d'étoiles figurent sur le drapeau de l'Union européenne ?", "choices": ["10", "12", "15", "27"], "answer": "12" },
-    { "type": "texte", "question": "Quel animal figure sur le drapeau du Mexique ?", "answer": "Aigle" },
-    { "type": "qcm", "question": "Quel pays a un drapeau avec un Union Jack dans le coin ?", "choices": ["Nouvelle-Zélande", "Canada", "Afrique du Sud", "Inde"], "answer": "Nouvelle-Zélande" },
-    { "type": "vrai_faux", "question": "Le drapeau de la Libye était entièrement vert jusqu'en 2011.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel pays a un drapeau entièrement rouge avec une étoile jaune ?",
+      "choices": ["Chine", "Vietnam", "Maroc", "Turquie"],
+      "answer": "Vietnam"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le drapeau du Japon comporte un cercle rouge sur fond blanc.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "De quelle couleur est la croix sur le drapeau suisse ?",
+      "answer": "Blanche"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays a le seul drapeau non rectangulaire ?",
+      "choices": ["Bhoutan", "Népal", "Sri Lanka", "Suisse"],
+      "answer": "Népal"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le drapeau italien est vert, blanc et rouge.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Combien d'étoiles figurent sur le drapeau de l'Union européenne ?",
+      "choices": ["10", "12", "15", "27"],
+      "answer": "12"
+    },
+    {
+      "type": "texte",
+      "question": "Quel animal figure sur le drapeau du Mexique ?",
+      "answer": "Aigle"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays a un drapeau avec un Union Jack dans le coin ?",
+      "choices": ["Nouvelle-Zélande", "Canada", "Afrique du Sud", "Inde"],
+      "answer": "Nouvelle-Zélande"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le drapeau de la Libye était entièrement vert jusqu'en 2011.",
+      "answer": true
+    }
   ],
   "Nourriture du monde": [
-    { "type": "qcm", "question": "De quel pays vient le kimchi ?", "choices": ["Japon", "Chine", "Corée du Sud", "Vietnam"], "answer": "Corée du Sud" },
-    { "type": "vrai_faux", "question": "Le couscous est originaire du Maghreb.", "answer": true },
-    { "type": "texte", "question": "Quel plat japonais est composé de riz vinaigré garni de poisson cru ?", "answer": "Sushi" },
-    { "type": "qcm", "question": "Quel pays est le berceau de la paella ?", "choices": ["Portugal", "Italie", "Espagne", "Grèce"], "answer": "Espagne" },
-    { "type": "vrai_faux", "question": "Le hamburger a été inventé à Hambourg en Allemagne.", "answer": false },
-    { "type": "qcm", "question": "Quel est l'ingrédient principal du houmous ?", "choices": ["Lentilles", "Pois chiches", "Fèves", "Haricots"], "answer": "Pois chiches" },
-    { "type": "texte", "question": "Quel plat indien est un pain plat cuit au four tandoor ?", "answer": "Naan" },
-    { "type": "qcm", "question": "De quel pays vient le ceviche ?", "choices": ["Mexique", "Pérou", "Brésil", "Chili"], "answer": "Pérou" }
+    {
+      "type": "qcm",
+      "question": "De quel pays vient le kimchi ?",
+      "choices": ["Japon", "Chine", "Corée du Sud", "Vietnam"],
+      "answer": "Corée du Sud"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le couscous est originaire du Maghreb.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel plat japonais est composé de riz vinaigré garni de poisson cru ?",
+      "answer": "Sushi"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays est le berceau de la paella ?",
+      "choices": ["Portugal", "Italie", "Espagne", "Grèce"],
+      "answer": "Espagne"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le hamburger a été inventé à Hambourg en Allemagne.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est l'ingrédient principal du houmous ?",
+      "choices": ["Lentilles", "Pois chiches", "Fèves", "Haricots"],
+      "answer": "Pois chiches"
+    },
+    {
+      "type": "texte",
+      "question": "Quel plat indien est un pain plat cuit au four tandoor ?",
+      "answer": "Naan"
+    },
+    {
+      "type": "qcm",
+      "question": "De quel pays vient le ceviche ?",
+      "choices": ["Mexique", "Pérou", "Brésil", "Chili"],
+      "answer": "Pérou"
+    }
   ],
   "Records et Extrêmes": [
-    { "type": "qcm", "question": "Quel est le pays le plus peuplé du monde ?", "choices": ["Chine", "Inde", "États-Unis", "Indonésie"], "answer": "Inde" },
-    { "type": "vrai_faux", "question": "L'Everest est la montagne la plus haute du monde.", "answer": true },
-    { "type": "texte", "question": "Quel est le fleuve le plus long du monde ?", "answer": "Nil" },
-    { "type": "qcm", "question": "Quelle est la ville la plus peuplée du monde ?", "choices": ["New York", "Shanghai", "Tokyo", "Delhi"], "answer": "Tokyo" },
-    { "type": "vrai_faux", "question": "Le lac Baïkal contient 20% des réserves d'eau douce du monde.", "answer": true },
-    { "type": "qcm", "question": "Quel est le pays le plus grand en superficie ?", "choices": ["Canada", "Chine", "États-Unis", "Russie"], "answer": "Russie" },
-    { "type": "texte", "question": "Quel est l'animal terrestre le plus lourd ?", "answer": "Éléphant" },
-    { "type": "qcm", "question": "Quelle est la température la plus chaude jamais enregistrée sur Terre ?", "choices": ["52°C", "56.7°C", "60°C", "63.5°C"], "answer": "56.7°C" }
+    {
+      "type": "qcm",
+      "question": "Quel est le pays le plus peuplé du monde ?",
+      "choices": ["Chine", "Inde", "États-Unis", "Indonésie"],
+      "answer": "Inde"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'Everest est la montagne la plus haute du monde.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le fleuve le plus long du monde ?",
+      "answer": "Nil"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la ville la plus peuplée du monde ?",
+      "choices": ["New York", "Shanghai", "Tokyo", "Delhi"],
+      "answer": "Tokyo"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le lac Baïkal contient 20% des réserves d'eau douce du monde.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est le pays le plus grand en superficie ?",
+      "choices": ["Canada", "Chine", "États-Unis", "Russie"],
+      "answer": "Russie"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est l'animal terrestre le plus lourd ?",
+      "answer": "Éléphant"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la température la plus chaude jamais enregistrée sur Terre ?",
+      "choices": ["52°C", "56.7°C", "60°C", "63.5°C"],
+      "answer": "56.7°C"
+    }
   ],
   "Bandes dessinées": [
-    { "type": "qcm", "question": "Qui est le meilleur ami d'Astérix ?", "choices": ["Panoramix", "Obélix", "Idéfix", "Abraracourcix"], "answer": "Obélix" },
-    { "type": "vrai_faux", "question": "Tintin est un journaliste belge.", "answer": true },
-    { "type": "texte", "question": "Comment s'appelle le chien de Tintin ?", "answer": "Milou" },
-    { "type": "qcm", "question": "Quel personnage de BD vit dans un village gaulois ?", "choices": ["Lucky Luke", "Astérix", "Gaston Lagaffe", "Blake"], "answer": "Astérix" },
-    { "type": "vrai_faux", "question": "Lucky Luke tire plus vite que son ombre.", "answer": true },
-    { "type": "qcm", "question": "Qui a créé les Schtroumpfs ?", "choices": ["Hergé", "Uderzo", "Peyo", "Franquin"], "answer": "Peyo" },
-    { "type": "texte", "question": "Comment s'appelle le chat de Gaston Lagaffe ?", "answer": "Le chat" },
-    { "type": "qcm", "question": "De quel pays vient le manga One Piece ?", "choices": ["Corée du Sud", "Chine", "Japon", "Taïwan"], "answer": "Japon" },
-    { "type": "vrai_faux", "question": "Spider-Man a été créé par DC Comics.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Qui est le meilleur ami d'Astérix ?",
+      "choices": ["Panoramix", "Obélix", "Idéfix", "Abraracourcix"],
+      "answer": "Obélix"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Tintin est un journaliste belge.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle le chien de Tintin ?",
+      "answer": "Milou"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel personnage de BD vit dans un village gaulois ?",
+      "choices": ["Lucky Luke", "Astérix", "Gaston Lagaffe", "Blake"],
+      "answer": "Astérix"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Lucky Luke tire plus vite que son ombre.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Qui a créé les Schtroumpfs ?",
+      "choices": ["Hergé", "Uderzo", "Peyo", "Franquin"],
+      "answer": "Peyo"
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle le chat de Gaston Lagaffe ?",
+      "answer": "Le chat"
+    },
+    {
+      "type": "qcm",
+      "question": "De quel pays vient le manga One Piece ?",
+      "choices": ["Corée du Sud", "Chine", "Japon", "Taïwan"],
+      "answer": "Japon"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Spider-Man a été créé par DC Comics.",
+      "answer": false
+    }
   ],
   "Musique moderne": [
-    { "type": "qcm", "question": "Quel artiste a chanté 'Shape of You' ?", "choices": ["Justin Bieber", "Ed Sheeran", "Bruno Mars", "The Weeknd"], "answer": "Ed Sheeran" },
-    { "type": "vrai_faux", "question": "Beyoncé faisait partie du groupe Destiny's Child.", "answer": true },
-    { "type": "texte", "question": "Quel rappeur français est connu sous le nom de PNL ? (c'est un duo, donne les 2 prénoms)", "answer": "Ademo et N.O.S" },
-    { "type": "qcm", "question": "Quel album de Michael Jackson est le plus vendu de tous les temps ?", "choices": ["Bad", "Thriller", "Dangerous", "Off the Wall"], "answer": "Thriller" },
+    {
+      "type": "qcm",
+      "question": "Quel artiste a chanté 'Shape of You' ?",
+      "choices": ["Justin Bieber", "Ed Sheeran", "Bruno Mars", "The Weeknd"],
+      "answer": "Ed Sheeran"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Beyoncé faisait partie du groupe Destiny's Child.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel rappeur français est connu sous le nom de PNL ? (c'est un duo, donne les 2 prénoms)",
+      "answer": "Ademo et N.O.S"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel album de Michael Jackson est le plus vendu de tous les temps ?",
+      "choices": ["Bad", "Thriller", "Dangerous", "Off the Wall"],
+      "answer": "Thriller"
+    },
     { "type": "vrai_faux", "question": "Drake est canadien.", "answer": true },
-    { "type": "qcm", "question": "Quel groupe a chanté 'Creep' ?", "choices": ["Nirvana", "Radiohead", "Blur", "Oasis"], "answer": "Radiohead" },
-    { "type": "texte", "question": "Quelle chanteuse barbadienne a chanté 'Umbrella' ?", "answer": "Rihanna" },
-    { "type": "qcm", "question": "Combien de membres compte le groupe BTS ?", "choices": ["5", "6", "7", "8"], "answer": "7" }
+    {
+      "type": "qcm",
+      "question": "Quel groupe a chanté 'Creep' ?",
+      "choices": ["Nirvana", "Radiohead", "Blur", "Oasis"],
+      "answer": "Radiohead"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle chanteuse barbadienne a chanté 'Umbrella' ?",
+      "answer": "Rihanna"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de membres compte le groupe BTS ?",
+      "choices": ["5", "6", "7", "8"],
+      "answer": "7"
+    }
   ],
   "Corps humain": [
-    { "type": "qcm", "question": "Combien de litres de sang contient le corps humain en moyenne ?", "choices": ["3", "5", "7", "9"], "answer": "5" },
-    { "type": "vrai_faux", "question": "Le foie est le plus grand organe interne du corps humain.", "answer": true },
-    { "type": "texte", "question": "Quel est l'os le plus petit du corps humain ?", "answer": "Étrier" },
-    { "type": "qcm", "question": "Combien de muscles le corps humain possède-t-il environ ?", "choices": ["400", "500", "600", "700"], "answer": "600" },
-    { "type": "vrai_faux", "question": "Les ongles poussent plus vite que les cheveux.", "answer": false },
-    { "type": "qcm", "question": "Quelle partie du cerveau gère l'équilibre ?", "choices": ["Cortex", "Hippocampe", "Cervelet", "Thalamus"], "answer": "Cervelet" },
-    { "type": "texte", "question": "Comment s'appelle le pigment qui colore les yeux ?", "answer": "Mélanine" },
-    { "type": "qcm", "question": "Combien de vertèbres composent la colonne vertébrale ?", "choices": ["26", "30", "33", "36"], "answer": "33" }
+    {
+      "type": "qcm",
+      "question": "Combien de litres de sang contient le corps humain en moyenne ?",
+      "choices": ["3", "5", "7", "9"],
+      "answer": "5"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le foie est le plus grand organe interne du corps humain.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel est l'os le plus petit du corps humain ?",
+      "answer": "Étrier"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de muscles le corps humain possède-t-il environ ?",
+      "choices": ["400", "500", "600", "700"],
+      "answer": "600"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les ongles poussent plus vite que les cheveux.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle partie du cerveau gère l'équilibre ?",
+      "choices": ["Cortex", "Hippocampe", "Cervelet", "Thalamus"],
+      "answer": "Cervelet"
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle le pigment qui colore les yeux ?",
+      "answer": "Mélanine"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de vertèbres composent la colonne vertébrale ?",
+      "choices": ["26", "30", "33", "36"],
+      "answer": "33"
+    }
   ],
   "Transports": [
-    { "type": "qcm", "question": "Quel pays a inventé le TGV ?", "choices": ["Japon", "Allemagne", "France", "Chine"], "answer": "France" },
-    { "type": "vrai_faux", "question": "Le Titanic a coulé lors de son voyage inaugural.", "answer": true },
-    { "type": "texte", "question": "Quel constructeur automobile italien fabrique les voitures au cheval cabré ?", "answer": "Ferrari" },
-    { "type": "qcm", "question": "Quel est l'aéroport le plus fréquenté du monde ?", "choices": ["Heathrow", "Dubai", "Atlanta", "Pékin"], "answer": "Atlanta" },
-    { "type": "vrai_faux", "question": "Le Concorde pouvait voler à Mach 2.", "answer": true },
-    { "type": "qcm", "question": "Quelle ville possède le plus ancien métro du monde ?", "choices": ["Paris", "New York", "Londres", "Berlin"], "answer": "Londres" },
-    { "type": "texte", "question": "Quel tunnel relie la France à l'Angleterre ?", "answer": "Tunnel sous la Manche" },
-    { "type": "qcm", "question": "Quel carburant utilise une fusée spatiale cryogénique ?", "choices": ["Kérosène", "Hydrogène liquide", "Méthane", "Diesel"], "answer": "Hydrogène liquide" }
+    {
+      "type": "qcm",
+      "question": "Quel pays a inventé le TGV ?",
+      "choices": ["Japon", "Allemagne", "France", "Chine"],
+      "answer": "France"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Titanic a coulé lors de son voyage inaugural.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel constructeur automobile italien fabrique les voitures au cheval cabré ?",
+      "answer": "Ferrari"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est l'aéroport le plus fréquenté du monde ?",
+      "choices": ["Heathrow", "Dubai", "Atlanta", "Pékin"],
+      "answer": "Atlanta"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Concorde pouvait voler à Mach 2.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle ville possède le plus ancien métro du monde ?",
+      "choices": ["Paris", "New York", "Londres", "Berlin"],
+      "answer": "Londres"
+    },
+    {
+      "type": "texte",
+      "question": "Quel tunnel relie la France à l'Angleterre ?",
+      "answer": "Tunnel sous la Manche"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel carburant utilise une fusée spatiale cryogénique ?",
+      "choices": ["Kérosène", "Hydrogène liquide", "Méthane", "Diesel"],
+      "answer": "Hydrogène liquide"
+    }
   ],
   "Culture internet": [
-    { "type": "qcm", "question": "Quel réseau social a un fantôme comme logo ?", "choices": ["TikTok", "Snapchat", "Discord", "Telegram"], "answer": "Snapchat" },
-    { "type": "vrai_faux", "question": "YouTube a été racheté par Google.", "answer": true },
-    { "type": "texte", "question": "Quel site de streaming vidéo est populaire pour les jeux vidéo en direct ?", "answer": "Twitch" },
-    { "type": "qcm", "question": "En quelle année Facebook a-t-il été créé ?", "choices": ["2002", "2004", "2006", "2008"], "answer": "2004" },
-    { "type": "vrai_faux", "question": "TikTok est une application américaine.", "answer": false },
-    { "type": "qcm", "question": "Quel mème représente un chien de race Shiba Inu ?", "choices": ["Grumpy Cat", "Nyan Cat", "Doge", "Pepe"], "answer": "Doge" },
-    { "type": "texte", "question": "Comment s'appelle l'encyclopédie collaborative en ligne ?", "answer": "Wikipédia" },
-    { "type": "qcm", "question": "Quel est le vrai nom du créateur de Facebook ?", "choices": ["Jack Dorsey", "Elon Musk", "Mark Zuckerberg", "Jeff Bezos"], "answer": "Mark Zuckerberg" }
+    {
+      "type": "qcm",
+      "question": "Quel réseau social a un fantôme comme logo ?",
+      "choices": ["TikTok", "Snapchat", "Discord", "Telegram"],
+      "answer": "Snapchat"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "YouTube a été racheté par Google.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel site de streaming vidéo est populaire pour les jeux vidéo en direct ?",
+      "answer": "Twitch"
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année Facebook a-t-il été créé ?",
+      "choices": ["2002", "2004", "2006", "2008"],
+      "answer": "2004"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "TikTok est une application américaine.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel mème représente un chien de race Shiba Inu ?",
+      "choices": ["Grumpy Cat", "Nyan Cat", "Doge", "Pepe"],
+      "answer": "Doge"
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle l'encyclopédie collaborative en ligne ?",
+      "answer": "Wikipédia"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est le vrai nom du créateur de Facebook ?",
+      "choices": ["Jack Dorsey", "Elon Musk", "Mark Zuckerberg", "Jeff Bezos"],
+      "answer": "Mark Zuckerberg"
+    }
   ]
 }

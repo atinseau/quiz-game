@@ -6,7 +6,13 @@ interface Props {
   onSteal: (stealer: string) => void;
 }
 
-export function StealZone({ players, currentPlayerIndex, isSolo, answered, onSteal }: Props) {
+export function StealZone({
+  players,
+  currentPlayerIndex,
+  isSolo,
+  answered,
+  onSteal,
+}: Props) {
   if (isSolo || answered) return null;
 
   const otherPlayers = players.filter((_, i) => i !== currentPlayerIndex);

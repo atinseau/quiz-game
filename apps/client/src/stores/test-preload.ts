@@ -5,6 +5,8 @@ globalThis.Audio = class Audio {
   constructor(src?: string) {
     this.src = src ?? "";
   }
-  play() { return Promise.resolve(); }
+  play() {
+    return Promise.resolve();
+  }
   pause() {}
 } as any;

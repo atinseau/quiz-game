@@ -1,19 +1,24 @@
 import { create } from "zustand";
-import type { Question, RawQuestionData, FeedbackState, GameMode } from "../types";
+import type {
+  FeedbackState,
+  GameMode,
+  Question,
+  RawQuestionData,
+} from "../types";
 import {
-  MAX_COMBO,
   BLIND_MULTIPLIER,
-  STEAL_GAIN,
-  STEAL_LOSS,
-  STEAL_FAIL_PENALTY,
   CHRONO_DURATION,
   CHRONO_TIMEOUT_PENALTY,
+  MAX_COMBO,
+  STEAL_FAIL_PENALTY,
+  STEAL_GAIN,
+  STEAL_LOSS,
 } from "../types";
 import { checkAnswer, fuzzyMatch } from "../utils/fuzzyMatch";
 import { sounds } from "../utils/sounds";
-import { saveGameState, loadGameState, clearGameState } from "../utils/storage";
-import { usePlayerStore } from "./playerStore";
+import { clearGameState, loadGameState, saveGameState } from "../utils/storage";
 import { usePackStore } from "./packStore";
+import { usePlayerStore } from "./playerStore";
 import { getNavigate } from "./router";
 
 // --- Helpers ---
@@ -83,7 +88,11 @@ interface GameStoreState {
   restoreFromStorage: () => boolean;
 }
 
-const initialFeedback: FeedbackState = { visible: false, type: "neutral", text: "" };
+const initialFeedback: FeedbackState = {
+  visible: false,
+  type: "neutral",
+  text: "",
+};
 
 export const useGameStore = create<GameStoreState>((set, get) => ({
   questions: [],
@@ -119,7 +128,11 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   canSteal: () => {
     const { gameMode, answered } = get();
-    return gameMode === "voleur" && answered && usePlayerStore.getState().players.length > 1;
+    return (
+      gameMode === "voleur" &&
+      answered &&
+      usePlayerStore.getState().players.length > 1
+    );
   },
 
   // --- Timer ---
@@ -170,7 +183,14 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   // --- Persistence ---
   _persist: () => {
-    const { questions, currentQuestionIndex, currentPlayerIndex, scores, combos, gameMode } = get();
+    const {
+      questions,
+      currentQuestionIndex,
+      currentPlayerIndex,
+      scores,
+      combos,
+      gameMode,
+    } = get();
     const players = usePlayerStore.getState().players;
     const selectedChunk = usePackStore.getState().selectedChunk;
     saveGameState({
@@ -239,7 +259,12 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   },
 
   submitAnswer: (answer: string | boolean) => {
-    const { currentQuestion: getCQ, currentPlayer: getCP, answered, gameMode } = get();
+    const {
+      currentQuestion: getCQ,
+      currentPlayer: getCP,
+      answered,
+      gameMode,
+    } = get();
     if (answered) return;
 
     const q = getCQ();
@@ -263,7 +288,10 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         feedback: {
           visible: true,
           type: "success",
-          text: combo > 1 ? `Correct ! Combo x${combo} (+${points} pts)` : "Correct ! +1 pt",
+          text:
+            combo > 1
+              ? `Correct ! Combo x${combo} (+${points} pts)`
+              : "Correct ! +1 pt",
         },
         showForceBtn: false,
       });
@@ -370,7 +398,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         },
       });
     } else {
-      scores[pendingStealer] = (scores[pendingStealer] ?? 0) - STEAL_FAIL_PENALTY;
+      scores[pendingStealer] =
+        (scores[pendingStealer] ?? 0) - STEAL_FAIL_PENALTY;
       combos[pendingStealer] = 0;
       sounds.fail();
       set({
@@ -407,7 +436,10 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       feedback: {
         visible: true,
         type: "success",
-        text: combo > 1 ? `Point forcé ! Combo x${combo} (+${points} pts)` : "Point forcé ! +1 pt",
+        text:
+          combo > 1
+            ? `Point forcé ! Combo x${combo} (+${points} pts)`
+            : "Point forcé ! +1 pt",
       },
     });
 

@@ -4,9 +4,15 @@ import { beforeEach, describe, expect, mock, test } from "bun:test";
 const storage: Record<string, string> = {};
 globalThis.localStorage = {
   getItem: (key: string) => storage[key] ?? null,
-  setItem: (key: string, value: string) => { storage[key] = value; },
-  removeItem: (key: string) => { delete storage[key]; },
-  clear: () => { for (const k in storage) delete storage[k]; },
+  setItem: (key: string, value: string) => {
+    storage[key] = value;
+  },
+  removeItem: (key: string) => {
+    delete storage[key];
+  },
+  clear: () => {
+    for (const k in storage) delete storage[k];
+  },
   length: 0,
   key: () => null,
 };
@@ -18,23 +24,32 @@ mock.module("../utils/sounds", () => ({
 
 // Mock navigate
 const navigatedPaths: string[] = [];
+
 import { setNavigate } from "./router";
-setNavigate(((path: string) => { navigatedPaths.push(path); }) as any);
+
+setNavigate(((path: string) => {
+  navigatedPaths.push(path);
+}) as any);
 
 // Mock fetch
 const mockQuestions = {
   Histoire: [
-    { type: "qcm", question: "Q1?", choices: ["A", "B", "C", "D"], answer: "A" },
+    {
+      type: "qcm",
+      question: "Q1?",
+      choices: ["A", "B", "C", "D"],
+      answer: "A",
+    },
     { type: "texte", question: "Q2?", answer: "Paris" },
   ],
 };
 globalThis.fetch = mock(() =>
-  Promise.resolve(new Response(JSON.stringify(mockQuestions)))
+  Promise.resolve(new Response(JSON.stringify(mockQuestions))),
 ) as any;
 
-import { usePlayerStore } from "./playerStore";
-import { usePackStore } from "./packStore";
 import { useGameStore } from "./gameStore";
+import { usePackStore } from "./packStore";
+import { usePlayerStore } from "./playerStore";
 
 describe("gameStore", () => {
   beforeEach(() => {
@@ -70,8 +85,8 @@ describe("gameStore", () => {
 
     // Find the current question and give the correct answer
     const q = useGameStore.getState().currentQuestion();
-    const correctAnswer = q!.answer;
-    useGameStore.getState().submitAnswer(correctAnswer);
+    const correctAnswer = q?.answer;
+    useGameStore.getState().submitAnswer(correctAnswer!);
 
     const state = useGameStore.getState();
     const player = usePlayerStore.getState().players[0]!;
@@ -84,7 +99,7 @@ describe("gameStore", () => {
 
     // First give correct answer to build combo
     const q1 = useGameStore.getState().currentQuestion();
-    useGameStore.getState().submitAnswer(q1!.answer);
+    useGameStore.getState().submitAnswer(q1?.answer!);
 
     // Move to next question
     useGameStore.getState().nextQuestion();

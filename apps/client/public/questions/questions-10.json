@@ -1,30 +1,133 @@
 {
   "Histoire de l'aviation": [
-    { "type": "qcm", "question": "Qui a réalisé la première traversée de la Manche en avion en 1909 ?", "choices": ["Roland Garros", "Louis Blériot", "Santos-Dumont", "Clément Ader"], "answer": "Louis Blériot" },
-    { "type": "vrai_faux", "question": "Charles Lindbergh a été le premier à traverser l'Atlantique en avion sans escale en 1927.", "answer": true },
-    { "type": "texte", "question": "Quel avion supersonique franco-britannique a volé de 1976 à 2003 ?", "answer": "Concorde" },
-    { "type": "qcm", "question": "Quel aviateur français est considéré comme un pionnier du vol motorisé en 1890 ?", "choices": ["Blériot", "Clément Ader", "Farman", "Guynemer"], "answer": "Clément Ader" },
-    { "type": "vrai_faux", "question": "Le Boeing 747 a effectué son premier vol en 1969.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Qui a réalisé la première traversée de la Manche en avion en 1909 ?",
+      "choices": [
+        "Roland Garros",
+        "Louis Blériot",
+        "Santos-Dumont",
+        "Clément Ader"
+      ],
+      "answer": "Louis Blériot"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Charles Lindbergh a été le premier à traverser l'Atlantique en avion sans escale en 1927.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel avion supersonique franco-britannique a volé de 1976 à 2003 ?",
+      "answer": "Concorde"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel aviateur français est considéré comme un pionnier du vol motorisé en 1890 ?",
+      "choices": ["Blériot", "Clément Ader", "Farman", "Guynemer"],
+      "answer": "Clément Ader"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Boeing 747 a effectué son premier vol en 1969.",
+      "answer": true
+    }
   ],
   "Avions de ligne": [
-    { "type": "qcm", "question": "Quel est le plus gros avion de ligne au monde ?", "choices": ["Boeing 777", "Airbus A380", "Boeing 747-8", "Airbus A350"], "answer": "Airbus A380" },
-    { "type": "vrai_faux", "question": "L'Airbus A320 est un avion long-courrier.", "answer": false },
-    { "type": "texte", "question": "Quel constructeur européen est le principal concurrent de Boeing ?", "answer": "Airbus" },
-    { "type": "qcm", "question": "Combien de moteurs possède un Boeing 777 ?", "choices": ["2", "3", "4", "6"], "answer": "2" },
-    { "type": "vrai_faux", "question": "Le Boeing 737 est l'avion commercial le plus vendu de l'histoire.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel est le plus gros avion de ligne au monde ?",
+      "choices": ["Boeing 777", "Airbus A380", "Boeing 747-8", "Airbus A350"],
+      "answer": "Airbus A380"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'Airbus A320 est un avion long-courrier.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel constructeur européen est le principal concurrent de Boeing ?",
+      "answer": "Airbus"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de moteurs possède un Boeing 777 ?",
+      "choices": ["2", "3", "4", "6"],
+      "answer": "2"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Boeing 737 est l'avion commercial le plus vendu de l'histoire.",
+      "answer": true
+    }
   ],
   "Aviation militaire": [
-    { "type": "qcm", "question": "Quel avion furtif américain est surnommé le 'Spirit' ?", "choices": ["F-22 Raptor", "B-2 Spirit", "F-117 Nighthawk", "SR-71 Blackbird"], "answer": "B-2 Spirit" },
-    { "type": "vrai_faux", "question": "Le Rafale est un avion de chasse français.", "answer": true },
-    { "type": "texte", "question": "Quel avion espion américain pouvait voler à Mach 3 et à plus de 25 000 mètres ?", "answer": "SR-71 Blackbird" },
-    { "type": "qcm", "question": "Quel chasseur britannique a joué un rôle clé dans la Bataille d'Angleterre ?", "choices": ["Lancaster", "Spitfire", "Hurricane", "Mosquito"], "answer": "Spitfire" },
-    { "type": "vrai_faux", "question": "Le F-35 Lightning II est fabriqué par Boeing.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Quel avion furtif américain est surnommé le 'Spirit' ?",
+      "choices": [
+        "F-22 Raptor",
+        "B-2 Spirit",
+        "F-117 Nighthawk",
+        "SR-71 Blackbird"
+      ],
+      "answer": "B-2 Spirit"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Rafale est un avion de chasse français.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel avion espion américain pouvait voler à Mach 3 et à plus de 25 000 mètres ?",
+      "answer": "SR-71 Blackbird"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel chasseur britannique a joué un rôle clé dans la Bataille d'Angleterre ?",
+      "choices": ["Lancaster", "Spitfire", "Hurricane", "Mosquito"],
+      "answer": "Spitfire"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le F-35 Lightning II est fabriqué par Boeing.",
+      "answer": false
+    }
   ],
   "Pilotage et technique": [
-    { "type": "qcm", "question": "Que signifie le sigle 'ATC' en aviation ?", "choices": ["Air Traffic Control", "Aviation Technical Center", "Automatic Thrust Computer", "Air Transport Command"], "answer": "Air Traffic Control" },
-    { "type": "vrai_faux", "question": "La boîte noire d'un avion est en réalité orange.", "answer": true },
-    { "type": "texte", "question": "Comment appelle-t-on la piste sur laquelle un avion décolle et atterrit ?", "answer": "Piste" },
-    { "type": "qcm", "question": "À quelle altitude de croisière vole un avion de ligne en pieds ?", "choices": ["15 000 ft", "25 000 ft", "35 000 ft", "45 000 ft"], "answer": "35 000 ft" },
-    { "type": "vrai_faux", "question": "Le manche à balai contrôle le lacet de l'avion.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Que signifie le sigle 'ATC' en aviation ?",
+      "choices": [
+        "Air Traffic Control",
+        "Aviation Technical Center",
+        "Automatic Thrust Computer",
+        "Air Transport Command"
+      ],
+      "answer": "Air Traffic Control"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La boîte noire d'un avion est en réalité orange.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on la piste sur laquelle un avion décolle et atterrit ?",
+      "answer": "Piste"
+    },
+    {
+      "type": "qcm",
+      "question": "À quelle altitude de croisière vole un avion de ligne en pieds ?",
+      "choices": ["15 000 ft", "25 000 ft", "35 000 ft", "45 000 ft"],
+      "answer": "35 000 ft"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le manche à balai contrôle le lacet de l'avion.",
+      "answer": false
+    }
   ]
 }

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 
 interface BlindProps {
   onSubmit: (value: string) => void;
@@ -20,7 +20,8 @@ export function BlindInput({ onSubmit, onReveal }: BlindProps) {
   return (
     <div>
       <p className="text-sm text-gray-400 mb-2">
-        Tente ta réponse sans les choix pour <span className="text-amber-400 font-semibold">+2 pts</span>
+        Tente ta réponse sans les choix pour{" "}
+        <span className="text-amber-400 font-semibold">+2 pts</span>
       </p>
       <div className="flex gap-2 mb-3">
         <input

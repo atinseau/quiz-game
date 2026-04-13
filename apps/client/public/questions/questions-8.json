@@ -1,95 +1,490 @@
 {
   "F1 — Pilotes": [
-    { "type": "qcm", "question": "Quel pilote a remporté son premier titre mondial F1 à 25 ans avec Red Bull en 2021 ?", "choices": ["Charles Leclerc", "Lando Norris", "Max Verstappen", "Carlos Sainz"], "answer": "Max Verstappen" },
-    { "type": "vrai_faux", "question": "Alain Prost a remporté 4 titres de champion du monde de F1.", "answer": true },
-    { "type": "texte", "question": "Quel pilote finlandais surnommé 'Iceman' a couru pour Ferrari et McLaren ?", "answer": "Kimi Räikkönen" },
-    { "type": "qcm", "question": "Quel pilote a gagné le plus de Grands Prix dans une seule saison (2023) ?", "choices": ["Lewis Hamilton", "Sebastian Vettel", "Max Verstappen", "Michael Schumacher"], "answer": "Max Verstappen" },
-    { "type": "vrai_faux", "question": "Niki Lauda a survécu à un grave accident au Nürburgring en 1976.", "answer": true },
-    { "type": "texte", "question": "Quel pilote monégasque court pour Ferrari depuis 2019 ?", "answer": "Charles Leclerc" },
-    { "type": "qcm", "question": "Qui était le coéquipier de Senna chez McLaren en 1988 ?", "choices": ["Nigel Mansell", "Alain Prost", "Nelson Piquet", "Damon Hill"], "answer": "Alain Prost" },
-    { "type": "vrai_faux", "question": "Fernando Alonso a été champion du monde avec Renault.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel pilote a remporté son premier titre mondial F1 à 25 ans avec Red Bull en 2021 ?",
+      "choices": [
+        "Charles Leclerc",
+        "Lando Norris",
+        "Max Verstappen",
+        "Carlos Sainz"
+      ],
+      "answer": "Max Verstappen"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Alain Prost a remporté 4 titres de champion du monde de F1.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pilote finlandais surnommé 'Iceman' a couru pour Ferrari et McLaren ?",
+      "answer": "Kimi Räikkönen"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pilote a gagné le plus de Grands Prix dans une seule saison (2023) ?",
+      "choices": [
+        "Lewis Hamilton",
+        "Sebastian Vettel",
+        "Max Verstappen",
+        "Michael Schumacher"
+      ],
+      "answer": "Max Verstappen"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Niki Lauda a survécu à un grave accident au Nürburgring en 1976.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pilote monégasque court pour Ferrari depuis 2019 ?",
+      "answer": "Charles Leclerc"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui était le coéquipier de Senna chez McLaren en 1988 ?",
+      "choices": [
+        "Nigel Mansell",
+        "Alain Prost",
+        "Nelson Piquet",
+        "Damon Hill"
+      ],
+      "answer": "Alain Prost"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Fernando Alonso a été champion du monde avec Renault.",
+      "answer": true
+    }
   ],
   "F1 — Circuits": [
-    { "type": "qcm", "question": "Quel circuit est le plus long du calendrier F1 actuel ?", "choices": ["Spa-Francorchamps", "Djeddah", "Monza", "Silverstone"], "answer": "Spa-Francorchamps" },
-    { "type": "vrai_faux", "question": "Le circuit de Monza est surnommé le Temple de la Vitesse.", "answer": true },
-    { "type": "texte", "question": "Dans quel pays se déroule le Grand Prix de Spa-Francorchamps ?", "answer": "Belgique" },
-    { "type": "qcm", "question": "Quel virage est le plus célèbre à Monaco ?", "choices": ["La Rascasse", "Sainte-Dévote", "Le Tunnel", "Mirabeau"], "answer": "La Rascasse" },
-    { "type": "vrai_faux", "question": "Le circuit de Suzuka se trouve en Chine.", "answer": false },
-    { "type": "qcm", "question": "Quel circuit accueille le GP des États-Unis à Austin ?", "choices": ["Indianapolis", "COTA", "Laguna Seca", "Daytona"], "answer": "COTA" },
-    { "type": "texte", "question": "Quel célèbre virage de Silverstone s'appelle comme une chapelle ?", "answer": "Chapel" },
-    { "type": "qcm", "question": "Quel GP se court de nuit sous les projecteurs depuis 2008 ?", "choices": ["Bahreïn", "Abu Dhabi", "Singapour", "Qatar"], "answer": "Singapour" }
+    {
+      "type": "qcm",
+      "question": "Quel circuit est le plus long du calendrier F1 actuel ?",
+      "choices": ["Spa-Francorchamps", "Djeddah", "Monza", "Silverstone"],
+      "answer": "Spa-Francorchamps"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le circuit de Monza est surnommé le Temple de la Vitesse.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Dans quel pays se déroule le Grand Prix de Spa-Francorchamps ?",
+      "answer": "Belgique"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel virage est le plus célèbre à Monaco ?",
+      "choices": ["La Rascasse", "Sainte-Dévote", "Le Tunnel", "Mirabeau"],
+      "answer": "La Rascasse"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le circuit de Suzuka se trouve en Chine.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel circuit accueille le GP des États-Unis à Austin ?",
+      "choices": ["Indianapolis", "COTA", "Laguna Seca", "Daytona"],
+      "answer": "COTA"
+    },
+    {
+      "type": "texte",
+      "question": "Quel célèbre virage de Silverstone s'appelle comme une chapelle ?",
+      "answer": "Chapel"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel GP se court de nuit sous les projecteurs depuis 2008 ?",
+      "choices": ["Bahreïn", "Abu Dhabi", "Singapour", "Qatar"],
+      "answer": "Singapour"
+    }
   ],
   "F1 — Écuries": [
-    { "type": "qcm", "question": "Quelle écurie s'appelait Toleman avant de devenir Benetton puis Renault ?", "choices": ["Alpine", "Haas", "Aston Martin", "AlphaTauri"], "answer": "Alpine" },
-    { "type": "vrai_faux", "question": "Red Bull Racing possède aussi l'écurie AlphaTauri (VCARB).", "answer": true },
-    { "type": "texte", "question": "Quelle écurie britannique fondée par Frank a été rachetée par Dorilton Capital ?", "answer": "Williams" },
-    { "type": "qcm", "question": "Quel motoriste fournit les moteurs Mercedes en F1 ?", "choices": ["Honda", "Renault", "Mercedes AMG HPP", "Ferrari"], "answer": "Mercedes AMG HPP" },
-    { "type": "vrai_faux", "question": "McLaren a été fondée par un pilote néo-zélandais.", "answer": true },
-    { "type": "qcm", "question": "Quelle écurie a remporté le championnat constructeurs 8 fois consécutives (2014-2021) ?", "choices": ["Ferrari", "Red Bull", "Mercedes", "McLaren"], "answer": "Mercedes" },
-    { "type": "texte", "question": "Quel milliardaire canadien est propriétaire d'Aston Martin F1 ?", "answer": "Lawrence Stroll" },
-    { "type": "qcm", "question": "Quelle écurie italienne basée à Faenza s'appelle désormais Racing Bulls ?", "choices": ["Haas", "Sauber", "Racing Bulls", "Alpine"], "answer": "Racing Bulls" },
-    { "type": "texte", "question": "Quel système de protection du cockpit en forme d'auréole a été introduit en F1 en 2018 ?", "answer": "Halo" }
+    {
+      "type": "qcm",
+      "question": "Quelle écurie s'appelait Toleman avant de devenir Benetton puis Renault ?",
+      "choices": ["Alpine", "Haas", "Aston Martin", "AlphaTauri"],
+      "answer": "Alpine"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Red Bull Racing possède aussi l'écurie AlphaTauri (VCARB).",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle écurie britannique fondée par Frank a été rachetée par Dorilton Capital ?",
+      "answer": "Williams"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel motoriste fournit les moteurs Mercedes en F1 ?",
+      "choices": ["Honda", "Renault", "Mercedes AMG HPP", "Ferrari"],
+      "answer": "Mercedes AMG HPP"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "McLaren a été fondée par un pilote néo-zélandais.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle écurie a remporté le championnat constructeurs 8 fois consécutives (2014-2021) ?",
+      "choices": ["Ferrari", "Red Bull", "Mercedes", "McLaren"],
+      "answer": "Mercedes"
+    },
+    {
+      "type": "texte",
+      "question": "Quel milliardaire canadien est propriétaire d'Aston Martin F1 ?",
+      "answer": "Lawrence Stroll"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle écurie italienne basée à Faenza s'appelle désormais Racing Bulls ?",
+      "choices": ["Haas", "Sauber", "Racing Bulls", "Alpine"],
+      "answer": "Racing Bulls"
+    },
+    {
+      "type": "texte",
+      "question": "Quel système de protection du cockpit en forme d'auréole a été introduit en F1 en 2018 ?",
+      "answer": "Halo"
+    }
   ],
   "MotoGP": [
-    { "type": "qcm", "question": "Quel pilote italien détient le record de titres en MotoGP ?", "choices": ["Casey Stoner", "Valentino Rossi", "Marc Márquez", "Jorge Lorenzo"], "answer": "Valentino Rossi" },
-    { "type": "vrai_faux", "question": "Les motos de MotoGP dépassent les 350 km/h.", "answer": true },
-    { "type": "texte", "question": "Quel est le numéro de course légendaire de Valentino Rossi ?", "answer": "46" },
-    { "type": "qcm", "question": "Quelle marque japonaise domine le MotoGP avec le plus de titres constructeurs ?", "choices": ["Yamaha", "Suzuki", "Honda", "Kawasaki"], "answer": "Honda" },
-    { "type": "vrai_faux", "question": "Ducati est un constructeur de motos japonais.", "answer": false },
-    { "type": "qcm", "question": "Quel pilote espagnol a remporté 6 titres MotoGP avant 30 ans ?", "choices": ["Jorge Lorenzo", "Dani Pedrosa", "Marc Márquez", "Maverick Viñales"], "answer": "Marc Márquez" },
-    { "type": "texte", "question": "Sur quel circuit italien se déroule le GP de Saint-Marin ?", "answer": "Misano" },
-    { "type": "qcm", "question": "Combien de catégories compte le championnat du monde moto ?", "choices": ["2", "3", "4", "5"], "answer": "3" }
+    {
+      "type": "qcm",
+      "question": "Quel pilote italien détient le record de titres en MotoGP ?",
+      "choices": [
+        "Casey Stoner",
+        "Valentino Rossi",
+        "Marc Márquez",
+        "Jorge Lorenzo"
+      ],
+      "answer": "Valentino Rossi"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les motos de MotoGP dépassent les 350 km/h.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le numéro de course légendaire de Valentino Rossi ?",
+      "answer": "46"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle marque japonaise domine le MotoGP avec le plus de titres constructeurs ?",
+      "choices": ["Yamaha", "Suzuki", "Honda", "Kawasaki"],
+      "answer": "Honda"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Ducati est un constructeur de motos japonais.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pilote espagnol a remporté 6 titres MotoGP avant 30 ans ?",
+      "choices": [
+        "Jorge Lorenzo",
+        "Dani Pedrosa",
+        "Marc Márquez",
+        "Maverick Viñales"
+      ],
+      "answer": "Marc Márquez"
+    },
+    {
+      "type": "texte",
+      "question": "Sur quel circuit italien se déroule le GP de Saint-Marin ?",
+      "answer": "Misano"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de catégories compte le championnat du monde moto ?",
+      "choices": ["2", "3", "4", "5"],
+      "answer": "3"
+    }
   ],
   "NASCAR et IndyCar": [
-    { "type": "qcm", "question": "Quelle forme ont les circuits typiques de NASCAR ?", "choices": ["Carré", "Ovale", "Triangle", "En huit"], "answer": "Ovale" },
-    { "type": "vrai_faux", "question": "Les 500 miles d'Indianapolis font partie du calendrier NASCAR.", "answer": false },
-    { "type": "texte", "question": "Dans quelle ville américaine se déroulent les 500 miles les plus célèbres ?", "answer": "Indianapolis" },
-    { "type": "qcm", "question": "Quel pilote a remporté 7 titres en NASCAR Cup Series ?", "choices": ["Dale Earnhardt", "Jeff Gordon", "Jimmie Johnson", "Richard Petty"], "answer": "Jimmie Johnson" },
-    { "type": "vrai_faux", "question": "Les voitures NASCAR tournent uniquement à gauche sur les ovales.", "answer": true },
-    { "type": "qcm", "question": "Quel circuit NASCAR est surnommé 'The Great American Race' ?", "choices": ["Talladega", "Daytona 500", "Bristol", "Charlotte"], "answer": "Daytona 500" },
-    { "type": "texte", "question": "Quelle est la vitesse moyenne approximative sur un ovale NASCAR rapide ?", "answer": "300 km/h" },
-    { "type": "qcm", "question": "Quel Français a remporté les 500 miles d'Indianapolis ?", "choices": ["Sébastien Bourdais", "Simon Pagenaud", "Romain Grosjean", "Jean Alesi"], "answer": "Simon Pagenaud" }
+    {
+      "type": "qcm",
+      "question": "Quelle forme ont les circuits typiques de NASCAR ?",
+      "choices": ["Carré", "Ovale", "Triangle", "En huit"],
+      "answer": "Ovale"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les 500 miles d'Indianapolis font partie du calendrier NASCAR.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Dans quelle ville américaine se déroulent les 500 miles les plus célèbres ?",
+      "answer": "Indianapolis"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pilote a remporté 7 titres en NASCAR Cup Series ?",
+      "choices": [
+        "Dale Earnhardt",
+        "Jeff Gordon",
+        "Jimmie Johnson",
+        "Richard Petty"
+      ],
+      "answer": "Jimmie Johnson"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les voitures NASCAR tournent uniquement à gauche sur les ovales.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel circuit NASCAR est surnommé 'The Great American Race' ?",
+      "choices": ["Talladega", "Daytona 500", "Bristol", "Charlotte"],
+      "answer": "Daytona 500"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle est la vitesse moyenne approximative sur un ovale NASCAR rapide ?",
+      "answer": "300 km/h"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel Français a remporté les 500 miles d'Indianapolis ?",
+      "choices": [
+        "Sébastien Bourdais",
+        "Simon Pagenaud",
+        "Romain Grosjean",
+        "Jean Alesi"
+      ],
+      "answer": "Simon Pagenaud"
+    }
   ],
   "WRC — Rallye mondial": [
-    { "type": "qcm", "question": "Quel pilote estonien a remporté plusieurs titres WRC avec Toyota ?", "choices": ["Jari-Matti Latvala", "Ott Tänak", "Kris Meeke", "Thierry Neuville"], "answer": "Ott Tänak" },
-    { "type": "vrai_faux", "question": "Le Groupe B en rallye a été interdit pour des raisons de sécurité.", "answer": true },
-    { "type": "texte", "question": "Quelle marque française a dominé le WRC avec Sébastien Loeb ?", "answer": "Citroën" },
-    { "type": "qcm", "question": "Quelle voiture emblématique du Groupe B était surnommée 'la Bête' ?", "choices": ["Lancia Delta S4", "Peugeot 205 T16", "Audi Quattro S1", "Ford RS200"], "answer": "Audi Quattro S1" },
-    { "type": "vrai_faux", "question": "Sébastien Ogier a remporté 8 titres WRC.", "answer": true },
-    { "type": "qcm", "question": "Quel rallye se court sur la neige et la glace en Scandinavie ?", "choices": ["Rallye de Suède", "Rallye de Finlande", "Rallye d'Estonie", "Rallye de Norvège"], "answer": "Rallye de Suède" },
-    { "type": "texte", "question": "Quelle Lancia légendaire a remporté 6 titres WRC consécutifs ?", "answer": "Delta" },
-    { "type": "qcm", "question": "Quel système de transmission est obligatoire en WRC ?", "choices": ["Propulsion", "Traction", "Intégrale", "Au choix"], "answer": "Intégrale" }
+    {
+      "type": "qcm",
+      "question": "Quel pilote estonien a remporté plusieurs titres WRC avec Toyota ?",
+      "choices": [
+        "Jari-Matti Latvala",
+        "Ott Tänak",
+        "Kris Meeke",
+        "Thierry Neuville"
+      ],
+      "answer": "Ott Tänak"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Groupe B en rallye a été interdit pour des raisons de sécurité.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle marque française a dominé le WRC avec Sébastien Loeb ?",
+      "answer": "Citroën"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle voiture emblématique du Groupe B était surnommée 'la Bête' ?",
+      "choices": [
+        "Lancia Delta S4",
+        "Peugeot 205 T16",
+        "Audi Quattro S1",
+        "Ford RS200"
+      ],
+      "answer": "Audi Quattro S1"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Sébastien Ogier a remporté 8 titres WRC.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel rallye se court sur la neige et la glace en Scandinavie ?",
+      "choices": [
+        "Rallye de Suède",
+        "Rallye de Finlande",
+        "Rallye d'Estonie",
+        "Rallye de Norvège"
+      ],
+      "answer": "Rallye de Suède"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle Lancia légendaire a remporté 6 titres WRC consécutifs ?",
+      "answer": "Delta"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel système de transmission est obligatoire en WRC ?",
+      "choices": ["Propulsion", "Traction", "Intégrale", "Au choix"],
+      "answer": "Intégrale"
+    }
   ],
   "Endurance et Le Mans": [
-    { "type": "qcm", "question": "Quelle marque a remporté Le Mans 19 fois (record) ?", "choices": ["Audi", "Ferrari", "Porsche", "Toyota"], "answer": "Porsche" },
-    { "type": "vrai_faux", "question": "Les 24h du Mans existent depuis 1923.", "answer": true },
-    { "type": "texte", "question": "Quel pilote danois a remporté Le Mans 3 fois avec Audi ?", "answer": "Tom Kristensen" },
-    { "type": "qcm", "question": "Quelle ligne droite du Mans dépasse les 6 km ?", "choices": ["Ligne droite des stands", "Hunaudières", "Mulsanne", "Les deux derniers"], "answer": "Hunaudières" },
-    { "type": "vrai_faux", "question": "Ford a battu Ferrari au Mans dans les années 60 avec la GT40.", "answer": true },
-    { "type": "qcm", "question": "Quel constructeur japonais a enfin gagné Le Mans en 2018 après des années d'échecs ?", "choices": ["Honda", "Nissan", "Mazda", "Toyota"], "answer": "Toyota" },
-    { "type": "texte", "question": "Combien d'heures dure la course d'endurance de Daytona ?", "answer": "24" },
-    { "type": "qcm", "question": "Quel championnat regroupe les courses d'endurance mondiales (Le Mans, Spa, etc.) ?", "choices": ["IMSA", "WEC", "DTM", "ELMS"], "answer": "WEC" }
+    {
+      "type": "qcm",
+      "question": "Quelle marque a remporté Le Mans 19 fois (record) ?",
+      "choices": ["Audi", "Ferrari", "Porsche", "Toyota"],
+      "answer": "Porsche"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les 24h du Mans existent depuis 1923.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pilote danois a remporté Le Mans 3 fois avec Audi ?",
+      "answer": "Tom Kristensen"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle ligne droite du Mans dépasse les 6 km ?",
+      "choices": [
+        "Ligne droite des stands",
+        "Hunaudières",
+        "Mulsanne",
+        "Les deux derniers"
+      ],
+      "answer": "Hunaudières"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Ford a battu Ferrari au Mans dans les années 60 avec la GT40.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel constructeur japonais a enfin gagné Le Mans en 2018 après des années d'échecs ?",
+      "choices": ["Honda", "Nissan", "Mazda", "Toyota"],
+      "answer": "Toyota"
+    },
+    {
+      "type": "texte",
+      "question": "Combien d'heures dure la course d'endurance de Daytona ?",
+      "answer": "24"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel championnat regroupe les courses d'endurance mondiales (Le Mans, Spa, etc.) ?",
+      "choices": ["IMSA", "WEC", "DTM", "ELMS"],
+      "answer": "WEC"
+    }
   ],
   "Constructeurs sportifs": [
-    { "type": "qcm", "question": "Quel constructeur fabrique la Huracán et l'Urus ?", "choices": ["Ferrari", "Lamborghini", "McLaren", "Pagani"], "answer": "Lamborghini" },
-    { "type": "vrai_faux", "question": "Pagani est un constructeur argentin basé en Italie.", "answer": true },
-    { "type": "texte", "question": "Quelle marque britannique produit la Senna et la Speedtail ?", "answer": "McLaren" },
-    { "type": "qcm", "question": "Quel constructeur suédois a produit l'Agera et la Jesko ?", "choices": ["Saab", "Volvo", "Koenigsegg", "Polestar"], "answer": "Koenigsegg" },
-    { "type": "vrai_faux", "question": "Aston Martin a été fondée en 1913.", "answer": true },
-    { "type": "qcm", "question": "Quelle marque allemande produit la 918 Spyder et la Cayman ?", "choices": ["BMW", "Audi", "Mercedes", "Porsche"], "answer": "Porsche" },
-    { "type": "texte", "question": "Quel fondateur de Lamborghini fabriquait des tracteurs avant des voitures de sport ?", "answer": "Ferruccio Lamborghini" },
-    { "type": "qcm", "question": "Quelle marque japonaise a produit la LFA, considérée comme un chef-d'œuvre ?", "choices": ["Honda", "Nissan", "Toyota/Lexus", "Mazda"], "answer": "Toyota/Lexus" },
-    { "type": "vrai_faux", "question": "Enzo Ferrari a fondé la Scuderia Ferrari en 1929.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel constructeur fabrique la Huracán et l'Urus ?",
+      "choices": ["Ferrari", "Lamborghini", "McLaren", "Pagani"],
+      "answer": "Lamborghini"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Pagani est un constructeur argentin basé en Italie.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle marque britannique produit la Senna et la Speedtail ?",
+      "answer": "McLaren"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel constructeur suédois a produit l'Agera et la Jesko ?",
+      "choices": ["Saab", "Volvo", "Koenigsegg", "Polestar"],
+      "answer": "Koenigsegg"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Aston Martin a été fondée en 1913.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle marque allemande produit la 918 Spyder et la Cayman ?",
+      "choices": ["BMW", "Audi", "Mercedes", "Porsche"],
+      "answer": "Porsche"
+    },
+    {
+      "type": "texte",
+      "question": "Quel fondateur de Lamborghini fabriquait des tracteurs avant des voitures de sport ?",
+      "answer": "Ferruccio Lamborghini"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle marque japonaise a produit la LFA, considérée comme un chef-d'œuvre ?",
+      "choices": ["Honda", "Nissan", "Toyota/Lexus", "Mazda"],
+      "answer": "Toyota/Lexus"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Enzo Ferrari a fondé la Scuderia Ferrari en 1929.",
+      "answer": true
+    }
   ],
   "Drift et Tuning": [
-    { "type": "qcm", "question": "Dans quel pays est né le drift automobile ?", "choices": ["États-Unis", "Allemagne", "Japon", "Australie"], "answer": "Japon" },
-    { "type": "vrai_faux", "question": "La Nissan Silvia S15 est une voiture iconique du drift.", "answer": true },
-    { "type": "texte", "question": "Quel pilote japonais est considéré comme le roi du drift ?", "answer": "Keiichi Tsuchiya" },
-    { "type": "qcm", "question": "Quel type de transmission est privilégié en drift ?", "choices": ["Traction", "Intégrale", "Propulsion", "CVT"], "answer": "Propulsion" },
-    { "type": "vrai_faux", "question": "Le turbo est un élément de tuning qui augmente la puissance.", "answer": true },
-    { "type": "qcm", "question": "Quel manga/anime est centré sur les courses de drift ?", "choices": ["Wangan Midnight", "Initial D", "Redline", "Speed Racer"], "answer": "Initial D" },
-    { "type": "texte", "question": "Quelle Toyota est la star d'Initial D ?", "answer": "AE86" },
-    { "type": "qcm", "question": "Que signifie le sigle 'NOS' en tuning ?", "choices": ["New Oxygen System", "Nitrous Oxide System", "Natural Oil Spray", "Nitrogen Output System"], "answer": "Nitrous Oxide System" },
-    { "type": "texte", "question": "Quel championnat américain de drift professionnel est le plus connu ?", "answer": "Formula Drift" }
+    {
+      "type": "qcm",
+      "question": "Dans quel pays est né le drift automobile ?",
+      "choices": ["États-Unis", "Allemagne", "Japon", "Australie"],
+      "answer": "Japon"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Nissan Silvia S15 est une voiture iconique du drift.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pilote japonais est considéré comme le roi du drift ?",
+      "answer": "Keiichi Tsuchiya"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel type de transmission est privilégié en drift ?",
+      "choices": ["Traction", "Intégrale", "Propulsion", "CVT"],
+      "answer": "Propulsion"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le turbo est un élément de tuning qui augmente la puissance.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel manga/anime est centré sur les courses de drift ?",
+      "choices": ["Wangan Midnight", "Initial D", "Redline", "Speed Racer"],
+      "answer": "Initial D"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle Toyota est la star d'Initial D ?",
+      "answer": "AE86"
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie le sigle 'NOS' en tuning ?",
+      "choices": [
+        "New Oxygen System",
+        "Nitrous Oxide System",
+        "Natural Oil Spray",
+        "Nitrogen Output System"
+      ],
+      "answer": "Nitrous Oxide System"
+    },
+    {
+      "type": "texte",
+      "question": "Quel championnat américain de drift professionnel est le plus connu ?",
+      "answer": "Formula Drift"
+    }
   ]
 }

@@ -145,5 +145,6 @@ Detailed docs in `references/` folder:
 | rest-api.md | Endpoints, filters, populate, sort, pagination, auth |
 | document-service-api.md | All methods, params, middlewares |
 | customization.md | Controllers, services, routes, policies, middlewares, webhooks, admin |
-| plugins.md | Plugin structure, server/admin APIs, GraphQL plugin |
-| deployment-cli.md | CLI commands, deployment checklist, v4→v5 migration |
+| graphql-api.md | Full GraphQL reference: queries, mutations, filters, aggregations, i18n, custom resolvers |
+| plugins.md | Plugin structure, server/admin APIs, custom fields, Users & Permissions |
+| deployment-cli.md | All CLI commands with flags, export/import/transfer, deployment checklist, v4→v5 migration |

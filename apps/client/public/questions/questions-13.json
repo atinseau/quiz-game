@@ -1,30 +1,118 @@
 {
   "Mammifères": [
-    { "type": "qcm", "question": "Quel est le mammifère le plus rapide au monde ?", "choices": ["Lion", "Guépard", "Antilope", "Lévrier"], "answer": "Guépard" },
-    { "type": "vrai_faux", "question": "La baleine bleue peut mesurer plus de 30 mètres.", "answer": true },
-    { "type": "texte", "question": "Quel primate est le plus proche génétiquement de l'homme ?", "answer": "Chimpanzé" },
-    { "type": "qcm", "question": "Combien de temps dure la grossesse d'un éléphant ?", "choices": ["12 mois", "18 mois", "22 mois", "26 mois"], "answer": "22 mois" },
-    { "type": "vrai_faux", "question": "Le dauphin dort avec un seul œil fermé.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel est le mammifère le plus rapide au monde ?",
+      "choices": ["Lion", "Guépard", "Antilope", "Lévrier"],
+      "answer": "Guépard"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La baleine bleue peut mesurer plus de 30 mètres.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel primate est le plus proche génétiquement de l'homme ?",
+      "answer": "Chimpanzé"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de temps dure la grossesse d'un éléphant ?",
+      "choices": ["12 mois", "18 mois", "22 mois", "26 mois"],
+      "answer": "22 mois"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le dauphin dort avec un seul œil fermé.",
+      "answer": true
+    }
   ],
   "Oiseaux et reptiles": [
-    { "type": "qcm", "question": "Quel est le plus grand oiseau du monde ?", "choices": ["Condor", "Albatros", "Autruche", "Émeu"], "answer": "Autruche" },
-    { "type": "vrai_faux", "question": "Les crocodiles existent depuis l'époque des dinosaures.", "answer": true },
-    { "type": "texte", "question": "Quel reptile peut changer de couleur pour se camoufler ?", "answer": "Caméléon" },
-    { "type": "qcm", "question": "Quel oiseau est capable de voler en marche arrière ?", "choices": ["Martinet", "Colibri", "Hirondelle", "Faucon"], "answer": "Colibri" },
-    { "type": "vrai_faux", "question": "Les serpents ont des paupières.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Quel est le plus grand oiseau du monde ?",
+      "choices": ["Condor", "Albatros", "Autruche", "Émeu"],
+      "answer": "Autruche"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les crocodiles existent depuis l'époque des dinosaures.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel reptile peut changer de couleur pour se camoufler ?",
+      "answer": "Caméléon"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel oiseau est capable de voler en marche arrière ?",
+      "choices": ["Martinet", "Colibri", "Hirondelle", "Faucon"],
+      "answer": "Colibri"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les serpents ont des paupières.",
+      "answer": false
+    }
   ],
   "Monde marin": [
-    { "type": "qcm", "question": "Combien de bras possède une étoile de mer classique ?", "choices": ["4", "5", "6", "8"], "answer": "5" },
-    { "type": "vrai_faux", "question": "Le requin-baleine est un prédateur dangereux pour l'homme.", "answer": false },
-    { "type": "texte", "question": "Quel animal marin possède trois cœurs et du sang bleu ?", "answer": "Pieuvre" },
-    { "type": "qcm", "question": "Quel poisson est le plus rapide des océans ?", "choices": ["Thon", "Requin mako", "Espadon voilier", "Marlin"], "answer": "Espadon voilier" },
-    { "type": "vrai_faux", "question": "Les méduses ont un cerveau.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Combien de bras possède une étoile de mer classique ?",
+      "choices": ["4", "5", "6", "8"],
+      "answer": "5"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le requin-baleine est un prédateur dangereux pour l'homme.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel animal marin possède trois cœurs et du sang bleu ?",
+      "answer": "Pieuvre"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel poisson est le plus rapide des océans ?",
+      "choices": ["Thon", "Requin mako", "Espadon voilier", "Marlin"],
+      "answer": "Espadon voilier"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les méduses ont un cerveau.",
+      "answer": false
+    }
   ],
   "Insectes et curiosités": [
-    { "type": "qcm", "question": "Combien de pattes possède un insecte ?", "choices": ["4", "6", "8", "10"], "answer": "6" },
-    { "type": "vrai_faux", "question": "Une colonie de fourmis peut compter plusieurs millions d'individus.", "answer": true },
-    { "type": "texte", "question": "Quel insecte produit du miel ?", "answer": "Abeille" },
-    { "type": "qcm", "question": "Quel animal peut survivre dans l'espace et résister aux radiations ?", "choices": ["Cafard", "Tardigrade", "Scorpion", "Fourmi"], "answer": "Tardigrade" },
-    { "type": "vrai_faux", "question": "Les moustiques sont les animaux les plus meurtriers pour l'homme.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Combien de pattes possède un insecte ?",
+      "choices": ["4", "6", "8", "10"],
+      "answer": "6"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Une colonie de fourmis peut compter plusieurs millions d'individus.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel insecte produit du miel ?",
+      "answer": "Abeille"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel animal peut survivre dans l'espace et résister aux radiations ?",
+      "choices": ["Cafard", "Tardigrade", "Scorpion", "Fourmi"],
+      "answer": "Tardigrade"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les moustiques sont les animaux les plus meurtriers pour l'homme.",
+      "answer": true
+    }
   ]
 }

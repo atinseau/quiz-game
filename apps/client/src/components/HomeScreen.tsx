@@ -1,9 +1,15 @@
-import { useState, useEffect, useCallback, useRef, type KeyboardEvent } from "react";
-import type { PackMeta, GameMode } from "../types";
-import { GAME_MODES } from "../types";
-import { usePlayerStore } from "../stores/playerStore";
-import { usePackStore } from "../stores/packStore";
+import {
+  type KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useGameStore } from "../stores/gameStore";
+import { usePackStore } from "../stores/packStore";
+import { usePlayerStore } from "../stores/playerStore";
+import type { GameMode, PackMeta } from "../types";
+import { GAME_MODES } from "../types";
 
 export function HomeScreen() {
   const players = usePlayerStore((s) => s.players);
@@ -18,7 +24,7 @@ export function HomeScreen() {
   const [search, setSearch] = useState("");
   const [packs, setPacks] = useState<PackMeta[]>([]);
   const [step, setStep] = useState<"pack" | "mode" | "players">("pack");
-  const [selectedMode, setSelectedMode] = useState<GameMode>("classic");
+  const [_selectedMode, setSelectedMode] = useState<GameMode>("classic");
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(6);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -51,11 +57,13 @@ export function HomeScreen() {
       .then((data: PackMeta[]) => {
         setPacks(data);
         if (!selectedChunk) {
-          const firstUnfinished = data.find((p) => !finishedChunks.includes(p.file));
+          const firstUnfinished = data.find(
+            (p) => !finishedChunks.includes(p.file),
+          );
           selectChunk(firstUnfinished?.file || data[0]?.file || "");
         }
       });
-  }, []);
+  }, [selectedChunk, selectChunk, finishedChunks.includes]);
 
   const handleAdd = () => {
     if (addPlayer(inputValue)) setInputValue("");
@@ -66,22 +74,29 @@ export function HomeScreen() {
   };
 
   const selectedPack = packs.find((p) => p.file === selectedChunk);
-  const canStart = players.length >= 1 && selectedChunk;
+  const _canStart = players.length >= 1 && selectedChunk;
 
   // Step 1: Pack selection
   if (step === "pack") {
     return (
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl font-bold text-center mb-2 text-indigo-400">Quiz</h1>
-          <p className="text-center text-gray-400 mb-6 sm:mb-8">Choisis ton pack de questions</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-center mb-2 text-indigo-400">
+            Quiz
+          </h1>
+          <p className="text-center text-gray-400 mb-6 sm:mb-8">
+            Choisis ton pack de questions
+          </p>
 
           <div className="mb-5 sm:mb-6">
             <input
               type="text"
               placeholder="Rechercher un pack..."
               value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(0); }}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(0);
+              }}
               className="w-full bg-gray-900 border border-gray-700 rounded-xl px-5 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
             />
           </div>
@@ -90,15 +105,27 @@ export function HomeScreen() {
             const filtered = packs.filter((p) => {
               if (!search.trim()) return true;
               const q = search.toLowerCase();
-              return p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+              return (
+                p.name.toLowerCase().includes(q) ||
+                p.description.toLowerCase().includes(q)
+              );
             });
-            const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+            const totalPages = Math.max(
+              1,
+              Math.ceil(filtered.length / perPage),
+            );
             const safePage = Math.min(page, totalPages - 1);
-            const pageItems = filtered.slice(safePage * perPage, (safePage + 1) * perPage);
+            const pageItems = filtered.slice(
+              safePage * perPage,
+              (safePage + 1) * perPage,
+            );
 
             return (
               <>
-                <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                <div
+                  ref={gridRef}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                >
                   {pageItems.map((pack) => {
                     const done = finishedChunks.includes(pack.file);
                     const active = pack.file === selectedChunk;
@@ -115,10 +142,16 @@ export function HomeScreen() {
                             : "ring-1 ring-gray-800 hover:ring-gray-600 hover:scale-[1.01]"
                         }`}
                       >
-                        <div className={`bg-gradient-to-br ${pack.gradient} px-4 sm:px-5 py-5 sm:py-6 flex items-center gap-3 sm:gap-4`}>
-                          <span className="text-3xl sm:text-4xl">{pack.icon}</span>
+                        <div
+                          className={`bg-gradient-to-br ${pack.gradient} px-4 sm:px-5 py-5 sm:py-6 flex items-center gap-3 sm:gap-4`}
+                        >
+                          <span className="text-3xl sm:text-4xl">
+                            {pack.icon}
+                          </span>
                           <div className="min-w-0 flex-1">
-                            <h3 className="font-bold text-white text-base sm:text-lg leading-tight truncate">{pack.name}</h3>
+                            <h3 className="font-bold text-white text-base sm:text-lg leading-tight truncate">
+                              {pack.name}
+                            </h3>
                             {done && (
                               <span className="inline-block mt-1 text-xs bg-white/20 text-white px-2 py-0.5 rounded-full">
                                 Terminé
@@ -127,9 +160,13 @@ export function HomeScreen() {
                           </div>
                         </div>
                         <div className="bg-gray-900 px-4 sm:px-5 py-3 sm:py-4">
-                          <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{pack.description}</p>
+                          <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            {pack.description}
+                          </p>
                           {pack.questionCount != null && (
-                            <p className="text-xs text-gray-500 mt-2">{pack.questionCount} questions</p>
+                            <p className="text-xs text-gray-500 mt-2">
+                              {pack.questionCount} questions
+                            </p>
                           )}
                         </div>
                       </button>
@@ -144,8 +181,19 @@ export function HomeScreen() {
                       disabled={safePage === 0}
                       className="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-30 disabled:hover:bg-gray-800 transition-colors"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => (
@@ -162,12 +210,25 @@ export function HomeScreen() {
                       </button>
                     ))}
                     <button
-                      onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages - 1, p + 1))
+                      }
                       disabled={safePage === totalPages - 1}
                       className="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-30 disabled:hover:bg-gray-800 transition-colors"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -188,75 +249,98 @@ export function HomeScreen() {
           <button
             onClick={() => setStep("pack")}
             className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          Changer de mode
-        </button>
-
-        {/* Pack summary */}
-        {selectedPack && (
-          <div className={`bg-gradient-to-br ${selectedPack.gradient} rounded-xl px-5 py-4 flex items-center gap-4 mb-8`}>
-            <span className="text-3xl">{selectedPack.icon}</span>
-            <div>
-              <h2 className="font-bold text-white text-lg">{selectedPack.name}</h2>
-              <p className="text-white/70 text-sm">{selectedPack.description}</p>
-            </div>
-          </div>
-        )}
-
-        <div className="bg-gray-900 rounded-2xl shadow-2xl p-6 sm:p-8 mb-6">
-          <h2 className="text-lg font-semibold text-gray-200 mb-4">Qui joue ?</h2>
-          <div className="flex gap-2 mb-4">
-            <input
-              type="text"
-              placeholder="Nom du joueur"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              maxLength={20}
-              autoFocus
-            />
-            <button
-              onClick={handleAdd}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
             >
-              Ajouter
-            </button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Changer de mode
+          </button>
 
-          {players.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {players.map((p) => (
-                <div key={p} className="flex items-center gap-2 bg-gray-800 rounded-full px-4 py-1.5">
-                  <span className="font-medium text-sm">{p}</span>
-                  <button
-                    onClick={() => removePlayer(p)}
-                    className="text-gray-500 hover:text-red-400 text-lg leading-none"
-                  >
-                    &times;
-                  </button>
-                </div>
-              ))}
+          {/* Pack summary */}
+          {selectedPack && (
+            <div
+              className={`bg-gradient-to-br ${selectedPack.gradient} rounded-xl px-5 py-4 flex items-center gap-4 mb-8`}
+            >
+              <span className="text-3xl">{selectedPack.icon}</span>
+              <div>
+                <h2 className="font-bold text-white text-lg">
+                  {selectedPack.name}
+                </h2>
+                <p className="text-white/70 text-sm">
+                  {selectedPack.description}
+                </p>
+              </div>
             </div>
           )}
 
-          {players.length === 0 && (
-            <p className="text-sm text-gray-500">Ajoute au moins un joueur pour commencer</p>
-          )}
-        </div>
+          <div className="bg-gray-900 rounded-2xl shadow-2xl p-6 sm:p-8 mb-6">
+            <h2 className="text-lg font-semibold text-gray-200 mb-4">
+              Qui joue ?
+            </h2>
+            <div className="flex gap-2 mb-4">
+              <input
+                type="text"
+                placeholder="Nom du joueur"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                maxLength={20}
+              />
+              <button
+                onClick={handleAdd}
+                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors"
+              >
+                Ajouter
+              </button>
+            </div>
 
-        <button
-          onClick={() => setStep("mode")}
-          disabled={players.length < 1}
-          className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-bold py-4 rounded-xl text-lg transition-colors shadow-lg"
-        >
-          Choisir le mode de jeu
-        </button>
+            {players.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {players.map((p) => (
+                  <div
+                    key={p}
+                    className="flex items-center gap-2 bg-gray-800 rounded-full px-4 py-1.5"
+                  >
+                    <span className="font-medium text-sm">{p}</span>
+                    <button
+                      onClick={() => removePlayer(p)}
+                      className="text-gray-500 hover:text-red-400 text-lg leading-none"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {players.length === 0 && (
+              <p className="text-sm text-gray-500">
+                Ajoute au moins un joueur pour commencer
+              </p>
+            )}
+          </div>
+
+          <button
+            onClick={() => setStep("mode")}
+            disabled={players.length < 1}
+            className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-bold py-4 rounded-xl text-lg transition-colors shadow-lg"
+          >
+            Choisir le mode de jeu
+          </button>
+        </div>
       </div>
-    </div>
     );
   }
 
@@ -273,26 +357,44 @@ export function HomeScreen() {
           onClick={() => setStep("players")}
           className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
           Retour aux joueurs
         </button>
 
         {selectedPack && (
-          <div className={`bg-gradient-to-br ${selectedPack.gradient} rounded-xl px-5 py-4 flex items-center gap-4 mb-4`}>
+          <div
+            className={`bg-gradient-to-br ${selectedPack.gradient} rounded-xl px-5 py-4 flex items-center gap-4 mb-4`}
+          >
             <span className="text-3xl">{selectedPack.icon}</span>
             <div>
-              <h2 className="font-bold text-white text-lg">{selectedPack.name}</h2>
+              <h2 className="font-bold text-white text-lg">
+                {selectedPack.name}
+              </h2>
             </div>
           </div>
         )}
 
         <p className="text-sm text-gray-400 mb-6">
-          {players.length} joueur{players.length > 1 ? "s" : ""} : {players.join(", ")}
+          {players.length} joueur{players.length > 1 ? "s" : ""} :{" "}
+          {players.join(", ")}
         </p>
 
-        <h2 className="text-lg font-semibold text-gray-200 mb-4">Choisis un mode de jeu</h2>
+        <h2 className="text-lg font-semibold text-gray-200 mb-4">
+          Choisis un mode de jeu
+        </h2>
         <div className="space-y-3 mb-8">
           {availableModes.map((mode) => (
             <button
@@ -303,7 +405,9 @@ export function HomeScreen() {
               }}
               className="w-full text-left rounded-xl overflow-hidden ring-1 ring-gray-800 hover:ring-gray-600 hover:scale-[1.01] transition-all duration-200"
             >
-              <div className={`bg-gradient-to-br ${mode.gradient} px-5 py-4 flex items-center gap-4`}>
+              <div
+                className={`bg-gradient-to-br ${mode.gradient} px-5 py-4 flex items-center gap-4`}
+              >
                 <span className="text-3xl">{mode.icon}</span>
                 <div>
                   <h3 className="font-bold text-white text-lg">{mode.name}</h3>

@@ -1,4 +1,4 @@
-import { test, expect, beforeEach } from "bun:test";
+import { beforeEach, expect, test } from "bun:test";
 import { usePlayerStore } from "./playerStore";
 
 beforeEach(() => {

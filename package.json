@@ -1,10 +1,21 @@
 {
   "name": "quiz-app",
   "private": true,
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "dev": "bun --filter '*' dev --parallel",
     "build": "bun --filter '*' build --parallel",
+    "check-types": "bun --filter '*' check-types",
+    "test": "bun --filter '*' test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --fix .",
+    "format": "biome format --write .",
     "fclean": "rm -rf node_modules bun.lock apps/*/node_modules apps/*/dist"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.11",
+    "@evilmartians/lefthook": "^2.1.5"
   }
 }

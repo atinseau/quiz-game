@@ -3,9 +3,15 @@ import { beforeEach, describe, expect, test } from "bun:test";
 const storage: Record<string, string> = {};
 globalThis.localStorage = {
   getItem: (key: string) => storage[key] ?? null,
-  setItem: (key: string, value: string) => { storage[key] = value; },
-  removeItem: (key: string) => { delete storage[key]; },
-  clear: () => { for (const k in storage) delete storage[k]; },
+  setItem: (key: string, value: string) => {
+    storage[key] = value;
+  },
+  removeItem: (key: string) => {
+    delete storage[key];
+  },
+  clear: () => {
+    for (const k in storage) delete storage[k];
+  },
   length: 0,
   key: () => null,
 };
@@ -35,7 +41,9 @@ describe("packStore", () => {
     markFinished("chunk-1");
 
     expect(usePackStore.getState().finishedChunks).toContain("chunk-1");
-    expect(JSON.parse(localStorage.getItem("quiz-finished-chunks") ?? "[]")).toContain("chunk-1");
+    expect(
+      JSON.parse(localStorage.getItem("quiz-finished-chunks") ?? "[]"),
+    ).toContain("chunk-1");
   });
 
   test("markFinished does not duplicate", () => {
@@ -43,7 +51,10 @@ describe("packStore", () => {
     markFinished("chunk-1");
     markFinished("chunk-1");
 
-    expect(usePackStore.getState().finishedChunks.filter((c) => c === "chunk-1").length).toBe(1);
+    expect(
+      usePackStore.getState().finishedChunks.filter((c) => c === "chunk-1")
+        .length,
+    ).toBe(1);
   });
 
   test("reset clears selectedChunk but keeps finishedChunks", () => {

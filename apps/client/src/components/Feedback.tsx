@@ -11,7 +11,9 @@ export function Feedback({ feedback }: { feedback: FeedbackState }) {
   if (!feedback.visible) return null;
 
   return (
-    <div className={`mt-6 p-4 rounded-xl text-center text-lg font-semibold border ${STYLES[feedback.type]}`}>
+    <div
+      className={`mt-6 p-4 rounded-xl text-center text-lg font-semibold border ${STYLES[feedback.type]}`}
+    >
       {feedback.html ? (
         <span dangerouslySetInnerHTML={{ __html: feedback.html }} />
       ) : (

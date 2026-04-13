@@ -1,95 +1,531 @@
 {
   "Révolutions": [
-    { "type": "qcm", "question": "En quelle année a eu lieu la Révolution russe ?", "choices": ["1905", "1917", "1921", "1914"], "answer": "1917" },
-    { "type": "vrai_faux", "question": "La Révolution française a commencé par la prise des Tuileries.", "answer": false },
-    { "type": "texte", "question": "Quel pays a connu une révolution islamique en 1979 ?", "answer": "Iran" },
-    { "type": "qcm", "question": "Qui était le leader de la révolution cubaine ?", "choices": ["Che Guevara", "Fidel Castro", "Raúl Castro", "Camilo Cienfuegos"], "answer": "Fidel Castro" },
-    { "type": "vrai_faux", "question": "Le Printemps des peuples de 1848 n'a touché que la France.", "answer": false },
-    { "type": "qcm", "question": "Quelle révolution a renversé le Shah d'Iran ?", "choices": ["Révolution blanche", "Révolution islamique", "Révolution constitutionnelle", "Révolution verte"], "answer": "Révolution islamique" },
-    { "type": "texte", "question": "Quel mouvement révolutionnaire a eu lieu en Tunisie en 2011 ?", "answer": "Printemps arabe" },
-    { "type": "qcm", "question": "Qui a mené la révolution chinoise de 1949 ?", "choices": ["Sun Yat-sen", "Deng Xiaoping", "Mao Zedong", "Chiang Kai-shek"], "answer": "Mao Zedong" }
+    {
+      "type": "qcm",
+      "question": "En quelle année a eu lieu la Révolution russe ?",
+      "choices": ["1905", "1917", "1921", "1914"],
+      "answer": "1917"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Révolution française a commencé par la prise des Tuileries.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays a connu une révolution islamique en 1979 ?",
+      "answer": "Iran"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui était le leader de la révolution cubaine ?",
+      "choices": [
+        "Che Guevara",
+        "Fidel Castro",
+        "Raúl Castro",
+        "Camilo Cienfuegos"
+      ],
+      "answer": "Fidel Castro"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Printemps des peuples de 1848 n'a touché que la France.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle révolution a renversé le Shah d'Iran ?",
+      "choices": [
+        "Révolution blanche",
+        "Révolution islamique",
+        "Révolution constitutionnelle",
+        "Révolution verte"
+      ],
+      "answer": "Révolution islamique"
+    },
+    {
+      "type": "texte",
+      "question": "Quel mouvement révolutionnaire a eu lieu en Tunisie en 2011 ?",
+      "answer": "Printemps arabe"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui a mené la révolution chinoise de 1949 ?",
+      "choices": [
+        "Sun Yat-sen",
+        "Deng Xiaoping",
+        "Mao Zedong",
+        "Chiang Kai-shek"
+      ],
+      "answer": "Mao Zedong"
+    }
   ],
   "Guerres mondiales": [
-    { "type": "qcm", "question": "Quel événement a déclenché la Première Guerre mondiale ?", "choices": ["L'invasion de la Pologne", "L'assassinat de l'archiduc François-Ferdinand", "Le naufrage du Lusitania", "La crise de Sarajevo"], "answer": "L'assassinat de l'archiduc François-Ferdinand" },
-    { "type": "vrai_faux", "question": "Les États-Unis sont entrés dans la Seconde Guerre mondiale après Pearl Harbor.", "answer": true },
-    { "type": "texte", "question": "Quel jour est connu comme le D-Day (débarquement en Normandie) ?", "answer": "6 juin 1944" },
-    { "type": "qcm", "question": "Quelle bataille est considérée comme le tournant de la Seconde Guerre mondiale sur le front est ?", "choices": ["Bataille de Moscou", "Bataille de Stalingrad", "Bataille de Koursk", "Bataille de Berlin"], "answer": "Bataille de Stalingrad" },
-    { "type": "vrai_faux", "question": "La Société des Nations a été créée après la Première Guerre mondiale.", "answer": true },
-    { "type": "qcm", "question": "Quel pays a subi les bombardements atomiques d'Hiroshima et Nagasaki ?", "choices": ["Chine", "Corée", "Japon", "Philippines"], "answer": "Japon" },
-    { "type": "texte", "question": "Quel général français a lancé l'appel du 18 juin 1940 ?", "answer": "De Gaulle" },
-    { "type": "qcm", "question": "Quel pacte de non-agression a été signé entre l'Allemagne et l'URSS en 1939 ?", "choices": ["Pacte d'acier", "Pacte Molotov-Ribbentrop", "Pacte de Varsovie", "Pacte rhénan"], "answer": "Pacte Molotov-Ribbentrop" }
+    {
+      "type": "qcm",
+      "question": "Quel événement a déclenché la Première Guerre mondiale ?",
+      "choices": [
+        "L'invasion de la Pologne",
+        "L'assassinat de l'archiduc François-Ferdinand",
+        "Le naufrage du Lusitania",
+        "La crise de Sarajevo"
+      ],
+      "answer": "L'assassinat de l'archiduc François-Ferdinand"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les États-Unis sont entrés dans la Seconde Guerre mondiale après Pearl Harbor.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel jour est connu comme le D-Day (débarquement en Normandie) ?",
+      "answer": "6 juin 1944"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle bataille est considérée comme le tournant de la Seconde Guerre mondiale sur le front est ?",
+      "choices": [
+        "Bataille de Moscou",
+        "Bataille de Stalingrad",
+        "Bataille de Koursk",
+        "Bataille de Berlin"
+      ],
+      "answer": "Bataille de Stalingrad"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Société des Nations a été créée après la Première Guerre mondiale.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays a subi les bombardements atomiques d'Hiroshima et Nagasaki ?",
+      "choices": ["Chine", "Corée", "Japon", "Philippines"],
+      "answer": "Japon"
+    },
+    {
+      "type": "texte",
+      "question": "Quel général français a lancé l'appel du 18 juin 1940 ?",
+      "answer": "De Gaulle"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pacte de non-agression a été signé entre l'Allemagne et l'URSS en 1939 ?",
+      "choices": [
+        "Pacte d'acier",
+        "Pacte Molotov-Ribbentrop",
+        "Pacte de Varsovie",
+        "Pacte rhénan"
+      ],
+      "answer": "Pacte Molotov-Ribbentrop"
+    }
   ],
   "Guerre froide": [
-    { "type": "qcm", "question": "En quelle année le mur de Berlin a-t-il été construit ?", "choices": ["1955", "1961", "1968", "1972"], "answer": "1961" },
-    { "type": "vrai_faux", "question": "La crise des missiles de Cuba a eu lieu en 1962.", "answer": true },
-    { "type": "texte", "question": "Quel président américain a prononcé 'Ich bin ein Berliner' ?", "answer": "Kennedy" },
-    { "type": "qcm", "question": "Quelle guerre a opposé les deux Corées de 1950 à 1953 ?", "choices": ["Guerre du Vietnam", "Guerre de Corée", "Guerre du Golfe", "Guerre sino-japonaise"], "answer": "Guerre de Corée" },
-    { "type": "vrai_faux", "question": "La course à l'espace faisait partie de la rivalité de la Guerre froide.", "answer": true },
-    { "type": "qcm", "question": "Quel programme spatial américain a envoyé l'homme sur la Lune ?", "choices": ["Gemini", "Mercury", "Apollo", "Skylab"], "answer": "Apollo" },
-    { "type": "texte", "question": "Quel dirigeant soviétique a mis en place la Perestroïka ?", "answer": "Gorbatchev" },
-    { "type": "qcm", "question": "En quelle année l'URSS s'est-elle effondrée ?", "choices": ["1989", "1990", "1991", "1993"], "answer": "1991" }
+    {
+      "type": "qcm",
+      "question": "En quelle année le mur de Berlin a-t-il été construit ?",
+      "choices": ["1955", "1961", "1968", "1972"],
+      "answer": "1961"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La crise des missiles de Cuba a eu lieu en 1962.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel président américain a prononcé 'Ich bin ein Berliner' ?",
+      "answer": "Kennedy"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle guerre a opposé les deux Corées de 1950 à 1953 ?",
+      "choices": [
+        "Guerre du Vietnam",
+        "Guerre de Corée",
+        "Guerre du Golfe",
+        "Guerre sino-japonaise"
+      ],
+      "answer": "Guerre de Corée"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La course à l'espace faisait partie de la rivalité de la Guerre froide.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel programme spatial américain a envoyé l'homme sur la Lune ?",
+      "choices": ["Gemini", "Mercury", "Apollo", "Skylab"],
+      "answer": "Apollo"
+    },
+    {
+      "type": "texte",
+      "question": "Quel dirigeant soviétique a mis en place la Perestroïka ?",
+      "answer": "Gorbatchev"
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année l'URSS s'est-elle effondrée ?",
+      "choices": ["1989", "1990", "1991", "1993"],
+      "answer": "1991"
+    }
   ],
   "Décolonisation": [
-    { "type": "qcm", "question": "En quelle année l'Inde a-t-elle obtenu son indépendance ?", "choices": ["1945", "1947", "1950", "1952"], "answer": "1947" },
-    { "type": "vrai_faux", "question": "L'Algérie a obtenu son indépendance en 1962.", "answer": true },
-    { "type": "texte", "question": "Quel leader pacifiste a mené l'indépendance de l'Inde ?", "answer": "Gandhi" },
-    { "type": "qcm", "question": "Quel pays africain s'appelait autrefois la Rhodésie du Sud ?", "choices": ["Zambie", "Malawi", "Zimbabwe", "Mozambique"], "answer": "Zimbabwe" },
-    { "type": "vrai_faux", "question": "Le Congo belge est devenu indépendant en 1960.", "answer": true },
-    { "type": "qcm", "question": "Quel leader a lutté contre l'apartheid en Afrique du Sud ?", "choices": ["Kwame Nkrumah", "Patrice Lumumba", "Nelson Mandela", "Jomo Kenyatta"], "answer": "Nelson Mandela" },
-    { "type": "texte", "question": "Quel accord a mis fin à la guerre d'Algérie ?", "answer": "Accords d'Évian" },
-    { "type": "qcm", "question": "Quel pays d'Asie du Sud-Est a combattu la France puis les États-Unis ?", "choices": ["Cambodge", "Laos", "Vietnam", "Birmanie"], "answer": "Vietnam" }
+    {
+      "type": "qcm",
+      "question": "En quelle année l'Inde a-t-elle obtenu son indépendance ?",
+      "choices": ["1945", "1947", "1950", "1952"],
+      "answer": "1947"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'Algérie a obtenu son indépendance en 1962.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel leader pacifiste a mené l'indépendance de l'Inde ?",
+      "answer": "Gandhi"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays africain s'appelait autrefois la Rhodésie du Sud ?",
+      "choices": ["Zambie", "Malawi", "Zimbabwe", "Mozambique"],
+      "answer": "Zimbabwe"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Congo belge est devenu indépendant en 1960.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel leader a lutté contre l'apartheid en Afrique du Sud ?",
+      "choices": [
+        "Kwame Nkrumah",
+        "Patrice Lumumba",
+        "Nelson Mandela",
+        "Jomo Kenyatta"
+      ],
+      "answer": "Nelson Mandela"
+    },
+    {
+      "type": "texte",
+      "question": "Quel accord a mis fin à la guerre d'Algérie ?",
+      "answer": "Accords d'Évian"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays d'Asie du Sud-Est a combattu la France puis les États-Unis ?",
+      "choices": ["Cambodge", "Laos", "Vietnam", "Birmanie"],
+      "answer": "Vietnam"
+    }
   ],
   "Droits civiques": [
-    { "type": "qcm", "question": "Qui a prononcé le discours 'I Have a Dream' ?", "choices": ["Malcolm X", "Martin Luther King", "Rosa Parks", "Jesse Jackson"], "answer": "Martin Luther King" },
-    { "type": "vrai_faux", "question": "Rosa Parks a refusé de céder sa place dans un bus en 1955.", "answer": true },
-    { "type": "texte", "question": "En quelle année le droit de vote des femmes a-t-il été accordé en France ?", "answer": "1944" },
-    { "type": "qcm", "question": "Quel mouvement a lutté contre la ségrégation raciale aux États-Unis ?", "choices": ["Black Panthers", "Mouvement des droits civiques", "Nation of Islam", "NAACP"], "answer": "Mouvement des droits civiques" },
-    { "type": "vrai_faux", "question": "L'apartheid en Afrique du Sud a pris fin en 1991.", "answer": true },
-    { "type": "qcm", "question": "En quelle année Nelson Mandela a-t-il été libéré de prison ?", "choices": ["1988", "1990", "1992", "1994"], "answer": "1990" },
-    { "type": "texte", "question": "Quel symbole les suffragettes portaient-elles en Grande-Bretagne ?", "answer": "Écharpe violette" },
-    { "type": "qcm", "question": "Quel président américain a signé le Civil Rights Act en 1964 ?", "choices": ["Kennedy", "Johnson", "Nixon", "Eisenhower"], "answer": "Johnson" }
+    {
+      "type": "qcm",
+      "question": "Qui a prononcé le discours 'I Have a Dream' ?",
+      "choices": [
+        "Malcolm X",
+        "Martin Luther King",
+        "Rosa Parks",
+        "Jesse Jackson"
+      ],
+      "answer": "Martin Luther King"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Rosa Parks a refusé de céder sa place dans un bus en 1955.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "En quelle année le droit de vote des femmes a-t-il été accordé en France ?",
+      "answer": "1944"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel mouvement a lutté contre la ségrégation raciale aux États-Unis ?",
+      "choices": [
+        "Black Panthers",
+        "Mouvement des droits civiques",
+        "Nation of Islam",
+        "NAACP"
+      ],
+      "answer": "Mouvement des droits civiques"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'apartheid en Afrique du Sud a pris fin en 1991.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année Nelson Mandela a-t-il été libéré de prison ?",
+      "choices": ["1988", "1990", "1992", "1994"],
+      "answer": "1990"
+    },
+    {
+      "type": "texte",
+      "question": "Quel symbole les suffragettes portaient-elles en Grande-Bretagne ?",
+      "answer": "Écharpe violette"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel président américain a signé le Civil Rights Act en 1964 ?",
+      "choices": ["Kennedy", "Johnson", "Nixon", "Eisenhower"],
+      "answer": "Johnson"
+    }
   ],
   "Géopolitique contemporaine": [
-    { "type": "qcm", "question": "En quelle année les attentats du 11 septembre ont-ils eu lieu ?", "choices": ["2000", "2001", "2002", "2003"], "answer": "2001" },
-    { "type": "vrai_faux", "question": "Le Brexit a été voté par référendum en 2016.", "answer": true },
-    { "type": "texte", "question": "Quel pays a été envahi par les États-Unis en 2003 sous prétexte d'armes de destruction massive ?", "answer": "Irak" },
-    { "type": "qcm", "question": "Quel accord international sur le climat a été signé en 2015 ?", "choices": ["Protocole de Kyoto", "Accord de Paris", "Sommet de Copenhague", "Accord de Glasgow"], "answer": "Accord de Paris" },
-    { "type": "vrai_faux", "question": "La Crimée a été annexée par la Russie en 2014.", "answer": true },
-    { "type": "qcm", "question": "Quel pays a quitté l'Union européenne en 2020 ?", "choices": ["Norvège", "Suisse", "Royaume-Uni", "Islande"], "answer": "Royaume-Uni" },
-    { "type": "texte", "question": "Quelle organisation terroriste a revendiqué les attentats du 11 septembre ?", "answer": "Al-Qaïda" },
-    { "type": "qcm", "question": "Quelle pandémie a paralysé le monde en 2020 ?", "choices": ["H1N1", "Ebola", "COVID-19", "SRAS"], "answer": "COVID-19" }
+    {
+      "type": "qcm",
+      "question": "En quelle année les attentats du 11 septembre ont-ils eu lieu ?",
+      "choices": ["2000", "2001", "2002", "2003"],
+      "answer": "2001"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Brexit a été voté par référendum en 2016.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays a été envahi par les États-Unis en 2003 sous prétexte d'armes de destruction massive ?",
+      "answer": "Irak"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel accord international sur le climat a été signé en 2015 ?",
+      "choices": [
+        "Protocole de Kyoto",
+        "Accord de Paris",
+        "Sommet de Copenhague",
+        "Accord de Glasgow"
+      ],
+      "answer": "Accord de Paris"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Crimée a été annexée par la Russie en 2014.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays a quitté l'Union européenne en 2020 ?",
+      "choices": ["Norvège", "Suisse", "Royaume-Uni", "Islande"],
+      "answer": "Royaume-Uni"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle organisation terroriste a revendiqué les attentats du 11 septembre ?",
+      "answer": "Al-Qaïda"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle pandémie a paralysé le monde en 2020 ?",
+      "choices": ["H1N1", "Ebola", "COVID-19", "SRAS"],
+      "answer": "COVID-19"
+    }
   ],
   "Personnages historiques modernes": [
-    { "type": "qcm", "question": "Qui a été le premier président noir des États-Unis ?", "choices": ["Colin Powell", "Barack Obama", "Condoleezza Rice", "Jesse Jackson"], "answer": "Barack Obama" },
-    { "type": "vrai_faux", "question": "Winston Churchill a été Premier ministre pendant la Seconde Guerre mondiale.", "answer": true },
-    { "type": "texte", "question": "Quel dirigeant cubain a gouverné l'île pendant près de 50 ans ?", "answer": "Fidel Castro" },
-    { "type": "qcm", "question": "Qui était la 'Dame de fer' au Royaume-Uni ?", "choices": ["Elizabeth II", "Margaret Thatcher", "Theresa May", "Diana Spencer"], "answer": "Margaret Thatcher" },
-    { "type": "vrai_faux", "question": "Che Guevara était d'origine cubaine.", "answer": false },
-    { "type": "qcm", "question": "Quel président français a aboli la peine de mort en 1981 ?", "choices": ["Valéry Giscard d'Estaing", "François Mitterrand", "Jacques Chirac", "Georges Pompidou"], "answer": "François Mitterrand" },
-    { "type": "texte", "question": "Quel dissident soviétique a reçu le prix Nobel de la paix en 1975 ?", "answer": "Sakharov" },
-    { "type": "qcm", "question": "Quel leader sud-africain est devenu président après 27 ans de prison ?", "choices": ["Desmond Tutu", "Nelson Mandela", "Steve Biko", "F.W. de Klerk"], "answer": "Nelson Mandela" },
-    { "type": "vrai_faux", "question": "John F. Kennedy a été assassiné à Dallas en 1963.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Qui a été le premier président noir des États-Unis ?",
+      "choices": [
+        "Colin Powell",
+        "Barack Obama",
+        "Condoleezza Rice",
+        "Jesse Jackson"
+      ],
+      "answer": "Barack Obama"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Winston Churchill a été Premier ministre pendant la Seconde Guerre mondiale.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel dirigeant cubain a gouverné l'île pendant près de 50 ans ?",
+      "answer": "Fidel Castro"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui était la 'Dame de fer' au Royaume-Uni ?",
+      "choices": [
+        "Elizabeth II",
+        "Margaret Thatcher",
+        "Theresa May",
+        "Diana Spencer"
+      ],
+      "answer": "Margaret Thatcher"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Che Guevara était d'origine cubaine.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel président français a aboli la peine de mort en 1981 ?",
+      "choices": [
+        "Valéry Giscard d'Estaing",
+        "François Mitterrand",
+        "Jacques Chirac",
+        "Georges Pompidou"
+      ],
+      "answer": "François Mitterrand"
+    },
+    {
+      "type": "texte",
+      "question": "Quel dissident soviétique a reçu le prix Nobel de la paix en 1975 ?",
+      "answer": "Sakharov"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel leader sud-africain est devenu président après 27 ans de prison ?",
+      "choices": [
+        "Desmond Tutu",
+        "Nelson Mandela",
+        "Steve Biko",
+        "F.W. de Klerk"
+      ],
+      "answer": "Nelson Mandela"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "John F. Kennedy a été assassiné à Dallas en 1963.",
+      "answer": true
+    }
   ],
   "Conflits du XXIe siècle": [
-    { "type": "qcm", "question": "Dans quel pays la guerre civile a-t-elle éclaté en 2011 avec le Printemps arabe ?", "choices": ["Libye", "Égypte", "Syrie", "Tunisie"], "answer": "Syrie" },
-    { "type": "vrai_faux", "question": "L'État islamique (Daech) a proclamé un califat en 2014.", "answer": true },
-    { "type": "texte", "question": "Quel dictateur libyen a été renversé et tué en 2011 ?", "answer": "Kadhafi" },
-    { "type": "qcm", "question": "Quelle ville irakienne a été la capitale autoproclamée de Daech ?", "choices": ["Bagdad", "Bassorah", "Mossoul", "Falloujah"], "answer": "Mossoul" },
-    { "type": "vrai_faux", "question": "L'intervention en Afghanistan a duré 20 ans (2001-2021).", "answer": true },
-    { "type": "qcm", "question": "En quelle année Oussama Ben Laden a-t-il été tué ?", "choices": ["2009", "2011", "2013", "2015"], "answer": "2011" },
-    { "type": "texte", "question": "Quel pays a été divisé en deux après la Seconde Guerre mondiale et réunifié en 1990 ?", "answer": "Allemagne" },
-    { "type": "qcm", "question": "Quel mouvement a secoué Hong Kong en 2019-2020 ?", "choices": ["Révolution des parapluies", "Mouvement pro-démocratie", "Printemps de Hong Kong", "Révolte populaire"], "answer": "Mouvement pro-démocratie" },
-    { "type": "vrai_faux", "question": "La guerre en Ukraine a commencé avec l'invasion russe en février 2022.", "answer": true },
-    { "type": "texte", "question": "Quel pays a accueilli les accords de paix d'Oslo entre Israël et la Palestine ?", "answer": "Norvège" },
-    { "type": "qcm", "question": "Quel génocide a eu lieu au Rwanda en 1994 ?", "choices": ["Génocide des Hutus", "Génocide des Tutsis", "Génocide des Twa", "Génocide des Bantous"], "answer": "Génocide des Tutsis" },
-    { "type": "vrai_faux", "question": "La guerre de Yougoslavie a eu lieu dans les années 90.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Dans quel pays la guerre civile a-t-elle éclaté en 2011 avec le Printemps arabe ?",
+      "choices": ["Libye", "Égypte", "Syrie", "Tunisie"],
+      "answer": "Syrie"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'État islamique (Daech) a proclamé un califat en 2014.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel dictateur libyen a été renversé et tué en 2011 ?",
+      "answer": "Kadhafi"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle ville irakienne a été la capitale autoproclamée de Daech ?",
+      "choices": ["Bagdad", "Bassorah", "Mossoul", "Falloujah"],
+      "answer": "Mossoul"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'intervention en Afghanistan a duré 20 ans (2001-2021).",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année Oussama Ben Laden a-t-il été tué ?",
+      "choices": ["2009", "2011", "2013", "2015"],
+      "answer": "2011"
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays a été divisé en deux après la Seconde Guerre mondiale et réunifié en 1990 ?",
+      "answer": "Allemagne"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel mouvement a secoué Hong Kong en 2019-2020 ?",
+      "choices": [
+        "Révolution des parapluies",
+        "Mouvement pro-démocratie",
+        "Printemps de Hong Kong",
+        "Révolte populaire"
+      ],
+      "answer": "Mouvement pro-démocratie"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La guerre en Ukraine a commencé avec l'invasion russe en février 2022.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays a accueilli les accords de paix d'Oslo entre Israël et la Palestine ?",
+      "answer": "Norvège"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel génocide a eu lieu au Rwanda en 1994 ?",
+      "choices": [
+        "Génocide des Hutus",
+        "Génocide des Tutsis",
+        "Génocide des Twa",
+        "Génocide des Bantous"
+      ],
+      "answer": "Génocide des Tutsis"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La guerre de Yougoslavie a eu lieu dans les années 90.",
+      "answer": true
+    }
   ],
   "Économie et société modernes": [
-    { "type": "qcm", "question": "Quelle crise financière a frappé le monde en 2008 ?", "choices": ["Crise des dot-com", "Crise des subprimes", "Crise pétrolière", "Crise asiatique"], "answer": "Crise des subprimes" },
-    { "type": "vrai_faux", "question": "Le mouvement #MeToo a débuté en 2017.", "answer": true },
-    { "type": "texte", "question": "Quel réseau social a joué un rôle clé dans le Printemps arabe ?", "answer": "Twitter" },
-    { "type": "qcm", "question": "Quel sommet international sur l'environnement a eu lieu à Rio en 1992 ?", "choices": ["COP1", "Sommet de la Terre", "Protocole de Kyoto", "Accord de Paris"], "answer": "Sommet de la Terre" },
-    { "type": "vrai_faux", "question": "Greta Thunberg a commencé sa grève pour le climat devant le parlement suédois.", "answer": true },
-    { "type": "qcm", "question": "Quel mouvement social américain est né après la mort de George Floyd en 2020 ?", "choices": ["Occupy Wall Street", "Black Lives Matter", "March for Our Lives", "Me Too"], "answer": "Black Lives Matter" }
+    {
+      "type": "qcm",
+      "question": "Quelle crise financière a frappé le monde en 2008 ?",
+      "choices": [
+        "Crise des dot-com",
+        "Crise des subprimes",
+        "Crise pétrolière",
+        "Crise asiatique"
+      ],
+      "answer": "Crise des subprimes"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le mouvement #MeToo a débuté en 2017.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel réseau social a joué un rôle clé dans le Printemps arabe ?",
+      "answer": "Twitter"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel sommet international sur l'environnement a eu lieu à Rio en 1992 ?",
+      "choices": [
+        "COP1",
+        "Sommet de la Terre",
+        "Protocole de Kyoto",
+        "Accord de Paris"
+      ],
+      "answer": "Sommet de la Terre"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Greta Thunberg a commencé sa grève pour le climat devant le parlement suédois.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel mouvement social américain est né après la mort de George Floyd en 2020 ?",
+      "choices": [
+        "Occupy Wall Street",
+        "Black Lives Matter",
+        "March for Our Lives",
+        "Me Too"
+      ],
+      "answer": "Black Lives Matter"
+    }
   ]
 }

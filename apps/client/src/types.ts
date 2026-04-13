@@ -39,7 +39,8 @@ export const GAME_MODES: GameModeInfo[] = [
   {
     id: "chrono",
     name: "Contre la montre",
-    description: "Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.",
+    description:
+      "Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.",
     icon: "⏱️",
     gradient: "from-rose-600 to-pink-700",
   },

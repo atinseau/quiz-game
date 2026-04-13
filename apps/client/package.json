@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "bun --hot index.ts",
     "build": "bun build ./index.html --outdir ./dist --splitting --minify",
-    "start": "bun run index.ts"
+    "start": "bun run index.ts",
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
   },
   "devDependencies": {
     "@types/bun": "latest",

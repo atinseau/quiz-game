@@ -1,30 +1,128 @@
 {
   "Origines et pionniers": [
-    { "type": "qcm", "question": "Quel est considéré comme le premier jeu vidéo de l'histoire (1972) ?", "choices": ["Space Invaders", "Pong", "Pac-Man", "Tennis for Two"], "answer": "Pong" },
-    { "type": "vrai_faux", "question": "Atari a été fondée par Nolan Bushnell.", "answer": true },
-    { "type": "texte", "question": "Quel jeu d'arcade sorti en 1978 a popularisé le genre shoot'em up ?", "answer": "Space Invaders" },
-    { "type": "qcm", "question": "Quel krach a failli tuer l'industrie du jeu vidéo en 1983 ?", "choices": ["Krach d'Atari", "Krach du jeu vidéo nord-américain", "Krach de Nintendo", "Krach de Sega"], "answer": "Krach du jeu vidéo nord-américain" },
-    { "type": "vrai_faux", "question": "Pac-Man est sorti pour la première fois en 1980.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel est considéré comme le premier jeu vidéo de l'histoire (1972) ?",
+      "choices": ["Space Invaders", "Pong", "Pac-Man", "Tennis for Two"],
+      "answer": "Pong"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Atari a été fondée par Nolan Bushnell.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel jeu d'arcade sorti en 1978 a popularisé le genre shoot'em up ?",
+      "answer": "Space Invaders"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel krach a failli tuer l'industrie du jeu vidéo en 1983 ?",
+      "choices": [
+        "Krach d'Atari",
+        "Krach du jeu vidéo nord-américain",
+        "Krach de Nintendo",
+        "Krach de Sega"
+      ],
+      "answer": "Krach du jeu vidéo nord-américain"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Pac-Man est sorti pour la première fois en 1980.",
+      "answer": true
+    }
   ],
   "Consoles légendaires": [
-    { "type": "qcm", "question": "Quelle console Nintendo a relancé l'industrie du jeu vidéo en 1985 ?", "choices": ["Super Nintendo", "NES", "Game Boy", "Nintendo 64"], "answer": "NES" },
-    { "type": "vrai_faux", "question": "La PlayStation originale utilisait des cartouches.", "answer": false },
-    { "type": "texte", "question": "Quelle console portable Nintendo est sortie en 1989 avec Tetris ?", "answer": "Game Boy" },
-    { "type": "qcm", "question": "Quelle console a introduit le premier stick analogique en standard ?", "choices": ["Saturn", "PlayStation", "Nintendo 64", "Dreamcast"], "answer": "Nintendo 64" },
-    { "type": "vrai_faux", "question": "La Dreamcast de Sega est sortie avant la PlayStation 2.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quelle console Nintendo a relancé l'industrie du jeu vidéo en 1985 ?",
+      "choices": ["Super Nintendo", "NES", "Game Boy", "Nintendo 64"],
+      "answer": "NES"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La PlayStation originale utilisait des cartouches.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quelle console portable Nintendo est sortie en 1989 avec Tetris ?",
+      "answer": "Game Boy"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle console a introduit le premier stick analogique en standard ?",
+      "choices": ["Saturn", "PlayStation", "Nintendo 64", "Dreamcast"],
+      "answer": "Nintendo 64"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La Dreamcast de Sega est sortie avant la PlayStation 2.",
+      "answer": true
+    }
   ],
   "Jeux qui ont marqué l'histoire": [
-    { "type": "qcm", "question": "Quel jeu a popularisé le genre battle royale en 2017 ?", "choices": ["PUBG", "Fortnite", "Apex Legends", "H1Z1"], "answer": "PUBG" },
-    { "type": "vrai_faux", "question": "World of Warcraft est sorti en 2004.", "answer": true },
-    { "type": "texte", "question": "Quel jeu de Rockstar Games sorti en 2013 a battu tous les records de vente ?", "answer": "GTA V" },
-    { "type": "qcm", "question": "Quel jeu Nintendo a révolutionné le monde ouvert en 2017 ?", "choices": ["Super Mario Odyssey", "Zelda: Breath of the Wild", "Splatoon 2", "Xenoblade 2"], "answer": "Zelda: Breath of the Wild" },
-    { "type": "vrai_faux", "question": "Doom (1993) est considéré comme le père du FPS moderne.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel jeu a popularisé le genre battle royale en 2017 ?",
+      "choices": ["PUBG", "Fortnite", "Apex Legends", "H1Z1"],
+      "answer": "PUBG"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "World of Warcraft est sorti en 2004.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel jeu de Rockstar Games sorti en 2013 a battu tous les records de vente ?",
+      "answer": "GTA V"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel jeu Nintendo a révolutionné le monde ouvert en 2017 ?",
+      "choices": [
+        "Super Mario Odyssey",
+        "Zelda: Breath of the Wild",
+        "Splatoon 2",
+        "Xenoblade 2"
+      ],
+      "answer": "Zelda: Breath of the Wild"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Doom (1993) est considéré comme le père du FPS moderne.",
+      "answer": true
+    }
   ],
   "Culture gaming": [
-    { "type": "qcm", "question": "Quel événement annuel est le plus grand salon du jeu vidéo ?", "choices": ["Gamescom", "E3", "Tokyo Game Show", "PAX"], "answer": "E3" },
-    { "type": "vrai_faux", "question": "L'esport est reconnu comme discipline aux Jeux Olympiques.", "answer": false },
-    { "type": "texte", "question": "Quel jeu de Riot Games domine la scène esport mondiale depuis 2012 ?", "answer": "League of Legends" },
-    { "type": "qcm", "question": "Quel studio japonais a créé les séries Metal Gear et Silent Hill ?", "choices": ["Capcom", "Square Enix", "Konami", "Bandai Namco"], "answer": "Konami" },
-    { "type": "vrai_faux", "question": "Shigeru Miyamoto est le créateur de Mario et Zelda.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel événement annuel est le plus grand salon du jeu vidéo ?",
+      "choices": ["Gamescom", "E3", "Tokyo Game Show", "PAX"],
+      "answer": "E3"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'esport est reconnu comme discipline aux Jeux Olympiques.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel jeu de Riot Games domine la scène esport mondiale depuis 2012 ?",
+      "answer": "League of Legends"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel studio japonais a créé les séries Metal Gear et Silent Hill ?",
+      "choices": ["Capcom", "Square Enix", "Konami", "Bandai Namco"],
+      "answer": "Konami"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Shigeru Miyamoto est le créateur de Mario et Zelda.",
+      "answer": true
+    }
   ]
 }

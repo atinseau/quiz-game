@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: false
+  commands:
+    check-types:
+      run: bun run check-types
+    test:
+      run: bun run test
+    biome:
+      run: bunx biome check --staged --no-errors-on-unmatched
+      stage_fixed: true

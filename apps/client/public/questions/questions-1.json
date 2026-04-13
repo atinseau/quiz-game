@@ -1,131 +1,634 @@
 {
   "Histoire": [
-    { "type": "qcm", "question": "En quelle année a eu lieu la prise de la Bastille ?", "choices": ["1789", "1792", "1776", "1804"], "answer": "1789" },
-    { "type": "vrai_faux", "question": "Napoléon Bonaparte est mort sur l'île de Sainte-Hélène.", "answer": true },
-    { "type": "texte", "question": "Quel pharaon a fait construire la grande pyramide de Gizeh ?", "answer": "Khéops" },
-    { "type": "qcm", "question": "Qui a découvert l'Amérique en 1492 ?", "choices": ["Vasco de Gama", "Christophe Colomb", "Magellan", "Amerigo Vespucci"], "answer": "Christophe Colomb" },
-    { "type": "vrai_faux", "question": "La muraille de Chine est visible depuis l'espace à l'œil nu.", "answer": false },
-    { "type": "qcm", "question": "Quel traité a mis fin à la Première Guerre mondiale ?", "choices": ["Traité de Versailles", "Traité de Westphalie", "Traité de Paris", "Traité de Vienne"], "answer": "Traité de Versailles" },
-    { "type": "texte", "question": "Quel roi de France a été surnommé le Roi-Soleil ?", "answer": "Louis XIV" },
-    { "type": "qcm", "question": "En quelle année le mur de Berlin est-il tombé ?", "choices": ["1987", "1989", "1991", "1985"], "answer": "1989" },
-    { "type": "vrai_faux", "question": "Cléopâtre était d'origine grecque.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "En quelle année a eu lieu la prise de la Bastille ?",
+      "choices": ["1789", "1792", "1776", "1804"],
+      "answer": "1789"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Napoléon Bonaparte est mort sur l'île de Sainte-Hélène.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pharaon a fait construire la grande pyramide de Gizeh ?",
+      "answer": "Khéops"
+    },
+    {
+      "type": "qcm",
+      "question": "Qui a découvert l'Amérique en 1492 ?",
+      "choices": [
+        "Vasco de Gama",
+        "Christophe Colomb",
+        "Magellan",
+        "Amerigo Vespucci"
+      ],
+      "answer": "Christophe Colomb"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La muraille de Chine est visible depuis l'espace à l'œil nu.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel traité a mis fin à la Première Guerre mondiale ?",
+      "choices": [
+        "Traité de Versailles",
+        "Traité de Westphalie",
+        "Traité de Paris",
+        "Traité de Vienne"
+      ],
+      "answer": "Traité de Versailles"
+    },
+    {
+      "type": "texte",
+      "question": "Quel roi de France a été surnommé le Roi-Soleil ?",
+      "answer": "Louis XIV"
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année le mur de Berlin est-il tombé ?",
+      "choices": ["1987", "1989", "1991", "1985"],
+      "answer": "1989"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Cléopâtre était d'origine grecque.",
+      "answer": true
+    }
   ],
   "Sciences": [
-    { "type": "qcm", "question": "Quel est le symbole chimique de l'or ?", "choices": ["Ag", "Au", "Fe", "Or"], "answer": "Au" },
-    { "type": "vrai_faux", "question": "La lumière voyage plus vite que le son.", "answer": true },
-    { "type": "texte", "question": "Quelle est la planète la plus proche du Soleil ?", "answer": "Mercure" },
-    { "type": "qcm", "question": "Combien d'os possède le corps humain adulte ?", "choices": ["186", "206", "226", "196"], "answer": "206" },
-    { "type": "vrai_faux", "question": "L'ADN est composé de 3 brins.", "answer": false },
-    { "type": "qcm", "question": "Quel gaz les plantes absorbent-elles lors de la photosynthèse ?", "choices": ["Oxygène", "Azote", "Dioxyde de carbone", "Hydrogène"], "answer": "Dioxyde de carbone" },
-    { "type": "texte", "question": "Quel scientifique a formulé la théorie de la relativité ?", "answer": "Einstein" },
-    { "type": "qcm", "question": "Quelle est la vitesse de la lumière en km/s (arrondie) ?", "choices": ["150 000", "300 000", "500 000", "1 000 000"], "answer": "300 000" },
-    { "type": "vrai_faux", "question": "Le diamant est composé de carbone pur.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel est le symbole chimique de l'or ?",
+      "choices": ["Ag", "Au", "Fe", "Or"],
+      "answer": "Au"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La lumière voyage plus vite que le son.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle est la planète la plus proche du Soleil ?",
+      "answer": "Mercure"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien d'os possède le corps humain adulte ?",
+      "choices": ["186", "206", "226", "196"],
+      "answer": "206"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'ADN est composé de 3 brins.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel gaz les plantes absorbent-elles lors de la photosynthèse ?",
+      "choices": ["Oxygène", "Azote", "Dioxyde de carbone", "Hydrogène"],
+      "answer": "Dioxyde de carbone"
+    },
+    {
+      "type": "texte",
+      "question": "Quel scientifique a formulé la théorie de la relativité ?",
+      "answer": "Einstein"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la vitesse de la lumière en km/s (arrondie) ?",
+      "choices": ["150 000", "300 000", "500 000", "1 000 000"],
+      "answer": "300 000"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le diamant est composé de carbone pur.",
+      "answer": true
+    }
   ],
   "Géographie": [
-    { "type": "qcm", "question": "Quelle est la capitale de l'Australie ?", "choices": ["Sydney", "Melbourne", "Canberra", "Perth"], "answer": "Canberra" },
-    { "type": "vrai_faux", "question": "Le Nil est le plus long fleuve du monde.", "answer": true },
-    { "type": "texte", "question": "Quel est le plus grand désert du monde ?", "answer": "Sahara" },
-    { "type": "qcm", "question": "Dans quel pays se trouve le Machu Picchu ?", "choices": ["Bolivie", "Colombie", "Pérou", "Chili"], "answer": "Pérou" },
-    { "type": "vrai_faux", "question": "L'Islande fait partie de l'Union européenne.", "answer": false },
-    { "type": "qcm", "question": "Quel est le plus petit pays du monde ?", "choices": ["Monaco", "Vatican", "Nauru", "San Marin"], "answer": "Vatican" },
-    { "type": "texte", "question": "Quelle est la capitale du Canada ?", "answer": "Ottawa" },
-    { "type": "qcm", "question": "Sur quel continent se trouve le mont Kilimandjaro ?", "choices": ["Asie", "Amérique du Sud", "Afrique", "Europe"], "answer": "Afrique" },
-    { "type": "vrai_faux", "question": "Le Danube traverse plus de 10 pays.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quelle est la capitale de l'Australie ?",
+      "choices": ["Sydney", "Melbourne", "Canberra", "Perth"],
+      "answer": "Canberra"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Nil est le plus long fleuve du monde.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le plus grand désert du monde ?",
+      "answer": "Sahara"
+    },
+    {
+      "type": "qcm",
+      "question": "Dans quel pays se trouve le Machu Picchu ?",
+      "choices": ["Bolivie", "Colombie", "Pérou", "Chili"],
+      "answer": "Pérou"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'Islande fait partie de l'Union européenne.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est le plus petit pays du monde ?",
+      "choices": ["Monaco", "Vatican", "Nauru", "San Marin"],
+      "answer": "Vatican"
+    },
+    {
+      "type": "texte",
+      "question": "Quelle est la capitale du Canada ?",
+      "answer": "Ottawa"
+    },
+    {
+      "type": "qcm",
+      "question": "Sur quel continent se trouve le mont Kilimandjaro ?",
+      "choices": ["Asie", "Amérique du Sud", "Afrique", "Europe"],
+      "answer": "Afrique"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Danube traverse plus de 10 pays.",
+      "answer": true
+    }
   ],
   "Sport": [
-    { "type": "qcm", "question": "En quelle année la France a-t-elle gagné sa première Coupe du monde de football ?", "choices": ["1998", "2002", "1994", "2006"], "answer": "1998" },
-    { "type": "vrai_faux", "question": "Un match de basket NBA dure 48 minutes de jeu effectif.", "answer": true },
-    { "type": "texte", "question": "Quel pays a inventé le rugby ?", "answer": "Angleterre" },
-    { "type": "qcm", "question": "Combien de joueurs composent une équipe de volleyball sur le terrain ?", "choices": ["5", "6", "7", "8"], "answer": "6" },
-    { "type": "vrai_faux", "question": "Usain Bolt a couru le 100m en moins de 9,5 secondes.", "answer": true },
-    { "type": "qcm", "question": "Quel sport pratique Rafael Nadal ?", "choices": ["Badminton", "Tennis", "Padel", "Squash"], "answer": "Tennis" },
-    { "type": "texte", "question": "Dans quel sport utilise-t-on un volant ?", "answer": "Badminton" },
-    { "type": "qcm", "question": "Combien de tours de piste fait-on pour un 1500m en athlétisme ?", "choices": ["3", "3,75", "4", "4,5"], "answer": "3,75" },
-    { "type": "vrai_faux", "question": "Le marathon fait exactement 42 km.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "En quelle année la France a-t-elle gagné sa première Coupe du monde de football ?",
+      "choices": ["1998", "2002", "1994", "2006"],
+      "answer": "1998"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Un match de basket NBA dure 48 minutes de jeu effectif.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays a inventé le rugby ?",
+      "answer": "Angleterre"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de joueurs composent une équipe de volleyball sur le terrain ?",
+      "choices": ["5", "6", "7", "8"],
+      "answer": "6"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Usain Bolt a couru le 100m en moins de 9,5 secondes.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel sport pratique Rafael Nadal ?",
+      "choices": ["Badminton", "Tennis", "Padel", "Squash"],
+      "answer": "Tennis"
+    },
+    {
+      "type": "texte",
+      "question": "Dans quel sport utilise-t-on un volant ?",
+      "answer": "Badminton"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de tours de piste fait-on pour un 1500m en athlétisme ?",
+      "choices": ["3", "3,75", "4", "4,5"],
+      "answer": "3,75"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le marathon fait exactement 42 km.",
+      "answer": false
+    }
   ],
   "Cinéma": [
-    { "type": "qcm", "question": "Qui a réalisé le film Inception ?", "choices": ["Steven Spielberg", "Christopher Nolan", "James Cameron", "Ridley Scott"], "answer": "Christopher Nolan" },
-    { "type": "vrai_faux", "question": "Le film Titanic est sorti en 1997.", "answer": true },
-    { "type": "texte", "question": "Quel acteur incarne Jack Sparrow dans Pirates des Caraïbes ?", "answer": "Johnny Depp" },
-    { "type": "qcm", "question": "Combien de films composent la saga Harry Potter ?", "choices": ["7", "8", "9", "6"], "answer": "8" },
-    { "type": "vrai_faux", "question": "Le film Le Parrain a été réalisé par Martin Scorsese.", "answer": false },
-    { "type": "qcm", "question": "Quel film d'animation a remporté l'Oscar en 2020 ?", "choices": ["Toy Story 4", "Frozen 2", "Klaus", "Dragon 3"], "answer": "Toy Story 4" },
-    { "type": "texte", "question": "Quel réalisateur français est connu pour le film Le Fabuleux Destin d'Amélie Poulain ?", "answer": "Jean-Pierre Jeunet" },
-    { "type": "qcm", "question": "Dans quel film entend-on 'May the Force be with you' ?", "choices": ["Star Trek", "Star Wars", "Dune", "Alien"], "answer": "Star Wars" }
+    {
+      "type": "qcm",
+      "question": "Qui a réalisé le film Inception ?",
+      "choices": [
+        "Steven Spielberg",
+        "Christopher Nolan",
+        "James Cameron",
+        "Ridley Scott"
+      ],
+      "answer": "Christopher Nolan"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le film Titanic est sorti en 1997.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel acteur incarne Jack Sparrow dans Pirates des Caraïbes ?",
+      "answer": "Johnny Depp"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de films composent la saga Harry Potter ?",
+      "choices": ["7", "8", "9", "6"],
+      "answer": "8"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le film Le Parrain a été réalisé par Martin Scorsese.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel film d'animation a remporté l'Oscar en 2020 ?",
+      "choices": ["Toy Story 4", "Frozen 2", "Klaus", "Dragon 3"],
+      "answer": "Toy Story 4"
+    },
+    {
+      "type": "texte",
+      "question": "Quel réalisateur français est connu pour le film Le Fabuleux Destin d'Amélie Poulain ?",
+      "answer": "Jean-Pierre Jeunet"
+    },
+    {
+      "type": "qcm",
+      "question": "Dans quel film entend-on 'May the Force be with you' ?",
+      "choices": ["Star Trek", "Star Wars", "Dune", "Alien"],
+      "answer": "Star Wars"
+    }
   ],
   "Musique": [
-    { "type": "qcm", "question": "Quel groupe a chanté Bohemian Rhapsody ?", "choices": ["The Beatles", "Led Zeppelin", "Queen", "Pink Floyd"], "answer": "Queen" },
-    { "type": "vrai_faux", "question": "Mozart est né en Autriche.", "answer": true },
-    { "type": "texte", "question": "Quel instrument joue un pianiste ?", "answer": "Piano" },
-    { "type": "qcm", "question": "Combien de cordes possède une guitare classique ?", "choices": ["4", "5", "6", "8"], "answer": "6" },
-    { "type": "vrai_faux", "question": "Beethoven était sourd à la fin de sa vie.", "answer": true },
-    { "type": "qcm", "question": "Quel chanteur français est surnommé 'l'Aznavour du rap' ?", "choices": ["Booba", "Stromae", "MC Solaar", "Oxmo Puccino"], "answer": "Oxmo Puccino" },
-    { "type": "texte", "question": "Quel est le prénom d'Elvis, le roi du rock ?", "answer": "Elvis" },
-    { "type": "qcm", "question": "Quel pays accueille le festival de Glastonbury ?", "choices": ["États-Unis", "Irlande", "Angleterre", "Écosse"], "answer": "Angleterre" },
-    { "type": "vrai_faux", "question": "Le ukulélé possède 6 cordes.", "answer": false }
+    {
+      "type": "qcm",
+      "question": "Quel groupe a chanté Bohemian Rhapsody ?",
+      "choices": ["The Beatles", "Led Zeppelin", "Queen", "Pink Floyd"],
+      "answer": "Queen"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Mozart est né en Autriche.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel instrument joue un pianiste ?",
+      "answer": "Piano"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de cordes possède une guitare classique ?",
+      "choices": ["4", "5", "6", "8"],
+      "answer": "6"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Beethoven était sourd à la fin de sa vie.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel chanteur français est surnommé 'l'Aznavour du rap' ?",
+      "choices": ["Booba", "Stromae", "MC Solaar", "Oxmo Puccino"],
+      "answer": "Oxmo Puccino"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le prénom d'Elvis, le roi du rock ?",
+      "answer": "Elvis"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel pays accueille le festival de Glastonbury ?",
+      "choices": ["États-Unis", "Irlande", "Angleterre", "Écosse"],
+      "answer": "Angleterre"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le ukulélé possède 6 cordes.",
+      "answer": false
+    }
   ],
   "Littérature": [
-    { "type": "qcm", "question": "Qui a écrit Les Misérables ?", "choices": ["Émile Zola", "Victor Hugo", "Gustave Flaubert", "Alexandre Dumas"], "answer": "Victor Hugo" },
-    { "type": "vrai_faux", "question": "Le Petit Prince a été écrit par Antoine de Saint-Exupéry.", "answer": true },
-    { "type": "texte", "question": "Quel auteur britannique a créé Sherlock Holmes ?", "answer": "Arthur Conan Doyle" },
-    { "type": "qcm", "question": "Combien de tomes compte la saga Le Seigneur des Anneaux ?", "choices": ["2", "3", "4", "5"], "answer": "3" },
-    { "type": "vrai_faux", "question": "Albert Camus a reçu le prix Nobel de littérature.", "answer": true },
-    { "type": "qcm", "question": "Quel roman commence par 'Longtemps, je me suis couché de bonne heure' ?", "choices": ["Madame Bovary", "À la recherche du temps perdu", "L'Étranger", "Germinal"], "answer": "À la recherche du temps perdu" },
-    { "type": "texte", "question": "Qui a écrit 1984 ?", "answer": "George Orwell" },
-    { "type": "qcm", "question": "Dans quel pays se déroule Don Quichotte ?", "choices": ["Portugal", "Italie", "Espagne", "France"], "answer": "Espagne" }
+    {
+      "type": "qcm",
+      "question": "Qui a écrit Les Misérables ?",
+      "choices": [
+        "Émile Zola",
+        "Victor Hugo",
+        "Gustave Flaubert",
+        "Alexandre Dumas"
+      ],
+      "answer": "Victor Hugo"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Petit Prince a été écrit par Antoine de Saint-Exupéry.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel auteur britannique a créé Sherlock Holmes ?",
+      "answer": "Arthur Conan Doyle"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de tomes compte la saga Le Seigneur des Anneaux ?",
+      "choices": ["2", "3", "4", "5"],
+      "answer": "3"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Albert Camus a reçu le prix Nobel de littérature.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel roman commence par 'Longtemps, je me suis couché de bonne heure' ?",
+      "choices": [
+        "Madame Bovary",
+        "À la recherche du temps perdu",
+        "L'Étranger",
+        "Germinal"
+      ],
+      "answer": "À la recherche du temps perdu"
+    },
+    {
+      "type": "texte",
+      "question": "Qui a écrit 1984 ?",
+      "answer": "George Orwell"
+    },
+    {
+      "type": "qcm",
+      "question": "Dans quel pays se déroule Don Quichotte ?",
+      "choices": ["Portugal", "Italie", "Espagne", "France"],
+      "answer": "Espagne"
+    }
   ],
   "Art": [
-    { "type": "qcm", "question": "Qui a peint La Joconde ?", "choices": ["Michel-Ange", "Raphaël", "Léonard de Vinci", "Botticelli"], "answer": "Léonard de Vinci" },
-    { "type": "vrai_faux", "question": "Le tableau Guernica a été peint par Pablo Picasso.", "answer": true },
-    { "type": "texte", "question": "Dans quel musée parisien se trouve La Joconde ?", "answer": "Le Louvre" },
-    { "type": "qcm", "question": "Quel artiste est connu pour ses boîtes de soupe Campbell's ?", "choices": ["Roy Lichtenstein", "Andy Warhol", "Jeff Koons", "Banksy"], "answer": "Andy Warhol" },
-    { "type": "vrai_faux", "question": "Van Gogh s'est coupé l'oreille gauche.", "answer": true },
-    { "type": "qcm", "question": "Quel mouvement artistique est associé à Claude Monet ?", "choices": ["Cubisme", "Impressionnisme", "Surréalisme", "Baroque"], "answer": "Impressionnisme" },
-    { "type": "texte", "question": "Quel sculpteur a réalisé Le Penseur ?", "answer": "Rodin" },
-    { "type": "qcm", "question": "De quelle nationalité était Frida Kahlo ?", "choices": ["Espagnole", "Argentine", "Mexicaine", "Colombienne"], "answer": "Mexicaine" }
+    {
+      "type": "qcm",
+      "question": "Qui a peint La Joconde ?",
+      "choices": ["Michel-Ange", "Raphaël", "Léonard de Vinci", "Botticelli"],
+      "answer": "Léonard de Vinci"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le tableau Guernica a été peint par Pablo Picasso.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Dans quel musée parisien se trouve La Joconde ?",
+      "answer": "Le Louvre"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel artiste est connu pour ses boîtes de soupe Campbell's ?",
+      "choices": ["Roy Lichtenstein", "Andy Warhol", "Jeff Koons", "Banksy"],
+      "answer": "Andy Warhol"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Van Gogh s'est coupé l'oreille gauche.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel mouvement artistique est associé à Claude Monet ?",
+      "choices": ["Cubisme", "Impressionnisme", "Surréalisme", "Baroque"],
+      "answer": "Impressionnisme"
+    },
+    {
+      "type": "texte",
+      "question": "Quel sculpteur a réalisé Le Penseur ?",
+      "answer": "Rodin"
+    },
+    {
+      "type": "qcm",
+      "question": "De quelle nationalité était Frida Kahlo ?",
+      "choices": ["Espagnole", "Argentine", "Mexicaine", "Colombienne"],
+      "answer": "Mexicaine"
+    }
   ],
   "Nature": [
-    { "type": "qcm", "question": "Quel est le plus grand animal vivant sur Terre ?", "choices": ["Éléphant d'Afrique", "Baleine bleue", "Girafe", "Requin-baleine"], "answer": "Baleine bleue" },
-    { "type": "vrai_faux", "question": "Les dauphins sont des poissons.", "answer": false },
-    { "type": "texte", "question": "Quel est le gaz le plus abondant dans l'atmosphère terrestre ?", "answer": "Azote" },
-    { "type": "qcm", "question": "Combien de pattes a une araignée ?", "choices": ["6", "8", "10", "12"], "answer": "8" },
-    { "type": "vrai_faux", "question": "Les champignons appartiennent au règne végétal.", "answer": false },
-    { "type": "qcm", "question": "Quel arbre produit des glands ?", "choices": ["Hêtre", "Chêne", "Érable", "Frêne"], "answer": "Chêne" },
-    { "type": "texte", "question": "Quel animal est le plus rapide sur terre ?", "answer": "Guépard" },
-    { "type": "qcm", "question": "Quel océan est le plus grand ?", "choices": ["Atlantique", "Indien", "Pacifique", "Arctique"], "answer": "Pacifique" },
-    { "type": "vrai_faux", "question": "Un escargot peut dormir pendant 3 ans.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel est le plus grand animal vivant sur Terre ?",
+      "choices": [
+        "Éléphant d'Afrique",
+        "Baleine bleue",
+        "Girafe",
+        "Requin-baleine"
+      ],
+      "answer": "Baleine bleue"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les dauphins sont des poissons.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le gaz le plus abondant dans l'atmosphère terrestre ?",
+      "answer": "Azote"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de pattes a une araignée ?",
+      "choices": ["6", "8", "10", "12"],
+      "answer": "8"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les champignons appartiennent au règne végétal.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel arbre produit des glands ?",
+      "choices": ["Hêtre", "Chêne", "Érable", "Frêne"],
+      "answer": "Chêne"
+    },
+    {
+      "type": "texte",
+      "question": "Quel animal est le plus rapide sur terre ?",
+      "answer": "Guépard"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel océan est le plus grand ?",
+      "choices": ["Atlantique", "Indien", "Pacifique", "Arctique"],
+      "answer": "Pacifique"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Un escargot peut dormir pendant 3 ans.",
+      "answer": true
+    }
   ],
   "Gastronomie": [
-    { "type": "qcm", "question": "De quel pays vient le sushi ?", "choices": ["Chine", "Corée", "Japon", "Thaïlande"], "answer": "Japon" },
-    { "type": "vrai_faux", "question": "Le croissant est une invention française.", "answer": false },
-    { "type": "texte", "question": "Quel fromage italien est utilisé dans la pizza Margherita ?", "answer": "Mozzarella" },
-    { "type": "qcm", "question": "Quel fruit est la base du guacamole ?", "choices": ["Mangue", "Tomate", "Avocat", "Citron vert"], "answer": "Avocat" },
-    { "type": "vrai_faux", "question": "Le wasabi est fabriqué à partir de raifort dans la plupart des restaurants.", "answer": true },
-    { "type": "qcm", "question": "Combien y a-t-il de régions viticoles en France (AOC) approximativement ?", "choices": ["5", "10", "16", "25"], "answer": "16" },
-    { "type": "texte", "question": "Quel pays est le plus grand producteur de café au monde ?", "answer": "Brésil" },
-    { "type": "qcm", "question": "Quel épice donne sa couleur jaune au curry ?", "choices": ["Safran", "Curcuma", "Paprika", "Cannelle"], "answer": "Curcuma" },
-    { "type": "vrai_faux", "question": "Le chocolat blanc contient du cacao.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "De quel pays vient le sushi ?",
+      "choices": ["Chine", "Corée", "Japon", "Thaïlande"],
+      "answer": "Japon"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le croissant est une invention française.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel fromage italien est utilisé dans la pizza Margherita ?",
+      "answer": "Mozzarella"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel fruit est la base du guacamole ?",
+      "choices": ["Mangue", "Tomate", "Avocat", "Citron vert"],
+      "answer": "Avocat"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le wasabi est fabriqué à partir de raifort dans la plupart des restaurants.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Combien y a-t-il de régions viticoles en France (AOC) approximativement ?",
+      "choices": ["5", "10", "16", "25"],
+      "answer": "16"
+    },
+    {
+      "type": "texte",
+      "question": "Quel pays est le plus grand producteur de café au monde ?",
+      "answer": "Brésil"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel épice donne sa couleur jaune au curry ?",
+      "choices": ["Safran", "Curcuma", "Paprika", "Cannelle"],
+      "answer": "Curcuma"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le chocolat blanc contient du cacao.",
+      "answer": true
+    }
   ],
   "Technologie": [
-    { "type": "qcm", "question": "Qui a fondé Apple avec Steve Wozniak ?", "choices": ["Bill Gates", "Steve Jobs", "Elon Musk", "Jeff Bezos"], "answer": "Steve Jobs" },
-    { "type": "vrai_faux", "question": "Le premier iPhone est sorti en 2007.", "answer": true },
-    { "type": "texte", "question": "Que signifie le sigle 'HTML' ?", "answer": "HyperText Markup Language" },
-    { "type": "qcm", "question": "Quel langage de programmation a été créé par Brendan Eich en 10 jours ?", "choices": ["Python", "Java", "JavaScript", "Ruby"], "answer": "JavaScript" },
-    { "type": "vrai_faux", "question": "Linux est un système d'exploitation propriétaire.", "answer": false },
-    { "type": "qcm", "question": "En quelle année a été lancé le World Wide Web ?", "choices": ["1985", "1989", "1991", "1995"], "answer": "1991" },
-    { "type": "texte", "question": "Quel moteur de recherche domine le marché mondial ?", "answer": "Google" },
-    { "type": "qcm", "question": "Que signifie 'CPU' ?", "choices": ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Core Processing Unit"], "answer": "Central Processing Unit" },
-    { "type": "vrai_faux", "question": "Le Bluetooth tire son nom d'un roi viking.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Qui a fondé Apple avec Steve Wozniak ?",
+      "choices": ["Bill Gates", "Steve Jobs", "Elon Musk", "Jeff Bezos"],
+      "answer": "Steve Jobs"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le premier iPhone est sorti en 2007.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Que signifie le sigle 'HTML' ?",
+      "answer": "HyperText Markup Language"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel langage de programmation a été créé par Brendan Eich en 10 jours ?",
+      "choices": ["Python", "Java", "JavaScript", "Ruby"],
+      "answer": "JavaScript"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Linux est un système d'exploitation propriétaire.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "En quelle année a été lancé le World Wide Web ?",
+      "choices": ["1985", "1989", "1991", "1995"],
+      "answer": "1991"
+    },
+    {
+      "type": "texte",
+      "question": "Quel moteur de recherche domine le marché mondial ?",
+      "answer": "Google"
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie 'CPU' ?",
+      "choices": [
+        "Central Processing Unit",
+        "Computer Personal Unit",
+        "Central Program Utility",
+        "Core Processing Unit"
+      ],
+      "answer": "Central Processing Unit"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le Bluetooth tire son nom d'un roi viking.",
+      "answer": true
+    }
   ],
   "Divers": [
-    { "type": "qcm", "question": "Combien de couleurs y a-t-il dans un arc-en-ciel ?", "choices": ["5", "6", "7", "8"], "answer": "7" },
-    { "type": "vrai_faux", "question": "Une année bissextile a lieu tous les 5 ans.", "answer": false },
-    { "type": "texte", "question": "Quelle est la monnaie du Japon ?", "answer": "Yen" },
-    { "type": "qcm", "question": "Quel signe du zodiaque commence le 21 mars ?", "choices": ["Poissons", "Bélier", "Taureau", "Gémeaux"], "answer": "Bélier" },
-    { "type": "vrai_faux", "question": "Il y a 52 cartes dans un jeu standard (sans les jokers).", "answer": true },
-    { "type": "qcm", "question": "Combien de faces a un dodécaèdre ?", "choices": ["8", "10", "12", "20"], "answer": "12" },
-    { "type": "texte", "question": "Quel est le plus grand organe du corps humain ?", "answer": "La peau" },
-    { "type": "qcm", "question": "Quelle langue est la plus parlée au monde en nombre de locuteurs natifs ?", "choices": ["Anglais", "Espagnol", "Mandarin", "Hindi"], "answer": "Mandarin" },
-    { "type": "vrai_faux", "question": "Un octogone a 8 côtés.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Combien de couleurs y a-t-il dans un arc-en-ciel ?",
+      "choices": ["5", "6", "7", "8"],
+      "answer": "7"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Une année bissextile a lieu tous les 5 ans.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quelle est la monnaie du Japon ?",
+      "answer": "Yen"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel signe du zodiaque commence le 21 mars ?",
+      "choices": ["Poissons", "Bélier", "Taureau", "Gémeaux"],
+      "answer": "Bélier"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Il y a 52 cartes dans un jeu standard (sans les jokers).",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Combien de faces a un dodécaèdre ?",
+      "choices": ["8", "10", "12", "20"],
+      "answer": "12"
+    },
+    {
+      "type": "texte",
+      "question": "Quel est le plus grand organe du corps humain ?",
+      "answer": "La peau"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle langue est la plus parlée au monde en nombre de locuteurs natifs ?",
+      "choices": ["Anglais", "Espagnol", "Mandarin", "Hindi"],
+      "answer": "Mandarin"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Un octogone a 8 côtés.",
+      "answer": true
+    }
   ]
 }

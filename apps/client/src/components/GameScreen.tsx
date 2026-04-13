@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CHRONO_DURATION } from "../types";
-import { BlindInput, QcmChoices, VraiFaux, TextInput } from "./AnswerInputs";
-import { Feedback } from "./Feedback";
-import { StealZone } from "./StealZone";
-import { ScoreBoard, SoloScore } from "./ScoreBoard";
 import { useGameStore } from "../stores/gameStore";
 import { usePlayerStore } from "../stores/playerStore";
+import { CHRONO_DURATION } from "../types";
+import { BlindInput, QcmChoices, TextInput, VraiFaux } from "./AnswerInputs";
+import { Feedback } from "./Feedback";
+import { ScoreBoard, SoloScore } from "./ScoreBoard";
+import { StealZone } from "./StealZone";
 
 export function GameScreen() {
   const navigate = useNavigate();
@@ -63,14 +63,21 @@ export function GameScreen() {
             </div>
             <div className="flex items-center gap-4">
               {gameMode === "chrono" && !answered && (
-                <span className={`text-sm font-bold px-3 py-1 rounded-full ${
-                  timeLeft <= 5 ? "bg-red-950 text-red-400 animate-pulse" : "bg-gray-800 text-gray-300"
-                }`}>
+                <span
+                  className={`text-sm font-bold px-3 py-1 rounded-full ${
+                    timeLeft <= 5
+                      ? "bg-red-950 text-red-400 animate-pulse"
+                      : "bg-gray-800 text-gray-300"
+                  }`}
+                >
                   {timeLeft}s
                 </span>
               )}
               {isSolo && (
-                <SoloScore score={scores[players[0]!] ?? 0} combo={combos[players[0]!] ?? 0} />
+                <SoloScore
+                  score={scores[players[0]!] ?? 0}
+                  combo={combos[players[0]!] ?? 0}
+                />
               )}
               <span className="text-sm text-gray-400">
                 Question {currentQuestionIndex + 1} / {totalQuestions}
@@ -94,12 +101,16 @@ export function GameScreen() {
           {!isSolo && (
             <div className="mb-2">
               <p className="text-sm text-gray-400">C'est au tour de</p>
-              <p className="text-2xl font-bold text-emerald-400">{currentPlayer}</p>
+              <p className="text-2xl font-bold text-emerald-400">
+                {currentPlayer}
+              </p>
             </div>
           )}
 
           {/* Question */}
-          <p className="text-xl font-semibold my-6 leading-relaxed">{currentQuestion.question}</p>
+          <p className="text-xl font-semibold my-6 leading-relaxed">
+            {currentQuestion.question}
+          </p>
 
           {/* Answer inputs */}
           {currentQuestion.type === "qcm" && blindMode && !answered && (
@@ -192,8 +203,19 @@ export function GameScreen() {
         className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-500 text-white p-3 rounded-full shadow-lg transition-colors"
         title="Recommencer la partie"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.36-5.36M20 15a9 9 0 01-15.36 5.36" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.36-5.36M20 15a9 9 0 01-15.36 5.36"
+          />
         </svg>
       </button>
     </>

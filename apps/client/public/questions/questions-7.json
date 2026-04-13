@@ -1,95 +1,471 @@
 {
   "Programmation": [
-    { "type": "qcm", "question": "Quel langage est principalement utilisé pour le développement iOS ?", "choices": ["Kotlin", "Swift", "Dart", "Objective-C"], "answer": "Swift" },
-    { "type": "vrai_faux", "question": "Python est un langage compilé.", "answer": false },
-    { "type": "texte", "question": "Quel langage de programmation porte le nom d'un café ?", "answer": "Java" },
-    { "type": "qcm", "question": "Quel symbole commence un commentaire en Python ?", "choices": ["//", "#", "/*", "--"], "answer": "#" },
-    { "type": "vrai_faux", "question": "Git a été créé par Linus Torvalds.", "answer": true },
-    { "type": "qcm", "question": "Quel langage est utilisé pour les requêtes de base de données ?", "choices": ["HTML", "CSS", "SQL", "XML"], "answer": "SQL" },
-    { "type": "texte", "question": "Quel langage de programmation a été créé par Guido van Rossum ?", "answer": "Python" },
-    { "type": "qcm", "question": "Que signifie 'API' ?", "choices": ["Application Programming Interface", "Advanced Program Integration", "Application Process Input", "Automated Programming Interface"], "answer": "Application Programming Interface" },
-    { "type": "vrai_faux", "question": "Rust est un langage de programmation créé par Mozilla.", "answer": true }
+    {
+      "type": "qcm",
+      "question": "Quel langage est principalement utilisé pour le développement iOS ?",
+      "choices": ["Kotlin", "Swift", "Dart", "Objective-C"],
+      "answer": "Swift"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Python est un langage compilé.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quel langage de programmation porte le nom d'un café ?",
+      "answer": "Java"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel symbole commence un commentaire en Python ?",
+      "choices": ["//", "#", "/*", "--"],
+      "answer": "#"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Git a été créé par Linus Torvalds.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel langage est utilisé pour les requêtes de base de données ?",
+      "choices": ["HTML", "CSS", "SQL", "XML"],
+      "answer": "SQL"
+    },
+    {
+      "type": "texte",
+      "question": "Quel langage de programmation a été créé par Guido van Rossum ?",
+      "answer": "Python"
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie 'API' ?",
+      "choices": [
+        "Application Programming Interface",
+        "Advanced Program Integration",
+        "Application Process Input",
+        "Automated Programming Interface"
+      ],
+      "answer": "Application Programming Interface"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Rust est un langage de programmation créé par Mozilla.",
+      "answer": true
+    }
   ],
   "Réseaux et Internet": [
-    { "type": "qcm", "question": "Que signifie 'HTTP' ?", "choices": ["HyperText Transfer Protocol", "High Tech Transfer Protocol", "HyperText Transport Platform", "Home Tool Transfer Protocol"], "answer": "HyperText Transfer Protocol" },
-    { "type": "vrai_faux", "question": "Une adresse IPv4 est composée de 4 octets.", "answer": true },
-    { "type": "texte", "question": "Quel protocole est utilisé pour envoyer des emails ?", "answer": "SMTP" },
-    { "type": "qcm", "question": "Quel port est utilisé par défaut pour HTTPS ?", "choices": ["80", "443", "8080", "22"], "answer": "443" },
-    { "type": "vrai_faux", "question": "Un VPN chiffre le trafic Internet.", "answer": true },
-    { "type": "qcm", "question": "Que signifie DNS ?", "choices": ["Domain Name System", "Digital Network Service", "Data Name Server", "Domain Network System"], "answer": "Domain Name System" },
-    { "type": "texte", "question": "Quel protocole sécurisé est utilisé pour se connecter à un serveur distant ?", "answer": "SSH" },
-    { "type": "qcm", "question": "Combien d'adresses IPv4 sont théoriquement possibles ?", "choices": ["4 millions", "4 milliards", "4 billions", "400 millions"], "answer": "4 milliards" }
+    {
+      "type": "qcm",
+      "question": "Que signifie 'HTTP' ?",
+      "choices": [
+        "HyperText Transfer Protocol",
+        "High Tech Transfer Protocol",
+        "HyperText Transport Platform",
+        "Home Tool Transfer Protocol"
+      ],
+      "answer": "HyperText Transfer Protocol"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Une adresse IPv4 est composée de 4 octets.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel protocole est utilisé pour envoyer des emails ?",
+      "answer": "SMTP"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel port est utilisé par défaut pour HTTPS ?",
+      "choices": ["80", "443", "8080", "22"],
+      "answer": "443"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Un VPN chiffre le trafic Internet.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie DNS ?",
+      "choices": [
+        "Domain Name System",
+        "Digital Network Service",
+        "Data Name Server",
+        "Domain Network System"
+      ],
+      "answer": "Domain Name System"
+    },
+    {
+      "type": "texte",
+      "question": "Quel protocole sécurisé est utilisé pour se connecter à un serveur distant ?",
+      "answer": "SSH"
+    },
+    {
+      "type": "qcm",
+      "question": "Combien d'adresses IPv4 sont théoriquement possibles ?",
+      "choices": ["4 millions", "4 milliards", "4 billions", "400 millions"],
+      "answer": "4 milliards"
+    }
   ],
   "Hardware": [
-    { "type": "qcm", "question": "Que signifie RAM ?", "choices": ["Random Access Memory", "Read Access Memory", "Rapid Application Memory", "Remote Access Module"], "answer": "Random Access Memory" },
-    { "type": "vrai_faux", "question": "Un SSD est plus rapide qu'un disque dur HDD.", "answer": true },
-    { "type": "texte", "question": "Quel composant est considéré comme le cerveau de l'ordinateur ?", "answer": "Processeur" },
-    { "type": "qcm", "question": "Quelle entreprise fabrique les processeurs Ryzen ?", "choices": ["Intel", "AMD", "Nvidia", "Qualcomm"], "answer": "AMD" },
-    { "type": "vrai_faux", "question": "La carte graphique (GPU) ne sert qu'aux jeux vidéo.", "answer": false },
-    { "type": "qcm", "question": "Quel composant alimente tous les éléments d'un PC ?", "choices": ["Carte mère", "Alimentation (PSU)", "CPU", "RAM"], "answer": "Alimentation (PSU)" },
-    { "type": "texte", "question": "Quel type de mémoire conserve les données même sans courant ?", "answer": "ROM" },
-    { "type": "qcm", "question": "Quelle unité mesure la fréquence d'un processeur ?", "choices": ["Watts", "Hertz", "Octets", "Volts"], "answer": "Hertz" },
-    { "type": "texte", "question": "Combien d'octets contient un kilooctet (en informatique binaire) ?", "answer": "1024" }
+    {
+      "type": "qcm",
+      "question": "Que signifie RAM ?",
+      "choices": [
+        "Random Access Memory",
+        "Read Access Memory",
+        "Rapid Application Memory",
+        "Remote Access Module"
+      ],
+      "answer": "Random Access Memory"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Un SSD est plus rapide qu'un disque dur HDD.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel composant est considéré comme le cerveau de l'ordinateur ?",
+      "answer": "Processeur"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle entreprise fabrique les processeurs Ryzen ?",
+      "choices": ["Intel", "AMD", "Nvidia", "Qualcomm"],
+      "answer": "AMD"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La carte graphique (GPU) ne sert qu'aux jeux vidéo.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel composant alimente tous les éléments d'un PC ?",
+      "choices": ["Carte mère", "Alimentation (PSU)", "CPU", "RAM"],
+      "answer": "Alimentation (PSU)"
+    },
+    {
+      "type": "texte",
+      "question": "Quel type de mémoire conserve les données même sans courant ?",
+      "answer": "ROM"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle unité mesure la fréquence d'un processeur ?",
+      "choices": ["Watts", "Hertz", "Octets", "Volts"],
+      "answer": "Hertz"
+    },
+    {
+      "type": "texte",
+      "question": "Combien d'octets contient un kilooctet (en informatique binaire) ?",
+      "answer": "1024"
+    }
   ],
   "Systèmes et OS": [
-    { "type": "qcm", "question": "Quel noyau utilise Android ?", "choices": ["Windows NT", "Darwin", "Linux", "FreeBSD"], "answer": "Linux" },
-    { "type": "vrai_faux", "question": "macOS est basé sur Unix.", "answer": true },
-    { "type": "texte", "question": "Quel système d'exploitation open-source a un manchot comme mascotte ?", "answer": "Linux" },
-    { "type": "qcm", "question": "Quelle version de Windows a été un échec commercial majeur ?", "choices": ["Windows XP", "Windows 7", "Windows Vista", "Windows 10"], "answer": "Windows Vista" },
-    { "type": "vrai_faux", "question": "iOS et macOS partagent le même noyau.", "answer": true },
-    { "type": "qcm", "question": "Quel système de fichiers est natif à Windows ?", "choices": ["ext4", "APFS", "NTFS", "HFS+"], "answer": "NTFS" },
-    { "type": "texte", "question": "Comment s'appelle l'assistant vocal de Microsoft ?", "answer": "Cortana" },
-    { "type": "qcm", "question": "Quel OS est utilisé sur la majorité des serveurs web ?", "choices": ["Windows Server", "macOS", "Linux", "FreeBSD"], "answer": "Linux" }
+    {
+      "type": "qcm",
+      "question": "Quel noyau utilise Android ?",
+      "choices": ["Windows NT", "Darwin", "Linux", "FreeBSD"],
+      "answer": "Linux"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "macOS est basé sur Unix.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quel système d'exploitation open-source a un manchot comme mascotte ?",
+      "answer": "Linux"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle version de Windows a été un échec commercial majeur ?",
+      "choices": ["Windows XP", "Windows 7", "Windows Vista", "Windows 10"],
+      "answer": "Windows Vista"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "iOS et macOS partagent le même noyau.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel système de fichiers est natif à Windows ?",
+      "choices": ["ext4", "APFS", "NTFS", "HFS+"],
+      "answer": "NTFS"
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle l'assistant vocal de Microsoft ?",
+      "answer": "Cortana"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel OS est utilisé sur la majorité des serveurs web ?",
+      "choices": ["Windows Server", "macOS", "Linux", "FreeBSD"],
+      "answer": "Linux"
+    }
   ],
   "Intelligence artificielle": [
-    { "type": "qcm", "question": "Quel type de réseau de neurones est utilisé pour la reconnaissance d'images ?", "choices": ["RNN", "CNN", "GAN", "MLP"], "answer": "CNN" },
-    { "type": "vrai_faux", "question": "ChatGPT a été créé par Google.", "answer": false },
-    { "type": "texte", "question": "Quelle entreprise a créé le modèle Claude ?", "answer": "Anthropic" },
-    { "type": "qcm", "question": "Que signifie 'LLM' en IA ?", "choices": ["Large Language Model", "Linear Learning Machine", "Long Logic Module", "Layered Language Memory"], "answer": "Large Language Model" },
-    { "type": "vrai_faux", "question": "Le deep learning est un sous-domaine du machine learning.", "answer": true },
-    { "type": "qcm", "question": "Quel algorithme d'IA a battu le champion du monde de Go ?", "choices": ["DeepBlue", "AlphaGo", "Watson", "GPT"], "answer": "AlphaGo" },
-    { "type": "texte", "question": "Comment appelle-t-on un réseau qui génère des images à partir de texte ?", "answer": "Diffusion" },
-    { "type": "qcm", "question": "Quel est le test classique pour évaluer si une IA peut imiter un humain ?", "choices": ["Test de Turing", "Test de Lovelace", "Test de Nash", "Test de Church"], "answer": "Test de Turing" }
+    {
+      "type": "qcm",
+      "question": "Quel type de réseau de neurones est utilisé pour la reconnaissance d'images ?",
+      "choices": ["RNN", "CNN", "GAN", "MLP"],
+      "answer": "CNN"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "ChatGPT a été créé par Google.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quelle entreprise a créé le modèle Claude ?",
+      "answer": "Anthropic"
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie 'LLM' en IA ?",
+      "choices": [
+        "Large Language Model",
+        "Linear Learning Machine",
+        "Long Logic Module",
+        "Layered Language Memory"
+      ],
+      "answer": "Large Language Model"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le deep learning est un sous-domaine du machine learning.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel algorithme d'IA a battu le champion du monde de Go ?",
+      "choices": ["DeepBlue", "AlphaGo", "Watson", "GPT"],
+      "answer": "AlphaGo"
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on un réseau qui génère des images à partir de texte ?",
+      "answer": "Diffusion"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel est le test classique pour évaluer si une IA peut imiter un humain ?",
+      "choices": [
+        "Test de Turing",
+        "Test de Lovelace",
+        "Test de Nash",
+        "Test de Church"
+      ],
+      "answer": "Test de Turing"
+    }
   ],
   "Physique classique": [
-    { "type": "qcm", "question": "Quelle est l'unité de mesure de la force ?", "choices": ["Joule", "Watt", "Newton", "Pascal"], "answer": "Newton" },
-    { "type": "vrai_faux", "question": "La gravité sur la Lune est environ 6 fois plus faible que sur Terre.", "answer": true },
-    { "type": "texte", "question": "Quelle loi stipule que tout corps persévère dans son état de repos ou de mouvement uniforme ?", "answer": "Première loi de Newton" },
-    { "type": "qcm", "question": "Quelle est la formule de l'énergie cinétique ?", "choices": ["E = mc²", "E = ½mv²", "F = ma", "P = mv"], "answer": "E = ½mv²" },
-    { "type": "vrai_faux", "question": "La vitesse du son dans l'air est d'environ 340 m/s.", "answer": true },
-    { "type": "qcm", "question": "Quelle unité mesure la pression ?", "choices": ["Newton", "Joule", "Pascal", "Hertz"], "answer": "Pascal" },
-    { "type": "texte", "question": "Quel physicien a découvert la loi de la gravitation universelle ?", "answer": "Newton" },
-    { "type": "qcm", "question": "Que mesure le Watt ?", "choices": ["L'énergie", "La puissance", "La tension", "La résistance"], "answer": "La puissance" }
+    {
+      "type": "qcm",
+      "question": "Quelle est l'unité de mesure de la force ?",
+      "choices": ["Joule", "Watt", "Newton", "Pascal"],
+      "answer": "Newton"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La gravité sur la Lune est environ 6 fois plus faible que sur Terre.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle loi stipule que tout corps persévère dans son état de repos ou de mouvement uniforme ?",
+      "answer": "Première loi de Newton"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle est la formule de l'énergie cinétique ?",
+      "choices": ["E = mc²", "E = ½mv²", "F = ma", "P = mv"],
+      "answer": "E = ½mv²"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La vitesse du son dans l'air est d'environ 340 m/s.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle unité mesure la pression ?",
+      "choices": ["Newton", "Joule", "Pascal", "Hertz"],
+      "answer": "Pascal"
+    },
+    {
+      "type": "texte",
+      "question": "Quel physicien a découvert la loi de la gravitation universelle ?",
+      "answer": "Newton"
+    },
+    {
+      "type": "qcm",
+      "question": "Que mesure le Watt ?",
+      "choices": ["L'énergie", "La puissance", "La tension", "La résistance"],
+      "answer": "La puissance"
+    }
   ],
   "Physique moderne": [
-    { "type": "qcm", "question": "Que signifie E dans E = mc² ?", "choices": ["Électricité", "Énergie", "Entropie", "Élasticité"], "answer": "Énergie" },
-    { "type": "vrai_faux", "question": "Les photons ont une masse.", "answer": false },
-    { "type": "texte", "question": "Quelle particule a été découverte au CERN en 2012 ?", "answer": "Boson de Higgs" },
-    { "type": "qcm", "question": "Quel physicien a formulé le principe d'incertitude ?", "choices": ["Bohr", "Schrödinger", "Heisenberg", "Dirac"], "answer": "Heisenberg" },
-    { "type": "vrai_faux", "question": "La mécanique quantique s'applique principalement à l'échelle subatomique.", "answer": true },
-    { "type": "qcm", "question": "Quel type de rayonnement est le plus pénétrant ?", "choices": ["Alpha", "Bêta", "Gamma", "X"], "answer": "Gamma" },
-    { "type": "texte", "question": "Comment s'appelle l'expérience de pensée du chat à la fois mort et vivant ?", "answer": "Chat de Schrödinger" },
-    { "type": "qcm", "question": "Quelle force maintient les quarks ensemble dans un proton ?", "choices": ["Gravité", "Force électromagnétique", "Force nucléaire forte", "Force nucléaire faible"], "answer": "Force nucléaire forte" }
+    {
+      "type": "qcm",
+      "question": "Que signifie E dans E = mc² ?",
+      "choices": ["Électricité", "Énergie", "Entropie", "Élasticité"],
+      "answer": "Énergie"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Les photons ont une masse.",
+      "answer": false
+    },
+    {
+      "type": "texte",
+      "question": "Quelle particule a été découverte au CERN en 2012 ?",
+      "answer": "Boson de Higgs"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel physicien a formulé le principe d'incertitude ?",
+      "choices": ["Bohr", "Schrödinger", "Heisenberg", "Dirac"],
+      "answer": "Heisenberg"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "La mécanique quantique s'applique principalement à l'échelle subatomique.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Quel type de rayonnement est le plus pénétrant ?",
+      "choices": ["Alpha", "Bêta", "Gamma", "X"],
+      "answer": "Gamma"
+    },
+    {
+      "type": "texte",
+      "question": "Comment s'appelle l'expérience de pensée du chat à la fois mort et vivant ?",
+      "answer": "Chat de Schrödinger"
+    },
+    {
+      "type": "qcm",
+      "question": "Quelle force maintient les quarks ensemble dans un proton ?",
+      "choices": [
+        "Gravité",
+        "Force électromagnétique",
+        "Force nucléaire forte",
+        "Force nucléaire faible"
+      ],
+      "answer": "Force nucléaire forte"
+    }
   ],
   "Chimie": [
-    { "type": "qcm", "question": "Quel est le numéro atomique de l'hydrogène ?", "choices": ["0", "1", "2", "3"], "answer": "1" },
-    { "type": "vrai_faux", "question": "L'eau pure a un pH de 7.", "answer": true },
-    { "type": "texte", "question": "Quelle est la formule chimique de l'eau ?", "answer": "H2O" },
-    { "type": "qcm", "question": "Quel élément chimique a pour symbole Fe ?", "choices": ["Fluor", "Fer", "Francium", "Fermium"], "answer": "Fer" },
-    { "type": "vrai_faux", "question": "Le tableau périodique a été créé par Mendeleïev.", "answer": true },
-    { "type": "qcm", "question": "Combien d'éléments chimiques le tableau périodique contient-il ?", "choices": ["92", "108", "118", "126"], "answer": "118" },
-    { "type": "texte", "question": "Quel gaz représente environ 21% de l'atmosphère terrestre ?", "answer": "Oxygène" },
-    { "type": "qcm", "question": "Quel acide se trouve dans les batteries de voiture ?", "choices": ["Acide chlorhydrique", "Acide sulfurique", "Acide nitrique", "Acide acétique"], "answer": "Acide sulfurique" },
-    { "type": "texte", "question": "Quel gaz a pour formule chimique CO2 ?", "answer": "Dioxyde de carbone" }
+    {
+      "type": "qcm",
+      "question": "Quel est le numéro atomique de l'hydrogène ?",
+      "choices": ["0", "1", "2", "3"],
+      "answer": "1"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'eau pure a un pH de 7.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Quelle est la formule chimique de l'eau ?",
+      "answer": "H2O"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel élément chimique a pour symbole Fe ?",
+      "choices": ["Fluor", "Fer", "Francium", "Fermium"],
+      "answer": "Fer"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Le tableau périodique a été créé par Mendeleïev.",
+      "answer": true
+    },
+    {
+      "type": "qcm",
+      "question": "Combien d'éléments chimiques le tableau périodique contient-il ?",
+      "choices": ["92", "108", "118", "126"],
+      "answer": "118"
+    },
+    {
+      "type": "texte",
+      "question": "Quel gaz représente environ 21% de l'atmosphère terrestre ?",
+      "answer": "Oxygène"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel acide se trouve dans les batteries de voiture ?",
+      "choices": [
+        "Acide chlorhydrique",
+        "Acide sulfurique",
+        "Acide nitrique",
+        "Acide acétique"
+      ],
+      "answer": "Acide sulfurique"
+    },
+    {
+      "type": "texte",
+      "question": "Quel gaz a pour formule chimique CO2 ?",
+      "answer": "Dioxyde de carbone"
+    }
   ],
   "Cybersécurité": [
-    { "type": "qcm", "question": "Quel type d'attaque consiste à deviner un mot de passe en testant toutes les combinaisons ?", "choices": ["Phishing", "Brute force", "Man-in-the-middle", "DDoS"], "answer": "Brute force" },
-    { "type": "vrai_faux", "question": "Un firewall protège un réseau contre les accès non autorisés.", "answer": true },
-    { "type": "texte", "question": "Comment appelle-t-on un logiciel malveillant qui chiffre vos fichiers et demande une rançon ?", "answer": "Ransomware" },
-    { "type": "qcm", "question": "Que signifie le 'S' dans HTTPS ?", "choices": ["Server", "Secure", "Simple", "Standard"], "answer": "Secure" },
-    { "type": "vrai_faux", "question": "L'authentification à deux facteurs (2FA) rend un compte invulnérable.", "answer": false },
-    { "type": "qcm", "question": "Quel algorithme de hachage est considéré comme obsolète ?", "choices": ["SHA-256", "MD5", "bcrypt", "Argon2"], "answer": "MD5" },
-    { "type": "texte", "question": "Comment appelle-t-on une faille de sécurité inconnue de l'éditeur ?", "answer": "Zero-day" },
-    { "type": "qcm", "question": "Quel type d'attaque imite un site légitime pour voler des identifiants ?", "choices": ["Spoofing", "Phishing", "Keylogging", "Rootkit"], "answer": "Phishing" }
+    {
+      "type": "qcm",
+      "question": "Quel type d'attaque consiste à deviner un mot de passe en testant toutes les combinaisons ?",
+      "choices": ["Phishing", "Brute force", "Man-in-the-middle", "DDoS"],
+      "answer": "Brute force"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "Un firewall protège un réseau contre les accès non autorisés.",
+      "answer": true
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on un logiciel malveillant qui chiffre vos fichiers et demande une rançon ?",
+      "answer": "Ransomware"
+    },
+    {
+      "type": "qcm",
+      "question": "Que signifie le 'S' dans HTTPS ?",
+      "choices": ["Server", "Secure", "Simple", "Standard"],
+      "answer": "Secure"
+    },
+    {
+      "type": "vrai_faux",
+      "question": "L'authentification à deux facteurs (2FA) rend un compte invulnérable.",
+      "answer": false
+    },
+    {
+      "type": "qcm",
+      "question": "Quel algorithme de hachage est considéré comme obsolète ?",
+      "choices": ["SHA-256", "MD5", "bcrypt", "Argon2"],
+      "answer": "MD5"
+    },
+    {
+      "type": "texte",
+      "question": "Comment appelle-t-on une faille de sécurité inconnue de l'éditeur ?",
+      "answer": "Zero-day"
+    },
+    {
+      "type": "qcm",
+      "question": "Quel type d'attaque imite un site légitime pour voler des identifiants ?",
+      "choices": ["Spoofing", "Phishing", "Keylogging", "Rootkit"],
+      "answer": "Phishing"
+    }
   ]
 }
