@@ -24,6 +24,15 @@
     "username": {
       "type": "string",
       "required": true
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": ["homme", "femme"]
+    },
+    "completedPacks": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::question-pack.question-pack"
     }
   }
 }

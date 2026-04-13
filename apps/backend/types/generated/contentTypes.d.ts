@@ -479,12 +479,17 @@ export interface ApiPlayerPlayer extends Struct.CollectionTypeSchema {
     clerkId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    completedPacks: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::question-pack.question-pack'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    gender: Schema.Attribute.Enumeration<['homme', 'femme']>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
