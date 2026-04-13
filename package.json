@@ -5,8 +5,8 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "bun --filter '*' dev --parallel",
-    "build": "bun --filter '*' build --parallel",
+    "dev": "bun --filter '*' --parallel dev",
+    "build": "bun --filter '*' --parallel build",
     "check-types": "bun --filter '*' check-types",
     "test": "bun --filter '*' test",
     "lint": "biome check .",

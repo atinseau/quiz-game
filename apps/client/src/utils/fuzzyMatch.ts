@@ -15,17 +15,26 @@ function levenshtein(a: string, b: string): number {
     { length: m + 1 },
     () => Array(n + 1).fill(0) as number[],
   );
-  for (let i = 0; i <= m; i++) dp[i]![0] = i;
-  for (let j = 0; j <= n; j++) dp[0]![j] = j;
+  for (let i = 0; i <= m; i++) {
+    const row = dp[i];
+    if (row) row[0] = i;
+  }
+  for (let j = 0; j <= n; j++) {
+    const row = dp[0];
+    if (row) row[j] = j;
+  }
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-      dp[i]![j] =
+      const row = dp[i];
+      const prevRow = dp[i - 1];
+      if (!row || !prevRow) continue;
+      row[j] =
         a[i - 1] === b[j - 1]
-          ? dp[i - 1]?.[j - 1]!
-          : 1 + Math.min(dp[i - 1]?.[j]!, dp[i]?.[j - 1]!, dp[i - 1]?.[j - 1]!);
+          ? (prevRow[j - 1] ?? 0)
+          : 1 + Math.min(prevRow[j] ?? 0, row[j - 1] ?? 0, prevRow[j - 1] ?? 0);
     }
   }
-  return dp[m]?.[n]!;
+  return dp[m]?.[n] ?? 0;
 }
 
 function similarity(a: string, b: string): number {

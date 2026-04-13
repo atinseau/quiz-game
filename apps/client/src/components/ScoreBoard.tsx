@@ -1,3 +1,7 @@
+import { Flame, Trophy } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
 interface Props {
   players: string[];
   scores: Record<string, number>;
@@ -16,8 +20,10 @@ export function ScoreBoard({
   if (isSolo) return null;
 
   return (
-    <div className="mt-8 border-t border-gray-800 pt-4">
-      <h3 className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
+    <div className="mt-8">
+      <Separator className="mb-4" />
+      <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider flex items-center gap-1.5">
+        <Trophy className="size-3.5" />
         Scores
       </h3>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -27,22 +33,27 @@ export function ScoreBoard({
           return (
             <div
               key={p}
-              className={`flex items-center gap-2 border rounded-lg px-3 py-2 ${
+              className={`flex items-center gap-2 rounded-lg px-3 py-2 transition-all ${
                 isActive
-                  ? "bg-indigo-950 border-indigo-700"
-                  : "bg-gray-800 border-gray-700"
+                  ? "bg-primary/10 border border-primary/30"
+                  : "bg-card border border-border/50"
               }`}
             >
               <span
-                className={`font-medium text-sm ${isActive ? "text-indigo-300" : "text-gray-300"}`}
+                className={`font-medium text-sm ${isActive ? "text-primary" : "text-foreground"}`}
               >
                 {p}
               </span>
               {combo >= 2 && (
-                <span className="text-xs text-amber-400">x{combo}</span>
+                <Badge
+                  variant="secondary"
+                  className="text-xs px-1.5 py-0 text-amber-400 bg-amber-500/15 border-none"
+                >
+                  <Flame className="size-3 mr-0.5" />x{combo}
+                </Badge>
               )}
               <span
-                className={`ml-auto font-bold ${isActive ? "text-indigo-400" : "text-white"}`}
+                className={`ml-auto font-bold ${isActive ? "text-primary" : "text-foreground"}`}
               >
                 {scores[p]}
               </span>
@@ -55,10 +66,17 @@ export function ScoreBoard({
 }
 
 export function SoloScore({ score, combo }: { score: number; combo: number }) {
-  const comboText = combo >= 2 ? ` x${combo}` : "";
   return (
-    <span className="text-sm font-bold text-emerald-400">
-      {score} pts{comboText}
-    </span>
+    <Badge
+      variant="secondary"
+      className="text-party-green bg-party-green/15 border-none gap-1"
+    >
+      {score} pts
+      {combo >= 2 && (
+        <span className="text-amber-400 flex items-center gap-0.5">
+          <Flame className="size-3" />x{combo}
+        </span>
+      )}
+    </Badge>
   );
 }

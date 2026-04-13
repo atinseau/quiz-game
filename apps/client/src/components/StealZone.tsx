@@ -1,3 +1,6 @@
+import { Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 interface Props {
   players: string[];
   currentPlayerIndex: number;
@@ -18,19 +21,23 @@ export function StealZone({
   const otherPlayers = players.filter((_, i) => i !== currentPlayerIndex);
 
   return (
-    <div className="mt-4 border border-gray-800 rounded-xl p-3">
-      <p className="text-xs text-gray-500 mb-2 text-center uppercase tracking-wider">
-        Quelqu'un a répondu plus vite ?
+    <div className="mt-4 border border-amber-500/20 bg-amber-500/5 rounded-xl p-3">
+      <p className="text-xs text-amber-400/70 mb-2 text-center uppercase tracking-wider flex items-center justify-center gap-1">
+        <Zap className="size-3" />
+        Quelqu'un a repondu plus vite ?
       </p>
       <div className="flex flex-wrap gap-2 justify-center">
         {otherPlayers.map((p) => (
-          <button
+          <Button
             key={p}
+            variant="outline"
+            size="sm"
             onClick={() => onSteal(p)}
-            className="bg-gray-800 hover:bg-amber-900 border border-gray-700 hover:border-amber-500 text-gray-300 hover:text-amber-300 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
+            className="border-amber-500/30 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400"
           >
+            <Zap className="size-3" />
             {p}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

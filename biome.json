@@ -32,6 +32,18 @@
       }
     }
   },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "allowWrongLineComments": true
+    },
+    "formatter": {
+      "enabled": false
+    },
+    "linter": {
+      "enabled": false
+    }
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -46,7 +58,8 @@
       "!**/.tmp",
       "!**/.strapi",
       "!**/.cache",
-      "!**/apps/backend/types"
+      "!**/apps/backend/types",
+      "!**/*.css"
     ]
   }
 }

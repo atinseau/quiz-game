@@ -1,9 +1,17 @@
+import { Crown, Medal, PartyPopper, RotateCcw, Trophy } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGameStore } from "../stores/gameStore";
 import { usePlayerStore } from "../stores/playerStore";
 
-const MEDALS = ["text-yellow-400", "text-gray-300", "text-amber-600"];
+const MEDAL_ICONS = [Crown, Medal, Medal] as const;
+const MEDAL_COLORS = [
+  "text-yellow-400",
+  "text-zinc-300",
+  "text-amber-600",
+] as const;
 
 export function EndScreen() {
   const navigate = useNavigate();
@@ -15,7 +23,6 @@ export function EndScreen() {
 
   const isSolo = players.length === 1;
 
-  // Route guard: if no scores, redirect home
   useEffect(() => {
     if (Object.keys(scores).length === 0) {
       navigate("/", { replace: true });
@@ -25,62 +32,69 @@ export function EndScreen() {
   if (Object.keys(scores).length === 0) return null;
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-gray-900 rounded-2xl shadow-2xl p-10 w-full max-w-lg mx-4 text-center">
-        <h2 className="text-4xl font-bold mb-2 text-indigo-400">
-          Partie terminée !
-        </h2>
-        <p className="text-gray-400 mb-8">
-          {isSolo ? "Ton score final" : "Voici le classement final"}
-        </p>
-
-        {isSolo ? (
-          <div className="bg-indigo-950 border border-indigo-700 rounded-xl px-5 py-6 mb-8">
-            <span className="text-5xl font-bold text-indigo-400">
-              {scores[players[0]!]}
-            </span>
-            <span className="text-xl text-gray-400 ml-2">pts</span>
-            <p className="text-gray-400 mt-2 text-sm">
-              sur {totalQuestions} questions
-            </p>
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <Card className="w-full max-w-lg text-center">
+        <CardHeader className="pb-2">
+          <div className="flex justify-center mb-2">
+            <PartyPopper className="size-12 text-party-pink animate-float" />
           </div>
-        ) : (
-          <div className="space-y-3 mb-8">
-            {[...players]
-              .sort((a, b) => (scores[b] ?? 0) - (scores[a] ?? 0))
-              .map((p, i) => {
-                const medal = i < 3 ? MEDALS[i] : "text-gray-400";
-                const bg =
-                  i === 0
-                    ? "bg-yellow-950 border-yellow-700"
-                    : "bg-gray-800 border-gray-700";
-                return (
-                  <div
-                    key={p}
-                    className={`flex items-center justify-between ${bg} border rounded-xl px-5 py-4`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className={`text-2xl font-bold ${medal}`}>
-                        #{i + 1}
+          <CardTitle className="text-4xl bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+            Partie terminee !
+          </CardTitle>
+          <p className="text-muted-foreground mt-1">
+            {isSolo ? "Ton score final" : "Voici le classement final"}
+          </p>
+        </CardHeader>
+        <CardContent>
+          {isSolo ? (
+            <div className="bg-primary/10 border border-primary/30 rounded-2xl px-5 py-6 mb-8 glow-purple">
+              <Trophy className="size-10 text-primary mx-auto mb-2" />
+              <span className="text-5xl font-bold text-primary">
+                {scores[players[0] ?? ""]}
+              </span>
+              <span className="text-xl text-muted-foreground ml-2">pts</span>
+              <p className="text-muted-foreground mt-2 text-sm">
+                sur {totalQuestions} questions
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3 mb-8">
+              {[...players]
+                .sort((a, b) => (scores[b] ?? 0) - (scores[a] ?? 0))
+                .map((p, i) => {
+                  const MedalIcon = (i < 3 ? MEDAL_ICONS[i] : Medal) ?? Medal;
+                  const medalColor =
+                    (i < 3 ? MEDAL_COLORS[i] : "text-muted-foreground") ??
+                    "text-muted-foreground";
+                  const isWinner = i === 0;
+                  return (
+                    <div
+                      key={p}
+                      className={`flex items-center justify-between rounded-xl px-5 py-4 transition-all ${
+                        isWinner
+                          ? "bg-yellow-500/10 border border-yellow-500/30 glow-pink"
+                          : "bg-card border border-border/50"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <MedalIcon className={`size-6 ${medalColor}`} />
+                        <span className="font-semibold text-lg">{p}</span>
+                      </div>
+                      <span className={`text-2xl font-bold ${medalColor}`}>
+                        {scores[p]} pts
                       </span>
-                      <span className="font-semibold text-lg">{p}</span>
                     </div>
-                    <span className={`text-2xl font-bold ${medal}`}>
-                      {scores[p]} pts
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        )}
+                  );
+                })}
+            </div>
+          )}
 
-        <button
-          onClick={reset}
-          className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
-        >
-          Nouvelle partie
-        </button>
-      </div>
+          <Button onClick={reset} size="lg" className="w-full h-14 text-lg">
+            <RotateCcw className="size-5" />
+            Nouvelle partie
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

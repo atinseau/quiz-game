@@ -4,28 +4,45 @@ import {
   SignInButton,
   SignUpButton,
   UserButton,
+  useAuth,
 } from "@clerk/clerk-react";
+import { LogIn, UserPlus } from "lucide-react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { EndScreen } from "./components/EndScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
+import { apiFetch } from "./lib/api";
 import { useGameStore } from "./stores/gameStore";
 import { setNavigate } from "./stores/router";
 
+function useSyncPlayer() {
+  const { isSignedIn, getToken } = useAuth();
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+    apiFetch("/player/me", getToken).catch(console.error);
+  }, [isSignedIn, getToken]);
+}
+
 function AuthHeader() {
+  useSyncPlayer();
+
   return (
     <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
       <SignedOut>
         <SignInButton mode="modal">
-          <button className="px-4 py-2 bg-brand rounded-lg text-white text-sm font-medium hover:opacity-90 transition">
+          <Button variant="default" size="sm">
+            <LogIn className="size-3.5" data-icon="inline-start" />
             Connexion
-          </button>
+          </Button>
         </SignInButton>
         <SignUpButton mode="modal">
-          <button className="px-4 py-2 bg-white/10 rounded-lg text-white text-sm font-medium hover:bg-white/20 transition">
+          <Button variant="secondary" size="sm">
+            <UserPlus className="size-3.5" data-icon="inline-start" />
             Inscription
-          </button>
+          </Button>
         </SignUpButton>
       </SignedOut>
       <SignedIn>

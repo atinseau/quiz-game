@@ -1,10 +1,24 @@
 import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  Gamepad2,
+  PartyPopper,
+  Search,
+  UserPlus,
+  X,
+} from "lucide-react";
+import {
   type KeyboardEvent,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
 import { usePlayerStore } from "../stores/playerStore";
@@ -29,13 +43,11 @@ export function HomeScreen() {
   const [perPage, setPerPage] = useState(6);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // Calcul dynamique du nombre de cards par page selon l'espace dispo
   const computePerPage = useCallback(() => {
     const vh = window.innerHeight;
-    const headerHeight = 200; // titre + search bar + marges
+    const headerHeight = 200;
     const paginationHeight = 60;
     const available = vh - headerHeight - paginationHeight;
-    // Estimer la hauteur d'une card (~160px) et le nombre de colonnes
     const cardHeight = 160;
     const gap = 16;
     const w = window.innerWidth;
@@ -74,22 +86,31 @@ export function HomeScreen() {
   };
 
   const selectedPack = packs.find((p) => p.file === selectedChunk);
-  const _canStart = players.length >= 1 && selectedChunk;
 
-  // Step 1: Pack selection
+  // Step 1 : Pack selection
   if (step === "pack") {
     return (
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl font-bold text-center mb-2 text-indigo-400">
-            Quiz
-          </h1>
-          <p className="text-center text-gray-400 mb-6 sm:mb-8">
-            Choisis ton pack de questions
-          </p>
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-3 mb-3">
+              <PartyPopper className="size-10 text-party-pink animate-float" />
+              <h1 className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-shimmer">
+                Quiz Party
+              </h1>
+              <PartyPopper
+                className="size-10 text-party-purple animate-float"
+                style={{ animationDelay: "1s" }}
+              />
+            </div>
+            <p className="text-muted-foreground text-lg">
+              Choisis ton pack de questions
+            </p>
+          </div>
 
-          <div className="mb-5 sm:mb-6">
-            <input
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input
               type="text"
               placeholder="Rechercher un pack..."
               value={search}
@@ -97,7 +118,7 @@ export function HomeScreen() {
                 setSearch(e.target.value);
                 setPage(0);
               }}
-              className="w-full bg-gray-900 border border-gray-700 rounded-xl px-5 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base"
+              className="pl-10 h-11 bg-card/50 border-border/50 text-base"
             />
           </div>
 
@@ -124,7 +145,7 @@ export function HomeScreen() {
               <>
                 <div
                   ref={gridRef}
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 >
                   {pageItems.map((pack) => {
                     const done = finishedChunks.includes(pack.file);
@@ -136,35 +157,38 @@ export function HomeScreen() {
                           selectChunk(pack.file);
                           setStep("players");
                         }}
-                        className={`relative text-left rounded-xl overflow-hidden transition-all duration-200 ${
+                        className={`group relative text-left rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
                           active
-                            ? "ring-2 ring-indigo-400 scale-[1.02]"
-                            : "ring-1 ring-gray-800 hover:ring-gray-600 hover:scale-[1.01]"
+                            ? "ring-2 ring-primary scale-[1.02] glow-purple"
+                            : "ring-1 ring-border/50 hover:ring-primary/50 hover:scale-[1.01] hover:glow-purple"
                         }`}
                       >
                         <div
-                          className={`bg-gradient-to-br ${pack.gradient} px-4 sm:px-5 py-5 sm:py-6 flex items-center gap-3 sm:gap-4`}
+                          className={`bg-gradient-to-br ${pack.gradient} px-5 py-5 flex items-center gap-4`}
                         >
-                          <span className="text-3xl sm:text-4xl">
+                          <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
                             {pack.icon}
                           </span>
                           <div className="min-w-0 flex-1">
-                            <h3 className="font-bold text-white text-base sm:text-lg leading-tight truncate">
+                            <h3 className="font-bold text-white text-lg leading-tight truncate">
                               {pack.name}
                             </h3>
                             {done && (
-                              <span className="inline-block mt-1 text-xs bg-white/20 text-white px-2 py-0.5 rounded-full">
-                                Terminé
-                              </span>
+                              <Badge
+                                variant="secondary"
+                                className="mt-1 bg-white/20 text-white border-none text-xs"
+                              >
+                                Termine
+                              </Badge>
                             )}
                           </div>
                         </div>
-                        <div className="bg-gray-900 px-4 sm:px-5 py-3 sm:py-4">
-                          <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                        <div className="bg-card px-5 py-4">
+                          <p className="text-sm text-muted-foreground leading-relaxed">
                             {pack.description}
                           </p>
                           {pack.questionCount != null && (
-                            <p className="text-xs text-gray-500 mt-2">
+                            <p className="text-xs text-muted-foreground/60 mt-2">
                               {pack.questionCount} questions
                             </p>
                           )}
@@ -176,61 +200,34 @@ export function HomeScreen() {
 
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 mt-6">
-                    <button
+                    <Button
+                      variant="secondary"
+                      size="icon"
                       onClick={() => setPage((p) => Math.max(0, p - 1))}
                       disabled={safePage === 0}
-                      className="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-30 disabled:hover:bg-gray-800 transition-colors"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
+                      <ChevronLeft className="size-4" />
+                    </Button>
                     {Array.from({ length: totalPages }, (_, i) => (
-                      <button
+                      <Button
                         key={i}
+                        variant={i === safePage ? "default" : "secondary"}
+                        size="icon"
                         onClick={() => setPage(i)}
-                        className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
-                          i === safePage
-                            ? "bg-indigo-600 text-white"
-                            : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                        }`}
                       >
                         {i + 1}
-                      </button>
+                      </Button>
                     ))}
-                    <button
+                    <Button
+                      variant="secondary"
+                      size="icon"
                       onClick={() =>
                         setPage((p) => Math.min(totalPages - 1, p + 1))
                       }
                       disabled={safePage === totalPages - 1}
-                      className="px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-30 disabled:hover:bg-gray-800 transition-colors"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
+                      <ChevronRight className="size-4" />
+                    </Button>
                   </div>
                 )}
               </>
@@ -241,36 +238,23 @@ export function HomeScreen() {
     );
   }
 
-  // Step 2: Players
+  // Step 2 : Players
   if (step === "players") {
     return (
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="w-full max-w-md">
-          <button
+          <Button
+            variant="ghost"
             onClick={() => setStep("pack")}
-            className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
+            className="mb-6 text-muted-foreground"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Changer de mode
-          </button>
+            <ArrowLeft className="size-4" />
+            Changer de pack
+          </Button>
 
-          {/* Pack summary */}
           {selectedPack && (
             <div
-              className={`bg-gradient-to-br ${selectedPack.gradient} rounded-xl px-5 py-4 flex items-center gap-4 mb-8`}
+              className={`bg-gradient-to-br ${selectedPack.gradient} rounded-2xl px-5 py-4 flex items-center gap-4 mb-8 glow-purple`}
             >
               <span className="text-3xl">{selectedPack.icon}</span>
               <div>
@@ -284,67 +268,73 @@ export function HomeScreen() {
             </div>
           )}
 
-          <div className="bg-gray-900 rounded-2xl shadow-2xl p-6 sm:p-8 mb-6">
-            <h2 className="text-lg font-semibold text-gray-200 mb-4">
-              Qui joue ?
-            </h2>
-            <div className="flex gap-2 mb-4">
-              <input
-                type="text"
-                placeholder="Nom du joueur"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                maxLength={20}
-              />
-              <button
-                onClick={handleAdd}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors"
-              >
-                Ajouter
-              </button>
-            </div>
-
-            {players.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {players.map((p) => (
-                  <div
-                    key={p}
-                    className="flex items-center gap-2 bg-gray-800 rounded-full px-4 py-1.5"
-                  >
-                    <span className="font-medium text-sm">{p}</span>
-                    <button
-                      onClick={() => removePlayer(p)}
-                      className="text-gray-500 hover:text-red-400 text-lg leading-none"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <UserPlus className="size-5 text-primary" />
+                Qui joue ?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-2 mb-4">
+                <Input
+                  type="text"
+                  placeholder="Nom du joueur"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="h-11"
+                  maxLength={20}
+                />
+                <Button onClick={handleAdd} size="lg">
+                  <UserPlus className="size-4" />
+                  Ajouter
+                </Button>
               </div>
-            )}
 
-            {players.length === 0 && (
-              <p className="text-sm text-gray-500">
-                Ajoute au moins un joueur pour commencer
-              </p>
-            )}
-          </div>
+              {players.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {players.map((p) => (
+                    <Badge
+                      key={p}
+                      variant="secondary"
+                      className="pl-3 pr-1.5 py-1.5 text-sm gap-1.5"
+                    >
+                      {p}
+                      <button
+                        onClick={() => removePlayer(p)}
+                        className="text-muted-foreground hover:text-destructive transition-colors rounded-full p-0.5"
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              )}
 
-          <button
+              {players.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Ajoute au moins un joueur pour commencer
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Button
             onClick={() => setStep("mode")}
             disabled={players.length < 1}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-bold py-4 rounded-xl text-lg transition-colors shadow-lg"
+            size="lg"
+            className="w-full h-14 text-lg"
           >
+            <Gamepad2 className="size-5" />
             Choisir le mode de jeu
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
 
-  // Step 3: Game mode selection
+  // Step 3 : Game mode selection
   const availableModes = GAME_MODES.filter((m) => {
     if (m.id === "voleur" && players.length < 2) return false;
     return true;
@@ -353,30 +343,18 @@ export function HomeScreen() {
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
       <div className="w-full max-w-lg">
-        <button
+        <Button
+          variant="ghost"
           onClick={() => setStep("players")}
-          className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
+          className="mb-6 text-muted-foreground"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
+          <ArrowLeft className="size-4" />
           Retour aux joueurs
-        </button>
+        </Button>
 
         {selectedPack && (
           <div
-            className={`bg-gradient-to-br ${selectedPack.gradient} rounded-xl px-5 py-4 flex items-center gap-4 mb-4`}
+            className={`bg-gradient-to-br ${selectedPack.gradient} rounded-2xl px-5 py-4 flex items-center gap-4 mb-4 glow-purple`}
           >
             <span className="text-3xl">{selectedPack.icon}</span>
             <div>
@@ -387,12 +365,13 @@ export function HomeScreen() {
           </div>
         )}
 
-        <p className="text-sm text-gray-400 mb-6">
+        <p className="text-sm text-muted-foreground mb-6">
           {players.length} joueur{players.length > 1 ? "s" : ""} :{" "}
           {players.join(", ")}
         </p>
 
-        <h2 className="text-lg font-semibold text-gray-200 mb-4">
+        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Gamepad2 className="size-5 text-primary" />
           Choisis un mode de jeu
         </h2>
         <div className="space-y-3 mb-8">
@@ -403,12 +382,14 @@ export function HomeScreen() {
                 setSelectedMode(mode.id);
                 if (selectedChunk) startGame(selectedChunk, mode.id);
               }}
-              className="w-full text-left rounded-xl overflow-hidden ring-1 ring-gray-800 hover:ring-gray-600 hover:scale-[1.01] transition-all duration-200"
+              className="group w-full text-left rounded-2xl overflow-hidden ring-1 ring-border/50 hover:ring-primary/50 hover:scale-[1.01] hover:glow-purple transition-all duration-300 cursor-pointer"
             >
               <div
                 className={`bg-gradient-to-br ${mode.gradient} px-5 py-4 flex items-center gap-4`}
               >
-                <span className="text-3xl">{mode.icon}</span>
+                <span className="text-3xl group-hover:scale-110 transition-transform duration-300">
+                  {mode.icon}
+                </span>
                 <div>
                   <h3 className="font-bold text-white text-lg">{mode.name}</h3>
                   <p className="text-white/70 text-sm">{mode.description}</p>

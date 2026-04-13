@@ -33,9 +33,19 @@ test("hello world", () => {
 
 ## Frontend
 
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
+Use HTML imports with `Bun.serve()`. HTML imports fully support React, CSS, Tailwind.
 
-Server:
+### UI Components
+
+- Use **shadcn/ui** for all UI components. Add new components via CLI: `bunx shadcn@latest add <component>`
+- Components live in `apps/client/src/components/ui/`
+- Use the `@/` path alias (configured in tsconfig.json) for imports: `import { Button } from "@/components/ui/button"`
+- Use **lucide-react** for icons
+- Use **Tailwind CSS v4** with `@tailwindcss/postcss` for styling
+- Theme CSS variables are in `apps/client/src/index.css`
+- shadcn config is in `apps/client/components.json`
+
+### Server
 
 ```ts#index.ts
 import index from "./index.html"
@@ -43,23 +53,6 @@ import index from "./index.html"
 Bun.serve({
   routes: {
     "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
   },
   development: {
     hmr: true,
@@ -69,35 +62,6 @@ Bun.serve({
 ```
 
 HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
-
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
 
 ```sh
 bun --hot ./index.ts

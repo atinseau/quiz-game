@@ -1,4 +1,7 @@
+import { Eye, Send, Sparkles } from "lucide-react";
 import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface BlindProps {
   onSubmit: (value: string) => void;
@@ -19,33 +22,34 @@ export function BlindInput({ onSubmit, onReveal }: BlindProps) {
 
   return (
     <div>
-      <p className="text-sm text-gray-400 mb-2">
-        Tente ta réponse sans les choix pour{" "}
+      <p className="text-sm text-muted-foreground mb-2 flex items-center gap-1.5">
+        <Sparkles className="size-4 text-amber-400" />
+        Tente ta reponse sans les choix pour{" "}
         <span className="text-amber-400 font-semibold">+2 pts</span>
       </p>
       <div className="flex gap-2 mb-3">
-        <input
+        <Input
           ref={inputRef}
           type="text"
-          placeholder="Ta réponse..."
+          placeholder="Ta reponse..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 text-lg"
+          className="h-12 text-base"
         />
-        <button
+        <Button
           onClick={() => onSubmit(value)}
-          className="bg-amber-600 hover:bg-amber-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+          size="lg"
+          className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400"
         >
+          <Send className="size-4" />
           Valider
-        </button>
+        </Button>
       </div>
-      <button
-        onClick={onReveal}
-        className="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-400 hover:text-white font-medium py-2.5 rounded-lg transition-colors text-sm"
-      >
+      <Button variant="secondary" onClick={onReveal} className="w-full">
+        <Eye className="size-4" />
         Voir les choix (+1 pt)
-      </button>
+      </Button>
     </div>
   );
 }
@@ -60,16 +64,15 @@ export function QcmChoices({ choices, disabled, onSelect }: QcmProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {choices.map((c) => (
-        <button
+        <Button
           key={c}
+          variant="outline"
           onClick={() => onSelect(c)}
           disabled={disabled}
-          className={`bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-indigo-500 text-white font-medium py-3.5 px-4 rounded-xl transition-colors text-left ${
-            disabled ? "opacity-50" : ""
-          }`}
+          className="h-auto py-3.5 px-4 text-left justify-start text-base font-medium whitespace-normal"
         >
           {c}
-        </button>
+        </Button>
       ))}
     </div>
   );
@@ -83,24 +86,24 @@ interface VfProps {
 export function VraiFaux({ disabled, onSelect }: VfProps) {
   return (
     <div className="flex gap-4">
-      <button
+      <Button
+        variant="outline"
         onClick={() => onSelect(true)}
         disabled={disabled}
-        className={`flex-1 bg-gray-800 hover:bg-emerald-700 border border-gray-700 hover:border-emerald-500 text-white font-semibold py-4 rounded-xl text-lg transition-colors ${
-          disabled ? "opacity-50" : ""
-        }`}
+        size="lg"
+        className="flex-1 h-14 text-lg border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-400"
       >
         Vrai
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="outline"
         onClick={() => onSelect(false)}
         disabled={disabled}
-        className={`flex-1 bg-gray-800 hover:bg-red-700 border border-gray-700 hover:border-red-500 text-white font-semibold py-4 rounded-xl text-lg transition-colors ${
-          disabled ? "opacity-50" : ""
-        }`}
+        size="lg"
+        className="flex-1 h-14 text-lg border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-400"
       >
         Faux
-      </button>
+      </Button>
     </div>
   );
 }
@@ -124,27 +127,24 @@ export function TextInput({ disabled, onSubmit }: TextProps) {
 
   return (
     <div className="flex gap-2">
-      <input
+      <Input
         ref={inputRef}
         type="text"
-        placeholder="Votre réponse..."
+        placeholder="Votre reponse..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         disabled={disabled}
-        className={`flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg ${
-          disabled ? "opacity-50" : ""
-        }`}
+        className="h-12 text-base"
       />
-      <button
+      <Button
         onClick={() => value.trim() && onSubmit(value.trim())}
         disabled={disabled}
-        className={`bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors ${
-          disabled ? "opacity-50" : ""
-        }`}
+        size="lg"
       >
+        <Send className="size-4" />
         Valider
-      </button>
+      </Button>
     </div>
   );
 }

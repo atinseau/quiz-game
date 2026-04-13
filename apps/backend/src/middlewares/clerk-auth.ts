@@ -1,7 +1,13 @@
 import { verifyToken } from "@clerk/backend";
+import type { Core } from "@strapi/strapi";
 
-export default (_config: unknown, { strapi }: { strapi: any }) => {
-  return async (ctx: any, next: () => Promise<void>) => {
+const clerkAuth: Core.MiddlewareFactory = (_config, { strapi }) => {
+  return async (ctx, next) => {
+    // Skip non-API routes (admin panel, uploads, etc.)
+    if (!ctx.request.url.startsWith("/api/")) {
+      return next();
+    }
+
     const authHeader = ctx.request.header.authorization;
 
     if (!authHeader?.startsWith("Bearer ")) {
@@ -48,3 +54,5 @@ export default (_config: unknown, { strapi }: { strapi: any }) => {
     return next();
   };
 };
+
+export default clerkAuth;

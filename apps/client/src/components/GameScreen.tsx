@@ -1,5 +1,10 @@
+import { Check, ChevronRight, RotateCcw, Star, X } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { useGameStore } from "../stores/gameStore";
 import { usePlayerStore } from "../stores/playerStore";
 import { CHRONO_DURATION } from "../types";
@@ -41,7 +46,6 @@ export function GameScreen() {
 
   const players = usePlayerStore((s) => s.players);
 
-  // Route guard: if no questions loaded, redirect home
   useEffect(() => {
     if (questions.length === 0) {
       navigate("/", { replace: true });
@@ -50,174 +54,173 @@ export function GameScreen() {
 
   if (questions.length === 0 || !currentQuestion) return null;
 
+  const timerPercent = (timeLeft / CHRONO_DURATION) * 100;
+
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-gray-900 rounded-2xl shadow-2xl p-10 w-full max-w-2xl mx-4">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-950 px-3 py-1 rounded-full">
+      <div className="flex items-center justify-center min-h-screen px-4 py-8">
+        <Card className="w-full max-w-2xl">
+          <CardContent className="p-8">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6">
+              <Badge
+                variant="outline"
+                className="text-primary border-primary/30 bg-primary/10"
+              >
                 {currentQuestion.category}
-              </span>
-            </div>
-            <div className="flex items-center gap-4">
-              {gameMode === "chrono" && !answered && (
-                <span
-                  className={`text-sm font-bold px-3 py-1 rounded-full ${
-                    timeLeft <= 5
-                      ? "bg-red-950 text-red-400 animate-pulse"
-                      : "bg-gray-800 text-gray-300"
-                  }`}
-                >
-                  {timeLeft}s
+              </Badge>
+              <div className="flex items-center gap-3">
+                {gameMode === "chrono" && !answered && (
+                  <Badge
+                    variant={timeLeft <= 5 ? "destructive" : "secondary"}
+                    className={timeLeft <= 5 ? "animate-pulse" : ""}
+                  >
+                    {timeLeft}s
+                  </Badge>
+                )}
+                {isSolo && (
+                  <SoloScore
+                    score={scores[players[0] ?? ""] ?? 0}
+                    combo={combos[players[0] ?? ""] ?? 0}
+                  />
+                )}
+                <span className="text-sm text-muted-foreground">
+                  {currentQuestionIndex + 1} / {totalQuestions}
                 </span>
-              )}
-              {isSolo && (
-                <SoloScore
-                  score={scores[players[0]!] ?? 0}
-                  combo={combos[players[0]!] ?? 0}
-                />
-              )}
-              <span className="text-sm text-gray-400">
-                Question {currentQuestionIndex + 1} / {totalQuestions}
-              </span>
+              </div>
             </div>
-          </div>
 
-          {/* Timer bar */}
-          {gameMode === "chrono" && !answered && (
-            <div className="w-full bg-gray-800 rounded-full h-1.5 mb-4 overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-1000 ease-linear ${
-                  timeLeft <= 5 ? "bg-red-500" : "bg-indigo-500"
-                }`}
-                style={{ width: `${(timeLeft / CHRONO_DURATION) * 100}%` }}
+            {/* Timer bar */}
+            {gameMode === "chrono" && !answered && (
+              <Progress value={timerPercent} className="h-2 mb-5" />
+            )}
+
+            {/* Player turn */}
+            {!isSolo && (
+              <div className="mb-3">
+                <p className="text-sm text-muted-foreground">
+                  C'est au tour de
+                </p>
+                <p className="text-2xl font-bold text-party-green">
+                  {currentPlayer}
+                </p>
+              </div>
+            )}
+
+            {/* Question */}
+            <p className="text-xl font-semibold my-6 leading-relaxed">
+              {currentQuestion.question}
+            </p>
+
+            {/* Answer inputs */}
+            {currentQuestion.type === "qcm" && blindMode && !answered && (
+              <BlindInput
+                onSubmit={submitBlindAnswer}
+                onReveal={revealChoices}
               />
-            </div>
-          )}
+            )}
 
-          {/* Player turn */}
-          {!isSolo && (
-            <div className="mb-2">
-              <p className="text-sm text-gray-400">C'est au tour de</p>
-              <p className="text-2xl font-bold text-emerald-400">
-                {currentPlayer}
-              </p>
-            </div>
-          )}
+            {currentQuestion.type === "qcm" && !blindMode && (
+              <QcmChoices
+                choices={currentQuestion.choices || []}
+                disabled={answered}
+                onSelect={(c) => submitAnswer(c)}
+              />
+            )}
 
-          {/* Question */}
-          <p className="text-xl font-semibold my-6 leading-relaxed">
-            {currentQuestion.question}
-          </p>
+            {currentQuestion.type === "vrai_faux" && (
+              <VraiFaux disabled={answered} onSelect={(v) => submitAnswer(v)} />
+            )}
 
-          {/* Answer inputs */}
-          {currentQuestion.type === "qcm" && blindMode && !answered && (
-            <BlindInput onSubmit={submitBlindAnswer} onReveal={revealChoices} />
-          )}
+            {currentQuestion.type === "texte" && (
+              <TextInput
+                disabled={answered}
+                onSubmit={(v) => submitAnswer(v)}
+              />
+            )}
 
-          {currentQuestion.type === "qcm" && !blindMode && (
-            <QcmChoices
-              choices={currentQuestion.choices || []}
-              disabled={answered}
-              onSelect={(c) => submitAnswer(c)}
-            />
-          )}
+            {/* Feedback */}
+            <Feedback feedback={feedback} />
 
-          {currentQuestion.type === "vrai_faux" && (
-            <VraiFaux disabled={answered} onSelect={(v) => submitAnswer(v)} />
-          )}
+            {/* Steal zone */}
+            {canSteal && !stealConfirmMode && (
+              <StealZone
+                players={players}
+                currentPlayerIndex={currentPlayerIndex}
+                isSolo={false}
+                answered={answered}
+                onSteal={initiateSteal}
+              />
+            )}
 
-          {currentQuestion.type === "texte" && (
-            <TextInput disabled={answered} onSubmit={(v) => submitAnswer(v)} />
-          )}
-
-          {/* Feedback */}
-          <Feedback feedback={feedback} />
-
-          {/* Steal zone */}
-          {canSteal && !stealConfirmMode && (
-            <StealZone
-              players={players}
-              currentPlayerIndex={currentPlayerIndex}
-              isSolo={false}
-              answered={answered}
-              onSteal={initiateSteal}
-            />
-          )}
-
-          {/* Action buttons */}
-          {(answered || stealConfirmMode) && (
-            <div className="mt-6 flex gap-3">
-              {stealConfirmMode ? (
-                <>
-                  <button
-                    onClick={() => confirmSteal(true)}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
-                  >
-                    Valider le vol
-                  </button>
-                  <button
-                    onClick={() => confirmSteal(false)}
-                    className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
-                  >
-                    Refuser
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={nextQuestion}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-lg transition-colors"
-                  >
-                    Question suivante
-                  </button>
-                  {showForceBtn && gameMode !== "chrono" && (
-                    <button
-                      onClick={forcePoint}
-                      className="bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-5 rounded-xl text-lg transition-colors"
+            {/* Action buttons */}
+            {(answered || stealConfirmMode) && (
+              <div className="mt-6 flex gap-3">
+                {stealConfirmMode ? (
+                  <>
+                    <Button
+                      variant="default"
+                      size="lg"
+                      className="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500"
+                      onClick={() => confirmSteal(true)}
                     >
-                      Compter le point
-                    </button>
-                  )}
-                </>
-              )}
-            </div>
-          )}
+                      <Check className="size-5" />
+                      Valider le vol
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="lg"
+                      className="flex-1"
+                      onClick={() => confirmSteal(false)}
+                    >
+                      <X className="size-5" />
+                      Refuser
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button size="lg" className="flex-1" onClick={nextQuestion}>
+                      <ChevronRight className="size-5" />
+                      Question suivante
+                    </Button>
+                    {showForceBtn && gameMode !== "chrono" && (
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="border-amber-500/50 text-amber-400 hover:bg-amber-500/20"
+                        onClick={forcePoint}
+                      >
+                        <Star className="size-5" />
+                        Compter le point
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
 
-          {/* Scores */}
-          <ScoreBoard
-            players={players}
-            scores={scores}
-            combos={combos}
-            currentPlayerIndex={currentPlayerIndex}
-            isSolo={isSolo}
-          />
-        </div>
+            {/* Scores */}
+            <ScoreBoard
+              players={players}
+              scores={scores}
+              combos={combos}
+              currentPlayerIndex={currentPlayerIndex}
+              isSolo={isSolo}
+            />
+          </CardContent>
+        </Card>
       </div>
 
       {/* Floating reset button */}
-      <button
+      <Button
+        variant="destructive"
+        size="icon"
+        className="fixed bottom-6 right-6 size-12 rounded-full shadow-lg"
         onClick={reset}
-        className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-500 text-white p-3 rounded-full shadow-lg transition-colors"
         title="Recommencer la partie"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.36-5.36M20 15a9 9 0 01-15.36 5.36"
-          />
-        </svg>
-      </button>
+        <RotateCcw className="size-5" />
+      </Button>
     </>
   );
 }
