@@ -1,66 +1,32 @@
-import { useGameState } from "./hooks/useGameState";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { setNavigate } from "./stores/router";
+import { useGameStore } from "./stores/gameStore";
 import { HomeScreen } from "./components/HomeScreen";
 import { GameScreen } from "./components/GameScreen";
 import { EndScreen } from "./components/EndScreen";
 
+function AppRoutes() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setNavigate(navigate);
+    useGameStore.getState().restoreFromStorage();
+  }, [navigate]);
+
+  return (
+    <Routes>
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="/game" element={<GameScreen />} />
+      <Route path="/end" element={<EndScreen />} />
+    </Routes>
+  );
+}
+
 export function App() {
-  const game = useGameState();
-
-  if (game.screen === "home") {
-    return (
-      <HomeScreen
-        players={game.players}
-        selectedChunk={game.selectedChunk}
-        onAddPlayer={game.addPlayer}
-        onRemovePlayer={game.removePlayer}
-        onSelectChunk={game.setSelectedChunk}
-        onStart={game.startGame}
-      />
-    );
-  }
-
-  if (game.screen === "game" && game.currentQuestion) {
-    return (
-      <GameScreen
-        currentQuestion={game.currentQuestion}
-        currentQuestionIndex={game.currentQuestionIndex}
-        currentPlayerIndex={game.currentPlayerIndex}
-        currentPlayer={game.currentPlayer}
-        totalQuestions={game.totalQuestions}
-        players={game.players}
-        scores={game.scores}
-        combos={game.combos}
-        isSolo={game.isSolo}
-        answered={game.answered}
-        blindMode={game.blindMode}
-        feedback={game.feedback}
-        showForceBtn={game.showForceBtn}
-        stealConfirmMode={game.stealConfirmMode}
-        canSteal={game.canSteal}
-        gameMode={game.gameMode}
-        timeLeft={game.timeLeft}
-        onSubmitAnswer={game.submitAnswer}
-        onSubmitBlind={game.submitBlindAnswer}
-        onRevealChoices={game.revealChoices}
-        onSteal={game.initiateSteal}
-        onConfirmSteal={game.confirmSteal}
-        onForcePoint={game.forcePoint}
-        onNextQuestion={game.nextQuestion}
-        onReset={game.resetGame}
-      />
-    );
-  }
-
-  if (game.screen === "end") {
-    return (
-      <EndScreen
-        players={game.players}
-        scores={game.scores}
-        totalQuestions={game.totalQuestions}
-        onReset={game.resetGame}
-      />
-    );
-  }
-
-  return null;
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
 }
