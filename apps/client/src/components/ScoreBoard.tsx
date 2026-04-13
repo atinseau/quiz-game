@@ -1,9 +1,10 @@
 import { Flame, Trophy } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import type { Player } from "../types";
 
 interface Props {
-  players: string[];
+  players: Player[];
   scores: Record<string, number>;
   combos: Record<string, number>;
   currentPlayerIndex: number;
@@ -29,10 +30,10 @@ export function ScoreBoard({
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {players.map((p, i) => {
           const isActive = i === currentPlayerIndex;
-          const combo = combos[p] ?? 0;
+          const combo = combos[p.name] ?? 0;
           return (
             <div
-              key={p}
+              key={p.name}
               className={`flex items-center gap-2 rounded-lg px-3 py-2 transition-all ${
                 isActive
                   ? "bg-primary/10 border border-primary/30"
@@ -42,7 +43,7 @@ export function ScoreBoard({
               <span
                 className={`font-medium text-sm ${isActive ? "text-primary" : "text-foreground"}`}
               >
-                {p}
+                {p.name}
               </span>
               {combo >= 2 && (
                 <Badge
@@ -55,7 +56,7 @@ export function ScoreBoard({
               <span
                 className={`ml-auto font-bold ${isActive ? "text-primary" : "text-foreground"}`}
               >
-                {scores[p]}
+                {scores[p.name]}
               </span>
             </div>
           );

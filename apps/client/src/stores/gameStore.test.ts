@@ -29,6 +29,7 @@ import { setNavigate } from "./router";
 
 setNavigate(((path: string) => {
   navigatedPaths.push(path);
+  // biome-ignore lint/suspicious/noExplicitAny: test mock
 }) as any);
 
 // Mock fetch
@@ -43,8 +44,9 @@ const mockQuestions = {
     { type: "texte", question: "Q2?", answer: "Paris" },
   ],
 };
-globalThis.fetch = mock(() =>
-  Promise.resolve(new Response(JSON.stringify(mockQuestions))),
+globalThis.fetch = mock(
+  () => Promise.resolve(new Response(JSON.stringify(mockQuestions))),
+  // biome-ignore lint/suspicious/noExplicitAny: test mock
 ) as any;
 
 import { useGameStore } from "./gameStore";
@@ -63,8 +65,8 @@ describe("gameStore", () => {
     navigatedPaths.length = 0;
 
     // Add players
-    usePlayerStore.getState().addPlayer("Alice");
-    usePlayerStore.getState().addPlayer("Bob");
+    usePlayerStore.getState().addPlayer("Alice", "femme");
+    usePlayerStore.getState().addPlayer("Bob", "homme");
   });
 
   test("startGame loads questions, inits scores, navigates to /game", async () => {
@@ -86,10 +88,10 @@ describe("gameStore", () => {
     // Find the current question and give the correct answer
     const q = useGameStore.getState().currentQuestion();
     const correctAnswer = q?.answer;
-    useGameStore.getState().submitAnswer(correctAnswer!);
+    useGameStore.getState().submitAnswer(correctAnswer ?? "");
 
     const state = useGameStore.getState();
-    const player = usePlayerStore.getState().players[0]!;
+    const player = usePlayerStore.getState().players[0]?.name ?? "";
     expect(state.scores[player]).toBeGreaterThan(0);
     expect(state.combos[player]).toBe(1);
   });
@@ -99,7 +101,7 @@ describe("gameStore", () => {
 
     // First give correct answer to build combo
     const q1 = useGameStore.getState().currentQuestion();
-    useGameStore.getState().submitAnswer(q1!.answer);
+    useGameStore.getState().submitAnswer(q1?.answer ?? "");
 
     // Move to next question
     useGameStore.getState().nextQuestion();
@@ -108,7 +110,8 @@ describe("gameStore", () => {
     useGameStore.getState().submitAnswer("WRONG_ANSWER_XYZ");
 
     const state = useGameStore.getState();
-    const player = usePlayerStore.getState().players[state.currentPlayerIndex]!;
+    const player =
+      usePlayerStore.getState().players[state.currentPlayerIndex]?.name ?? "";
     expect(state.combos[player]).toBe(0);
   });
 
@@ -138,7 +141,7 @@ describe("gameStore", () => {
   test("forcePoint awards points with combo", async () => {
     await useGameStore.getState().startGame("histoire.json", "classic");
 
-    const player = usePlayerStore.getState().players[0]!;
+    const player = usePlayerStore.getState().players[0]?.name ?? "";
     useGameStore.getState().forcePoint();
 
     const state = useGameStore.getState();

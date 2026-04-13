@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
 import { usePlayerStore } from "../stores/playerStore";
-import type { GameMode, PackMeta } from "../types";
+import type { GameMode, Gender, PackMeta } from "../types";
 import { GAME_MODES } from "../types";
 
 export function HomeScreen() {
@@ -35,6 +35,7 @@ export function HomeScreen() {
   const startGame = useGameStore((s) => s.startGame);
 
   const [inputValue, setInputValue] = useState("");
+  const [gender, setGender] = useState<Gender>("homme");
   const [search, setSearch] = useState("");
   const [packs, setPacks] = useState<PackMeta[]>([]);
   const [step, setStep] = useState<"pack" | "mode" | "players">("pack");
@@ -78,7 +79,7 @@ export function HomeScreen() {
   }, [selectedChunk, selectChunk, finishedChunks.includes]);
 
   const handleAdd = () => {
-    if (addPlayer(inputValue)) setInputValue("");
+    if (addPlayer(inputValue, gender)) setInputValue("");
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -152,6 +153,7 @@ export function HomeScreen() {
                     const active = pack.file === selectedChunk;
                     return (
                       <button
+                        type="button"
                         key={pack.file}
                         onClick={() => {
                           selectChunk(pack.file);
@@ -276,7 +278,7 @@ export function HomeScreen() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-2 mb-4">
+              <div className="flex gap-2 mb-3">
                 <Input
                   type="text"
                   placeholder="Nom du joueur"
@@ -291,18 +293,35 @@ export function HomeScreen() {
                   Ajouter
                 </Button>
               </div>
+              <div className="flex gap-2 mb-4">
+                <Button
+                  variant={gender === "homme" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setGender("homme")}
+                >
+                  Homme
+                </Button>
+                <Button
+                  variant={gender === "femme" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setGender("femme")}
+                >
+                  Femme
+                </Button>
+              </div>
 
               {players.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {players.map((p) => (
                     <Badge
-                      key={p}
+                      key={p.name}
                       variant="secondary"
                       className="pl-3 pr-1.5 py-1.5 text-sm gap-1.5"
                     >
-                      {p}
+                      {p.gender === "homme" ? "\u2642" : "\u2640"} {p.name}
                       <button
-                        onClick={() => removePlayer(p)}
+                        type="button"
+                        onClick={() => removePlayer(p.name)}
                         className="text-muted-foreground hover:text-destructive transition-colors rounded-full p-0.5"
                       >
                         <X className="size-3.5" />
@@ -367,7 +386,7 @@ export function HomeScreen() {
 
         <p className="text-sm text-muted-foreground mb-6">
           {players.length} joueur{players.length > 1 ? "s" : ""} :{" "}
-          {players.join(", ")}
+          {players.map((p) => p.name).join(", ")}
         </p>
 
         <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -377,6 +396,7 @@ export function HomeScreen() {
         <div className="space-y-3 mb-8">
           {availableModes.map((mode) => (
             <button
+              type="button"
               key={mode.id}
               onClick={() => {
                 setSelectedMode(mode.id);

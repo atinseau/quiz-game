@@ -50,7 +50,7 @@ export function EndScreen() {
             <div className="bg-primary/10 border border-primary/30 rounded-2xl px-5 py-6 mb-8 glow-purple">
               <Trophy className="size-10 text-primary mx-auto mb-2" />
               <span className="text-5xl font-bold text-primary">
-                {scores[players[0] ?? ""]}
+                {scores[players[0]?.name ?? ""]}
               </span>
               <span className="text-xl text-muted-foreground ml-2">pts</span>
               <p className="text-muted-foreground mt-2 text-sm">
@@ -60,7 +60,7 @@ export function EndScreen() {
           ) : (
             <div className="space-y-3 mb-8">
               {[...players]
-                .sort((a, b) => (scores[b] ?? 0) - (scores[a] ?? 0))
+                .sort((a, b) => (scores[b.name] ?? 0) - (scores[a.name] ?? 0))
                 .map((p, i) => {
                   const MedalIcon = (i < 3 ? MEDAL_ICONS[i] : Medal) ?? Medal;
                   const medalColor =
@@ -69,7 +69,7 @@ export function EndScreen() {
                   const isWinner = i === 0;
                   return (
                     <div
-                      key={p}
+                      key={p.name}
                       className={`flex items-center justify-between rounded-xl px-5 py-4 transition-all ${
                         isWinner
                           ? "bg-yellow-500/10 border border-yellow-500/30 glow-pink"
@@ -78,10 +78,10 @@ export function EndScreen() {
                     >
                       <div className="flex items-center gap-3">
                         <MedalIcon className={`size-6 ${medalColor}`} />
-                        <span className="font-semibold text-lg">{p}</span>
+                        <span className="font-semibold text-lg">{p.name}</span>
                       </div>
                       <span className={`text-2xl font-bold ${medalColor}`}>
-                        {scores[p]} pts
+                        {scores[p.name]} pts
                       </span>
                     </div>
                   );

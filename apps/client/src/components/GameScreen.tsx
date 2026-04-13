@@ -80,8 +80,8 @@ export function GameScreen() {
                 )}
                 {isSolo && (
                   <SoloScore
-                    score={scores[players[0] ?? ""] ?? 0}
-                    combo={combos[players[0] ?? ""] ?? 0}
+                    score={scores[players[0]?.name ?? ""] ?? 0}
+                    combo={combos[players[0]?.name ?? ""] ?? 0}
                   />
                 )}
                 <span className="text-sm text-muted-foreground">
@@ -102,7 +102,7 @@ export function GameScreen() {
                   C'est au tour de
                 </p>
                 <p className="text-2xl font-bold text-party-green">
-                  {currentPlayer}
+                  {currentPlayer.name}
                 </p>
               </div>
             )}

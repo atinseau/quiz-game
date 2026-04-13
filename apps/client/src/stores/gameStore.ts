@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type {
   FeedbackState,
   GameMode,
+  Player,
   Question,
   RawQuestionData,
 } from "../types";
@@ -62,7 +63,7 @@ interface GameStoreState {
 
   // Derived
   currentQuestion: () => Question | null;
-  currentPlayer: () => string;
+  currentPlayer: () => Player;
   totalQuestions: () => number;
   isSolo: () => boolean;
   canSteal: () => boolean;
@@ -119,7 +120,9 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   currentPlayer: () => {
     const { currentPlayerIndex } = get();
     const players = usePlayerStore.getState().players;
-    return players[currentPlayerIndex] ?? "";
+    return (
+      players[currentPlayerIndex] ?? { name: "", gender: "homme" as const }
+    );
   },
 
   totalQuestions: () => get().questions.length,
@@ -160,7 +163,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   _handleTimeout: () => {
     get()._stopTimer();
-    const player = get().currentPlayer();
+    const player = get().currentPlayer().name;
     const q = get().currentQuestion();
     if (!q) return;
 
@@ -230,8 +233,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     const scores: Record<string, number> = {};
     const combos: Record<string, number> = {};
     for (const p of players) {
-      scores[p] = 0;
-      combos[p] = 0;
+      scores[p.name] = 0;
+      combos[p.name] = 0;
     }
 
     set({
@@ -269,7 +272,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
     const q = getCQ();
     if (!q) return;
-    const player = getCP();
+    const player = getCP().name;
     const correct = checkAnswer(answer, q);
 
     const scores = { ...get().scores };
@@ -321,7 +324,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
     const q = getCQ();
     if (!q || q.type !== "qcm" || !q.choices) return;
-    const player = getCP();
+    const player = getCP().name;
 
     const correct = fuzzyMatch(input, String(q.answer));
 
@@ -379,7 +382,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     const { pendingStealer, currentPlayer: getCP } = get();
     if (!pendingStealer) return;
 
-    const victim = getCP();
+    const victim = getCP().name;
     const scores = { ...get().scores };
     const combos = { ...get().combos };
 
@@ -419,7 +422,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   },
 
   forcePoint: () => {
-    const player = get().currentPlayer();
+    const player = get().currentPlayer().name;
     const scores = { ...get().scores };
     const combos = { ...get().combos };
 

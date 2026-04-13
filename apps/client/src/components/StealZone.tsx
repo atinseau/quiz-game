@@ -1,8 +1,9 @@
 import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { Player } from "../types";
 
 interface Props {
-  players: string[];
+  players: Player[];
   currentPlayerIndex: number;
   isSolo: boolean;
   onSteal: (stealer: string) => void;
@@ -27,14 +28,14 @@ export function StealZone({
       <div className="flex flex-wrap gap-2 justify-center">
         {otherPlayers.map((p) => (
           <Button
-            key={p}
+            key={p.name}
             variant="outline"
             size="sm"
-            onClick={() => onSteal(p)}
+            onClick={() => onSteal(p.name)}
             className="border-amber-500/30 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400"
           >
             <Zap className="size-3" />
-            {p}
+            {p.name}
           </Button>
         ))}
       </div>
