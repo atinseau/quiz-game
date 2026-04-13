@@ -1,8 +1,9 @@
 import { create } from "zustand";
+import type { Gender, Player } from "../types";
 
 interface PlayerState {
-  players: string[];
-  addPlayer: (name: string) => boolean;
+  players: Player[];
+  addPlayer: (name: string, gender: Gender) => boolean;
   removePlayer: (name: string) => void;
   resetPlayers: () => void;
 }
@@ -10,15 +11,15 @@ interface PlayerState {
 export const usePlayerStore = create<PlayerState>((set, get) => ({
   players: [],
 
-  addPlayer: (name: string) => {
+  addPlayer: (name: string, gender: Gender) => {
     const trimmed = name.trim();
-    if (!trimmed || get().players.includes(trimmed)) return false;
-    set((s) => ({ players: [...s.players, trimmed] }));
+    if (!trimmed || get().players.some((p) => p.name === trimmed)) return false;
+    set((s) => ({ players: [...s.players, { name: trimmed, gender }] }));
     return true;
   },
 
   removePlayer: (name: string) => {
-    set((s) => ({ players: s.players.filter((p) => p !== name) }));
+    set((s) => ({ players: s.players.filter((p) => p.name !== name) }));
   },
 
   resetPlayers: () => {

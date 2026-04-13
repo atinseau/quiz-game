@@ -1,3 +1,10 @@
+export type Gender = "homme" | "femme";
+
+export interface Player {
+  name: string;
+  gender: Gender;
+}
+
 export type QuestionType = "qcm" | "vrai_faux" | "texte";
 
 export interface Question {
@@ -50,7 +57,7 @@ export const CHRONO_DURATION = 15; // seconds
 export const CHRONO_TIMEOUT_PENALTY = 0.5;
 
 export interface GameState {
-  players: string[];
+  players: Player[];
   scores: Record<string, number>;
   combos: Record<string, number>;
   questions: Question[];
@@ -73,6 +80,19 @@ export interface PackMeta {
   description: string;
   icon: string;
   gradient: string;
+  questionCount?: number;
+}
+
+export interface ApiPack {
+  documentId: string;
+  slug: string;
+  name: string;
+  description: string;
+  icon: string;
+  gradient: string;
+  isFree: boolean;
+  published: boolean;
+  displayOrder: number;
   questionCount?: number;
 }
 
