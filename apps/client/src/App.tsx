@@ -1,23 +1,18 @@
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/clerk-react";
-import { LogIn, UserPlus, Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { AuthGuard } from "./components/AuthGuard";
 import { EndScreen } from "./components/EndScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
+import { LandingPage } from "./components/LandingPage";
 import { useSyncPlayer } from "./hooks/useSyncPlayer";
 import { useGameStore } from "./stores/gameStore";
 import { setNavigate } from "./stores/router";
 import { useSettingsStore } from "./stores/settingsStore";
 
-function AuthHeader() {
+function InGameHeader() {
   useSyncPlayer();
   const { muted, toggleMute } = useSettingsStore();
 
@@ -35,23 +30,6 @@ function AuthHeader() {
           <Volume2 className="w-5 h-5" />
         )}
       </Button>
-      <SignedOut>
-        <SignInButton mode="modal">
-          <Button variant="default" size="sm">
-            <LogIn className="size-3.5" data-icon="inline-start" />
-            Connexion
-          </Button>
-        </SignInButton>
-        <SignUpButton mode="modal">
-          <Button variant="secondary" size="sm">
-            <UserPlus className="size-3.5" data-icon="inline-start" />
-            Inscription
-          </Button>
-        </SignUpButton>
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
     </div>
   );
 }
@@ -66,9 +44,34 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<HomeScreen />} />
-      <Route path="/game" element={<GameScreen />} />
-      <Route path="/end" element={<EndScreen />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route
+        path="/play"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <HomeScreen />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/game"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <GameScreen />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/end"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <EndScreen />
+          </AuthGuard>
+        }
+      />
     </Routes>
   );
 }
@@ -76,7 +79,6 @@ function AppRoutes() {
 export function App() {
   return (
     <BrowserRouter>
-      <AuthHeader />
       <AppRoutes />
     </BrowserRouter>
   );
