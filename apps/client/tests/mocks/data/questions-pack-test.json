@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "documentId": "q-001",
+      "type": "qcm",
+      "text": "Quelle est la capitale de la France ?",
+      "choices": ["Paris", "Lyon", "Marseille", "Toulouse"],
+      "answer": "Paris",
+      "category": { "name": "Culture" }
+    },
+    {
+      "documentId": "q-002",
+      "type": "vrai_faux",
+      "text": "Le soleil se lève à l'ouest.",
+      "choices": null,
+      "answer": "false",
+      "category": { "name": "Culture" }
+    },
+    {
+      "documentId": "q-003",
+      "type": "texte",
+      "text": "Quel est le plus grand océan du monde ?",
+      "choices": null,
+      "answer": "Pacifique",
+      "category": { "name": "Culture" }
+    },
+    {
+      "documentId": "q-004",
+      "type": "qcm",
+      "text": "Combien de planètes dans le système solaire ?",
+      "choices": ["7", "8", "9", "10"],
+      "answer": "8",
+      "category": { "name": "Sciences" }
+    },
+    {
+      "documentId": "q-005",
+      "type": "vrai_faux",
+      "text": "L'eau bout à 100°C au niveau de la mer.",
+      "choices": null,
+      "answer": "true",
+      "category": { "name": "Sciences" }
+    },
+    {
+      "documentId": "q-006",
+      "type": "texte",
+      "text": "Quel gaz les plantes absorbent-elles ?",
+      "choices": null,
+      "answer": "CO2",
+      "category": { "name": "Sciences" }
+    }
+  ]
+}

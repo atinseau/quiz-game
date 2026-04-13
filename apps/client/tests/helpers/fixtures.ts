@@ -12,9 +12,9 @@ function loadMock(filename: string): string {
 
 async function mockNetwork(page: Page) {
   const packsData = loadMock("packs.json");
-  const packsJson = JSON.parse(packsData);
 
-  await page.route("**/packs.json", (route) =>
+  // Mock Strapi packs endpoint
+  await page.route("**/api/question-packs**", (route) =>
     route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -22,9 +22,12 @@ async function mockNetwork(page: Page) {
     }),
   );
 
-  await page.route("**/packs/questions-*.json", (route) => {
+  // Mock Strapi questions endpoint — extract pack slug from query params
+  await page.route("**/api/questions**", (route) => {
     const url = new URL(route.request().url());
-    const filename = url.pathname.split("/").pop() ?? "";
+    const slug =
+      url.searchParams.get("filters[pack][slug][$eq]") ?? "pack-test";
+    const filename = `questions-${slug}.json`;
     try {
       const data = loadMock(filename);
       return route.fulfill({
@@ -36,14 +39,6 @@ async function mockNetwork(page: Page) {
       return route.fulfill({ status: 404, body: "Not found" });
     }
   });
-
-  await page.route("**/chunks", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify(packsJson.map((p: { file: string }) => p.file)),
-    }),
-  );
 
   await page.route("**/*.mp3", (route) =>
     route.fulfill({ status: 200, contentType: "audio/mpeg", body: "" }),
@@ -62,14 +57,6 @@ async function mockNetwork(page: Page) {
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({}),
-    }),
-  );
-
-  await page.route("**/localhost:1337/api/**", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ data: { id: 1, username: "testplayer" } }),
     }),
   );
 }
@@ -99,12 +86,15 @@ export async function selectPack(page: Page, name = "Pack Test") {
   await page.getByPlaceholder("Nom du joueur").waitFor();
 }
 
-/** Add one or more players on step 2 */
+/** Add one or more players on step 2 (with gender selection) */
 export async function addPlayers(page: Page, players: string[]) {
   const input = page.getByPlaceholder("Nom du joueur");
   for (const name of players) {
     await input.fill(name);
-    await input.press("Enter");
+    // Gender defaults to "homme" in the UI, so clicking Homme is optional,
+    // but we click it explicitly to ensure the button state is correct
+    await page.getByRole("button", { name: "Homme", exact: true }).click();
+    await page.getByRole("button", { name: "Ajouter" }).click();
   }
 }
 

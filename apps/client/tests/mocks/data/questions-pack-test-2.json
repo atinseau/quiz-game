@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "documentId": "q-007",
+      "type": "qcm",
+      "text": "Quel est le plus long fleuve du monde ?",
+      "choices": ["Nil", "Amazone", "Yangtsé", "Mississippi"],
+      "answer": "Nil",
+      "category": { "name": "Géographie" }
+    },
+    {
+      "documentId": "q-008",
+      "type": "vrai_faux",
+      "text": "L'Australie est un continent.",
+      "choices": null,
+      "answer": "true",
+      "category": { "name": "Géographie" }
+    },
+    {
+      "documentId": "q-009",
+      "type": "texte",
+      "text": "Quelle est la capitale du Japon ?",
+      "choices": null,
+      "answer": "Tokyo",
+      "category": { "name": "Géographie" }
+    }
+  ]
+}

@@ -1,18 +1,28 @@
-[
-  {
-    "file": "questions-test.json",
-    "name": "Pack Test",
-    "description": "Pack de test avec questions variées (QCM, Vrai/Faux, Texte).",
-    "icon": "🧪",
-    "gradient": "from-emerald-600 to-teal-700",
-    "questionCount": 6
-  },
-  {
-    "file": "questions-test-2.json",
-    "name": "Pack Test 2",
-    "description": "Deuxième pack pour tester la pagination et sélection.",
-    "icon": "🔬",
-    "gradient": "from-sky-600 to-indigo-700",
-    "questionCount": 3
-  }
-]
+{
+  "data": [
+    {
+      "documentId": "pack-test-001",
+      "slug": "pack-test",
+      "name": "Pack Test",
+      "description": "Pack de test avec questions variées (QCM, Vrai/Faux, Texte).",
+      "icon": "🧪",
+      "gradient": "from-emerald-600 to-teal-700",
+      "isFree": true,
+      "published": true,
+      "displayOrder": 1,
+      "questions": { "count": 6 }
+    },
+    {
+      "documentId": "pack-test-002",
+      "slug": "pack-test-2",
+      "name": "Pack Test 2",
+      "description": "Deuxième pack pour tester la pagination et sélection.",
+      "icon": "🔬",
+      "gradient": "from-sky-600 to-indigo-700",
+      "isFree": true,
+      "published": true,
+      "displayOrder": 2,
+      "questions": { "count": 3 }
+    }
+  ]
+}
