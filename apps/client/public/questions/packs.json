@@ -1,0 +1,100 @@
+[
+  {
+    "file": "questions-1.json",
+    "name": "Généraliste I",
+    "description": "Histoire, Sciences, Sport, Cinéma, Musique, Littérature, Art et plus encore.",
+    "icon": "🧠",
+    "gradient": "from-indigo-600 to-purple-700"
+  },
+  {
+    "file": "questions-2.json",
+    "name": "Généraliste II",
+    "description": "Mythologie, Astronomie, Jeux vidéo, Philosophie, Économie, Médecine.",
+    "icon": "💡",
+    "gradient": "from-violet-600 to-fuchsia-700"
+  },
+  {
+    "file": "questions-3.json",
+    "name": "Généraliste III",
+    "description": "Inventions, Monuments, Espace, Bandes dessinées, Culture internet.",
+    "icon": "🌍",
+    "gradient": "from-cyan-600 to-blue-700"
+  },
+  {
+    "file": "questions-4.json",
+    "name": "Géographie",
+    "description": "Capitales, fleuves, montagnes, îles, déserts, pays, lacs et climats.",
+    "icon": "🗺️",
+    "gradient": "from-emerald-600 to-teal-700"
+  },
+  {
+    "file": "questions-5.json",
+    "name": "Automobile",
+    "description": "Constructeurs, modèles mythiques, mécanique, F1, rallye, supercars.",
+    "icon": "🏎️",
+    "gradient": "from-red-600 to-orange-700"
+  },
+  {
+    "file": "questions-6.json",
+    "name": "Capitales du monde",
+    "description": "75 questions sur les capitales d'Europe, Asie, Amérique, Maghreb et Afrique.",
+    "icon": "🏛️",
+    "gradient": "from-amber-600 to-yellow-700"
+  },
+  {
+    "file": "questions-7.json",
+    "name": "Sciences & Tech",
+    "description": "Programmation, réseaux, hardware, IA, physique, chimie, cybersécurité.",
+    "icon": "⚡",
+    "gradient": "from-sky-600 to-indigo-700"
+  },
+  {
+    "file": "questions-8.json",
+    "name": "Sport automobile",
+    "description": "F1 pilotes et circuits, MotoGP, NASCAR, WRC, Le Mans, drift et tuning.",
+    "icon": "🏁",
+    "gradient": "from-rose-600 to-red-700"
+  },
+  {
+    "file": "questions-9.json",
+    "name": "Histoire moderne",
+    "description": "Révolutions, guerres mondiales, guerre froide, décolonisation, géopolitique.",
+    "icon": "📜",
+    "gradient": "from-stone-600 to-zinc-700"
+  },
+  {
+    "file": "questions-10.json",
+    "name": "Aviation",
+    "description": "Histoire de l'aviation, avions de ligne, aviation militaire, pilotage et technique.",
+    "icon": "✈️",
+    "gradient": "from-sky-500 to-blue-800"
+  },
+  {
+    "file": "questions-11.json",
+    "name": "Religions",
+    "description": "Christianisme, Islam, Judaïsme, Bouddhisme, Hindouisme et religions du monde.",
+    "icon": "🕊️",
+    "gradient": "from-amber-500 to-orange-700"
+  },
+  {
+    "file": "questions-12.json",
+    "name": "Histoire du jeu vidéo",
+    "description": "Pionniers, consoles légendaires, jeux cultes et culture gaming.",
+    "icon": "🎮",
+    "gradient": "from-purple-600 to-pink-700"
+  },
+  {
+    "file": "questions-13.json",
+    "name": "Animaux",
+    "description": "Mammifères, oiseaux, reptiles, monde marin, insectes et curiosités.",
+    "icon": "🐾",
+    "gradient": "from-lime-600 to-green-800"
+  },
+  {
+    "file": "questions-14.json",
+    "name": "Paris",
+    "description": "Monuments, histoire, arrondissements, quartiers et Paris insolite.",
+    "icon": "🗼",
+    "gradient": "from-pink-500 to-rose-800"
+  }
+]

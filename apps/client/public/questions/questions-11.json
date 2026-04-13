@@ -1,0 +1,53 @@
+{
+  "Christianisme": [
+    { "type": "qcm", "question": "Combien d'apôtres Jésus avait-il ?", "choices": ["7", "10", "12", "14"], "answer": "12" },
+    { "type": "vrai_faux", "question": "Le protestantisme est né de la réforme de Martin Luther au XVIe siècle.", "answer": true },
+    { "type": "texte", "question": "Comment s'appelle le livre sacré des chrétiens ?", "answer": "Bible" },
+    { "type": "qcm", "question": "Dans quelle ville se trouve le Vatican ?", "choices": ["Florence", "Milan", "Rome", "Naples"], "answer": "Rome" },
+    { "type": "vrai_faux", "question": "Noël célèbre la résurrection de Jésus.", "answer": false },
+    { "type": "qcm", "question": "Quel sacrement marque l'entrée dans la foi chrétienne ?", "choices": ["Communion", "Baptême", "Confirmation", "Confession"], "answer": "Baptême" },
+    { "type": "texte", "question": "Quel est le nom du pape actuel (2024) ?", "answer": "François" }
+  ],
+  "Islam": [
+    { "type": "qcm", "question": "Combien de piliers compte l'Islam ?", "choices": ["3", "4", "5", "7"], "answer": "5" },
+    { "type": "vrai_faux", "question": "Le Coran est le livre sacré de l'Islam.", "answer": true },
+    { "type": "texte", "question": "Comment s'appelle le mois de jeûne dans l'Islam ?", "answer": "Ramadan" },
+    { "type": "qcm", "question": "Vers quelle ville les musulmans se tournent-ils pour prier ?", "choices": ["Médine", "Jérusalem", "La Mecque", "Le Caire"], "answer": "La Mecque" },
+    { "type": "vrai_faux", "question": "Le pèlerinage à La Mecque s'appelle le Hajj.", "answer": true },
+    { "type": "qcm", "question": "Quel est le premier pilier de l'Islam ?", "choices": ["La prière", "Le jeûne", "La profession de foi", "L'aumône"], "answer": "La profession de foi" },
+    { "type": "texte", "question": "Comment s'appelle le lieu de culte musulman ?", "answer": "Mosquée" }
+  ],
+  "Judaïsme": [
+    { "type": "qcm", "question": "Quel est le livre sacré du judaïsme ?", "choices": ["Le Talmud", "La Torah", "La Bible", "Le Tanakh"], "answer": "La Torah" },
+    { "type": "vrai_faux", "question": "Le Shabbat commence le vendredi soir.", "answer": true },
+    { "type": "texte", "question": "Comment s'appelle le chandelier à sept branches symbole du judaïsme ?", "answer": "Ménorah" },
+    { "type": "qcm", "question": "Quelle fête commémore la sortie d'Égypte des Hébreux ?", "choices": ["Hanoukka", "Yom Kippour", "Pessah", "Pourim"], "answer": "Pessah" },
+    { "type": "vrai_faux", "question": "La synagogue est le lieu de culte juif.", "answer": true },
+    { "type": "qcm", "question": "Quel mur à Jérusalem est le lieu de prière le plus sacré du judaïsme ?", "choices": ["Mur des Lamentations", "Mur de Salomon", "Mur du Temple", "Mur sacré"], "answer": "Mur des Lamentations" }
+  ],
+  "Bouddhisme": [
+    { "type": "qcm", "question": "Quel est le vrai nom du Bouddha historique ?", "choices": ["Ashoka", "Siddhartha Gautama", "Dalaï Lama", "Confucius"], "answer": "Siddhartha Gautama" },
+    { "type": "vrai_faux", "question": "Le bouddhisme est né en Chine.", "answer": false },
+    { "type": "texte", "question": "Comment appelle-t-on l'état de libération ultime dans le bouddhisme ?", "answer": "Nirvana" },
+    { "type": "qcm", "question": "Combien de nobles vérités y a-t-il dans le bouddhisme ?", "choices": ["2", "3", "4", "8"], "answer": "4" },
+    { "type": "vrai_faux", "question": "Le bouddhisme est une religion monothéiste.", "answer": false },
+    { "type": "qcm", "question": "Dans quel pays le Dalaï Lama est-il le chef spirituel ?", "choices": ["Chine", "Japon", "Tibet", "Thaïlande"], "answer": "Tibet" }
+  ],
+  "Hindouisme": [
+    { "type": "qcm", "question": "Quel dieu hindou est connu comme le destructeur ?", "choices": ["Brahma", "Vishnou", "Shiva", "Ganesh"], "answer": "Shiva" },
+    { "type": "vrai_faux", "question": "L'hindouisme est la plus ancienne religion encore pratiquée.", "answer": true },
+    { "type": "texte", "question": "Quel dieu hindou a une tête d'éléphant ?", "answer": "Ganesh" },
+    { "type": "qcm", "question": "Quel fleuve est sacré dans l'hindouisme ?", "choices": ["Indus", "Gange", "Brahmapoutre", "Yamuna"], "answer": "Gange" },
+    { "type": "vrai_faux", "question": "La réincarnation est un concept central de l'hindouisme.", "answer": true },
+    { "type": "qcm", "question": "Quelle fête hindoue est la fête des lumières ?", "choices": ["Holi", "Diwali", "Navratri", "Pongal"], "answer": "Diwali" }
+  ],
+  "Religions du monde": [
+    { "type": "qcm", "question": "Quelle est la religion la plus pratiquée au monde ?", "choices": ["Islam", "Christianisme", "Hindouisme", "Bouddhisme"], "answer": "Christianisme" },
+    { "type": "vrai_faux", "question": "Le sikhisme est né en Inde.", "answer": true },
+    { "type": "texte", "question": "Quelle religion japonaise vénère les esprits de la nature appelés kami ?", "answer": "Shintoïsme" },
+    { "type": "qcm", "question": "Quel philosophe chinois a fondé le confucianisme ?", "choices": ["Lao Tseu", "Confucius", "Sun Tzu", "Mencius"], "answer": "Confucius" },
+    { "type": "vrai_faux", "question": "Le jaïnisme prône la non-violence absolue.", "answer": true },
+    { "type": "qcm", "question": "Combien de grandes religions monothéistes existe-t-il ?", "choices": ["2", "3", "4", "5"], "answer": "3" },
+    { "type": "texte", "question": "Quelle ville est sacrée pour le christianisme, l'islam et le judaïsme ?", "answer": "Jérusalem" }
+  ]
+}

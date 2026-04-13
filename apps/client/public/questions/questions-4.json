@@ -1,0 +1,106 @@
+{
+  "Capitales": [
+    { "type": "qcm", "question": "Quelle est la capitale de la Mongolie ?", "choices": ["Oulan-Bator", "Astana", "Bichkek", "Douchanbé"], "answer": "Oulan-Bator" },
+    { "type": "texte", "question": "Quelle est la capitale du Maroc ?", "answer": "Rabat" },
+    { "type": "vrai_faux", "question": "La capitale du Brésil est Rio de Janeiro.", "answer": false },
+    { "type": "qcm", "question": "Quelle est la capitale de la Nouvelle-Zélande ?", "choices": ["Auckland", "Wellington", "Christchurch", "Queenstown"], "answer": "Wellington" },
+    { "type": "texte", "question": "Quelle est la capitale de la Turquie ?", "answer": "Ankara" },
+    { "type": "vrai_faux", "question": "La capitale de l'Inde est New Delhi.", "answer": true },
+    { "type": "qcm", "question": "Quelle est la capitale du Vietnam ?", "choices": ["Hô Chi Minh-Ville", "Hanoï", "Da Nang", "Hué"], "answer": "Hanoï" },
+    { "type": "texte", "question": "Quelle est la capitale de l'Éthiopie ?", "answer": "Addis-Abeba" },
+    { "type": "qcm", "question": "Quelle est la capitale du Myanmar ?", "choices": ["Rangoun", "Mandalay", "Naypyidaw", "Bago"], "answer": "Naypyidaw" }
+  ],
+  "Fleuves et Rivières": [
+    { "type": "qcm", "question": "Quel fleuve traverse Paris ?", "choices": ["Loire", "Rhône", "Seine", "Garonne"], "answer": "Seine" },
+    { "type": "vrai_faux", "question": "L'Amazone est le fleuve avec le plus grand débit au monde.", "answer": true },
+    { "type": "texte", "question": "Quel fleuve traverse Le Caire ?", "answer": "Nil" },
+    { "type": "qcm", "question": "Quel fleuve forme la frontière entre les États-Unis et le Mexique ?", "choices": ["Colorado", "Mississippi", "Rio Grande", "Missouri"], "answer": "Rio Grande" },
+    { "type": "vrai_faux", "question": "Le Danube se jette dans la mer Méditerranée.", "answer": false },
+    { "type": "qcm", "question": "Quel est le plus long fleuve d'Europe ?", "choices": ["Danube", "Rhin", "Volga", "Loire"], "answer": "Volga" },
+    { "type": "texte", "question": "Quel fleuve traverse Londres ?", "answer": "Tamise" },
+    { "type": "qcm", "question": "Dans quel océan se jette le fleuve Congo ?", "choices": ["Indien", "Pacifique", "Atlantique", "Arctique"], "answer": "Atlantique" }
+  ],
+  "Montagnes et Volcans": [
+    { "type": "qcm", "question": "Quelle est la plus haute montagne d'Afrique ?", "choices": ["Mont Kenya", "Kilimandjaro", "Mont Elgon", "Ras Dashen"], "answer": "Kilimandjaro" },
+    { "type": "vrai_faux", "question": "Le mont Fuji est un volcan actif.", "answer": true },
+    { "type": "texte", "question": "Quelle chaîne de montagnes sépare la France de l'Espagne ?", "answer": "Pyrénées" },
+    { "type": "qcm", "question": "Quel volcan a détruit Pompéi en 79 ap. J.-C. ?", "choices": ["Etna", "Stromboli", "Vésuve", "Santorin"], "answer": "Vésuve" },
+    { "type": "vrai_faux", "question": "L'Himalaya est la plus jeune chaîne de montagnes du monde.", "answer": true },
+    { "type": "qcm", "question": "Quel est le plus haut sommet des Amériques ?", "choices": ["Denali", "Aconcagua", "Mont Logan", "Chimborazo"], "answer": "Aconcagua" },
+    { "type": "texte", "question": "Sur quelle île se trouve l'Etna ?", "answer": "Sicile" },
+    { "type": "qcm", "question": "Quelle chaîne de montagnes traverse l'Amérique du Sud ?", "choices": ["Rocheuses", "Atlas", "Andes", "Oural"], "answer": "Andes" },
+    { "type": "vrai_faux", "question": "Le K2 est plus haut que l'Everest.", "answer": false }
+  ],
+  "Îles": [
+    { "type": "qcm", "question": "Quelle est la plus grande île du monde ?", "choices": ["Bornéo", "Madagascar", "Groenland", "Nouvelle-Guinée"], "answer": "Groenland" },
+    { "type": "vrai_faux", "question": "L'Islande est recouverte à 80% de glace.", "answer": false },
+    { "type": "texte", "question": "À quel pays appartient l'île de Sardaigne ?", "answer": "Italie" },
+    { "type": "qcm", "question": "Dans quel océan se trouvent les Maldives ?", "choices": ["Pacifique", "Atlantique", "Indien", "Arctique"], "answer": "Indien" },
+    { "type": "vrai_faux", "question": "Hawaï fait partie des États-Unis.", "answer": true },
+    { "type": "qcm", "question": "Quelle île est partagée entre la France et les Pays-Bas ?", "choices": ["Guadeloupe", "Saint-Martin", "Martinique", "Curaçao"], "answer": "Saint-Martin" },
+    { "type": "texte", "question": "Quelle île indonésienne est célèbre pour ses temples hindous ?", "answer": "Bali" },
+    { "type": "qcm", "question": "Quelle est la deuxième plus grande île de la Méditerranée ?", "choices": ["Crète", "Sardaigne", "Corse", "Chypre"], "answer": "Sardaigne" }
+  ],
+  "Déserts": [
+    { "type": "qcm", "question": "Quel est le plus grand désert chaud du monde ?", "choices": ["Gobi", "Sahara", "Kalahari", "Arabie"], "answer": "Sahara" },
+    { "type": "vrai_faux", "question": "L'Antarctique est considéré comme un désert.", "answer": true },
+    { "type": "texte", "question": "Dans quel pays se trouve le désert d'Atacama ?", "answer": "Chili" },
+    { "type": "qcm", "question": "Quel désert se trouve en Mongolie et en Chine ?", "choices": ["Taklamakan", "Gobi", "Karakoum", "Thar"], "answer": "Gobi" },
+    { "type": "vrai_faux", "question": "Le Sahara est plus grand que les États-Unis.", "answer": true },
+    { "type": "qcm", "question": "Quel désert américain abrite la Vallée de la Mort ?", "choices": ["Sonora", "Chihuahua", "Mojave", "Colorado"], "answer": "Mojave" },
+    { "type": "texte", "question": "Quel est le désert le plus sec de la planète ?", "answer": "Atacama" },
+    { "type": "qcm", "question": "Quel désert se trouve en Namibie ?", "choices": ["Kalahari", "Namib", "Sahel", "Libye"], "answer": "Namib" }
+  ],
+  "Pays et Frontières": [
+    { "type": "qcm", "question": "Quel pays possède le plus de frontières terrestres ?", "choices": ["Russie", "Chine", "Brésil", "Allemagne"], "answer": "Chine" },
+    { "type": "vrai_faux", "question": "La France a une frontière avec le Brésil.", "answer": true },
+    { "type": "texte", "question": "Quel est le seul pays au monde à avoir une forme entièrement ronde sur son drapeau comme territoire ?", "answer": "Sierra Leone" },
+    { "type": "qcm", "question": "Quel est le plus petit pays d'Afrique ?", "choices": ["Gambie", "Seychelles", "Djibouti", "Swaziland"], "answer": "Seychelles" },
+    { "type": "vrai_faux", "question": "Le Lesotho est entièrement entouré par l'Afrique du Sud.", "answer": true },
+    { "type": "qcm", "question": "Combien de pays y a-t-il dans le monde (reconnus par l'ONU) ?", "choices": ["175", "193", "206", "215"], "answer": "193" },
+    { "type": "texte", "question": "Quel pays d'Amérique du Sud n'a pas de côte ?", "answer": "Bolivie" },
+    { "type": "qcm", "question": "Quel pays a la plus longue côte au monde ?", "choices": ["Australie", "Russie", "Indonésie", "Canada"], "answer": "Canada" },
+    { "type": "vrai_faux", "question": "Monaco est plus petit que Central Park à New York.", "answer": true }
+  ],
+  "Lacs": [
+    { "type": "qcm", "question": "Quel est le plus grand lac d'Afrique ?", "choices": ["Lac Tchad", "Lac Victoria", "Lac Tanganyika", "Lac Malawi"], "answer": "Lac Victoria" },
+    { "type": "vrai_faux", "question": "Le lac Titicaca se trouve entre le Pérou et la Bolivie.", "answer": true },
+    { "type": "texte", "question": "Quel est le lac le plus profond du monde ?", "answer": "Baïkal" },
+    { "type": "qcm", "question": "Dans quel pays se trouve le lac Léman ?", "choices": ["France", "Suisse", "Les deux", "Italie"], "answer": "Les deux" },
+    { "type": "vrai_faux", "question": "Les Grands Lacs contiennent 20% de l'eau douce de surface mondiale.", "answer": true },
+    { "type": "qcm", "question": "Quel lac américain est le plus grand en superficie ?", "choices": ["Michigan", "Huron", "Supérieur", "Érié"], "answer": "Supérieur" },
+    { "type": "texte", "question": "Quel lac salé se trouve entre Israël et la Jordanie ?", "answer": "Mer Morte" },
+    { "type": "qcm", "question": "Dans quel pays se trouve le lac Baïkal ?", "choices": ["Kazakhstan", "Mongolie", "Russie", "Chine"], "answer": "Russie" }
+  ],
+  "Villes du monde": [
+    { "type": "qcm", "question": "Quelle ville est surnommée la Cité des Anges ?", "choices": ["San Francisco", "Las Vegas", "Los Angeles", "Miami"], "answer": "Los Angeles" },
+    { "type": "vrai_faux", "question": "Istanbul s'appelait autrefois Constantinople.", "answer": true },
+    { "type": "texte", "question": "Quelle ville est surnommée la Ville Éternelle ?", "answer": "Rome" },
+    { "type": "qcm", "question": "Quelle ville est bâtie sur 14 îles ?", "choices": ["Venise", "Amsterdam", "Stockholm", "Saint-Pétersbourg"], "answer": "Stockholm" },
+    { "type": "vrai_faux", "question": "Dubaï est la capitale des Émirats arabes unis.", "answer": false },
+    { "type": "qcm", "question": "Quelle ville abrite la plus grande population au monde ?", "choices": ["Shanghai", "Tokyo", "Delhi", "São Paulo"], "answer": "Tokyo" },
+    { "type": "texte", "question": "Dans quelle ville se trouve la Sagrada Família ?", "answer": "Barcelone" },
+    { "type": "qcm", "question": "Quelle ville est la plus haute du monde en altitude ?", "choices": ["Quito", "La Paz", "Bogota", "Lhassa"], "answer": "La Paz" },
+    { "type": "vrai_faux", "question": "Tombouctou est une ville réelle au Mali.", "answer": true }
+  ],
+  "Climats et Phénomènes": [
+    { "type": "qcm", "question": "Quel phénomène climatique réchauffe le Pacifique ?", "choices": ["La Niña", "El Niño", "Gulf Stream", "Mousson"], "answer": "El Niño" },
+    { "type": "vrai_faux", "question": "La mousson apporte de la pluie en Inde.", "answer": true },
+    { "type": "texte", "question": "Comment appelle-t-on un violent tourbillon de vent en forme d'entonnoir ?", "answer": "Tornade" },
+    { "type": "qcm", "question": "Quel pays reçoit le plus de pluie au monde ?", "choices": ["Brésil", "Inde", "Colombie", "Indonésie"], "answer": "Colombie" },
+    { "type": "vrai_faux", "question": "Les aurores boréales ne sont visibles qu'au pôle Nord.", "answer": false },
+    { "type": "qcm", "question": "Quel est l'endroit le plus froid habité sur Terre ?", "choices": ["Norilsk", "Oïmiakon", "Yakoutsk", "Barrow"], "answer": "Oïmiakon" },
+    { "type": "texte", "question": "Comment s'appelle la zone tropicale entre les tropiques du Cancer et du Capricorne ?", "answer": "Zone intertropicale" },
+    { "type": "qcm", "question": "Comment appelle-t-on un ouragan dans le Pacifique ?", "choices": ["Cyclone", "Typhon", "Tornade", "Tempête"], "answer": "Typhon" }
+  ],
+  "Continents": [
+    { "type": "qcm", "question": "Combien de continents y a-t-il ?", "choices": ["5", "6", "7", "8"], "answer": "7" },
+    { "type": "vrai_faux", "question": "L'Océanie est un continent.", "answer": true },
+    { "type": "texte", "question": "Quel est le plus petit continent ?", "answer": "Océanie" },
+    { "type": "qcm", "question": "Quel continent a le plus de pays ?", "choices": ["Asie", "Europe", "Afrique", "Amérique"], "answer": "Afrique" },
+    { "type": "vrai_faux", "question": "L'Antarctique n'appartient à aucun pays.", "answer": true },
+    { "type": "qcm", "question": "Quel continent est traversé par les trois tropiques ?", "choices": ["Afrique", "Asie", "Amérique du Sud", "Aucun"], "answer": "Afrique" },
+    { "type": "texte", "question": "Quel détroit sépare l'Asie de l'Amérique du Nord ?", "answer": "Détroit de Béring" },
+    { "type": "qcm", "question": "Quel est le continent le plus densément peuplé ?", "choices": ["Asie", "Europe", "Afrique", "Amérique du Nord"], "answer": "Asie" }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "Constructeurs": [
+    { "type": "qcm", "question": "Quel constructeur fabrique la Mustang ?", "choices": ["Chevrolet", "Ford", "Dodge", "Pontiac"], "answer": "Ford" },
+    { "type": "vrai_faux", "question": "Lamborghini appartient au groupe Volkswagen.", "answer": true },
+    { "type": "texte", "question": "Quel constructeur japonais fabrique la Civic et la CR-V ?", "answer": "Honda" },
+    { "type": "qcm", "question": "Quelle marque a pour logo un taureau ?", "choices": ["Ferrari", "Lamborghini", "Maserati", "Alfa Romeo"], "answer": "Lamborghini" },
+    { "type": "vrai_faux", "question": "Tesla a été fondée par Elon Musk.", "answer": false },
+    { "type": "qcm", "question": "Quel constructeur produit la 911 ?", "choices": ["BMW", "Mercedes", "Porsche", "Audi"], "answer": "Porsche" },
+    { "type": "texte", "question": "Quel constructeur italien a un trident comme logo ?", "answer": "Maserati" },
+    { "type": "qcm", "question": "Quelle marque coréenne fabrique la Tucson ?", "choices": ["Kia", "Hyundai", "SsangYong", "Genesis"], "answer": "Hyundai" },
+    { "type": "vrai_faux", "question": "Bugatti est une marque d'origine italienne.", "answer": false }
+  ],
+  "Modèles mythiques": [
+    { "type": "qcm", "question": "Quelle voiture est surnommée la 'Deuch' ?", "choices": ["Citroën 2CV", "Renault 4L", "Peugeot 203", "Fiat 500"], "answer": "Citroën 2CV" },
+    { "type": "vrai_faux", "question": "La DeLorean DMC-12 est la voiture de Retour vers le Futur.", "answer": true },
+    { "type": "texte", "question": "Quel modèle Volkswagen est surnommé la Coccinelle ?", "answer": "Beetle" },
+    { "type": "qcm", "question": "Quelle voiture James Bond conduit-il le plus souvent ?", "choices": ["Jaguar E-Type", "Aston Martin DB5", "Bentley Continental", "Lotus Esprit"], "answer": "Aston Martin DB5" },
+    { "type": "vrai_faux", "question": "La Ford Model T était disponible en plusieurs couleurs.", "answer": false },
+    { "type": "qcm", "question": "Quelle Peugeot est surnommée la Lionne ?", "choices": ["205", "306", "406", "508"], "answer": "205" },
+    { "type": "texte", "question": "Quel modèle Mini est devenu une icône des années 60 en Angleterre ?", "answer": "Mini Cooper" },
+    { "type": "qcm", "question": "Quelle voiture japonaise est la sportive la plus vendue au monde ?", "choices": ["Toyota Supra", "Nissan GT-R", "Mazda MX-5", "Honda NSX"], "answer": "Mazda MX-5" }
+  ],
+  "Mécanique": [
+    { "type": "qcm", "question": "Que signifie le sigle 'TDI' ?", "choices": ["Turbo Direct Injection", "Turbo Diesel Injection", "Turbo Dynamic Injection", "Twin Diesel Intake"], "answer": "Turbo Diesel Injection" },
+    { "type": "vrai_faux", "question": "Un moteur 4 cylindres a 4 bougies d'allumage (essence).", "answer": true },
+    { "type": "texte", "question": "Comment appelle-t-on le système qui transmet la puissance du moteur aux roues ?", "answer": "Transmission" },
+    { "type": "qcm", "question": "Que mesure le couple moteur ?", "choices": ["La vitesse", "La force de rotation", "La consommation", "La puissance"], "answer": "La force de rotation" },
+    { "type": "vrai_faux", "question": "Un turbocompresseur utilise les gaz d'échappement.", "answer": true },
+    { "type": "qcm", "question": "Combien de temps dure un cycle dans un moteur 4 temps ?", "choices": ["2 tours", "3 tours", "4 tours", "1 tour"], "answer": "2 tours" },
+    { "type": "texte", "question": "Quel fluide permet de refroidir le moteur ?", "answer": "Liquide de refroidissement" },
+    { "type": "qcm", "question": "Que signifie 'ABS' ?", "choices": ["Anti Braking System", "Anti-lock Braking System", "Automatic Brake System", "Advanced Brake Safety"], "answer": "Anti-lock Braking System" },
+    { "type": "vrai_faux", "question": "Un moteur diesel n'a pas besoin de bougies d'allumage.", "answer": true }
+  ],
+  "Formule 1": [
+    { "type": "qcm", "question": "Quel pilote détient le record de titres mondiaux en F1 ?", "choices": ["Ayrton Senna", "Michael Schumacher", "Lewis Hamilton", "Max Verstappen"], "answer": "Lewis Hamilton" },
+    { "type": "vrai_faux", "question": "Le circuit de Monaco traverse les rues de la ville.", "answer": true },
+    { "type": "texte", "question": "Quelle écurie italienne est la plus titrée en F1 ?", "answer": "Ferrari" },
+    { "type": "qcm", "question": "Combien de tours dure environ un Grand Prix ?", "choices": ["30-40", "40-50", "50-70", "70-90"], "answer": "50-70" },
+    { "type": "vrai_faux", "question": "Le drapeau jaune signifie que la piste est libre.", "answer": false },
+    { "type": "qcm", "question": "Quel pilote français a couru pour Alpine/Renault ?", "choices": ["Pierre Gasly", "Esteban Ocon", "Les deux", "Romain Grosjean"], "answer": "Les deux" },
+    { "type": "texte", "question": "Quel pilote brésilien est mort à Imola en 1994 ?", "answer": "Ayrton Senna" },
+    { "type": "qcm", "question": "Quel type de pneu est le plus rapide en F1 ?", "choices": ["Dur", "Medium", "Tendre", "Intermédiaire"], "answer": "Tendre" }
+  ],
+  "Rallye et Endurance": [
+    { "type": "qcm", "question": "Quelle course de 24h se déroule en France ?", "choices": ["Daytona", "Nürburgring", "Le Mans", "Spa"], "answer": "Le Mans" },
+    { "type": "vrai_faux", "question": "Le Rallye Dakar se déroule toujours en Afrique.", "answer": false },
+    { "type": "texte", "question": "Quel pilote français a remporté 9 titres en WRC ?", "answer": "Sébastien Loeb" },
+    { "type": "qcm", "question": "Quelle marque a dominé les 24h du Mans dans les années 2010 ?", "choices": ["Ferrari", "Porsche", "Toyota", "Audi"], "answer": "Audi" },
+    { "type": "vrai_faux", "question": "En rallye, le copilote lit les notes de virage.", "answer": true },
+    { "type": "qcm", "question": "Dans quel pays se déroule le Rallye Monte-Carlo ?", "choices": ["France", "Italie", "Monaco", "Espagne"], "answer": "Monaco" },
+    { "type": "texte", "question": "Comment appelle-t-on les portions chronométrées en rallye ?", "answer": "Spéciales" },
+    { "type": "qcm", "question": "Quelle catégorie de voiture domine aux 24h du Mans ?", "choices": ["GT3", "LMP1", "Hypercar", "LMP2"], "answer": "Hypercar" }
+  ],
+  "Électrique et Futur": [
+    { "type": "qcm", "question": "Quelle est l'autonomie moyenne d'une Tesla Model 3 (2024) ?", "choices": ["250 km", "350 km", "500 km", "700 km"], "answer": "500 km" },
+    { "type": "vrai_faux", "question": "La première voiture électrique date d'avant la voiture à essence.", "answer": true },
+    { "type": "texte", "question": "Quel constructeur chinois est devenu le plus grand exportateur de voitures électriques ?", "answer": "BYD" },
+    { "type": "qcm", "question": "Quel type de batterie équipe la majorité des voitures électriques ?", "choices": ["Plomb-acide", "Nickel-cadmium", "Lithium-ion", "Sodium"], "answer": "Lithium-ion" },
+    { "type": "vrai_faux", "question": "Une voiture à hydrogène rejette de l'eau.", "answer": true },
+    { "type": "qcm", "question": "Quel constructeur a lancé la Leaf, pionnière de l'électrique ?", "choices": ["Toyota", "Nissan", "Renault", "Hyundai"], "answer": "Nissan" },
+    { "type": "texte", "question": "Comment s'appelle le système qui récupère l'énergie au freinage ?", "answer": "Freinage régénératif" },
+    { "type": "qcm", "question": "En quelle année l'UE prévoit-elle d'interdire les moteurs thermiques neufs ?", "choices": ["2030", "2035", "2040", "2050"], "answer": "2035" }
+  ],
+  "Histoire automobile": [
+    { "type": "qcm", "question": "Qui a inventé le moteur à combustion interne moderne ?", "choices": ["Henry Ford", "Karl Benz", "Rudolf Diesel", "Gottlieb Daimler"], "answer": "Karl Benz" },
+    { "type": "vrai_faux", "question": "Henry Ford a inventé la chaîne de montage.", "answer": true },
+    { "type": "texte", "question": "En quelle décennie la Ford Model T a-t-elle été produite pour la première fois ?", "answer": "1900" },
+    { "type": "qcm", "question": "Quel pays a produit le plus de voitures en 2023 ?", "choices": ["États-Unis", "Japon", "Allemagne", "Chine"], "answer": "Chine" },
+    { "type": "vrai_faux", "question": "La Citroën DS a été présentée en 1955.", "answer": true },
+    { "type": "qcm", "question": "Quel accord a fusionné PSA et Fiat Chrysler ?", "choices": ["Stellantis", "Alliance", "Renova", "AutoUnion"], "answer": "Stellantis" },
+    { "type": "texte", "question": "Quel ingénieur a donné son nom au moteur diesel ?", "answer": "Rudolf Diesel" },
+    { "type": "qcm", "question": "Quelle voiture a été la première à dépasser les 100 km/h ?", "choices": ["Benz Velo", "Jamais Contente", "Ford Model T", "Mercedes 35 HP"], "answer": "Jamais Contente" }
+  ],
+  "Code de la route": [
+    { "type": "qcm", "question": "Quelle est la vitesse maximale sur autoroute en France ?", "choices": ["110 km/h", "120 km/h", "130 km/h", "140 km/h"], "answer": "130 km/h" },
+    { "type": "vrai_faux", "question": "Un panneau rond à fond bleu est un panneau d'obligation.", "answer": true },
+    { "type": "texte", "question": "Quel taux d'alcoolémie maximum est autorisé en France (en g/L) ?", "answer": "0.5" },
+    { "type": "qcm", "question": "Que signifie un panneau triangulaire à fond blanc bordé de rouge ?", "choices": ["Interdiction", "Danger", "Obligation", "Indication"], "answer": "Danger" },
+    { "type": "vrai_faux", "question": "En France, le permis de conduire est à points.", "answer": true },
+    { "type": "qcm", "question": "Combien de points possède un permis de conduire complet en France ?", "choices": ["8", "10", "12", "15"], "answer": "12" },
+    { "type": "texte", "question": "Quelle est la distance de sécurité minimale sur autoroute (en mètres) ?", "answer": "90" },
+    { "type": "qcm", "question": "À quelle vitesse maximale peut-on rouler en agglomération ?", "choices": ["30 km/h", "40 km/h", "50 km/h", "60 km/h"], "answer": "50 km/h" },
+    { "type": "vrai_faux", "question": "Le clignotant est obligatoire pour changer de voie.", "answer": true }
+  ],
+  "Supercars": [
+    { "type": "qcm", "question": "Quelle est la vitesse max de la Bugatti Chiron Super Sport ?", "choices": ["380 km/h", "420 km/h", "440 km/h", "490 km/h"], "answer": "440 km/h" },
+    { "type": "vrai_faux", "question": "La McLaren F1 a été la voiture la plus rapide du monde pendant 12 ans.", "answer": true },
+    { "type": "texte", "question": "Quelle supercar Ferrari hybride est sortie en 2013 ?", "answer": "LaFerrari" },
+    { "type": "qcm", "question": "Combien de cylindres a le moteur de la Lamborghini Aventador ?", "choices": ["8", "10", "12", "16"], "answer": "12" },
+    { "type": "vrai_faux", "question": "La Koenigsegg est une marque suédoise.", "answer": true },
+    { "type": "qcm", "question": "Quelle hypercar Porsche est sortie en 2020 ?", "choices": ["918 Spyder", "Carrera GT", "Taycan Turbo S", "Mission E"], "answer": "Taycan Turbo S" },
+    { "type": "texte", "question": "Quelle marque produit la Veyron et la Chiron ?", "answer": "Bugatti" },
+    { "type": "qcm", "question": "Quel moteur équipe la Bugatti Chiron ?", "choices": ["V8 biturbo", "V10", "W16 quadriturbo", "V12 biturbo"], "answer": "W16 quadriturbo" }
+  ]
+}

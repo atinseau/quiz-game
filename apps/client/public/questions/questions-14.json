@@ -1,0 +1,30 @@
+{
+  "Monuments et lieux": [
+    { "type": "qcm", "question": "En quelle année la Tour Eiffel a-t-elle été construite ?", "choices": ["1879", "1889", "1899", "1909"], "answer": "1889" },
+    { "type": "vrai_faux", "question": "Le Sacré-Cœur se trouve sur la butte Montmartre.", "answer": true },
+    { "type": "texte", "question": "Quel musée parisien est le plus visité au monde ?", "answer": "Le Louvre" },
+    { "type": "qcm", "question": "Quel monument se trouve au bout des Champs-Élysées ?", "choices": ["Tour Eiffel", "Panthéon", "Arc de Triomphe", "Obélisque"], "answer": "Arc de Triomphe" },
+    { "type": "vrai_faux", "question": "Notre-Dame de Paris est située sur l'île de la Cité.", "answer": true }
+  ],
+  "Histoire de Paris": [
+    { "type": "qcm", "question": "Quel peuple gaulois a donné son nom à Paris ?", "choices": ["Arvernes", "Parisii", "Sénons", "Carnutes"], "answer": "Parisii" },
+    { "type": "vrai_faux", "question": "Paris s'appelait Lutèce à l'époque romaine.", "answer": true },
+    { "type": "texte", "question": "Quel baron a modernisé Paris au XIXe siècle en perçant les grands boulevards ?", "answer": "Haussmann" },
+    { "type": "qcm", "question": "En quelle année Paris a-t-elle accueilli sa première Exposition universelle ?", "choices": ["1855", "1867", "1889", "1900"], "answer": "1855" },
+    { "type": "vrai_faux", "question": "La Commune de Paris a eu lieu en 1871.", "answer": true }
+  ],
+  "Arrondissements et quartiers": [
+    { "type": "qcm", "question": "Combien d'arrondissements compte Paris ?", "choices": ["16", "18", "20", "22"], "answer": "20" },
+    { "type": "vrai_faux", "question": "Le Marais se trouve dans le 3e et 4e arrondissement.", "answer": true },
+    { "type": "texte", "question": "Dans quel quartier parisien se trouve le Moulin Rouge ?", "answer": "Pigalle" },
+    { "type": "qcm", "question": "Quel arrondissement abrite la Tour Eiffel ?", "choices": ["7e", "8e", "15e", "16e"], "answer": "7e" },
+    { "type": "vrai_faux", "question": "Le quartier latin doit son nom à la langue parlée par les étudiants au Moyen Âge.", "answer": true }
+  ],
+  "Paris insolite": [
+    { "type": "qcm", "question": "Quelle est la longueur approximative des catacombes de Paris ?", "choices": ["100 km", "200 km", "300 km", "400 km"], "answer": "300 km" },
+    { "type": "vrai_faux", "question": "Il existe une réplique de la Statue de la Liberté à Paris.", "answer": true },
+    { "type": "texte", "question": "Quel fleuve traverse Paris ?", "answer": "Seine" },
+    { "type": "qcm", "question": "Quelle gare parisienne est la plus fréquentée d'Europe ?", "choices": ["Gare de Lyon", "Gare du Nord", "Gare Montparnasse", "Gare Saint-Lazare"], "answer": "Gare du Nord" },
+    { "type": "vrai_faux", "question": "La devise de Paris est 'Fluctuat nec mergitur'.", "answer": true }
+  ]
+}
