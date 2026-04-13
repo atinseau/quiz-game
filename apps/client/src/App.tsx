@@ -4,7 +4,6 @@ import {
   SignInButton,
   SignUpButton,
   UserButton,
-  useAuth,
 } from "@clerk/clerk-react";
 import { LogIn, UserPlus, Volume2, VolumeX } from "lucide-react";
 import { useEffect } from "react";
@@ -13,19 +12,10 @@ import { Button } from "@/components/ui/button";
 import { EndScreen } from "./components/EndScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
-import { api } from "./lib/api";
+import { useSyncPlayer } from "./hooks/useSyncPlayer";
 import { useGameStore } from "./stores/gameStore";
 import { setNavigate } from "./stores/router";
 import { useSettingsStore } from "./stores/settingsStore";
-
-function useSyncPlayer() {
-  const { isSignedIn } = useAuth();
-
-  useEffect(() => {
-    if (!isSignedIn) return;
-    api.get("player/me").catch(console.error);
-  }, [isSignedIn]);
-}
 
 function AuthHeader() {
   useSyncPlayer();
