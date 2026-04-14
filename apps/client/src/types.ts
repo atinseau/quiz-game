@@ -98,6 +98,7 @@ export interface ApiPack {
   published: boolean;
   displayOrder: number;
   questionCount?: number;
+  price: number | null;
 }
 
 export const MAX_COMBO = 5;

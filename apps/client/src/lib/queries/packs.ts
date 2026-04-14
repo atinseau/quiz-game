@@ -20,5 +20,6 @@ export async function fetchPacks(): Promise<ApiPack[]> {
     published: pack.published ?? true,
     displayOrder: pack.displayOrder ?? 0,
     questionCount: pack.questions?.count ?? 0,
+    price: pack.price ?? null,
   }));
 }

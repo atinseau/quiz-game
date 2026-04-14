@@ -30,6 +30,7 @@ const fakePack: ApiPack = {
   published: true,
   displayOrder: 0,
   questionCount: 10,
+  price: null,
 };
 
 describe("packStore", () => {
