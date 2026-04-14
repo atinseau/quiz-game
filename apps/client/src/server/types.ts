@@ -86,7 +86,7 @@ export type ClientMessage =
   | { type: "join_room"; code: string }
   | { type: "select_pack"; packSlug: string }
   | { type: "select_mode"; mode: GameMode }
-  | { type: "start_game" }
+  | { type: "start_game"; alcoholConfig?: AlcoholConfig }
   | { type: "leave_room" }
   | { type: "submit_answer"; answer: string | boolean }
   | { type: "courage_choice"; accept: boolean }

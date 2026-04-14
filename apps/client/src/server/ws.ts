@@ -1,4 +1,5 @@
 import type { ServerWebSocket } from "bun";
+import { handleAlcoholMessage } from "./alcohol/framework";
 import {
   startGame as startGameEngine,
   submitAnswer as submitAnswerEngine,
@@ -97,6 +98,9 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
         });
         return;
       }
+      if (msg.alcoholConfig) {
+        room.alcoholConfig = msg.alcoholConfig;
+      }
       room.status = "playing";
       broadcast(room, { type: "game_starting" });
       await startGameEngine(room);
@@ -113,6 +117,17 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
     }
     case "leave_room": {
       leaveRoom(clerkId);
+      break;
+    }
+    case "courage_choice":
+    case "courage_answer":
+    case "distribute_drink": {
+      const room = findRoomByPlayer(clerkId);
+      if (!room?.game) {
+        send(ws, { type: "error", message: "Pas de partie en cours" });
+        return;
+      }
+      handleAlcoholMessage(room, clerkId, msg as Record<string, unknown>);
       break;
     }
     default: {

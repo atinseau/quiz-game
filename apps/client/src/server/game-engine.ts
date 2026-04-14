@@ -7,6 +7,12 @@ import {
   STEAL_LOSS,
 } from "../types";
 import { checkAnswer } from "../utils/fuzzyMatch";
+import {
+  checkTrigger,
+  handleCulSecEndGame,
+  initAlcoholState,
+  setOnRoundEnd,
+} from "./alcohol/framework";
 import { broadcast } from "./rooms";
 import type {
   GameState,
@@ -20,6 +26,11 @@ import type {
 
 const STRAPI_URL = "http://localhost:1337/api";
 const NEXT_QUESTION_DELAY = 3_000;
+
+// Register alcohol round-end callback to resume the game
+setOnRoundEnd((room) => {
+  sendQuestion(room);
+});
 
 // Fisher-Yates shuffle
 function shuffle<T>(arr: T[]): T[] {
@@ -133,6 +144,10 @@ export async function startGame(room: Room): Promise<void> {
   };
 
   room.game = game;
+
+  if (room.alcoholConfig?.enabled) {
+    game.alcoholState = initAlcoholState(room.alcoholConfig);
+  }
 
   // Advance to first connected player
   advanceToNextConnectedPlayer(room);
@@ -440,6 +455,11 @@ function scheduleNextQuestion(room: Room): void {
     game.currentPlayerIndex = nextPlayerIdx;
     advanceToNextConnectedPlayer(room);
 
+    const triggered = checkTrigger(room);
+    if (triggered) {
+      // Special round active — sendQuestion will be called by endSpecialRound → onRoundEnd
+      return;
+    }
     sendQuestion(room);
   }, NEXT_QUESTION_DELAY);
 }
@@ -477,12 +497,17 @@ function endGame(room: Room): void {
     entry.rank = currentRank;
   }
 
-  broadcast(room, {
-    type: "game_over",
-    scores,
-    rankings: entries,
-  });
+  // Handle cul-sec end-of-game drink alerts
+  const hasCulSec = game.alcoholState?.config.culSecEndGame;
+  if (hasCulSec) {
+    handleCulSecEndGame(room);
+  }
 
-  room.status = "lobby";
-  room.game = null;
+  // Delay game_over to let drink_alerts show
+  const delay = hasCulSec ? 5000 : 0;
+  setTimeout(() => {
+    broadcast(room, { type: "game_over", scores, rankings: entries });
+    room.status = "lobby";
+    room.game = null;
+  }, delay);
 }
