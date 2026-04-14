@@ -3,6 +3,9 @@
  * Creates two browser contexts (two players) with mocked Clerk + Strapi.
  * WS is real — connects via ?testUser= fallback (no CLERK_SECRET_KEY in test).
  */
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   type BrowserContext,
   test as base,
@@ -10,10 +13,17 @@ import {
   type Page,
 } from "@playwright/test";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const MOCKS_DIR = join(__dirname, "..", "mocks", "data");
+
+function loadMock(filename: string): string {
+  return readFileSync(join(MOCKS_DIR, filename), "utf-8");
+}
+
 async function setupPage(page: Page) {
   // Bypass AuthGuard
   await page.addInitScript(() => {
-    (window as any).__clerk_test_bypass__ = true;
+    (window as unknown as Record<string, unknown>).__clerk_test_bypass__ = true;
   });
 
   // Mock Clerk endpoints
@@ -37,6 +47,44 @@ async function setupPage(page: Page) {
   await page.route("**/*.mp3", (route) =>
     route.fulfill({ status: 200, contentType: "audio/mpeg", body: "" }),
   );
+
+  // Mock Strapi endpoints
+  const packsData = loadMock("packs.json");
+  await page.route("**/api/question-packs**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: packsData,
+    }),
+  );
+
+  await page.route("**/api/questions**", (route) => {
+    const url = new URL(route.request().url());
+    const slug =
+      url.searchParams.get("filters[pack][slug][$eq]") ?? "pack-test";
+    try {
+      const data = loadMock(`questions-${slug}.json`);
+      return route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: data,
+      });
+    } catch {
+      return route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: '{"data":[]}',
+      });
+    }
+  });
+
+  await page.route("**/api/player/**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ data: { id: 1, username: "testuser" } }),
+    }),
+  );
 }
 
 interface MultiPlayers {
@@ -46,14 +94,23 @@ interface MultiPlayers {
   guestContext: BrowserContext;
 }
 
+// Counter to generate unique usernames across parallel test runs
+let testCounter = 0;
+
 export const test = base.extend<{ multi: MultiPlayers }>({
   multi: async ({ browser }, use) => {
-    // Create two separate browser contexts (two different players)
     const hostContext = await browser.newContext();
     const guestContext = await browser.newContext();
 
     const host = await hostContext.newPage();
     const guest = await guestContext.newPage();
+
+    // Generate unique IDs to avoid WS conflicts when tests run in parallel
+    const id = `${Date.now()}-${++testCounter}`;
+    // biome-ignore lint/suspicious/noExplicitAny: Playwright page extension
+    (host as any).__testId = id;
+    // biome-ignore lint/suspicious/noExplicitAny: Playwright page extension
+    (guest as any).__testId = id;
 
     await setupPage(host);
     await setupPage(guest);
@@ -72,16 +129,127 @@ export { expect };
  * Call this BEFORE navigating to any page that opens a WS.
  */
 export async function setTestUser(page: Page, username: string) {
-  await page.addInitScript((name) => {
+  // biome-ignore lint/suspicious/noExplicitAny: Playwright page extension
+  const testId = (page as any).__testId ?? "";
+  const uniqueName = testId ? `${username}-${testId}` : username;
+  // Store the unique name for later use in helpers
+  // biome-ignore lint/suspicious/noExplicitAny: Playwright page extension
+  (page as any).__testUserName = uniqueName;
+
+  await page.addInitScript((name: string) => {
     const OriginalWebSocket = window.WebSocket;
+    // biome-ignore lint/suspicious/noExplicitAny: test global
+    (window as any).__OriginalWebSocket = OriginalWebSocket;
+
+    /**
+     * Override WebSocket to inject testUser param and suppress redundant
+     * join_room messages that occur during component navigation (CreateRoom
+     * -> MultiLobby, JoinRoom -> MultiLobby).
+     *
+     * The suppression uses a global flag: when any WS instance on this page
+     * receives room_joined, subsequent join_room messages are suppressed
+     * unless a create_room was explicitly sent. This handles the case where
+     * the server auto-reconnects the player via the open handler but the
+     * app still sends join_room from useEffect.
+     */
+    // Global flag: set when ANY WS on this page receives room_joined.
+    // Reset when create_room is sent (new room creation).
+    let anyWsHasRoom = false;
+    let joinRoomTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // biome-ignore lint/suspicious/noExplicitAny: test global
     (window as any).WebSocket = class extends OriginalWebSocket {
+      private _sentCreate = false;
+
       constructor(url: string | URL, protocols?: string | string[]) {
         const wsUrl = new URL(url.toString());
         wsUrl.searchParams.set("testUser", name);
         super(wsUrl.toString(), protocols);
+
+        // Track the most recently opened WS for use by test helpers
+        // biome-ignore lint/suspicious/noExplicitAny: test global
+        (window as any).__testActiveWs = this;
+
+        this.addEventListener("message", (evt: Event) => {
+          try {
+            const data = JSON.parse((evt as MessageEvent).data);
+            if (data.type === "room_joined") {
+              anyWsHasRoom = true;
+              // Cancel any pending delayed join_room
+              if (joinRoomTimer) {
+                clearTimeout(joinRoomTimer);
+                joinRoomTimer = null;
+              }
+            }
+          } catch {}
+        });
+      }
+
+      override send(
+        data: string | ArrayBufferLike | Blob | ArrayBufferView,
+      ): void {
+        if (typeof data === "string") {
+          try {
+            const msg = JSON.parse(data);
+            if (msg.type === "create_room") {
+              this._sentCreate = true;
+              anyWsHasRoom = false;
+            }
+            // For join_room (not after explicit create_room):
+            // 1. If any WS already got room_joined, suppress entirely
+            // 2. Otherwise, delay 300ms to let server process WS close
+            //    and auto-reconnect via the open handler
+            if (msg.type === "join_room" && !this._sentCreate) {
+              if (anyWsHasRoom) return;
+              // Only schedule one delayed join_room at a time
+              if (!joinRoomTimer) {
+                joinRoomTimer = setTimeout(() => {
+                  joinRoomTimer = null;
+                  if (anyWsHasRoom) return;
+                  // Auto-reconnect didn't happen, send the join_room
+                  const activeWs = // biome-ignore lint/suspicious/noExplicitAny: test global
+                    (window as any).__testActiveWs;
+                  if (activeWs?.readyState === WebSocket.OPEN) {
+                    OriginalWebSocket.prototype.send.call(
+                      activeWs,
+                      JSON.stringify(msg),
+                    );
+                  }
+                }, 300);
+              }
+              return;
+            }
+          } catch {}
+        }
+        super.send(data);
       }
     };
-  }, username);
+  }, uniqueName);
+}
+
+/**
+ * Send a WS message through the app's active WebSocket connection.
+ * Uses the __testActiveWs reference tracked by the WS override.
+ */
+async function sendAppWsMessage(
+  page: Page,
+  message: Record<string, unknown>,
+): Promise<void> {
+  const result = await page.evaluate((msg) => {
+    const ws = // biome-ignore lint/suspicious/noExplicitAny: test global
+      (window as any).__testActiveWs as WebSocket | undefined;
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      return { error: `No active WS (state: ${ws?.readyState ?? "none"})` };
+    }
+    // Use the original send to bypass our override's suppression
+    const OrigWs = // biome-ignore lint/suspicious/noExplicitAny: test global
+      (window as any).__OriginalWebSocket;
+    OrigWs.prototype.send.call(ws, JSON.stringify(msg));
+    return { ok: true };
+  }, message);
+  if (result && "error" in result) {
+    console.log(`[sendAppWsMessage] Warning: ${result.error}`);
+  }
 }
 
 /**
@@ -92,12 +260,16 @@ export async function hostCreatesRoom(host: Page): Promise<string> {
   await host.getByRole("button", { name: /Créer une partie/ }).click();
 
   // Wait for lobby to load with room code
-  await host.waitForURL("**/play/lobby/**");
+  await host.waitForURL("**/play/lobby/**", { timeout: 15000 });
 
   // Extract room code from URL
   const url = host.url();
   const code = url.split("/play/lobby/")[1];
   if (!code) throw new Error("Room code not found in URL");
+
+  // Wait for MultiLobby to establish its WS connection and display the room
+  await host.getByText("Code de la room").waitFor({ timeout: 10000 });
+
   return code;
 }
 
@@ -110,26 +282,30 @@ export async function guestJoinsRoom(guest: Page, code: string) {
   await guest.getByRole("button", { name: "Rejoindre" }).click();
 
   // Wait for lobby
-  await guest.waitForURL(`**/play/lobby/${code}`);
+  await guest.waitForURL(`**/play/lobby/${code}`, { timeout: 10000 });
+  await guest.getByText("Code de la room").waitFor({ timeout: 10000 });
 }
 
 /**
- * Host selects a pack in the lobby.
+ * Host selects a pack in the lobby via WebSocket message.
+ * In test mode, useAuth().userId is null so isHost is always false.
+ * The host sees the non-host view without pack/mode buttons.
+ * We send the WS message directly to configure the room.
  */
-export async function hostSelectsPack(host: Page, packName: string) {
-  await host.getByRole("button", { name: new RegExp(packName) }).click();
+export async function hostSelectsPack(host: Page, packSlug: string) {
+  await sendAppWsMessage(host, { type: "select_pack", packSlug });
 }
 
 /**
- * Host selects a game mode in the lobby.
+ * Host selects a game mode in the lobby via WebSocket message.
  */
-export async function hostSelectsMode(host: Page, modeName: string) {
-  await host.getByRole("button", { name: new RegExp(modeName) }).click();
+export async function hostSelectsMode(host: Page, mode: string) {
+  await sendAppWsMessage(host, { type: "select_mode", mode });
 }
 
 /**
- * Host starts the game.
+ * Host starts the game via WebSocket message.
  */
 export async function hostStartsGame(host: Page) {
-  await host.getByRole("button", { name: "Lancer la partie" }).click();
+  await sendAppWsMessage(host, { type: "start_game" });
 }

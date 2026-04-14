@@ -20,7 +20,7 @@ test.describe("Mode choice screen", () => {
     await page.waitForURL("**/play/solo");
 
     // Should see the pack selection (HomeScreen)
-    await expect(page.getByText("Pack Test")).toBeVisible();
+    await expect(page.getByText("Pack Test", { exact: true })).toBeVisible();
   });
 
   test("join button navigates to /play/join", async ({ mockApp: page }) => {

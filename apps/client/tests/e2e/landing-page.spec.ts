@@ -55,7 +55,9 @@ test.describe("Landing page", () => {
     await page.goto("/");
 
     // Hero
-    await expect(page.getByText("Quiz Party")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Quiz Party" }),
+    ).toBeVisible();
     await expect(page.getByText(/pimente tes soirées/)).toBeVisible();
     await expect(
       page.getByRole("button", { name: /Jouer maintenant/ }),
