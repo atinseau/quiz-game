@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 8     | 22        | 22      | 2026-04-14    |
+| e2e    | 8     | 27        | 27      | 2026-04-14    |
 
 ## Stale
 
@@ -62,3 +62,8 @@
 | [Distributeur solo flow](./distributeur-solo-flow.md) | game | covered | high | alcohol |
 | [Courage solo flow](./courage-solo-flow.md) | game | covered | critical | alcohol |
 | [Cul sec end game](./cul-sec-end-game.md) | end | covered | high | alcohol |
+| [Conseil du village solo](./conseil-solo.md) | game | covered | high | alcohol-phase-b-rounds |
+| [Love or Drink solo](./love-or-drink-solo.md) | game | covered | high | alcohol-phase-b-rounds |
+| [Cupidon solo](./cupidon-solo.md) | game | covered | high | alcohol-phase-b-rounds |
+| [Show Us solo](./show-us-solo.md) | game | covered | high | alcohol-phase-b-rounds |
+| [Smatch or Pass solo](./smatch-or-pass-solo.md) | game | covered | high | alcohol-phase-b-rounds |

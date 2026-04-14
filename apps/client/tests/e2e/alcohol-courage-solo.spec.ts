@@ -25,9 +25,14 @@ test.describe("Question de courage — solo flow", () => {
     // Set frequency to 3
     await page.getByRole("button", { name: "3", exact: true }).click();
 
-    // Disable petit_buveur and distributeur — keep only courage
+    // Disable all rounds except courage
     await page.getByText("Petit buveur").click();
     await page.getByText("Distributeur").click();
+    await page.getByText("Conseil du village").click();
+    await page.getByText("Love or Drink").click();
+    await page.getByText("Cupidon").click();
+    await page.getByText("Show Us").click();
+    await page.getByText("Smatch or Pass").click();
 
     // Start classic mode
     await page.getByRole("button", { name: /Classique/ }).click();

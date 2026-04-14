@@ -100,9 +100,14 @@ test.describe("Alcohol mode — solo", () => {
     await page.getByRole("button", { name: "Désactivé" }).click();
     await page.getByRole("button", { name: "3", exact: true }).click();
 
-    // Disable distributeur and courage (only keep petit_buveur)
+    // Disable all rounds except petit_buveur
     await page.getByText("Distributeur").click();
     await page.getByText("Question de courage").click();
+    await page.getByText("Conseil du village").click();
+    await page.getByText("Love or Drink").click();
+    await page.getByText("Cupidon").click();
+    await page.getByText("Show Us").click();
+    await page.getByText("Smatch or Pass").click();
 
     // Start classic mode
     await page.getByRole("button", { name: /Classique/ }).click();

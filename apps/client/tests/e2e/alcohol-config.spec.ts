@@ -37,9 +37,12 @@ test.describe("Alcohol config UI", () => {
     await expect(page.getByText("Distributeur")).toBeVisible();
     await expect(page.getByText("Question de courage")).toBeVisible();
 
-    // Phase B rounds should show "Bientôt" badge
+    // Phase B rounds should be visible and enabled
     await expect(page.getByText("Conseil du village")).toBeVisible();
-    await expect(page.getByText("Bientôt").first()).toBeVisible();
+    await expect(page.getByText("Love or Drink")).toBeVisible();
+    await expect(page.getByText("Cupidon")).toBeVisible();
+    await expect(page.getByText("Show Us")).toBeVisible();
+    await expect(page.getByText("Smatch or Pass")).toBeVisible();
 
     // Cul sec toggle should be visible
     await expect(page.getByText("Le perdant boit cul sec")).toBeVisible();
