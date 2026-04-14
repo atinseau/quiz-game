@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useAlcoholStore } from "../../../stores/alcoholStore";
 import { useRoomStore } from "../../../stores/roomStore";
 
 interface Props {
@@ -11,9 +12,13 @@ interface Props {
 export function QuestionDeCourage({ data }: Props) {
   const myClerkId = useRoomStore((s) => s.myClerkId);
   const ws = useRoomStore((s) => s.ws);
+  const endActiveRound = useAlcoholStore((s) => s.endActiveRound);
+  const addDrinkAlert = useAlcoholStore((s) => s.addDrinkAlert);
   const playerClerkId = data.playerClerkId as string;
   const playerName = data.playerName as string;
-  const isMe = myClerkId === playerClerkId;
+  // In solo mode myClerkId is null — treat the local player as "isMe"
+  const isSolo = myClerkId === null;
+  const isMe = isSolo || myClerkId === playerClerkId;
 
   // Use server-driven phase from data when available, fall back to local state for the decision countdown
   const serverPhase = data.phase as
@@ -47,6 +52,18 @@ export function QuestionDeCourage({ data }: Props) {
     if (ws?.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "courage_choice", accept }));
     }
+    if (isSolo) {
+      if (!accept) {
+        addDrinkAlert({
+          emoji: "🥃",
+          message: `${playerName} refuse — la moitié du verre !`,
+        });
+        setTimeout(() => endActiveRound(), 2000);
+      } else {
+        setLocalPhase("question");
+      }
+      return;
+    }
     setLocalPhase(accept ? "question" : "waiting");
   };
 
@@ -56,6 +73,15 @@ export function QuestionDeCourage({ data }: Props) {
       ws.send(
         JSON.stringify({ type: "courage_answer", answer: answer.trim() }),
       );
+    }
+    if (isSolo) {
+      // In solo mode, show result immediately then end the round
+      addDrinkAlert({
+        emoji: "🎯",
+        message: `${playerName} a répondu au défi !`,
+      });
+      setTimeout(() => endActiveRound(), 2000);
+      return;
     }
     setLocalPhase("waiting");
   };
