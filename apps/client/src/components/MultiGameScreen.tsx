@@ -4,11 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useAlcoholStore } from "../stores/alcoholStore";
 import { useRoomStore } from "../stores/roomStore";
 import type { Player } from "../types";
 import { CHRONO_DURATION } from "../types";
 import { QcmChoices, TextInput, VraiFaux } from "./AnswerInputs";
+import { DrinkAlert } from "./alcohol/DrinkAlert";
+import { SpecialRoundOverlay } from "./alcohol/SpecialRoundOverlay";
 import { ScoreBoard } from "./ScoreBoard";
+// Side-effect import to trigger round registry initialization
+import "./alcohol/rounds";
 
 export function MultiGameScreen() {
   const navigate = useNavigate();
@@ -17,6 +22,11 @@ export function MultiGameScreen() {
   const game = useRoomStore((s) => s.game);
   const submitAnswer = useRoomStore((s) => s.submitAnswer);
   const isMyTurn = game.currentPlayerClerkId === myClerkId;
+
+  const activeRound = useAlcoholStore((s) => s.activeRound);
+  const activeRoundData = useAlcoholStore((s) => s.activeRoundData);
+  const drinkAlerts = useAlcoholStore((s) => s.drinkAlerts);
+  const removeDrinkAlert = useAlcoholStore((s) => s.removeDrinkAlert);
 
   // Local chrono timer
   const [timeLeft, setTimeLeft] = useState(CHRONO_DURATION);
@@ -121,152 +131,169 @@ export function MultiGameScreen() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 py-8">
-      <Card className="w-full max-w-2xl">
-        <CardContent className="p-8">
-          {/* Header: question counter + category */}
-          <div className="flex justify-between items-center mb-6">
-            <Badge
-              variant="outline"
-              className="text-primary border-primary/30 bg-primary/10"
-            >
-              {question.category}
-            </Badge>
-            <div className="flex items-center gap-3">
-              {isChrono && isMyTurn && !game.hasAnswered && (
-                <Badge
-                  variant={timeLeft <= 5 ? "destructive" : "secondary"}
-                  className={timeLeft <= 5 ? "animate-pulse" : ""}
-                >
-                  <Clock className="size-3 mr-1" />
-                  {timeLeft}s
-                </Badge>
-              )}
-              <span className="text-sm text-muted-foreground">
-                {game.questionIndex + 1}
-              </span>
-            </div>
-          </div>
-
-          {/* Chrono progress bar */}
-          {isChrono && isMyTurn && !game.hasAnswered && (
-            <Progress value={timerPercent} className="h-2 mb-5" />
-          )}
-
-          {/* Turn indicator (classic / chrono) */}
-          {!isVoleur && (
-            <div className="mb-4">
-              {isMyTurn ? (
-                <p className="text-lg font-bold text-party-green">
-                  C'est ton tour !
-                </p>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  C'est au tour de{" "}
-                  <span className="font-semibold text-foreground">
-                    {currentPlayerUsername}
-                  </span>
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Question text */}
-          <p className="text-xl font-semibold my-6 leading-relaxed">
-            {question.text}
-          </p>
-
-          {/* Answer inputs */}
-          {question.type === "qcm" && (
-            <QcmChoices
-              choices={question.choices ?? []}
-              disabled={inputDisabled}
-              onSelect={handleAnswer}
-            />
-          )}
-
-          {question.type === "vrai_faux" && (
-            <VraiFaux disabled={inputDisabled} onSelect={handleAnswer} />
-          )}
-
-          {question.type === "texte" && (
-            <TextInput
-              key={game.questionIndex}
-              disabled={inputDisabled}
-              onSubmit={handleAnswer}
-            />
-          )}
-
-          {/* Answered badges (voleur mode) */}
-          {isVoleur && game.answeredPlayers.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {game.answeredPlayers.map((clerkId) => {
-                const username = clerkIdToUsername[clerkId] ?? clerkId;
-                return (
-                  <Badge key={clerkId} variant="secondary" className="gap-1">
-                    <User className="size-3" />
-                    {username} a répondu
+    <>
+      <div className="flex items-center justify-center min-h-screen px-4 py-8">
+        <Card className="w-full max-w-2xl">
+          <CardContent className="p-8">
+            {/* Header: question counter + category */}
+            <div className="flex justify-between items-center mb-6">
+              <Badge
+                variant="outline"
+                className="text-primary border-primary/30 bg-primary/10"
+              >
+                {question.category}
+              </Badge>
+              <div className="flex items-center gap-3">
+                {isChrono && isMyTurn && !game.hasAnswered && (
+                  <Badge
+                    variant={timeLeft <= 5 ? "destructive" : "secondary"}
+                    className={timeLeft <= 5 ? "animate-pulse" : ""}
+                  >
+                    <Clock className="size-3 mr-1" />
+                    {timeLeft}s
                   </Badge>
-                );
-              })}
+                )}
+                <span className="text-sm text-muted-foreground">
+                  {game.questionIndex + 1}
+                </span>
+              </div>
             </div>
-          )}
 
-          {/* Turn result feedback */}
-          {game.turnResult &&
-            (() => {
-              const myResult = game.turnResult.playerResults.find(
-                (r) => r.clerkId === myClerkId,
-              );
-              const isCorrect = myResult?.correct ?? false;
-              const points = myResult?.pointsDelta ?? 0;
-              return (
-                <div
-                  className={`mt-6 rounded-lg p-4 flex items-start gap-3 ${
-                    isCorrect
-                      ? "bg-emerald-500/10 border border-emerald-500/30"
-                      : "bg-red-500/10 border border-red-500/30"
-                  }`}
-                >
-                  {isCorrect ? (
-                    <CheckCircle2 className="size-5 text-emerald-400 shrink-0 mt-0.5" />
-                  ) : (
-                    <XCircle className="size-5 text-red-400 shrink-0 mt-0.5" />
-                  )}
-                  <div>
-                    <p
-                      className={`font-semibold ${isCorrect ? "text-emerald-400" : "text-red-400"}`}
-                    >
-                      {isCorrect ? "Bonne réponse !" : "Mauvaise réponse"}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Réponse correcte :{" "}
-                      <span className="font-medium text-foreground">
-                        {String(game.turnResult.correctAnswer)}
-                      </span>
-                    </p>
-                    {points !== 0 && (
-                      <p className="text-sm mt-1">
-                        {points > 0 ? "+" : ""}
-                        {points} pt
-                        {Math.abs(points) > 1 ? "s" : ""}
-                      </p>
+            {/* Chrono progress bar */}
+            {isChrono && isMyTurn && !game.hasAnswered && (
+              <Progress value={timerPercent} className="h-2 mb-5" />
+            )}
+
+            {/* Turn indicator (classic / chrono) */}
+            {!isVoleur && (
+              <div className="mb-4">
+                {isMyTurn ? (
+                  <p className="text-lg font-bold text-party-green">
+                    C'est ton tour !
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    C'est au tour de{" "}
+                    <span className="font-semibold text-foreground">
+                      {currentPlayerUsername}
+                    </span>
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Question text */}
+            <p className="text-xl font-semibold my-6 leading-relaxed">
+              {question.text}
+            </p>
+
+            {/* Answer inputs */}
+            {question.type === "qcm" && (
+              <QcmChoices
+                choices={question.choices ?? []}
+                disabled={inputDisabled}
+                onSelect={handleAnswer}
+              />
+            )}
+
+            {question.type === "vrai_faux" && (
+              <VraiFaux disabled={inputDisabled} onSelect={handleAnswer} />
+            )}
+
+            {question.type === "texte" && (
+              <TextInput
+                key={game.questionIndex}
+                disabled={inputDisabled}
+                onSubmit={handleAnswer}
+              />
+            )}
+
+            {/* Answered badges (voleur mode) */}
+            {isVoleur && game.answeredPlayers.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {game.answeredPlayers.map((clerkId) => {
+                  const username = clerkIdToUsername[clerkId] ?? clerkId;
+                  return (
+                    <Badge key={clerkId} variant="secondary" className="gap-1">
+                      <User className="size-3" />
+                      {username} a répondu
+                    </Badge>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Turn result feedback */}
+            {game.turnResult &&
+              (() => {
+                const myResult = game.turnResult.playerResults.find(
+                  (r) => r.clerkId === myClerkId,
+                );
+                const isCorrect = myResult?.correct ?? false;
+                const points = myResult?.pointsDelta ?? 0;
+                return (
+                  <div
+                    className={`mt-6 rounded-lg p-4 flex items-start gap-3 ${
+                      isCorrect
+                        ? "bg-emerald-500/10 border border-emerald-500/30"
+                        : "bg-red-500/10 border border-red-500/30"
+                    }`}
+                  >
+                    {isCorrect ? (
+                      <CheckCircle2 className="size-5 text-emerald-400 shrink-0 mt-0.5" />
+                    ) : (
+                      <XCircle className="size-5 text-red-400 shrink-0 mt-0.5" />
                     )}
+                    <div>
+                      <p
+                        className={`font-semibold ${isCorrect ? "text-emerald-400" : "text-red-400"}`}
+                      >
+                        {isCorrect ? "Bonne réponse !" : "Mauvaise réponse"}
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Réponse correcte :{" "}
+                        <span className="font-medium text-foreground">
+                          {String(game.turnResult.correctAnswer)}
+                        </span>
+                      </p>
+                      {points !== 0 && (
+                        <p className="text-sm mt-1">
+                          {points > 0 ? "+" : ""}
+                          {points} pt
+                          {Math.abs(points) > 1 ? "s" : ""}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })()}
+                );
+              })()}
 
-          {/* Scoreboard */}
-          <ScoreBoard
-            players={players}
-            scores={scoresByName}
-            combos={combosByName}
-            currentPlayerIndex={currentPlayerIndex < 0 ? 0 : currentPlayerIndex}
-            isSolo={false}
-          />
-        </CardContent>
-      </Card>
-    </div>
+            {/* Scoreboard */}
+            <ScoreBoard
+              players={players}
+              scores={scoresByName}
+              combos={combosByName}
+              currentPlayerIndex={
+                currentPlayerIndex < 0 ? 0 : currentPlayerIndex
+              }
+              isSolo={false}
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Alcohol overlays */}
+      {activeRound && activeRoundData && (
+        <SpecialRoundOverlay roundType={activeRound} data={activeRoundData} />
+      )}
+      {drinkAlerts.map((alert) => (
+        <DrinkAlert
+          key={alert.id}
+          emoji={alert.emoji}
+          message={alert.message}
+          onClose={() => removeDrinkAlert(alert.id)}
+        />
+      ))}
+    </>
   );
 }

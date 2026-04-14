@@ -5,13 +5,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useAlcoholStore } from "../stores/alcoholStore";
 import { useGameStore } from "../stores/gameStore";
 import { usePlayerStore } from "../stores/playerStore";
 import { CHRONO_DURATION } from "../types";
 import { BlindInput, QcmChoices, TextInput, VraiFaux } from "./AnswerInputs";
+import { DrinkAlert } from "./alcohol/DrinkAlert";
+import { SpecialRoundOverlay } from "./alcohol/SpecialRoundOverlay";
 import { Feedback } from "./Feedback";
 import { ScoreBoard, SoloScore } from "./ScoreBoard";
 import { StealZone } from "./StealZone";
+// Side-effect import to trigger round registry initialization
+import "./alcohol/rounds";
 
 export function GameScreen() {
   const navigate = useNavigate();
@@ -45,6 +50,11 @@ export function GameScreen() {
   const reset = useGameStore((s) => s.reset);
 
   const players = usePlayerStore((s) => s.players);
+
+  const activeRound = useAlcoholStore((s) => s.activeRound);
+  const activeRoundData = useAlcoholStore((s) => s.activeRoundData);
+  const drinkAlerts = useAlcoholStore((s) => s.drinkAlerts);
+  const removeDrinkAlert = useAlcoholStore((s) => s.removeDrinkAlert);
 
   useEffect(() => {
     if (questions.length === 0) {
@@ -210,6 +220,19 @@ export function GameScreen() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Alcohol overlays */}
+      {activeRound && activeRoundData && (
+        <SpecialRoundOverlay roundType={activeRound} data={activeRoundData} />
+      )}
+      {drinkAlerts.map((alert) => (
+        <DrinkAlert
+          key={alert.id}
+          emoji={alert.emoji}
+          message={alert.message}
+          onClose={() => removeDrinkAlert(alert.id)}
+        />
+      ))}
 
       {/* Floating reset button */}
       <Button
