@@ -14,7 +14,6 @@ export function MultiLobby() {
   const navigate = useNavigate();
   const {
     room,
-    connected,
     error,
     isHost,
     gameStarting,
