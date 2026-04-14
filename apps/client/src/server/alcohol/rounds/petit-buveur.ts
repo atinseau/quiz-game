@@ -1,6 +1,6 @@
 import { broadcast } from "../../rooms";
 import type { Room } from "../../types";
-import { endSpecialRound } from "../framework";
+import { broadcastDrinkAlert, endSpecialRound } from "../framework";
 import type { AlcoholState, ServerRound } from "../types";
 
 export const petitBuveurRound: ServerRound = {
@@ -21,12 +21,12 @@ export const petitBuveurRound: ServerRound = {
       data: { losers },
     });
     for (const loser of losers) {
-      broadcast(room, {
-        type: "drink_alert",
-        targetClerkId: loser.clerkId,
-        emoji: "🍺",
-        message: `${loser.username} boit une gorgée !`,
-      });
+      broadcastDrinkAlert(
+        room,
+        loser.clerkId,
+        "🍺",
+        `${loser.username} boit une gorgée !`,
+      );
     }
     setTimeout(() => endSpecialRound(room), 5000);
   },

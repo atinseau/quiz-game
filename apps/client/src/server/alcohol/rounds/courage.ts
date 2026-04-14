@@ -1,7 +1,7 @@
 import { checkAnswer } from "../../../utils/fuzzyMatch";
 import { broadcast } from "../../rooms";
 import type { QuestionFull, Room } from "../../types";
-import { endSpecialRound } from "../framework";
+import { broadcastDrinkAlert, endSpecialRound } from "../framework";
 import type { AlcoholState, ServerRound } from "../types";
 
 interface CourageState {
@@ -56,12 +56,12 @@ export const courageRound: ServerRound = {
       const cs = courageStates.get(room.code);
       if (!cs) return;
       courageStates.delete(room.code);
-      broadcast(room, {
-        type: "drink_alert",
-        targetClerkId: playerClerkId,
-        emoji: "🥃",
-        message: `${player?.username ?? "?"} n'a pas choisi — la moitié du verre !`,
-      });
+      broadcastDrinkAlert(
+        room,
+        playerClerkId,
+        "🥃",
+        `${player?.username ?? "?"} n'a pas choisi — la moitié du verre !`,
+      );
       setTimeout(() => endSpecialRound(room), 4000);
     }, 10_000);
     courageStates.set(room.code, {
@@ -84,12 +84,12 @@ export const courageRound: ServerRound = {
       const player = room.players.get(clerkId);
       if (!accept) {
         courageStates.delete(room.code);
-        broadcast(room, {
-          type: "drink_alert",
-          targetClerkId: clerkId,
-          emoji: "🥃",
-          message: `${player?.username ?? "?"} refuse — la moitié du verre !`,
-        });
+        broadcastDrinkAlert(
+          room,
+          clerkId,
+          "🥃",
+          `${player?.username ?? "?"} refuse — la moitié du verre !`,
+        );
         setTimeout(() => endSpecialRound(room), 4000);
         return;
       }
@@ -123,12 +123,12 @@ export const courageRound: ServerRound = {
       }
       broadcast(room, { type: "courage_result", correct, pointsDelta });
       if (!correct) {
-        broadcast(room, {
-          type: "drink_alert",
-          targetClerkId: clerkId,
-          emoji: "🍻",
-          message: `${player?.username ?? "?"} se trompe — CUL SEC !`,
-        });
+        broadcastDrinkAlert(
+          room,
+          clerkId,
+          "🍻",
+          `${player?.username ?? "?"} se trompe — CUL SEC !`,
+        );
       }
       setTimeout(() => endSpecialRound(room), 4000);
     }

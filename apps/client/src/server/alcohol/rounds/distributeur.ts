@@ -1,6 +1,6 @@
 import { broadcast } from "../../rooms";
 import type { Room } from "../../types";
-import { endSpecialRound } from "../framework";
+import { broadcastDrinkAlert, endSpecialRound } from "../framework";
 import type { AlcoholState, ServerRound } from "../types";
 
 const distributorState = new Map<
@@ -55,12 +55,12 @@ export const distributeurRound: ServerRound = {
     if (!ds || ds.remaining <= 0) return;
     const targetClerkId = msg.targetClerkId as string;
     const distributor = room.players.get(clerkId);
-    broadcast(room, {
-      type: "drink_alert",
+    broadcastDrinkAlert(
+      room,
       targetClerkId,
-      emoji: "🍺",
-      message: `${distributor?.username ?? "?"} t'envoie une gorgée !`,
-    });
+      "🍺",
+      `${distributor?.username ?? "?"} t'envoie une gorgée !`,
+    );
     ds.remaining--;
     if (ds.remaining <= 0) {
       clearTimeout(ds.timeoutId);

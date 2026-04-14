@@ -22,6 +22,7 @@ export interface AlcoholState {
   turnsSinceLastSpecial: number;
   specialRoundQueue: SpecialRoundType[];
   activeRound: SpecialRoundType | null;
+  cupidLinks: [string, string][];
 }
 
 export interface ServerRound {

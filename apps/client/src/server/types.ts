@@ -91,7 +91,12 @@ export type ClientMessage =
   | { type: "submit_answer"; answer: string | boolean }
   | { type: "courage_choice"; accept: boolean }
   | { type: "courage_answer"; answer: string | boolean }
-  | { type: "distribute_drink"; targetClerkId: string };
+  | { type: "distribute_drink"; targetClerkId: string }
+  | { type: "conseil_vote"; targetClerkId: string }
+  | { type: "love_or_drink_choice"; choice: "bisou" | "cul_sec" }
+  | { type: "show_us_vote"; color: string }
+  | { type: "show_us_reveal"; color: string }
+  | { type: "smatch_choice"; choice: "smatch" | "pass" };
 
 export interface PlayerInfo {
   clerkId: string;
@@ -150,4 +155,10 @@ export type ServerMessage =
   | { type: "courage_question"; question: QuestionWithoutAnswer }
   | { type: "courage_result"; correct: boolean; pointsDelta: number }
   | { type: "distribute_prompt"; distributorClerkId: string; remaining: number }
-  | { type: "special_round_end" };
+  | { type: "special_round_end" }
+  | {
+      type: "conseil_result";
+      votes: Record<string, string>;
+      loserClerkIds: string[];
+    }
+  | { type: "show_us_result"; correctColor: string; wrongClerkIds: string[] };

@@ -121,7 +121,12 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
     }
     case "courage_choice":
     case "courage_answer":
-    case "distribute_drink": {
+    case "distribute_drink":
+    case "conseil_vote":
+    case "love_or_drink_choice":
+    case "show_us_vote":
+    case "show_us_reveal":
+    case "smatch_choice": {
       const room = findRoomByPlayer(clerkId);
       if (!room?.game) {
         send(ws, { type: "error", message: "Pas de partie en cours" });

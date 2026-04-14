@@ -30,6 +30,7 @@ interface AlcoholStore {
   activeRound: SpecialRoundType | null;
   activeRoundData: Record<string, unknown> | null;
   drinkAlerts: DrinkAlertData[];
+  cupidLinks: [string, string][];
 
   setConfig: (config: AlcoholConfig) => void;
   checkTrigger: () => SpecialRoundType | null;
@@ -72,6 +73,7 @@ export const useAlcoholStore = create<AlcoholStore>((set, get) => ({
   activeRound: null,
   activeRoundData: null,
   drinkAlerts: [],
+  cupidLinks: [],
 
   setConfig: (config) =>
     set({
@@ -120,5 +122,6 @@ export const useAlcoholStore = create<AlcoholStore>((set, get) => ({
       activeRound: null,
       activeRoundData: null,
       drinkAlerts: [],
+      cupidLinks: [],
     }),
 }));

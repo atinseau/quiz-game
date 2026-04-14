@@ -34,7 +34,35 @@ export function initAlcoholState(config: AlcoholConfig): AlcoholState {
     turnsSinceLastSpecial: 0,
     specialRoundQueue: shuffleArray([...config.enabledRounds]),
     activeRound: null,
+    cupidLinks: [],
   };
+}
+
+// ---------------------------------------------------------------------------
+// Drink alert with Cupidon propagation
+// ---------------------------------------------------------------------------
+
+export function broadcastDrinkAlert(
+  room: Room,
+  targetClerkId: string,
+  emoji: string,
+  message: string,
+): void {
+  broadcast(room, { type: "drink_alert", targetClerkId, emoji, message });
+  // Cupidon propagation
+  const links = room.game?.alcoholState?.cupidLinks ?? [];
+  for (const [a, b] of links) {
+    if (a === targetClerkId || b === targetClerkId) {
+      const partner = a === targetClerkId ? b : a;
+      const partnerName = room.players.get(partner)?.username ?? "?";
+      broadcast(room, {
+        type: "drink_alert",
+        targetClerkId: partner,
+        emoji: "💘",
+        message: `${partnerName} est lié — boit aussi !`,
+      });
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -124,11 +152,11 @@ export function handleCulSecEndGame(room: Room): void {
   const losers = playerIds.filter((id) => (scores[id] ?? 0) === minScore);
 
   for (const loserClerkId of losers) {
-    broadcast(room, {
-      type: "drink_alert",
-      targetClerkId: loserClerkId,
-      emoji: "🥃",
-      message: "Cul-sec ! Tu as le score le plus bas !",
-    });
+    broadcastDrinkAlert(
+      room,
+      loserClerkId,
+      "🥃",
+      "Cul-sec ! Tu as le score le plus bas !",
+    );
   }
 }
