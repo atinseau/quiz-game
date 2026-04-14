@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "purchases",
+  "info": {
+    "singularName": "purchase",
+    "pluralName": "purchases",
+    "displayName": "Purchase"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "player": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player.player"
+    },
+    "pack": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::question-pack.question-pack"
+    },
+    "stripeSessionId": {
+      "type": "string",
+      "required": true
+    },
+    "stripePaymentIntentId": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "completed", "refunded"],
+      "default": "pending"
+    }
+  }
+}

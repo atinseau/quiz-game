@@ -34,6 +34,9 @@
     "stripePriceId": {
       "type": "string"
     },
+    "price": {
+      "type": "decimal"
+    },
     "published": {
       "type": "boolean",
       "default": true

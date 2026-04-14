@@ -504,6 +504,43 @@ export interface ApiPlayerPlayer extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPurchasePurchase extends Struct.CollectionTypeSchema {
+  collectionName: 'purchases';
+  info: {
+    displayName: 'Purchase';
+    pluralName: 'purchases';
+    singularName: 'purchase';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    amount: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::purchase.purchase'
+    > &
+      Schema.Attribute.Private;
+    pack: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::question-pack.question-pack'
+    >;
+    player: Schema.Attribute.Relation<'manyToOne', 'api::player.player'>;
+    publishedAt: Schema.Attribute.DateTime;
+    status: Schema.Attribute.Enumeration<['pending', 'completed', 'refunded']> &
+      Schema.Attribute.DefaultTo<'pending'>;
+    stripePaymentIntentId: Schema.Attribute.String;
+    stripeSessionId: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiQuestionPackQuestionPack
   extends Struct.CollectionTypeSchema {
   collectionName: 'question_packs';
@@ -535,6 +572,7 @@ export interface ApiQuestionPackQuestionPack
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    price: Schema.Attribute.Decimal;
     published: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     publishedAt: Schema.Attribute.DateTime;
     questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
@@ -1097,6 +1135,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::category.category': ApiCategoryCategory;
       'api::player.player': ApiPlayerPlayer;
+      'api::purchase.purchase': ApiPurchasePurchase;
       'api::question-pack.question-pack': ApiQuestionPackQuestionPack;
       'api::question.question': ApiQuestionQuestion;
       'plugin::content-releases.release': PluginContentReleasesRelease;
