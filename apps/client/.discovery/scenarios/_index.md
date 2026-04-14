@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 8     | 27        | 27      | 2026-04-14    |
+| e2e    | 8     | 32        | 32      | 2026-04-13    |
 
 ## Stale
 
@@ -67,3 +67,8 @@
 | [Cupidon solo](./cupidon-solo.md) | game | covered | high | alcohol-phase-b-rounds |
 | [Show Us solo](./show-us-solo.md) | game | covered | high | alcohol-phase-b-rounds |
 | [Smatch or Pass solo](./smatch-or-pass-solo.md) | game | covered | high | alcohol-phase-b-rounds |
+| [Conseil du village multi](./conseil-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
+| [Love or Drink multi](./love-or-drink-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
+| [Cupidon multi](./cupidon-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
+| [Show Us multi](./show-us-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
+| [Smatch or Pass multi](./smatch-or-pass-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
