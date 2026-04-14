@@ -76,6 +76,7 @@ export function createRoom(ws: ServerWebSocket<WsData>): Room {
     status: "lobby",
     packSlug: null,
     mode: null,
+    game: null,
   };
 
   rooms.set(code, room);

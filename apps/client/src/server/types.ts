@@ -18,6 +18,52 @@ export interface RoomPlayer {
   disconnectedAt: number | null;
 }
 
+// --- Game Engine Types ---
+
+export interface QuestionWithoutAnswer {
+  type: "qcm" | "vrai_faux" | "texte";
+  text: string;
+  choices?: string[];
+  category: string;
+}
+
+export interface QuestionFull extends QuestionWithoutAnswer {
+  answer: string;
+}
+
+export interface PlayerResult {
+  clerkId: string;
+  answered: boolean;
+  correct: boolean;
+  stole: boolean;
+  pointsDelta: number;
+}
+
+export interface TurnResult {
+  correctAnswer: string | boolean;
+  playerResults: PlayerResult[];
+  scores: Record<string, number>;
+  combos: Record<string, number>;
+}
+
+export interface RankingEntry {
+  clerkId: string;
+  username: string;
+  score: number;
+  rank: number;
+}
+
+export interface GameState {
+  questions: QuestionFull[];
+  currentQuestionIndex: number;
+  currentPlayerIndex: number;
+  scores: Record<string, number>;
+  combos: Record<string, number>;
+  answers: Map<string, string | boolean>;
+  questionStartedAt: number;
+  resolved: boolean;
+}
+
 export interface Room {
   code: string;
   hostClerkId: string;
@@ -25,6 +71,7 @@ export interface Room {
   status: "lobby" | "playing";
   packSlug: string | null;
   mode: GameMode | null;
+  game: GameState | null;
 }
 
 export type ClientMessage =
@@ -33,7 +80,8 @@ export type ClientMessage =
   | { type: "select_pack"; packSlug: string }
   | { type: "select_mode"; mode: GameMode }
   | { type: "start_game" }
-  | { type: "leave_room" };
+  | { type: "leave_room" }
+  | { type: "submit_answer"; answer: string | boolean };
 
 export interface PlayerInfo {
   clerkId: string;
@@ -62,4 +110,18 @@ export type ServerMessage =
   | { type: "pack_selected"; packSlug: string }
   | { type: "mode_selected"; mode: GameMode }
   | { type: "game_starting" }
-  | { type: "error"; message: string };
+  | { type: "error"; message: string }
+  | {
+      type: "question";
+      index: number;
+      currentPlayerClerkId: string;
+      question: QuestionWithoutAnswer;
+      startsAt: number;
+    }
+  | { type: "player_answered"; clerkId: string }
+  | { type: "turn_result"; results: TurnResult }
+  | {
+      type: "game_over";
+      scores: Record<string, number>;
+      rankings: RankingEntry[];
+    };
