@@ -513,10 +513,61 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
           playerClerkId: randomPlayer?.name,
           playerName: randomPlayer?.name,
         });
+      } else if (roundType === "conseil") {
+        alcoholStore.setActiveRound("conseil", {
+          players: players.map((p) => ({ clerkId: p.name, username: p.name })),
+        });
+      } else if (roundType === "love_or_drink") {
+        const shuffled = [...players].sort(() => Math.random() - 0.5);
+        const pair = shuffled.slice(0, 2);
+        alcoholStore.setActiveRound("love_or_drink", {
+          players: pair.map((p) => ({ clerkId: p.name, username: p.name })),
+        });
+      } else if (roundType === "cupidon") {
+        const shuffled = [...players].sort(() => Math.random() - 0.5);
+        const [a, b] = shuffled;
+        alcoholStore.setActiveRound("cupidon", {
+          playerA: { clerkId: a?.name, username: a?.name },
+          playerB: { clerkId: b?.name, username: b?.name },
+        });
+        // Cupidon is display-only — auto-end after 5 seconds
+        setTimeout(() => useAlcoholStore.getState().endActiveRound(), 5000);
+      } else if (roundType === "show_us") {
+        const randomPlayer =
+          players[Math.floor(Math.random() * players.length)];
+        alcoholStore.setActiveRound("show_us", {
+          targetClerkId: randomPlayer?.name,
+          targetName: randomPlayer?.name,
+        });
+      } else if (roundType === "smatch_or_pass") {
+        // Find opposite-gender pairs
+        const hommes = players.filter((p) => p.gender === "homme");
+        const femmes = players.filter((p) => p.gender === "femme");
+        if (hommes.length > 0 && femmes.length > 0) {
+          // biome-ignore lint/style/noNonNullAssertion: length > 0 guaranteed above
+          const decideur = hommes[Math.floor(Math.random() * hommes.length)]!;
+          // biome-ignore lint/style/noNonNullAssertion: length > 0 guaranteed above
+          const receveur = femmes[Math.floor(Math.random() * femmes.length)]!;
+          alcoholStore.setActiveRound("smatch_or_pass", {
+            decideur: {
+              clerkId: decideur.name,
+              username: decideur.name,
+              gender: decideur.gender,
+            },
+            receveur: {
+              clerkId: receveur.name,
+              username: receveur.name,
+              gender: receveur.gender,
+            },
+          });
+        } else {
+          // No opposite-gender pair available — skip this round, let game advance
+        }
       }
 
       // Don't advance — wait for the round overlay to call endActiveRound
-      return;
+      // (unless the round was skipped due to missing conditions)
+      if (useAlcoholStore.getState().activeRound) return;
     }
 
     const players = usePlayerStore.getState().players;
