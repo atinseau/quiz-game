@@ -12,9 +12,9 @@ import { ModeChoice } from "./components/ModeChoice";
 import { MultiEndScreen } from "./components/MultiEndScreen";
 import { MultiGameScreen } from "./components/MultiGameScreen";
 import { MultiLobby } from "./components/MultiLobby";
-import { useRoom } from "./hooks/useRoom";
 import { useSyncPlayer } from "./hooks/useSyncPlayer";
 import { useGameStore } from "./stores/gameStore";
+import { useRoomStore } from "./stores/roomStore";
 import { setNavigate } from "./stores/router";
 import { useSettingsStore } from "./stores/settingsStore";
 
@@ -41,7 +41,8 @@ function InGameHeader() {
 }
 
 function CreateRoom() {
-  const { createRoom, room } = useRoom();
+  const createRoom = useRoomStore((s) => s.createRoom);
+  const room = useRoomStore((s) => s.room);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,12 +65,12 @@ function CreateRoom() {
 }
 
 function GameRoute() {
-  const { room } = useRoom();
+  const room = useRoomStore((s) => s.room);
   return room ? <MultiGameScreen /> : <GameScreen />;
 }
 
 function EndRoute() {
-  const { room } = useRoom();
+  const room = useRoomStore((s) => s.room);
   return room ? <MultiEndScreen /> : <EndScreen />;
 }
 

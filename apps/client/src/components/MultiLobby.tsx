@@ -1,3 +1,4 @@
+import { useAuth } from "@clerk/clerk-react";
 import { Copy, Crown, Wifi, WifiOff } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
@@ -6,23 +7,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePacks } from "../hooks/usePacks";
-import { useRoom } from "../hooks/useRoom";
+import { useRoomStore } from "../stores/roomStore";
 import { GAME_MODES } from "../types";
 
 export function MultiLobby() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
-  const {
-    room,
-    error,
-    isHost,
-    gameStarting,
-    joinRoom,
-    leaveRoom,
-    selectPack,
-    selectMode,
-    startGame,
-  } = useRoom();
+  const { userId } = useAuth();
+  const room = useRoomStore((s) => s.room);
+  const error = useRoomStore((s) => s.error);
+  const gameStarting = useRoomStore((s) => s.gameStarting);
+  const joinRoom = useRoomStore((s) => s.joinRoom);
+  const leaveRoom = useRoomStore((s) => s.leaveRoom);
+  const selectPack = useRoomStore((s) => s.selectPack);
+  const selectMode = useRoomStore((s) => s.selectMode);
+  const startGame = useRoomStore((s) => s.startGame);
+  const isHost = room?.hostClerkId === userId;
   const { data: packs = [] } = usePacks();
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);

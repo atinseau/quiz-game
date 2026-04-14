@@ -2,7 +2,7 @@ import { Crown, Medal, Trophy } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useMultiGame } from "../hooks/useMultiGame";
+import { useRoomStore } from "../stores/roomStore";
 import { fireGameEnd } from "../utils/confetti";
 
 const MEDAL_ICONS = [Crown, Medal, Medal] as const;
@@ -14,7 +14,8 @@ const MEDAL_COLORS = [
 
 export function MultiEndScreen() {
   const navigate = useNavigate();
-  const { game, room } = useMultiGame();
+  const game = useRoomStore((s) => s.game);
+  const room = useRoomStore((s) => s.room);
 
   useEffect(() => {
     fireGameEnd();

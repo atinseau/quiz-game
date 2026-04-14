@@ -1,27 +1,23 @@
+import { useAuth } from "@clerk/clerk-react";
 import { CheckCircle2, Clock, User, XCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { useMultiGame } from "../hooks/useMultiGame";
-import type { Player, Question } from "../types";
+import { useRoomStore } from "../stores/roomStore";
+import type { Player } from "../types";
 import { CHRONO_DURATION } from "../types";
 import { QcmChoices, TextInput, VraiFaux } from "./AnswerInputs";
 import { ScoreBoard } from "./ScoreBoard";
 
-function parseQuestion(raw: string | null): Question | null {
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as Question;
-  } catch {
-    return null;
-  }
-}
-
 export function MultiGameScreen() {
   const navigate = useNavigate();
-  const { room, game, isMyTurn, submitAnswer } = useMultiGame();
+  const { userId } = useAuth();
+  const room = useRoomStore((s) => s.room);
+  const game = useRoomStore((s) => s.game);
+  const submitAnswer = useRoomStore((s) => s.submitAnswer);
+  const isMyTurn = game.currentPlayerClerkId === userId;
 
   // Local chrono timer
   const [timeLeft, setTimeLeft] = useState(CHRONO_DURATION);
@@ -31,7 +27,7 @@ export function MultiGameScreen() {
   const isVoleur = mode === "voleur";
   const isChrono = mode === "chrono";
 
-  const question = parseQuestion(game.question);
+  const question = game.question;
 
   // Build Player[] from room players for ScoreBoard
   const players: Player[] = (room?.players ?? []).map((p) => ({
@@ -178,7 +174,7 @@ export function MultiGameScreen() {
 
           {/* Question text */}
           <p className="text-xl font-semibold my-6 leading-relaxed">
-            {question.question}
+            {question.text}
           </p>
 
           {/* Answer inputs */}
@@ -203,9 +199,9 @@ export function MultiGameScreen() {
           )}
 
           {/* Answered badges (voleur mode) */}
-          {isVoleur && game.answeredPlayers.size > 0 && (
+          {isVoleur && game.answeredPlayers.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
-              {Array.from(game.answeredPlayers).map((clerkId) => {
+              {game.answeredPlayers.map((clerkId) => {
                 const username = clerkIdToUsername[clerkId] ?? clerkId;
                 return (
                   <Badge key={clerkId} variant="secondary" className="gap-1">
@@ -218,43 +214,49 @@ export function MultiGameScreen() {
           )}
 
           {/* Turn result feedback */}
-          {game.turnResult && (
-            <div
-              className={`mt-6 rounded-lg p-4 flex items-start gap-3 ${
-                game.turnResult.correct
-                  ? "bg-emerald-500/10 border border-emerald-500/30"
-                  : "bg-red-500/10 border border-red-500/30"
-              }`}
-            >
-              {game.turnResult.correct ? (
-                <CheckCircle2 className="size-5 text-emerald-400 shrink-0 mt-0.5" />
-              ) : (
-                <XCircle className="size-5 text-red-400 shrink-0 mt-0.5" />
-              )}
-              <div>
-                <p
-                  className={`font-semibold ${game.turnResult.correct ? "text-emerald-400" : "text-red-400"}`}
+          {game.turnResult &&
+            (() => {
+              const myResult = game.turnResult.playerResults.find(
+                (r) => r.clerkId === userId,
+              );
+              const isCorrect = myResult?.correct ?? false;
+              const points = myResult?.pointsDelta ?? 0;
+              return (
+                <div
+                  className={`mt-6 rounded-lg p-4 flex items-start gap-3 ${
+                    isCorrect
+                      ? "bg-emerald-500/10 border border-emerald-500/30"
+                      : "bg-red-500/10 border border-red-500/30"
+                  }`}
                 >
-                  {game.turnResult.correct
-                    ? "Bonne réponse !"
-                    : "Mauvaise réponse"}
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Réponse correcte :{" "}
-                  <span className="font-medium text-foreground">
-                    {String(game.turnResult.answer)}
-                  </span>
-                </p>
-                {game.turnResult.points !== 0 && (
-                  <p className="text-sm mt-1">
-                    {game.turnResult.points > 0 ? "+" : ""}
-                    {game.turnResult.points} pt
-                    {Math.abs(game.turnResult.points) > 1 ? "s" : ""}
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
+                  {isCorrect ? (
+                    <CheckCircle2 className="size-5 text-emerald-400 shrink-0 mt-0.5" />
+                  ) : (
+                    <XCircle className="size-5 text-red-400 shrink-0 mt-0.5" />
+                  )}
+                  <div>
+                    <p
+                      className={`font-semibold ${isCorrect ? "text-emerald-400" : "text-red-400"}`}
+                    >
+                      {isCorrect ? "Bonne réponse !" : "Mauvaise réponse"}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Réponse correcte :{" "}
+                      <span className="font-medium text-foreground">
+                        {String(game.turnResult.correctAnswer)}
+                      </span>
+                    </p>
+                    {points !== 0 && (
+                      <p className="text-sm mt-1">
+                        {points > 0 ? "+" : ""}
+                        {points} pt
+                        {Math.abs(points) > 1 ? "s" : ""}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
 
           {/* Scoreboard */}
           <ScoreBoard

@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRoom } from "../hooks/useRoom";
+import { useRoomStore } from "../stores/roomStore";
 
 export function JoinRoom() {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
   const { code: urlCode } = useParams<{ code: string }>();
-  const { joinRoom, room, error } = useRoom();
+  const joinRoom = useRoomStore((s) => s.joinRoom);
+  const room = useRoomStore((s) => s.room);
+  const error = useRoomStore((s) => s.error);
 
   // Auto-join from URL param (/join/:code)
   useEffect(() => {
