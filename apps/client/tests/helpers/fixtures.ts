@@ -68,7 +68,7 @@ export const test = base.extend<{ mockApp: Page }>({
     await page.addInitScript(() => {
       (window as any).__clerk_test_bypass__ = true;
     });
-    await page.goto("/play");
+    await page.goto("/play/solo");
     await page
       .getByText("Pack Test", { exact: false })
       .first()
