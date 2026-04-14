@@ -1,4 +1,3 @@
-import { useAuth } from "@clerk/clerk-react";
 import { CheckCircle2, Clock, User, XCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +21,6 @@ function parseQuestion(raw: string | null): Question | null {
 
 export function MultiGameScreen() {
   const navigate = useNavigate();
-  const { userId } = useAuth();
   const { room, game, isMyTurn, submitAnswer } = useMultiGame();
 
   // Local chrono timer
