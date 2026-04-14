@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAlcoholStore } from "../../../stores/alcoholStore";
+import { usePlayerStore } from "../../../stores/playerStore";
 import { useRoomStore } from "../../../stores/roomStore";
 
 interface Props {
@@ -10,18 +13,50 @@ export function Distributeur({ data }: Props) {
   const myClerkId = useRoomStore((s) => s.myClerkId);
   const room = useRoomStore((s) => s.room);
   const ws = useRoomStore((s) => s.ws);
+  const soloPlayers = usePlayerStore((s) => s.players);
+  const addDrinkAlert = useAlcoholStore((s) => s.addDrinkAlert);
+  const endActiveRound = useAlcoholStore((s) => s.endActiveRound);
+
   const distributorClerkId = data.distributorClerkId as string;
   const distributorName = data.distributorName as string;
-  const remaining = (data.remaining as number) ?? 0;
-  const isDistributor = myClerkId === distributorClerkId;
-  const otherPlayers =
-    room?.players.filter(
-      (p) => p.clerkId !== distributorClerkId && p.connected,
-    ) ?? [];
+  const [localRemaining, setLocalRemaining] = useState(
+    (data.remaining as number) ?? 3,
+  );
 
-  const sendDrink = (targetClerkId: string) => {
-    if (ws?.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: "distribute_drink", targetClerkId }));
+  // Solo mode: myClerkId is null, treat as "you are the distributor"
+  const isSolo = myClerkId === null;
+  const isDistributor = isSolo || myClerkId === distributorClerkId;
+
+  // In solo mode, get other players from playerStore
+  const otherPlayers = isSolo
+    ? soloPlayers
+        .filter((p) => p.name !== distributorClerkId)
+        .map((p) => ({ clerkId: p.name, username: p.name, connected: true }))
+    : (room?.players.filter(
+        (p) => p.clerkId !== distributorClerkId && p.connected,
+      ) ?? []);
+
+  const remaining = isSolo ? localRemaining : ((data.remaining as number) ?? 0);
+
+  const handleDrink = (targetId: string, targetName: string) => {
+    if (isSolo) {
+      // Solo: handle locally
+      addDrinkAlert({
+        emoji: "🍺",
+        message: `${distributorName} envoie une gorgée à ${targetName} !`,
+      });
+      const next = localRemaining - 1;
+      setLocalRemaining(next);
+      if (next <= 0) {
+        setTimeout(() => endActiveRound(), 2000);
+      }
+    } else {
+      // Multi: send via WS
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws.send(
+          JSON.stringify({ type: "distribute_drink", targetClerkId: targetId }),
+        );
+      }
     }
   };
 
@@ -38,10 +73,10 @@ export function Distributeur({ data }: Props) {
           <div className="space-y-3">
             {otherPlayers.map((p) => (
               <Button
-                key={p.clerkId}
+                key={p.clerkId ?? p.username}
                 size="lg"
                 className="w-full"
-                onClick={() => sendDrink(p.clerkId)}
+                onClick={() => handleDrink(p.clerkId, p.username)}
                 disabled={remaining <= 0}
               >
                 🍺 {p.username}

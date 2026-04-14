@@ -451,6 +451,26 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       // Game over
       const slug = usePackStore.getState().selectedPack?.slug;
       if (slug) usePackStore.getState().markCompleted(slug);
+
+      // Cul sec solo — loser drinks before end screen
+      const alcoholStore = useAlcoholStore.getState();
+      if (alcoholStore.config.enabled && alcoholStore.config.culSecEndGame) {
+        const scores = get().scores;
+        const scoreValues = Object.values(scores);
+        if (scoreValues.length > 0) {
+          const minScore = Math.min(...scoreValues);
+          const losers = Object.entries(scores)
+            .filter(([_, s]) => s === minScore)
+            .map(([name]) => name);
+          for (const name of losers) {
+            alcoholStore.addDrinkAlert({
+              emoji: "🍻",
+              message: `CUL SEC ! ${name} a perdu !`,
+            });
+          }
+        }
+      }
+
       clearGameState();
       getNavigate()("/end");
       return;
