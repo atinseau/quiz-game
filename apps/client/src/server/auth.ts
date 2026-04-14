@@ -4,7 +4,17 @@ import type { WsData } from "./types";
 const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY;
 
 export async function verifyClerkCookie(req: Request): Promise<WsData | null> {
+  // Dev/test fallback: accept connections with ?testUser= when no Clerk key
   if (!CLERK_SECRET_KEY) {
+    const url = new URL(req.url);
+    const testUser = url.searchParams.get("testUser");
+    if (testUser) {
+      return {
+        clerkId: `test-${testUser}`,
+        username: testUser,
+        gender: "homme",
+      };
+    }
     console.error("[ws/auth] CLERK_SECRET_KEY not set");
     return null;
   }
