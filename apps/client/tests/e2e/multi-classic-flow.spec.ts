@@ -12,11 +12,7 @@ import {
 test.describe.configure({ mode: "serial" });
 
 test.describe("Multi-device classic game flow", () => {
-  // Skip: useRoom hook uses local React state, so room info is lost when
-  // navigating from /play/lobby to /game. GameRoute creates a fresh useRoom
-  // with room=null, rendering GameScreen (solo) instead of MultiGameScreen.
-  // This requires shared room state (e.g. Zustand store) to fix.
-  test.skip("two players complete a classic game", async ({ multi }) => {
+  test("two players complete a classic game", async ({ multi }) => {
     const { host, guest } = multi;
 
     await setTestUser(host, "Alice");
