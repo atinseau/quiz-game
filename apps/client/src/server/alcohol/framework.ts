@@ -62,7 +62,7 @@ export function checkTrigger(room: Room): boolean {
   state.activeRound = roundType;
   state.turnsSinceLastSpecial = 0;
 
-  const handler = roundRegistry[roundType];
+  const handler = roundRegistry.get(roundType);
   if (handler) {
     handler.start(room, state);
   }
@@ -85,7 +85,7 @@ export function handleAlcoholMessage(
   const state = game.alcoholState;
   if (!state.activeRound) return;
 
-  const handler = roundRegistry[state.activeRound];
+  const handler = roundRegistry.get(state.activeRound);
   if (handler) {
     handler.handleMessage(room, state, clerkId, msg);
   }
