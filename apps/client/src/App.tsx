@@ -9,6 +9,8 @@ import { HomeScreen } from "./components/HomeScreen";
 import { JoinRoom } from "./components/JoinRoom";
 import { LandingPage } from "./components/LandingPage";
 import { ModeChoice } from "./components/ModeChoice";
+import { MultiEndScreen } from "./components/MultiEndScreen";
+import { MultiGameScreen } from "./components/MultiGameScreen";
 import { MultiLobby } from "./components/MultiLobby";
 import { useRoom } from "./hooks/useRoom";
 import { useSyncPlayer } from "./hooks/useSyncPlayer";
@@ -59,6 +61,16 @@ function CreateRoom() {
       </div>
     </div>
   );
+}
+
+function GameRoute() {
+  const { room } = useRoom();
+  return room ? <MultiGameScreen /> : <GameScreen />;
+}
+
+function EndRoute() {
+  const { room } = useRoom();
+  return room ? <MultiEndScreen /> : <EndScreen />;
 }
 
 function AppRoutes() {
@@ -131,7 +143,7 @@ function AppRoutes() {
         element={
           <AuthGuard>
             <InGameHeader />
-            <GameScreen />
+            <GameRoute />
           </AuthGuard>
         }
       />
@@ -140,7 +152,7 @@ function AppRoutes() {
         element={
           <AuthGuard>
             <InGameHeader />
-            <EndScreen />
+            <EndRoute />
           </AuthGuard>
         }
       />
