@@ -59,13 +59,27 @@ const AVAILABLE_ROUNDS: SpecialRoundType[] = [
   "petit_buveur",
   "distributeur",
   "courage",
+  "conseil",
+  "love_or_drink",
+  "cupidon",
+  "show_us",
+  "smatch_or_pass",
 ];
 
 export const useAlcoholStore = create<AlcoholStore>((set, get) => ({
   config: {
     enabled: false,
     frequency: 5,
-    enabledRounds: ["petit_buveur", "distributeur", "courage"],
+    enabledRounds: [
+      "petit_buveur",
+      "distributeur",
+      "courage",
+      "conseil",
+      "love_or_drink",
+      "cupidon",
+      "show_us",
+      "smatch_or_pass",
+    ],
     culSecEndGame: true,
   },
   turnsSinceLastSpecial: 0,

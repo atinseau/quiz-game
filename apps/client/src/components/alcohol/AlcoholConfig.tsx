@@ -1,5 +1,4 @@
 import { Beer } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type {
@@ -20,15 +19,15 @@ const ROUNDS: {
   { id: "petit_buveur", name: "Petit buveur", emoji: "🍺", available: true },
   { id: "distributeur", name: "Distributeur", emoji: "🎯", available: true },
   { id: "courage", name: "Question de courage", emoji: "🎰", available: true },
-  { id: "conseil", name: "Conseil du village", emoji: "🗳️", available: false },
-  { id: "love_or_drink", name: "Love or Drink", emoji: "💋", available: false },
-  { id: "cupidon", name: "Cupidon", emoji: "💘", available: false },
-  { id: "show_us", name: "Show Us", emoji: "👀", available: false },
+  { id: "conseil", name: "Conseil du village", emoji: "🗳️", available: true },
+  { id: "love_or_drink", name: "Love or Drink", emoji: "💋", available: true },
+  { id: "cupidon", name: "Cupidon", emoji: "💘", available: true },
+  { id: "show_us", name: "Show Us", emoji: "👀", available: true },
   {
     id: "smatch_or_pass",
     name: "Smatch or Pass",
     emoji: "💥",
-    available: false,
+    available: true,
   },
 ];
 
@@ -103,26 +102,18 @@ export function AlcoholConfig({
                 <button
                   type="button"
                   key={round.id}
-                  disabled={!round.available}
-                  onClick={() => round.available && toggleRound(round.id)}
+                  onClick={() => toggleRound(round.id)}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all ${
-                    !round.available
-                      ? "opacity-40 cursor-not-allowed"
-                      : enabledRounds.includes(round.id)
-                        ? "bg-amber-500/20 ring-1 ring-amber-500/30"
-                        : "bg-card/50 hover:bg-card/80"
+                    enabledRounds.includes(round.id)
+                      ? "bg-amber-500/20 ring-1 ring-amber-500/30"
+                      : "bg-card/50 hover:bg-card/80"
                   }`}
                 >
                   <span className="text-xl">{round.emoji}</span>
                   <span className="flex-1 text-sm font-medium">
                     {round.name}
                   </span>
-                  {!round.available && (
-                    <Badge variant="secondary" className="text-xs">
-                      Bientôt
-                    </Badge>
-                  )}
-                  {round.available && enabledRounds.includes(round.id) && (
+                  {enabledRounds.includes(round.id) && (
                     <span className="text-amber-400 text-sm">✓</span>
                   )}
                 </button>
