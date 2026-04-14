@@ -136,6 +136,11 @@ export function LandingPage() {
                 <p className="text-xs text-white/70 mt-1">
                   {pack.questionCount} questions
                 </p>
+                {!pack.isFree && pack.price && (
+                  <p className="text-xs text-amber-300 mt-1">
+                    {pack.price.toFixed(2)}€
+                  </p>
+                )}
               </div>
             ))}
           </div>

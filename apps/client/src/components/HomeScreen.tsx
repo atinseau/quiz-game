@@ -4,6 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Gamepad2,
+  Lock,
   PartyPopper,
   Search,
   UserPlus,
@@ -21,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { usePacks } from "../hooks/usePacks";
+import { usePurchases } from "../hooks/usePurchases";
+import { api } from "../lib/api";
 import { useAlcoholStore } from "../stores/alcoholStore";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
@@ -38,6 +41,18 @@ export function HomeScreen() {
   const alcoholConfig = useAlcoholStore((s) => s.config);
   const setAlcoholConfig = useAlcoholStore((s) => s.setConfig);
   const { data: packs = [] } = usePacks();
+  const { data: purchasedSlugs = [] } = usePurchases();
+
+  const handleBuy = async (packSlug: string) => {
+    try {
+      const { url } = await api
+        .post("checkout", { json: { packSlug } })
+        .json<{ url: string }>();
+      if (url) window.location.href = url;
+    } catch (err) {
+      console.error("Checkout failed:", err);
+    }
+  };
 
   const [inputValue, setInputValue] = useState("");
   const [gender, setGender] = useState<Gender>("homme");
@@ -158,23 +173,44 @@ export function HomeScreen() {
                   {pageItems.map((pack) => {
                     const done = completedSlugs.includes(pack.slug);
                     const active = pack.slug === selectedPack?.slug;
+                    const isLocked =
+                      !pack.isFree && !purchasedSlugs.includes(pack.slug);
+                    const isPurchased =
+                      !pack.isFree && purchasedSlugs.includes(pack.slug);
                     return (
                       <button
                         type="button"
                         key={pack.slug}
                         onClick={() => {
-                          selectPack(pack);
-                          setStep("players");
+                          if (isLocked) {
+                            handleBuy(pack.slug);
+                          } else {
+                            selectPack(pack);
+                            setStep("players");
+                          }
                         }}
                         className={`group relative text-left rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
                           active
                             ? "ring-2 ring-primary scale-[1.02] glow-purple"
                             : "ring-1 ring-border/50 hover:ring-primary/50 hover:scale-[1.01] hover:glow-purple"
-                        }`}
+                        } ${isLocked ? "opacity-75" : ""}`}
                       >
                         <div
                           className={`bg-gradient-to-br ${pack.gradient} px-5 py-5 flex items-center gap-4`}
                         >
+                          {isLocked && (
+                            <div className="absolute top-2 right-2 flex items-center gap-1">
+                              <Lock className="w-3 h-3 text-white" />
+                              <span className="bg-amber-500/90 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">
+                                {pack.price?.toFixed(2)}€
+                              </span>
+                            </div>
+                          )}
+                          {isPurchased && (
+                            <div className="absolute top-2 right-2 bg-green-500/90 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+                              ✓ Possédé
+                            </div>
+                          )}
                           <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
                             {pack.icon}
                           </span>
