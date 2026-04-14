@@ -109,86 +109,80 @@ export function ShowUs({ data }: Props) {
         <h2 className="text-2xl font-bold mb-2">Show Us !</h2>
 
         {/* VOTING PHASE */}
-        {phase === "voting" && (
-          <>
-            {isTarget ? (
-              <div className="space-y-3">
-                <p className="text-muted-foreground mb-4">
-                  Les autres devinent ta couleur... attends !
-                </p>
-                <p className="text-sm text-amber-400 animate-pulse">
-                  Tu révèleras ta couleur ensuite
-                </p>
+        {phase === "voting" &&
+          (isTarget ? (
+            <div className="space-y-3">
+              <p className="text-muted-foreground mb-4">
+                Les autres devinent ta couleur... attends !
+              </p>
+              <p className="text-sm text-amber-400 animate-pulse">
+                Tu révèleras ta couleur ensuite
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-lg mb-2">
+                De quelle couleur est{" "}
+                <span className="font-bold text-amber-400">{targetName}</span>{" "}
+                habillé(e) ?
+              </p>
+              <p className="text-3xl font-bold text-amber-400 mb-4">
+                {countdown}s
+              </p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {COLORS.map((color) => (
+                  <Button
+                    key={color}
+                    size="lg"
+                    variant={selectedColor === color ? "default" : "outline"}
+                    onClick={() => sendVote(color)}
+                    disabled={!!selectedColor}
+                    className={
+                      selectedColor === color
+                        ? "border-amber-400 bg-amber-500/20"
+                        : ""
+                    }
+                  >
+                    {color}
+                  </Button>
+                ))}
               </div>
-            ) : (
-              <div className="space-y-3">
-                <p className="text-lg mb-2">
-                  De quelle couleur est{" "}
-                  <span className="font-bold text-amber-400">{targetName}</span>{" "}
-                  habillé(e) ?
-                </p>
-                <p className="text-3xl font-bold text-amber-400 mb-4">
-                  {countdown}s
-                </p>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  {COLORS.map((color) => (
-                    <Button
-                      key={color}
-                      size="lg"
-                      variant={selectedColor === color ? "default" : "outline"}
-                      onClick={() => sendVote(color)}
-                      disabled={!!selectedColor}
-                      className={
-                        selectedColor === color
-                          ? "border-amber-400 bg-amber-500/20"
-                          : ""
-                      }
-                    >
-                      {color}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
-        )}
+            </div>
+          ))}
 
         {/* WAITING REVEAL PHASE */}
-        {phase === "waiting_reveal" && (
-          <>
-            {isTarget ? (
-              <div className="space-y-3">
-                <p className="text-lg mb-4">
-                  Les autres ont voté ! Révèle maintenant ta couleur.
-                </p>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  {COLORS.map((color) => (
-                    <Button
-                      key={color}
-                      size="lg"
-                      onClick={() => sendReveal(color)}
-                      disabled={revealed}
-                      className="w-full"
-                    >
-                      {color}
-                    </Button>
-                  ))}
-                </div>
+        {phase === "waiting_reveal" &&
+          (isTarget ? (
+            <div className="space-y-3">
+              <p className="text-lg mb-4">
+                Les autres ont voté ! Révèle maintenant ta couleur.
+              </p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {COLORS.map((color) => (
+                  <Button
+                    key={color}
+                    size="lg"
+                    onClick={() => sendReveal(color)}
+                    disabled={revealed}
+                    className="w-full"
+                  >
+                    {color}
+                  </Button>
+                ))}
               </div>
-            ) : (
-              <div>
-                <p className="text-muted-foreground animate-pulse mb-2">
-                  {selectedColor
-                    ? `Tu as voté : ${selectedColor}`
-                    : "En attente de ta réponse..."}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  En attente que {targetName} révèle sa couleur...
-                </p>
-              </div>
-            )}
-          </>
-        )}
+            </div>
+          ) : (
+            <div>
+              <p className="text-muted-foreground animate-pulse mb-2">
+                {selectedColor
+                  ? `Tu as voté : ${selectedColor}`
+                  : "En attente de ta réponse..."}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                En attente que {targetName} révèle sa couleur...
+              </p>
+            </div>
+          ))}
 
         {/* RESULT PHASE */}
         {phase === "result" && (

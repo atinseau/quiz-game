@@ -6,6 +6,8 @@ import { Distributeur } from "./Distributeur";
 import { LoveOrDrink } from "./LoveOrDrink";
 import { PetitBuveur } from "./PetitBuveur";
 import { QuestionDeCourage } from "./QuestionDeCourage";
+import { ShowUs } from "./ShowUs";
+import { SmatchOrPass } from "./SmatchOrPass";
 
 interface RoundProps {
   data: Record<string, unknown>;
@@ -18,6 +20,8 @@ export const clientRoundRegistry = new Map<string, ComponentType<RoundProps>>([
   ["cupidon", Cupidon],
   ["conseil", Conseil],
   ["love_or_drink", LoveOrDrink],
+  ["smatch_or_pass", SmatchOrPass],
+  ["show_us", ShowUs],
 ]);
 
 // Register with the overlay so it can render rounds

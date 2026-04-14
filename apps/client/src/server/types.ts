@@ -161,4 +161,20 @@ export type ServerMessage =
       votes: Record<string, string>;
       loserClerkIds: string[];
     }
-  | { type: "show_us_result"; correctColor: string; wrongClerkIds: string[] };
+  | {
+      type: "show_us_result";
+      correctColor: string | null;
+      wrongClerkIds: string[];
+      timedOut?: boolean;
+    }
+  | {
+      type: "love_or_drink_result";
+      choice: "bisou" | "cul_sec";
+      players: { clerkId: string; username: string }[];
+    }
+  | {
+      type: "smatch_or_pass_result";
+      decideur: { clerkId: string; username: string; gender: string };
+      receveur: { clerkId: string; username: string; gender: string };
+      choice: "smatch" | "pass";
+    };
