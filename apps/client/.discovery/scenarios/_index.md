@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 8     | 22        | 13      | 2026-04-14    |
+| e2e    | 8     | 22        | 20      | 2026-04-14    |
 
 ## Stale
 
@@ -16,6 +16,8 @@
 | Lead | Blocker | Source |
 |------|---------|--------|
 | playwright-cli exploration of protected pages | AuthGuard requires addInitScript which playwright-cli doesn't support | Tests use Playwright Test fixtures with bypass |
+| Distributeur solo buttons | roomStore.myClerkId is null in solo mode, isDistributor always false | Need to handle null myClerkId as "solo = you are distributor" |
+| Cul sec solo | gameStore.nextQuestion doesn't trigger cul-sec drink alert at game end | Only works in multi (server sends drink_alert before game_over) |
 
 ## Scenarios
 
@@ -38,6 +40,7 @@
 | [Landing page display](./landing-page-display.md) | landing | covered | high | landing-page |
 | [Landing rules modal](./landing-rules-modal.md) | landing | covered | medium | landing-page |
 | [Mode choice navigation](./mode-choice-navigation.md) | mode-choice | covered | high | mode-choice |
+| [Mute toggle persists](./mute-toggle.md) | landing | covered | medium | settings |
 
 ### e2e — Multi-device
 
@@ -47,7 +50,7 @@
 | [Multi classic flow](./multi-classic-flow.md) | multi-game | covered | critical | multi-game |
 | [Multi chrono flow](./multi-chrono-flow.md) | multi-game | covered | critical | multi-game |
 | [Multi voleur flow](./multi-voleur-flow.md) | multi-game | covered | critical | multi-game |
-| [Multi reconnection](./multi-reconnection.md) | multi-game | discovered | high | multi-game |
+| [Multi reconnection](./multi-reconnection.md) | lobby | covered | high | multi-game |
 
 ### e2e — Alcohol mode
 
@@ -56,7 +59,6 @@
 | [Alcohol config UI](./alcohol-config-ui.md) | home | covered | high | alcohol |
 | [Alcohol solo trigger](./alcohol-solo-trigger.md) | game | covered | critical | alcohol |
 | [Alcohol multi trigger](./alcohol-multi-trigger.md) | multi-game | covered | high | alcohol |
-| [Distributeur solo flow](./distributeur-solo-flow.md) | game | discovered | high | alcohol |
-| [Courage solo flow](./courage-solo-flow.md) | game | discovered | critical | alcohol |
-| [Cul sec end game](./cul-sec-end-game.md) | end | discovered | high | alcohol |
-| [Mute toggle persists](./mute-toggle.md) | all | discovered | medium | settings |
+| [Distributeur solo flow](./distributeur-solo-flow.md) | game | covered | high | alcohol |
+| [Courage solo flow](./courage-solo-flow.md) | game | covered | critical | alcohol |
+| [Cul sec end game](./cul-sec-end-game.md) | end | covered (gap) | high | alcohol |
