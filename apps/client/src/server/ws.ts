@@ -1,5 +1,9 @@
 import type { ServerWebSocket } from "bun";
 import {
+  startGame as startGameEngine,
+  submitAnswer as submitAnswerEngine,
+} from "./game-engine";
+import {
   broadcast,
   createRoom,
   findRoomByPlayer,
@@ -14,7 +18,7 @@ function send(ws: ServerWebSocket<WsData>, msg: Record<string, unknown>) {
   ws.send(JSON.stringify(msg));
 }
 
-function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
+async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
   let msg: ClientMessage;
   try {
     msg = JSON.parse(raw);
@@ -95,6 +99,16 @@ function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
       }
       room.status = "playing";
       broadcast(room, { type: "game_starting" });
+      await startGameEngine(room);
+      break;
+    }
+    case "submit_answer": {
+      const room = findRoomByPlayer(clerkId);
+      if (!room?.game) {
+        send(ws, { type: "error", message: "Pas de partie en cours" });
+        return;
+      }
+      submitAnswerEngine(room, clerkId, msg.answer);
       break;
     }
     case "leave_room": {
