@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import type { GameMode } from "../types";
+import type { AlcoholConfig } from "./alcoholStore";
+import { useAlcoholStore } from "./alcoholStore";
 
 // --- Types ---
 
@@ -88,7 +90,7 @@ interface RoomStore {
   leaveRoom: () => void;
   selectPack: (packSlug: string) => void;
   selectMode: (mode: GameMode) => void;
-  startGame: () => void;
+  startGame: (alcoholConfig?: AlcoholConfig) => void;
   submitAnswer: (answer: string | boolean) => void;
   reset: () => void;
 }
@@ -273,6 +275,33 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           });
           break;
 
+        case "special_round_start":
+          useAlcoholStore.getState().setActiveRound(msg.roundType, msg.data);
+          break;
+        case "special_round_end":
+          useAlcoholStore.getState().endActiveRound();
+          break;
+        case "drink_alert":
+          useAlcoholStore
+            .getState()
+            .addDrinkAlert({ emoji: msg.emoji, message: msg.message });
+          break;
+        case "distribute_prompt":
+          useAlcoholStore.getState().setActiveRound("distributeur", {
+            ...useAlcoholStore.getState().activeRoundData,
+            remaining: msg.remaining,
+            distributorClerkId: msg.distributorClerkId,
+          });
+          break;
+        case "courage_decision":
+        case "courage_question":
+        case "courage_result":
+          useAlcoholStore.getState().setActiveRound("courage", {
+            ...useAlcoholStore.getState().activeRoundData,
+            ...msg,
+          });
+          break;
+
         case "error":
           set({ error: msg.message });
           break;
@@ -331,8 +360,11 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
     sendMsg(get().ws, { type: "select_mode", mode });
   },
 
-  startGame: () => {
-    sendMsg(get().ws, { type: "start_game" });
+  startGame: (alcoholConfig?: AlcoholConfig) => {
+    sendMsg(get().ws, {
+      type: "start_game",
+      ...(alcoholConfig?.enabled ? { alcoholConfig } : {}),
+    });
   },
 
   submitAnswer: (answer: string | boolean) => {

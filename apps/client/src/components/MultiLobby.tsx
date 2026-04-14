@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePacks } from "../hooks/usePacks";
+import { useAlcoholStore } from "../stores/alcoholStore";
 import { useRoomStore } from "../stores/roomStore";
 import { GAME_MODES } from "../types";
+import { AlcoholConfig } from "./alcohol/AlcoholConfig";
 
 export function MultiLobby() {
   const { code } = useParams<{ code: string }>();
@@ -22,6 +24,8 @@ export function MultiLobby() {
   const selectMode = useRoomStore((s) => s.selectMode);
   const startGame = useRoomStore((s) => s.startGame);
   const isHost = room?.hostClerkId === myClerkId;
+  const alcoholConfig = useAlcoholStore((s) => s.config);
+  const setAlcoholConfig = useAlcoholStore((s) => s.setConfig);
   const { data: packs = [] } = usePacks();
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
@@ -188,12 +192,23 @@ export function MultiLobby() {
             </CardContent>
           </Card>
 
+          {/* Alcohol config */}
+          <AlcoholConfig
+            enabled={alcoholConfig.enabled}
+            frequency={alcoholConfig.frequency}
+            enabledRounds={alcoholConfig.enabledRounds}
+            culSecEndGame={alcoholConfig.culSecEndGame}
+            onChange={setAlcoholConfig}
+          />
+
           {/* Launch button */}
           <Button
             size="lg"
             className="w-full py-6 text-lg glow-purple"
             disabled={!canStart}
-            onClick={startGame}
+            onClick={() =>
+              startGame(alcoholConfig.enabled ? alcoholConfig : undefined)
+            }
           >
             Lancer la partie
           </Button>

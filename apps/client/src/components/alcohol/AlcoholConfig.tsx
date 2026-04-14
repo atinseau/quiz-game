@@ -2,21 +2,21 @@ import { Beer } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type {
+  AlcoholConfig as AlcoholConfigType,
+  SpecialRoundType,
+} from "../../stores/alcoholStore";
 
-interface AlcoholConfigProps {
-  enabled: boolean;
-  frequency: number;
-  enabledRounds: string[];
-  culSecEndGame: boolean;
-  onChange: (config: {
-    enabled: boolean;
-    frequency: number;
-    enabledRounds: string[];
-    culSecEndGame: boolean;
-  }) => void;
+interface AlcoholConfigProps extends AlcoholConfigType {
+  onChange: (config: AlcoholConfigType) => void;
 }
 
-const ROUNDS = [
+const ROUNDS: {
+  id: SpecialRoundType;
+  name: string;
+  emoji: string;
+  available: boolean;
+}[] = [
   { id: "petit_buveur", name: "Petit buveur", emoji: "🍺", available: true },
   { id: "distributeur", name: "Distributeur", emoji: "🎯", available: true },
   { id: "courage", name: "Question de courage", emoji: "🎰", available: true },
@@ -43,7 +43,7 @@ export function AlcoholConfig({
     onChange({ enabled: !enabled, frequency, enabledRounds, culSecEndGame });
   const setFreq = (f: number) =>
     onChange({ enabled, frequency: f, enabledRounds, culSecEndGame });
-  const toggleRound = (id: string) => {
+  const toggleRound = (id: SpecialRoundType) => {
     const next = enabledRounds.includes(id)
       ? enabledRounds.filter((r) => r !== id)
       : [...enabledRounds, id];

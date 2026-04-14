@@ -21,11 +21,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { usePacks } from "../hooks/usePacks";
+import { useAlcoholStore } from "../stores/alcoholStore";
 import { useGameStore } from "../stores/gameStore";
 import { usePackStore } from "../stores/packStore";
 import { usePlayerStore } from "../stores/playerStore";
 import type { GameMode, Gender } from "../types";
 import { GAME_MODES } from "../types";
+import { AlcoholConfig } from "./alcohol/AlcoholConfig";
 
 export function HomeScreen() {
   const players = usePlayerStore((s) => s.players);
@@ -33,6 +35,8 @@ export function HomeScreen() {
   const removePlayer = usePlayerStore((s) => s.removePlayer);
   const { selectPack, selectedPack, completedSlugs } = usePackStore();
   const startGame = useGameStore((s) => s.startGame);
+  const alcoholConfig = useAlcoholStore((s) => s.config);
+  const setAlcoholConfig = useAlcoholStore((s) => s.setConfig);
   const { data: packs = [] } = usePacks();
 
   const [inputValue, setInputValue] = useState("");
@@ -424,6 +428,16 @@ export function HomeScreen() {
               </div>
             </button>
           ))}
+        </div>
+
+        <div className="mb-8">
+          <AlcoholConfig
+            enabled={alcoholConfig.enabled}
+            frequency={alcoholConfig.frequency}
+            enabledRounds={alcoholConfig.enabledRounds}
+            culSecEndGame={alcoholConfig.culSecEndGame}
+            onChange={setAlcoholConfig}
+          />
         </div>
       </div>
     </div>
