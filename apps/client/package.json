@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
+    "@clerk/backend": "^3.2.9",
     "@clerk/clerk-react": "^5.61.3",
     "@fontsource-variable/geist": "^5.2.8",
     "@radix-ui/react-dialog": "^1.1.15",
