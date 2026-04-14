@@ -14,9 +14,18 @@ export function QuestionDeCourage({ data }: Props) {
   const playerClerkId = data.playerClerkId as string;
   const playerName = data.playerName as string;
   const isMe = myClerkId === playerClerkId;
-  const [phase, setPhase] = useState<"decision" | "question" | "waiting">(
-    "decision",
-  );
+
+  // Use server-driven phase from data when available, fall back to local state for the decision countdown
+  const serverPhase = data.phase as
+    | "decision"
+    | "question"
+    | "result"
+    | undefined;
+  const [localPhase, setLocalPhase] = useState<
+    "decision" | "question" | "waiting"
+  >("decision");
+  const phase = serverPhase ?? localPhase;
+
   const [countdown, setCountdown] = useState(10);
   const [answer, setAnswer] = useState("");
 
@@ -38,7 +47,7 @@ export function QuestionDeCourage({ data }: Props) {
     if (ws?.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "courage_choice", accept }));
     }
-    setPhase(accept ? "question" : "waiting");
+    setLocalPhase(accept ? "question" : "waiting");
   };
 
   const sendAnswer = () => {
@@ -48,8 +57,10 @@ export function QuestionDeCourage({ data }: Props) {
         JSON.stringify({ type: "courage_answer", answer: answer.trim() }),
       );
     }
-    setPhase("waiting");
+    setLocalPhase("waiting");
   };
+
+  const questionText = data.questionText as string | undefined;
 
   return (
     <Card className="bg-card/90 border-amber-500/30">
@@ -90,7 +101,7 @@ export function QuestionDeCourage({ data }: Props) {
         {phase === "question" && isMe && (
           <div className="space-y-4">
             <p className="text-lg font-semibold">
-              {(data.questionText as string) ?? "Question difficile..."}
+              {questionText ?? "Question difficile..."}
             </p>
             <Input
               value={answer}
@@ -108,6 +119,18 @@ export function QuestionDeCourage({ data }: Props) {
           <p className="text-muted-foreground">
             {playerName} répond au défi...
           </p>
+        )}
+        {phase === "result" && (
+          <div className="space-y-2">
+            <p className="text-2xl font-bold">
+              {data.correct ? "✅ Bonne réponse !" : "❌ Mauvaise réponse !"}
+            </p>
+            {(data.pointsDelta as number) > 0 && (
+              <p className="text-green-400">
+                +{data.pointsDelta as number} pts
+              </p>
+            )}
+          </div>
         )}
         {phase === "waiting" && (
           <p className="text-muted-foreground animate-pulse">En attente...</p>

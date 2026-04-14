@@ -294,11 +294,25 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           });
           break;
         case "courage_decision":
-        case "courage_question":
-        case "courage_result":
           useAlcoholStore.getState().setActiveRound("courage", {
             ...useAlcoholStore.getState().activeRoundData,
             ...msg,
+            phase: "decision",
+          });
+          break;
+        case "courage_question":
+          useAlcoholStore.getState().setActiveRound("courage", {
+            ...useAlcoholStore.getState().activeRoundData,
+            questionText: msg.question?.text ?? msg.question,
+            phase: "question",
+          });
+          break;
+        case "courage_result":
+          useAlcoholStore.getState().setActiveRound("courage", {
+            ...useAlcoholStore.getState().activeRoundData,
+            phase: "result",
+            correct: msg.correct,
+            pointsDelta: msg.pointsDelta,
           });
           break;
 

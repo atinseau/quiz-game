@@ -1,5 +1,5 @@
 import { Check, ChevronRight, RotateCcw, Star, X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -55,6 +55,16 @@ export function GameScreen() {
   const activeRoundData = useAlcoholStore((s) => s.activeRoundData);
   const drinkAlerts = useAlcoholStore((s) => s.drinkAlerts);
   const removeDrinkAlert = useAlcoholStore((s) => s.removeDrinkAlert);
+
+  // Resume game when an alcohol round ends (activeRound goes from non-null to null)
+  const prevActiveRound = useRef(activeRound);
+  useEffect(() => {
+    if (prevActiveRound.current && !activeRound) {
+      // Round just ended — advance to next question
+      nextQuestion();
+    }
+    prevActiveRound.current = activeRound;
+  }, [activeRound, nextQuestion]);
 
   useEffect(() => {
     if (questions.length === 0) {

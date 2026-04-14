@@ -14,6 +14,7 @@ import { fireCorrectAnswer } from "../utils/confetti";
 import { checkAnswer, fuzzyMatch } from "../utils/fuzzyMatch";
 import { sounds } from "../utils/sounds";
 import { clearGameState, loadGameState, saveGameState } from "../utils/storage";
+import { useAlcoholStore } from "./alcoholStore";
 import { usePackStore } from "./packStore";
 import { usePlayerStore } from "./playerStore";
 import { getNavigate } from "./router";
@@ -452,6 +453,49 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       if (slug) usePackStore.getState().markCompleted(slug);
       clearGameState();
       getNavigate()("/end");
+      return;
+    }
+
+    // Check alcohol trigger (solo mode only — multiplayer is server-driven)
+    const alcoholStore = useAlcoholStore.getState();
+    const roundType = alcoholStore.checkTrigger();
+    if (roundType) {
+      const scores = get().scores;
+      const players = usePlayerStore.getState().players;
+
+      if (roundType === "petit_buveur") {
+        const scoreValues = Object.values(scores);
+        const minScore = scoreValues.length > 0 ? Math.min(...scoreValues) : 0;
+        const losers = Object.entries(scores)
+          .filter(([_, s]) => s === minScore)
+          .map(([name]) => ({ clerkId: name, username: name }));
+        alcoholStore.setActiveRound("petit_buveur", { losers });
+        for (const loser of losers) {
+          alcoholStore.addDrinkAlert({
+            emoji: "🍺",
+            message: `${loser.username} boit une gorgée !`,
+          });
+        }
+      } else if (roundType === "distributeur") {
+        const scoreValues = Object.values(scores);
+        const maxScore = scoreValues.length > 0 ? Math.max(...scoreValues) : 0;
+        const winner =
+          Object.entries(scores).find(([_, s]) => s === maxScore)?.[0] ?? "";
+        alcoholStore.setActiveRound("distributeur", {
+          distributorClerkId: winner,
+          distributorName: winner,
+          remaining: 3,
+        });
+      } else if (roundType === "courage") {
+        const randomPlayer =
+          players[Math.floor(Math.random() * players.length)];
+        alcoholStore.setActiveRound("courage", {
+          playerClerkId: randomPlayer?.name,
+          playerName: randomPlayer?.name,
+        });
+      }
+
+      // Don't advance — wait for the round overlay to call endActiveRound
       return;
     }
 
