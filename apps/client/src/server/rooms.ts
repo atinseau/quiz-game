@@ -81,7 +81,11 @@ export function createRoom(ws: ServerWebSocket<WsData>): Room {
 
   rooms.set(code, room);
   send(ws, { type: "room_created", code });
-  send(ws, { type: "room_joined", room: toRoomState(room) });
+  send(ws, {
+    type: "room_joined",
+    room: toRoomState(room),
+    yourClerkId: ws.data.clerkId,
+  });
   return room;
 }
 
@@ -102,7 +106,11 @@ export function joinRoom(
     existing.ws = ws;
     existing.connected = true;
     existing.disconnectedAt = null;
-    send(ws, { type: "room_joined", room: toRoomState(room) });
+    send(ws, {
+      type: "room_joined",
+      room: toRoomState(room),
+      yourClerkId: ws.data.clerkId,
+    });
     broadcast(room, { type: "player_reconnected", clerkId }, clerkId);
     return room;
   }
@@ -127,7 +135,11 @@ export function joinRoom(
     { type: "player_joined", player: toPlayerInfo(player) },
     clerkId,
   );
-  send(ws, { type: "room_joined", room: toRoomState(room) });
+  send(ws, {
+    type: "room_joined",
+    room: toRoomState(room),
+    yourClerkId: ws.data.clerkId,
+  });
   return room;
 }
 

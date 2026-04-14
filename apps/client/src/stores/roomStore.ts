@@ -71,6 +71,7 @@ interface RoomStore {
   ws: WebSocket | null;
   connected: boolean;
   error: string | null;
+  myClerkId: string | null;
 
   // Room
   room: RoomState | null;
@@ -115,6 +116,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
   ws: null,
   connected: false,
   error: null,
+  myClerkId: null,
   room: null,
   gameStarting: false,
   game: { ...initialGame },
@@ -147,7 +149,12 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           break;
 
         case "room_joined":
-          set({ room: msg.room, error: null, gameStarting: false });
+          set({
+            room: msg.room,
+            myClerkId: msg.yourClerkId,
+            error: null,
+            gameStarting: false,
+          });
           break;
 
         case "player_joined":
@@ -337,6 +344,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
     get().disconnect();
     set({
       room: null,
+      myClerkId: null,
       gameStarting: false,
       game: { ...initialGame },
       error: null,

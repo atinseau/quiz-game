@@ -1,4 +1,3 @@
-import { useAuth } from "@clerk/clerk-react";
 import { Copy, Crown, Wifi, WifiOff } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +12,7 @@ import { GAME_MODES } from "../types";
 export function MultiLobby() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
-  const { userId } = useAuth();
+  const myClerkId = useRoomStore((s) => s.myClerkId);
   const room = useRoomStore((s) => s.room);
   const error = useRoomStore((s) => s.error);
   const gameStarting = useRoomStore((s) => s.gameStarting);
@@ -22,7 +21,7 @@ export function MultiLobby() {
   const selectPack = useRoomStore((s) => s.selectPack);
   const selectMode = useRoomStore((s) => s.selectMode);
   const startGame = useRoomStore((s) => s.startGame);
-  const isHost = room?.hostClerkId === userId;
+  const isHost = room?.hostClerkId === myClerkId;
   const { data: packs = [] } = usePacks();
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);

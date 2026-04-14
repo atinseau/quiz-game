@@ -132,7 +132,11 @@ export const websocketHandlers = {
         player.connected = true;
         player.disconnectedAt = null;
         ws.send(
-          JSON.stringify({ type: "room_joined", room: toRoomState(room) }),
+          JSON.stringify({
+            type: "room_joined",
+            room: toRoomState(room),
+            yourClerkId: ws.data.clerkId,
+          }),
         );
         broadcast(
           room,

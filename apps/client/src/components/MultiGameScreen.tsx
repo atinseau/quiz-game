@@ -1,4 +1,3 @@
-import { useAuth } from "@clerk/clerk-react";
 import { CheckCircle2, Clock, User, XCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +12,11 @@ import { ScoreBoard } from "./ScoreBoard";
 
 export function MultiGameScreen() {
   const navigate = useNavigate();
-  const { userId } = useAuth();
+  const myClerkId = useRoomStore((s) => s.myClerkId);
   const room = useRoomStore((s) => s.room);
   const game = useRoomStore((s) => s.game);
   const submitAnswer = useRoomStore((s) => s.submitAnswer);
-  const isMyTurn = game.currentPlayerClerkId === userId;
+  const isMyTurn = game.currentPlayerClerkId === myClerkId;
 
   // Local chrono timer
   const [timeLeft, setTimeLeft] = useState(CHRONO_DURATION);
@@ -217,7 +216,7 @@ export function MultiGameScreen() {
           {game.turnResult &&
             (() => {
               const myResult = game.turnResult.playerResults.find(
-                (r) => r.clerkId === userId,
+                (r) => r.clerkId === myClerkId,
               );
               const isCorrect = myResult?.correct ?? false;
               const points = myResult?.pointsDelta ?? 0;

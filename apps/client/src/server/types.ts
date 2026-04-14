@@ -101,7 +101,7 @@ export interface RoomState {
 
 export type ServerMessage =
   | { type: "room_created"; code: string }
-  | { type: "room_joined"; room: RoomState }
+  | { type: "room_joined"; room: RoomState; yourClerkId: string }
   | { type: "player_joined"; player: PlayerInfo }
   | { type: "player_left"; clerkId: string }
   | { type: "player_disconnected"; clerkId: string }
