@@ -1,6 +1,6 @@
 # Mode Alcool — Framework + Manches Spéciales — Design
 
-> Version: 1.0 — 14 avril 2026
+> Version: 1.1 — 14 avril 2026
 
 ## Objectif
 
@@ -10,10 +10,33 @@ Ajouter un mode soirée avec des manches spéciales entre les tours de quiz. Com
 
 ## Architecture
 
+### Principe : Plugin Registry
+
+Chaque manche spéciale est un **module isolé** avec une interface commune. Le framework ne connaît que l'interface, pas les détails. Ajouter une manche = ajouter des fichiers dans `rounds/` + l'enregistrer dans le registry. Zero modification du framework.
+
+```ts
+// Interface commune — serveur
+interface ServerRound {
+  type: SpecialRoundType;
+  start(room: Room, state: AlcoholState): void;
+  handleMessage(room: Room, clerkId: string, msg: Record<string, unknown>): void;
+}
+
+// Interface commune — client
+interface ClientRound {
+  type: SpecialRoundType;
+  component: React.ComponentType<RoundProps>;
+}
+
+// Registry — Map<SpecialRoundType, ServerRound | ClientRound>
+// On ajoute des manches sans toucher au framework
+```
+
 ### Logique de déclenchement
 
-- **Solo** : dans `gameStore.ts` — après chaque tour, vérifier le compteur
-- **Multi** : dans `game-engine.ts` / `alcohol.ts` — le serveur décide et broadcast
+- **Solo** : dans `alcoholStore.ts` (Zustand dédié) — après chaque tour, vérifier le compteur
+- **Multi** : dans `src/server/alcohol/framework.ts` — le serveur décide et broadcast
+- Les stores existants (`gameStore`, `roomStore`) ne contiennent PAS de logique alcool — ils appellent juste `alcoholStore.checkTrigger()` ou le framework serveur
 
 ### État alcool
 
@@ -217,34 +240,77 @@ Même config, visible uniquement par le host. Les autres voient "Mode Soirée ac
 
 ---
 
-## Composants
+## Structure fichiers
+
+### Architecture modulaire
+
+```
+src/server/alcohol/
+  framework.ts              — déclenchement, queue, registry serveur
+  types.ts                  — interfaces ServerRound, AlcoholConfig, AlcoholState
+  rounds/
+    petit-buveur.ts         — logique serveur petit buveur
+    distributeur.ts         — logique serveur distributeur
+    courage.ts              — logique serveur question de courage
+    index.ts                — registry: exporte Map<SpecialRoundType, ServerRound>
+
+src/stores/
+  alcoholStore.ts           — état alcool solo (config, queue, manche active, drink alerts)
+
+src/components/alcohol/
+  SpecialRoundOverlay.tsx   — framework overlay modal (switch dynamique sur le type)
+  DrinkAlert.tsx            — notification plein écran générique (emoji + message)
+  AlcoholConfig.tsx         — écran config (toggle, slider, checkboxes)
+  rounds/
+    PetitBuveur.tsx         — UI manche petit buveur
+    Distributeur.tsx        — UI manche distributeur (3 taps)
+    QuestionDeCourage.tsx   — UI manche courage (décision + question)
+    index.ts                — registry: exporte Map<SpecialRoundType, ClientRound>
+```
 
 ### Nouveaux fichiers
 
 | Fichier | Rôle |
 |---------|------|
-| `src/components/DrinkAlert.tsx` | Overlay plein écran générique (emoji + message) |
-| `src/components/SpecialRoundOverlay.tsx` | Modal overlay manche spéciale (switch sur le type) |
-| `src/components/alcohol/PetitBuveur.tsx` | UI manche petit buveur |
-| `src/components/alcohol/Distributeur.tsx` | UI manche distributeur (3 taps) |
-| `src/components/alcohol/QuestionDeCourage.tsx` | UI manche courage (décision + question) |
-| `src/components/alcohol/AlcoholConfig.tsx` | Écran config (toggle, slider, checkboxes) |
-| `src/server/alcohol.ts` | Logique serveur manches spéciales |
+| `src/server/alcohol/framework.ts` | Framework serveur : déclenchement, queue, dispatch |
+| `src/server/alcohol/types.ts` | Interfaces ServerRound, messages, types |
+| `src/server/alcohol/rounds/petit-buveur.ts` | Logique serveur petit buveur |
+| `src/server/alcohol/rounds/distributeur.ts` | Logique serveur distributeur |
+| `src/server/alcohol/rounds/courage.ts` | Logique serveur courage |
+| `src/server/alcohol/rounds/index.ts` | Registry serveur |
+| `src/stores/alcoholStore.ts` | Store Zustand alcool solo |
+| `src/components/alcohol/SpecialRoundOverlay.tsx` | Overlay modal framework |
+| `src/components/alcohol/DrinkAlert.tsx` | Notification plein écran |
+| `src/components/alcohol/AlcoholConfig.tsx` | Écran config |
+| `src/components/alcohol/rounds/PetitBuveur.tsx` | UI petit buveur |
+| `src/components/alcohol/rounds/Distributeur.tsx` | UI distributeur |
+| `src/components/alcohol/rounds/QuestionDeCourage.tsx` | UI courage |
+| `src/components/alcohol/rounds/index.ts` | Registry client |
 
 ### Fichiers modifiés
 
 | Fichier | Changement |
 |---------|------------|
-| `src/server/game-engine.ts` | Vérifier alcool après chaque tour |
-| `src/server/types.ts` | Messages alcool, AlcoholConfig, AlcoholState, SpecialRoundType |
-| `src/stores/gameStore.ts` | Même logique alcool en solo |
-| `src/stores/roomStore.ts` | Handlers messages alcool |
-| `src/components/HomeScreen.tsx` | Toggle mode soirée + step config |
+| `src/server/game-engine.ts` | Appeler `framework.checkTrigger(room)` après chaque tour |
+| `src/server/types.ts` | Messages WS alcool |
+| `src/stores/gameStore.ts` | Appeler `alcoholStore.checkTrigger()` après chaque tour (pas de logique alcool inline) |
+| `src/stores/roomStore.ts` | Handler messages alcool → déléguer à `alcoholStore` |
+| `src/components/HomeScreen.tsx` | Toggle mode soirée + step config (AlcoholConfig) |
 | `src/components/MultiLobby.tsx` | Toggle + config pour le host |
 | `src/components/GameScreen.tsx` | Intégrer SpecialRoundOverlay + DrinkAlert |
 | `src/components/MultiGameScreen.tsx` | Intégrer SpecialRoundOverlay + DrinkAlert |
 | `src/components/EndScreen.tsx` | Cul sec avant classement |
 | `src/components/MultiEndScreen.tsx` | Cul sec avant classement |
+
+### Extensibilité
+
+Ajouter une manche Phase B :
+1. Créer `src/server/alcohol/rounds/conseil.ts` (logique serveur)
+2. Créer `src/components/alcohol/rounds/Conseil.tsx` (UI client)
+3. Enregistrer dans les deux `index.ts` (registry)
+4. Retirer le badge "Bientôt" de la checkbox dans AlcoholConfig
+
+Zero modification du framework, des stores, ou du game engine.
 
 ---
 
