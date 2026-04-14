@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 8     | 22        | 20      | 2026-04-14    |
+| e2e    | 8     | 22        | 22      | 2026-04-14    |
 
 ## Stale
 
@@ -16,8 +16,8 @@
 | Lead | Blocker | Source |
 |------|---------|--------|
 | playwright-cli exploration of protected pages | AuthGuard requires addInitScript which playwright-cli doesn't support | Tests use Playwright Test fixtures with bypass |
-| Distributeur solo buttons | roomStore.myClerkId is null in solo mode, isDistributor always false | Need to handle null myClerkId as "solo = you are distributor" |
-| Cul sec solo | gameStore.nextQuestion doesn't trigger cul-sec drink alert at game end | Only works in multi (server sends drink_alert before game_over) |
+| ~~Distributeur solo buttons~~ | FIXED — treats null myClerkId as solo distributor | de79160 |
+| ~~Cul sec solo~~ | FIXED — gameStore triggers drink alert before navigating to /end | de79160 |
 
 ## Scenarios
 
@@ -61,4 +61,4 @@
 | [Alcohol multi trigger](./alcohol-multi-trigger.md) | multi-game | covered | high | alcohol |
 | [Distributeur solo flow](./distributeur-solo-flow.md) | game | covered | high | alcohol |
 | [Courage solo flow](./courage-solo-flow.md) | game | covered | critical | alcohol |
-| [Cul sec end game](./cul-sec-end-game.md) | end | covered (gap) | high | alcohol |
+| [Cul sec end game](./cul-sec-end-game.md) | end | covered | high | alcohol |
