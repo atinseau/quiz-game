@@ -8,6 +8,11 @@ const clerkAuth: Core.MiddlewareFactory = (_config, { strapi }) => {
       return next();
     }
 
+    // Skip webhook routes (Stripe sends its own signature, not Clerk JWT)
+    if (ctx.request.url.startsWith("/api/webhooks/")) {
+      return next();
+    }
+
     const authHeader = ctx.request.header.authorization;
 
     if (!authHeader?.startsWith("Bearer ")) {
