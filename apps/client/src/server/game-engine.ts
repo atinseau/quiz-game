@@ -129,6 +129,7 @@ export async function startGame(room: Room): Promise<void> {
     answers: new Map(),
     questionStartedAt: 0,
     resolved: false,
+    alcoholState: null,
   };
 
   room.game = game;

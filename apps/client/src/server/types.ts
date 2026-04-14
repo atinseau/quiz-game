@@ -1,5 +1,10 @@
 import type { ServerWebSocket } from "bun";
 import type { GameMode } from "../types";
+import type {
+  AlcoholConfig,
+  AlcoholState,
+  SpecialRoundType,
+} from "./alcohol/types";
 
 export type Gender = "homme" | "femme";
 
@@ -62,6 +67,7 @@ export interface GameState {
   answers: Map<string, string | boolean>;
   questionStartedAt: number;
   resolved: boolean;
+  alcoholState: AlcoholState | null;
 }
 
 export interface Room {
@@ -72,6 +78,7 @@ export interface Room {
   packSlug: string | null;
   mode: GameMode | null;
   game: GameState | null;
+  alcoholConfig: AlcoholConfig | null;
 }
 
 export type ClientMessage =
@@ -81,7 +88,10 @@ export type ClientMessage =
   | { type: "select_mode"; mode: GameMode }
   | { type: "start_game" }
   | { type: "leave_room" }
-  | { type: "submit_answer"; answer: string | boolean };
+  | { type: "submit_answer"; answer: string | boolean }
+  | { type: "courage_choice"; accept: boolean }
+  | { type: "courage_answer"; answer: string | boolean }
+  | { type: "distribute_drink"; targetClerkId: string };
 
 export interface PlayerInfo {
   clerkId: string;
@@ -124,4 +134,20 @@ export type ServerMessage =
       type: "game_over";
       scores: Record<string, number>;
       rankings: RankingEntry[];
-    };
+    }
+  | {
+      type: "special_round_start";
+      roundType: SpecialRoundType;
+      data: Record<string, unknown>;
+    }
+  | {
+      type: "drink_alert";
+      targetClerkId: string;
+      emoji: string;
+      message: string;
+    }
+  | { type: "courage_decision"; playerClerkId: string; countdown: number }
+  | { type: "courage_question"; question: QuestionWithoutAnswer }
+  | { type: "courage_result"; correct: boolean; pointsDelta: number }
+  | { type: "distribute_prompt"; distributorClerkId: string; remaining: number }
+  | { type: "special_round_end" };
