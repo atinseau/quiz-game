@@ -6,7 +6,11 @@ import { AuthGuard } from "./components/AuthGuard";
 import { EndScreen } from "./components/EndScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HomeScreen } from "./components/HomeScreen";
+import { JoinRoom } from "./components/JoinRoom";
 import { LandingPage } from "./components/LandingPage";
+import { ModeChoice } from "./components/ModeChoice";
+import { MultiLobby } from "./components/MultiLobby";
+import { useRoom } from "./hooks/useRoom";
 import { useSyncPlayer } from "./hooks/useSyncPlayer";
 import { useGameStore } from "./stores/gameStore";
 import { setNavigate } from "./stores/router";
@@ -34,6 +38,29 @@ function InGameHeader() {
   );
 }
 
+function CreateRoom() {
+  const { createRoom, room } = useRoom();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    createRoom();
+  }, [createRoom]);
+
+  useEffect(() => {
+    if (room) {
+      navigate(`/play/lobby/${room.code}`, { replace: true });
+    }
+  }, [room, navigate]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-pulse text-muted-foreground">
+        Création de la room...
+      </div>
+    </div>
+  );
+}
+
 function AppRoutes() {
   const navigate = useNavigate();
 
@@ -50,7 +77,52 @@ function AppRoutes() {
         element={
           <AuthGuard>
             <InGameHeader />
+            <ModeChoice />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/play/solo"
+        element={
+          <AuthGuard>
+            <InGameHeader />
             <HomeScreen />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/play/create"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <CreateRoom />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/play/join"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <JoinRoom />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/play/lobby/:code"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <MultiLobby />
+          </AuthGuard>
+        }
+      />
+      <Route
+        path="/join/:code"
+        element={
+          <AuthGuard>
+            <InGameHeader />
+            <JoinRoom />
           </AuthGuard>
         }
       />
