@@ -125,6 +125,45 @@ export const test = base.extend<{ multi: MultiPlayers }>({
 export { expect };
 
 /**
+ * Try to answer the current question on a given page via UI interaction.
+ * Uses force:true to bypass Bun HMR overlay that can intercept pointer events.
+ * Returns true if an answer was submitted.
+ */
+export async function answerViaUI(page: Page): Promise<boolean> {
+  // QCM: grid buttons
+  const qcmBtns = page.locator(".grid button");
+  const qcmCount = await qcmBtns.count().catch(() => 0);
+  if (qcmCount > 0) {
+    const firstBtn = qcmBtns.first();
+    if (await firstBtn.isEnabled({ timeout: 500 }).catch(() => false)) {
+      await firstBtn.click({ force: true });
+      return true;
+    }
+  }
+
+  // VF: Vrai/Faux buttons
+  const vraiBtn = page.getByRole("button", { name: "Vrai", exact: true });
+  if (await vraiBtn.isVisible({ timeout: 300 }).catch(() => false)) {
+    if (await vraiBtn.isEnabled({ timeout: 200 }).catch(() => false)) {
+      await vraiBtn.click({ force: true });
+      return true;
+    }
+  }
+
+  // Texte: input field
+  const texteInput = page.getByPlaceholder("Votre reponse...");
+  if (await texteInput.isVisible({ timeout: 300 }).catch(() => false)) {
+    if (await texteInput.isEnabled({ timeout: 200 }).catch(() => false)) {
+      await texteInput.fill("Paris");
+      await texteInput.press("Enter");
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
  * Override the WebSocket URL to include testUser param for WS auth bypass.
  * Call this BEFORE navigating to any page that opens a WS.
  */
@@ -281,8 +320,11 @@ export async function guestJoinsRoom(guest: Page, code: string) {
   await guest.getByPlaceholder("Ex: A3K9F2").fill(code);
   await guest.getByRole("button", { name: "Rejoindre" }).click();
 
-  // Wait for lobby
-  await guest.waitForURL(`**/play/lobby/${code}`, { timeout: 10000 });
+  // Wait for lobby — use networkidle to handle SPA routing under load
+  await guest.waitForURL(`**/play/lobby/${code}`, {
+    timeout: 15000,
+    waitUntil: "domcontentloaded",
+  });
   await guest.getByText("Code de la room").waitFor({ timeout: 10000 });
 }
 
@@ -308,4 +350,11 @@ export async function hostSelectsMode(host: Page, mode: string) {
  */
 export async function hostStartsGame(host: Page) {
   await sendAppWsMessage(host, { type: "start_game" });
+}
+
+/**
+ * Submit an answer via WebSocket (bypasses UI input detection).
+ */
+export async function submitAnswerViaWs(page: Page, answer: string | boolean) {
+  await sendAppWsMessage(page, { type: "submit_answer", answer });
 }

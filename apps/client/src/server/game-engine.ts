@@ -301,7 +301,6 @@ function resolveVoleur(room: Room): void {
   const otherPlayerIds = getConnectedPlayerIds(room).filter(
     (id) => id !== mainPlayerId,
   );
-
   // Check if a stealer already answered correctly
   let stealerWon: string | null = null;
   for (const id of otherPlayerIds) {

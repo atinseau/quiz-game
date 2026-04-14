@@ -54,10 +54,10 @@ test.describe("Multi-device lobby", () => {
 
     // Both should see the pack selection reflected
     // The non-host view shows pack name if packs are loaded, or slug as fallback
-    await expect(guest.getByText(/pack-test|Pack Test/)).toBeVisible({
+    await expect(guest.getByText("Pack Test", { exact: true })).toBeVisible({
       timeout: 5000,
     });
-    await expect(host.getByText(/pack-test|Pack Test/)).toBeVisible({
+    await expect(host.getByText("Pack Test", { exact: true })).toBeVisible({
       timeout: 5000,
     });
 
@@ -90,9 +90,8 @@ test.describe("Multi-device lobby", () => {
     await expect(host.getByText(code)).toBeVisible();
     await expect(guest.getByText(code)).toBeVisible();
 
-    // Both see the waiting message (in test mode, isHost is always false
-    // because useAuth().userId is null without a real Clerk session)
-    await expect(host.getByText(/attente/i)).toBeVisible();
+    // Host sees pack selection UI, guest sees waiting message
+    await expect(host.getByText("Choisis un pack").first()).toBeVisible();
     await expect(guest.getByText(/attente/i)).toBeVisible();
   });
 });
