@@ -21,6 +21,11 @@ const clerkAuth: Core.MiddlewareFactory = (_config, { strapi }) => {
 
     const token = authHeader.replace("Bearer ", "");
 
+    // Remove the Authorization header so Strapi's users-permissions plugin
+    // doesn't try to verify it as a Strapi JWT (which would fail and return 401).
+    // We handle auth ourselves via Clerk.
+    delete ctx.request.headers.authorization;
+
     try {
       const verified = await verifyToken(token, {
         secretKey: process.env.CLERK_SECRET_KEY,
