@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { useAlcoholStore } from "../stores/alcoholStore";
 import { useRoomStore } from "../stores/roomStore";
 import type { Player } from "../types";
-import { CHRONO_DURATION } from "../types";
+import { CHRONO_DURATION, STEAL_GAIN } from "../types";
 import { QcmChoices, TextInput, VraiFaux } from "./AnswerInputs";
 import { DrinkAlert } from "./alcohol/DrinkAlert";
 import { SpecialRoundOverlay } from "./alcohol/SpecialRoundOverlay";
@@ -238,29 +238,66 @@ export function MultiGameScreen() {
                 const myResult = game.turnResult.playerResults.find(
                   (r) => r.clerkId === myClerkId,
                 );
+                const stealResult = game.turnResult.playerResults.find(
+                  (r) => r.stole,
+                );
                 const isCorrect = myResult?.correct ?? false;
                 const points = myResult?.pointsDelta ?? 0;
+
+                // Determine if this is a steal scenario
+                const iStole = myResult?.stole === true;
+                const someoneStoleFromMe =
+                  stealResult != null &&
+                  stealResult.clerkId !== myClerkId &&
+                  isMyTurn;
+                const isStealScenario = iStole || someoneStoleFromMe;
+
+                // Pick colors: amber for steal, green for correct, red for incorrect
+                const bgClass = isStealScenario
+                  ? "bg-amber-500/10 border border-amber-500/30"
+                  : isCorrect
+                    ? "bg-emerald-500/10 border border-emerald-500/30"
+                    : "bg-red-500/10 border border-red-500/30";
+                const iconColor = isStealScenario
+                  ? "text-amber-400"
+                  : isCorrect
+                    ? "text-emerald-400"
+                    : "text-red-400";
+                const titleColor = isStealScenario
+                  ? "text-amber-400"
+                  : isCorrect
+                    ? "text-emerald-400"
+                    : "text-red-400";
+
+                // Pick title text
+                let title: string;
+                if (iStole) {
+                  title = `Vol reussi ! +${STEAL_GAIN} pt`;
+                } else if (someoneStoleFromMe) {
+                  const stealerUsername =
+                    clerkIdToUsername[stealResult.clerkId] ?? "???";
+                  title = `${stealerUsername} t'a vole la reponse !`;
+                } else if (isCorrect) {
+                  title = "Bonne reponse !";
+                } else {
+                  title = "Mauvaise reponse";
+                }
+
+                const Icon = isStealScenario
+                  ? Zap
+                  : isCorrect
+                    ? CheckCircle2
+                    : XCircle;
+
                 return (
                   <div
-                    className={`mt-6 rounded-lg p-4 flex items-start gap-3 ${
-                      isCorrect
-                        ? "bg-emerald-500/10 border border-emerald-500/30"
-                        : "bg-red-500/10 border border-red-500/30"
-                    }`}
+                    className={`mt-6 rounded-lg p-4 flex items-start gap-3 ${bgClass}`}
                   >
-                    {isCorrect ? (
-                      <CheckCircle2 className="size-5 text-emerald-400 shrink-0 mt-0.5" />
-                    ) : (
-                      <XCircle className="size-5 text-red-400 shrink-0 mt-0.5" />
-                    )}
+                    <Icon className={`size-5 ${iconColor} shrink-0 mt-0.5`} />
                     <div>
-                      <p
-                        className={`font-semibold ${isCorrect ? "text-emerald-400" : "text-red-400"}`}
-                      >
-                        {isCorrect ? "Bonne réponse !" : "Mauvaise réponse"}
-                      </p>
+                      <p className={`font-semibold ${titleColor}`}>{title}</p>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Réponse correcte :{" "}
+                        Reponse correcte :{" "}
                         <span className="font-medium text-foreground">
                           {String(game.turnResult.correctAnswer)}
                         </span>

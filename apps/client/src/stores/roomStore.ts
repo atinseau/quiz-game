@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { GameMode } from "../types";
+import { sounds } from "../utils/sounds";
 import type { AlcoholConfig } from "./alcoholStore";
 import { useAlcoholStore } from "./alcoholStore";
 
@@ -127,7 +128,11 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
 
   connect: () => {
     const { ws } = get();
-    if (ws?.readyState === WebSocket.OPEN) return;
+    if (
+      ws?.readyState === WebSocket.OPEN ||
+      ws?.readyState === WebSocket.CONNECTING
+    )
+      return;
 
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const newWs = new WebSocket(`${protocol}//${window.location.host}/ws`);
@@ -272,7 +277,19 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           });
           break;
 
-        case "turn_result":
+        case "turn_result": {
+          const myResult = msg.results.playerResults.find(
+            (r: PlayerResult) => r.clerkId === state.myClerkId,
+          );
+          if (myResult) {
+            if (myResult.stole) {
+              sounds.steal();
+            } else if (myResult.correct) {
+              sounds.win();
+            } else if (myResult.answered) {
+              sounds.fail();
+            }
+          }
           set({
             game: {
               ...state.game,
@@ -282,6 +299,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
             },
           });
           break;
+        }
 
         case "game_over":
           set({
@@ -367,7 +385,9 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
     const { connect } = get();
     connect();
     const check = () => {
-      const { ws } = get();
+      const { ws, room } = get();
+      // Server open handler may have already reconnected us
+      if (room) return;
       if (ws?.readyState === WebSocket.OPEN) {
         sendMsg(ws, { type: "join_room", code });
       } else {
