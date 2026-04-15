@@ -8,6 +8,7 @@
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "strapi develop",
+    "dev:stripe": "strapi develop & stripe listen --forward-to localhost:1337/api/webhooks/stripe",
     "develop": "strapi develop",
     "start": "strapi start",
     "strapi": "strapi",
