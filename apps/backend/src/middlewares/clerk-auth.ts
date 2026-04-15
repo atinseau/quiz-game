@@ -50,10 +50,10 @@ const clerkAuth: Core.MiddlewareFactory = (_config, { strapi }) => {
         ctx.state.player = created;
       }
     } catch (error) {
-      strapi.log.error("Clerk token verification failed:", error);
-      ctx.status = 401;
-      ctx.body = { error: "Invalid or expired token" };
-      return;
+      // Token invalid/expired — don't block the request.
+      // Public routes will work without ctx.state.player.
+      // Protected routes check ctx.state.player themselves.
+      strapi.log.warn("Clerk token verification failed:", error);
     }
 
     return next();
