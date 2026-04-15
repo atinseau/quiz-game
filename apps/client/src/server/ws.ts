@@ -41,6 +41,60 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
       joinRoom(ws, msg.code);
       break;
     }
+    case "update_nickname": {
+      const room = findRoomByPlayer(clerkId);
+      if (!room) return;
+      if (room.status !== "lobby") {
+        send(ws, {
+          type: "error",
+          message: "Impossible de changer de nom en cours de partie",
+        });
+        return;
+      }
+      const nickname = (msg.nickname as string)?.trim();
+      if (!nickname || nickname.length > 20) {
+        send(ws, { type: "error", message: "Nom invalide (1-20 caractères)" });
+        return;
+      }
+      const player = room.players.get(clerkId);
+      if (player) {
+        player.username = nickname;
+        broadcast(room, {
+          type: "player_updated",
+          clerkId,
+          username: player.username,
+          gender: player.gender,
+        });
+      }
+      break;
+    }
+    case "update_gender": {
+      const room = findRoomByPlayer(clerkId);
+      if (!room) return;
+      if (room.status !== "lobby") {
+        send(ws, {
+          type: "error",
+          message: "Impossible de changer de genre en cours de partie",
+        });
+        return;
+      }
+      const gender = msg.gender as string;
+      if (gender !== "homme" && gender !== "femme") {
+        send(ws, { type: "error", message: "Genre invalide" });
+        return;
+      }
+      const player = room.players.get(clerkId);
+      if (player) {
+        player.gender = gender;
+        broadcast(room, {
+          type: "player_updated",
+          clerkId,
+          username: player.username,
+          gender: player.gender,
+        });
+      }
+      break;
+    }
     case "select_pack": {
       const room = findRoomByPlayer(clerkId);
       if (!room || room.hostClerkId !== clerkId) {

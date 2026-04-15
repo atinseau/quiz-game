@@ -92,6 +92,8 @@ interface RoomStore {
   selectMode: (mode: GameMode) => void;
   startGame: (alcoholConfig?: AlcoholConfig) => void;
   submitAnswer: (answer: string | boolean) => void;
+  updateNickname: (nickname: string) => void;
+  updateGender: (gender: "homme" | "femme") => void;
   reset: () => void;
 }
 
@@ -212,6 +214,21 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
         case "host_changed":
           if (state.room) {
             set({ room: { ...state.room, hostClerkId: msg.clerkId } });
+          }
+          break;
+
+        case "player_updated":
+          if (state.room) {
+            set({
+              room: {
+                ...state.room,
+                players: state.room.players.map((p: PlayerInfo) =>
+                  p.clerkId === msg.clerkId
+                    ? { ...p, username: msg.username, gender: msg.gender }
+                    : p,
+                ),
+              },
+            });
           }
           break;
 
@@ -384,6 +401,14 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
   submitAnswer: (answer: string | boolean) => {
     sendMsg(get().ws, { type: "submit_answer", answer });
     set((s) => ({ game: { ...s.game, hasAnswered: true } }));
+  },
+
+  updateNickname: (nickname: string) => {
+    sendMsg(get().ws, { type: "update_nickname", nickname });
+  },
+
+  updateGender: (gender: "homme" | "femme") => {
+    sendMsg(get().ws, { type: "update_gender", gender });
   },
 
   reset: () => {

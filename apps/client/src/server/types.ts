@@ -88,6 +88,8 @@ export type ClientMessage =
   | { type: "select_mode"; mode: GameMode }
   | { type: "start_game"; alcoholConfig?: AlcoholConfig }
   | { type: "leave_room" }
+  | { type: "update_nickname"; nickname: string }
+  | { type: "update_gender"; gender: Gender }
   | { type: "submit_answer"; answer: string | boolean }
   | { type: "courage_choice"; accept: boolean }
   | { type: "courage_answer"; answer: string | boolean }
@@ -122,6 +124,12 @@ export type ServerMessage =
   | { type: "player_disconnected"; clerkId: string }
   | { type: "player_reconnected"; clerkId: string }
   | { type: "host_changed"; clerkId: string }
+  | {
+      type: "player_updated";
+      clerkId: string;
+      username: string;
+      gender: Gender;
+    }
   | { type: "pack_selected"; packSlug: string }
   | { type: "mode_selected"; mode: GameMode }
   | { type: "game_starting" }

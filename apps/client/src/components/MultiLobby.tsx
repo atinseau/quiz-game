@@ -1,10 +1,11 @@
-import { Copy, Crown, Wifi, WifiOff } from "lucide-react";
+import { Copy, Crown, Pencil, Wifi, WifiOff } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { usePacks } from "../hooks/usePacks";
 import { useAlcoholStore } from "../stores/alcoholStore";
 import { useRoomStore } from "../stores/roomStore";
@@ -23,12 +24,16 @@ export function MultiLobby() {
   const selectPack = useRoomStore((s) => s.selectPack);
   const selectMode = useRoomStore((s) => s.selectMode);
   const startGame = useRoomStore((s) => s.startGame);
+  const updateNickname = useRoomStore((s) => s.updateNickname);
+  const updateGender = useRoomStore((s) => s.updateGender);
   const isHost = room?.hostClerkId === myClerkId;
   const alcoholConfig = useAlcoholStore((s) => s.config);
   const setAlcoholConfig = useAlcoholStore((s) => s.setConfig);
   const { data: packs = [] } = usePacks();
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState("");
 
   // Auto-join room if not already in it
   useEffect(() => {
@@ -102,33 +107,89 @@ export function MultiLobby() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {room.players.map((player) => (
-              <div
-                key={player.clerkId}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg bg-card/50"
-              >
-                {player.connected ? (
-                  <Wifi className="size-4 text-party-green" />
-                ) : (
-                  <WifiOff className="size-4 text-destructive" />
-                )}
-                <span className="font-medium flex-1">
-                  {player.username}
-                  {player.gender === "homme" ? " \u2642" : " \u2640"}
-                </span>
-                {player.clerkId === room.hostClerkId && (
-                  <Badge variant="secondary">
-                    <Crown className="size-3 mr-1" />
-                    Host
-                  </Badge>
-                )}
-                {!player.connected && (
-                  <Badge variant="destructive" className="text-xs">
-                    Déconnecté
-                  </Badge>
-                )}
-              </div>
-            ))}
+            {room.players.map((player) => {
+              const isMe = player.clerkId === myClerkId;
+              return (
+                <div
+                  key={player.clerkId}
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg bg-card/50"
+                >
+                  {player.connected ? (
+                    <Wifi className="size-4 text-party-green" />
+                  ) : (
+                    <WifiOff className="size-4 text-destructive" />
+                  )}
+                  {isMe && editingName ? (
+                    <Input
+                      value={nameInput}
+                      onChange={(e) => setNameInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && nameInput.trim()) {
+                          updateNickname(nameInput.trim());
+                          setEditingName(false);
+                        }
+                        if (e.key === "Escape") setEditingName(false);
+                      }}
+                      onBlur={() => {
+                        if (nameInput.trim()) updateNickname(nameInput.trim());
+                        setEditingName(false);
+                      }}
+                      maxLength={20}
+                      className="h-8 flex-1"
+                      autoFocus
+                    />
+                  ) : (
+                    <span className="font-medium flex-1">
+                      {player.username}
+                      {isMe && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setNameInput(player.username);
+                            setEditingName(true);
+                          }}
+                          className="ml-2 text-muted-foreground hover:text-foreground"
+                          title="Modifier ton nom"
+                        >
+                          <Pencil className="size-3 inline" />
+                        </button>
+                      )}
+                    </span>
+                  )}
+                  {isMe ? (
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateGender(
+                            player.gender === "homme" ? "femme" : "homme",
+                          )
+                        }
+                        className="text-sm px-2 py-0.5 rounded bg-card hover:bg-card/80 transition-colors"
+                        title="Changer de genre"
+                      >
+                        {player.gender === "homme" ? "♂" : "♀"}
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-sm">
+                      {player.gender === "homme" ? "♂" : "♀"}
+                    </span>
+                  )}
+                  {player.clerkId === room.hostClerkId && (
+                    <Badge variant="secondary">
+                      <Crown className="size-3 mr-1" />
+                      Host
+                    </Badge>
+                  )}
+                  {!player.connected && (
+                    <Badge variant="destructive" className="text-xs">
+                      Déconnecté
+                    </Badge>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
