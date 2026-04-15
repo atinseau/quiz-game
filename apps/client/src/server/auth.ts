@@ -1,7 +1,10 @@
-import { verifyToken } from "@clerk/backend";
+import { createClerkClient, verifyToken } from "@clerk/backend";
 import type { WsData } from "./types";
 
 const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY;
+const clerk = CLERK_SECRET_KEY
+  ? createClerkClient({ secretKey: CLERK_SECRET_KEY })
+  : null;
 
 export async function verifyClerkCookie(req: Request): Promise<WsData | null> {
   // Dev/test fallback: accept connections with ?testUser= when no Clerk key
@@ -32,17 +35,37 @@ export async function verifyClerkCookie(req: Request): Promise<WsData | null> {
 
   try {
     const verified = await verifyToken(token, { secretKey: CLERK_SECRET_KEY });
-    const firstName = verified.first_name as string | undefined;
-    const lastName = verified.last_name as string | undefined;
-    const fullName = [firstName, lastName].filter(Boolean).join(" ");
+    const clerkId = verified.sub;
+
+    // Fetch full user profile from Clerk API (JWT claims are limited)
+    let username = clerkId;
+    if (clerk) {
+      try {
+        const user = await clerk.users.getUser(clerkId);
+        const fullName = [user.firstName, user.lastName]
+          .filter(Boolean)
+          .join(" ");
+        username =
+          fullName ||
+          user.username ||
+          user.emailAddresses?.[0]?.emailAddress ||
+          clerkId;
+      } catch {
+        // Fallback to JWT claims
+        const firstName = verified.first_name as string | undefined;
+        const lastName = verified.last_name as string | undefined;
+        const fullName = [firstName, lastName].filter(Boolean).join(" ");
+        username =
+          fullName ||
+          (verified.username as string) ||
+          (verified.email as string) ||
+          clerkId;
+      }
+    }
 
     return {
-      clerkId: verified.sub,
-      username:
-        fullName ||
-        (verified.username as string) ||
-        (verified.email as string) ||
-        verified.sub,
+      clerkId,
+      username,
       gender: "homme",
     };
   } catch (err) {
