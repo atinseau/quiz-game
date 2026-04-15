@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 8     | 32        | 32      | 2026-04-13    |
+| e2e    | 9     | 35        | 35      | 2026-04-15    |
 
 ## Stale
 
@@ -72,3 +72,11 @@
 | [Cupidon multi](./cupidon-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
 | [Show Us multi](./show-us-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
 | [Smatch or Pass multi](./smatch-or-pass-multi.md) | multi-game | covered | high | alcohol-phase-b-multi |
+
+### e2e — Marketplace
+
+| Scenario | Page | Status | Priority | Spec |
+|----------|------|--------|----------|------|
+| [Free pack selection](./marketplace-free.md) | home | covered | high | marketplace |
+| [Premium pack lock + price](./marketplace-premium-lock.md) | home | covered | critical | marketplace |
+| [Landing page price](./marketplace-landing-price.md) | landing | covered | medium | marketplace |
