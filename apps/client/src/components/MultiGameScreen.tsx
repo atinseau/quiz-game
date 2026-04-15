@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock, User, XCircle } from "lucide-react";
+import { CheckCircle2, Clock, User, XCircle, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -117,7 +117,7 @@ export function MultiGameScreen() {
   const timerPercent = (timeLeft / CHRONO_DURATION) * 100;
 
   const handleAnswer = (value: string | boolean) => {
-    submitAnswer(String(value));
+    submitAnswer(value);
   };
 
   if (!room || !question) {
@@ -164,23 +164,32 @@ export function MultiGameScreen() {
               <Progress value={timerPercent} className="h-2 mb-5" />
             )}
 
-            {/* Turn indicator (classic / chrono) */}
-            {!isVoleur && (
-              <div className="mb-4">
-                {isMyTurn ? (
-                  <p className="text-lg font-bold text-party-green">
-                    C'est ton tour !
-                  </p>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    C'est au tour de{" "}
-                    <span className="font-semibold text-foreground">
-                      {currentPlayerUsername}
-                    </span>
-                  </p>
-                )}
-              </div>
-            )}
+            {/* Turn indicator */}
+            <div className="mb-4">
+              {isMyTurn ? (
+                <p className="text-lg font-bold text-party-green">
+                  {isVoleur
+                    ? "C'est ton tour — Réponds en premier !"
+                    : "C'est ton tour !"}
+                </p>
+              ) : isVoleur ? (
+                <p className="text-sm font-semibold text-amber-400 flex items-center gap-1.5">
+                  <Zap className="size-4" />
+                  C'est au tour de{" "}
+                  <span className="text-foreground">
+                    {currentPlayerUsername}
+                  </span>{" "}
+                  — Tente de voler !
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  C'est au tour de{" "}
+                  <span className="font-semibold text-foreground">
+                    {currentPlayerUsername}
+                  </span>
+                </p>
+              )}
+            </div>
 
             {/* Question text */}
             <p className="text-xl font-semibold my-6 leading-relaxed">
