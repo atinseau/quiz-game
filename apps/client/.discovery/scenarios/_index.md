@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 9     | 35        | 35      | 2026-04-15    |
+| e2e    | 9     | 38        | 35      | 2026-04-16    |
 
 ## Stale
 
@@ -50,6 +50,9 @@
 | [Multi classic flow](./multi-classic-flow.md) | multi-game | covered | critical | multi-game |
 | [Multi chrono flow](./multi-chrono-flow.md) | multi-game | covered | critical | multi-game |
 | [Multi voleur flow](./multi-voleur-flow.md) | multi-game | covered | critical | multi-game |
+| [Voleur input lock](./voleur-input-lock.md) | multi-game | discovered | high | multi-voleur-flow |
+| [Voleur main correct instant](./voleur-main-correct-instant.md) | multi-game | discovered | critical | multi-voleur-flow |
+| [Voleur amber steal feedback](./voleur-amber-steal-feedback.md) | multi-game | discovered | high | multi-voleur-flow |
 | [Multi reconnection](./multi-reconnection.md) | lobby | covered | high | multi-game |
 
 ### e2e — Alcohol mode
