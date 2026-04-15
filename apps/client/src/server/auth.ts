@@ -32,11 +32,16 @@ export async function verifyClerkCookie(req: Request): Promise<WsData | null> {
 
   try {
     const verified = await verifyToken(token, { secretKey: CLERK_SECRET_KEY });
+    const firstName = verified.first_name as string | undefined;
+    const lastName = verified.last_name as string | undefined;
+    const fullName = [firstName, lastName].filter(Boolean).join(" ");
+
     return {
       clerkId: verified.sub,
       username:
-        (verified.username as string) ??
-        (verified.email as string) ??
+        fullName ||
+        (verified.username as string) ||
+        (verified.email as string) ||
         verified.sub,
       gender: "homme",
     };
