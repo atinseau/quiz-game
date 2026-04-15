@@ -24,7 +24,7 @@ import type {
   TurnResult,
 } from "./types";
 
-const STRAPI_URL = "http://localhost:1337/api";
+const STRAPI_URL = process.env.STRAPI_URL || "http://localhost:1337/api";
 const NEXT_QUESTION_DELAY = 3_000;
 
 // Register alcohol round-end callback to resume the game
@@ -314,9 +314,44 @@ function resolveVoleur(room: Room): void {
   const question = game.questions[game.currentQuestionIndex];
   if (!question) return;
 
+  const mainAnswer = game.answers.get(mainPlayerId);
+  const mainCorrect = checkAnswer(mainAnswer as string | boolean, question);
+
+  // If main player answered correctly → turn ends immediately, no steal window
+  if (mainCorrect) {
+    game.resolved = true;
+
+    const combo = Math.min((game.combos[mainPlayerId] ?? 0) + 1, MAX_COMBO);
+    game.combos[mainPlayerId] = combo;
+    game.scores[mainPlayerId] = (game.scores[mainPlayerId] ?? 0) + 1;
+
+    const playerResults: PlayerResult[] = [
+      {
+        clerkId: mainPlayerId,
+        answered: true,
+        correct: true,
+        stole: false,
+        pointsDelta: 1,
+      },
+    ];
+
+    const result: TurnResult = {
+      correctAnswer: question.answer,
+      playerResults,
+      scores: { ...game.scores },
+      combos: { ...game.combos },
+    };
+
+    broadcast(room, { type: "turn_result", results: result });
+    scheduleNextQuestion(room);
+    return;
+  }
+
+  // Main answered incorrectly → stealers get a chance
   const otherPlayerIds = getConnectedPlayerIds(room).filter(
     (id) => id !== mainPlayerId,
   );
+
   // Check if a stealer already answered correctly
   let stealerWon: string | null = null;
   for (const id of otherPlayerIds) {
@@ -337,9 +372,6 @@ function resolveVoleur(room: Room): void {
 
   game.resolved = true;
 
-  const mainAnswer = game.answers.get(mainPlayerId);
-  const mainCorrect = checkAnswer(mainAnswer as string | boolean, question);
-
   const playerResults: PlayerResult[] = [];
 
   if (stealerWon) {
@@ -356,7 +388,7 @@ function resolveVoleur(room: Room): void {
     playerResults.push({
       clerkId: mainPlayerId,
       answered: true,
-      correct: mainCorrect,
+      correct: false,
       stole: false,
       pointsDelta: -STEAL_LOSS,
     });
@@ -386,28 +418,15 @@ function resolveVoleur(room: Room): void {
       }
     }
   } else {
-    // No stealer won
-    if (mainCorrect) {
-      const combo = Math.min((game.combos[mainPlayerId] ?? 0) + 1, MAX_COMBO);
-      game.combos[mainPlayerId] = combo;
-      game.scores[mainPlayerId] = (game.scores[mainPlayerId] ?? 0) + 1;
-      playerResults.push({
-        clerkId: mainPlayerId,
-        answered: true,
-        correct: true,
-        stole: false,
-        pointsDelta: 1,
-      });
-    } else {
-      game.combos[mainPlayerId] = 0;
-      playerResults.push({
-        clerkId: mainPlayerId,
-        answered: true,
-        correct: false,
-        stole: false,
-        pointsDelta: 0,
-      });
-    }
+    // No stealer won — main already incorrect
+    game.combos[mainPlayerId] = 0;
+    playerResults.push({
+      clerkId: mainPlayerId,
+      answered: true,
+      correct: false,
+      stole: false,
+      pointsDelta: 0,
+    });
 
     // Stealers who tried and failed
     for (const id of otherPlayerIds) {

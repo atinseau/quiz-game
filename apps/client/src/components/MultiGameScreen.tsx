@@ -110,9 +110,9 @@ export function MultiGameScreen() {
   }, [game.gameOver, navigate]);
 
   // Determine if answer inputs should be disabled
-  const inputDisabled = isVoleur
-    ? game.hasAnswered
-    : !(isMyTurn && !game.hasAnswered);
+  const inputDisabled =
+    game.turnResult !== null ||
+    (isVoleur ? game.hasAnswered : !(isMyTurn && !game.hasAnswered));
 
   const timerPercent = (timeLeft / CHRONO_DURATION) * 100;
 
