@@ -45,7 +45,8 @@ export function MultiLobby() {
   // Generate QR code
   useEffect(() => {
     if (!qrCanvasRef.current || !room) return;
-    const joinUrl = `${window.location.origin}/join/${room.code}`;
+    const origin = process.env.PUBLIC_APP_URL || window.location.origin;
+    const joinUrl = `${origin}/join/${room.code}`;
     QRCode.toCanvas(qrCanvasRef.current, joinUrl, {
       width: 200,
       margin: 2,
@@ -157,24 +158,34 @@ export function MultiLobby() {
                     </span>
                   )}
                   {isMe ? (
-                    <div className="flex gap-1">
+                    <div className="flex rounded-md overflow-hidden border border-border/50">
                       <button
                         type="button"
-                        onClick={() =>
-                          updateGender(
-                            player.gender === "homme" ? "femme" : "homme",
-                          )
-                        }
-                        className="text-sm px-2 py-0.5 rounded bg-card hover:bg-card/80 transition-colors"
-                        title="Changer de genre"
+                        onClick={() => updateGender("homme")}
+                        className={`text-xs px-2 py-1 transition-colors ${
+                          player.gender === "homme"
+                            ? "bg-blue-500/30 text-blue-300 font-semibold"
+                            : "bg-card/50 text-muted-foreground hover:bg-card/80"
+                        }`}
                       >
-                        {player.gender === "homme" ? "♂" : "♀"}
+                        ♂ Homme
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => updateGender("femme")}
+                        className={`text-xs px-2 py-1 transition-colors ${
+                          player.gender === "femme"
+                            ? "bg-pink-500/30 text-pink-300 font-semibold"
+                            : "bg-card/50 text-muted-foreground hover:bg-card/80"
+                        }`}
+                      >
+                        ♀ Femme
                       </button>
                     </div>
                   ) : (
-                    <span className="text-sm">
-                      {player.gender === "homme" ? "♂" : "♀"}
-                    </span>
+                    <Badge variant="outline" className="text-xs">
+                      {player.gender === "homme" ? "♂ Homme" : "♀ Femme"}
+                    </Badge>
                   )}
                   {player.clerkId === room.hostClerkId && (
                     <Badge variant="secondary">
