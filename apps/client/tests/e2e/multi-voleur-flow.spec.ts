@@ -81,3 +81,36 @@ test("Multi-device voleur: both players answer and game completes", async ({
 
   expect(ended).toBe(true);
 });
+
+test("Multi-device voleur: shows turn indicator and stealer cue", async ({
+  multi,
+}) => {
+  test.slow();
+  const { host, guest } = multi;
+
+  await setTestUser(host, "Alice");
+  await setTestUser(guest, "Bob");
+
+  const code = await hostCreatesRoom(host);
+  await guestJoinsRoom(guest, code);
+  await expect(host.getByText("Bob")).toBeVisible({ timeout: 5000 });
+
+  await hostSelectsPack(host, "pack-test");
+  await hostSelectsMode(host, "voleur");
+  await hostStartsGame(host);
+
+  await host.waitForURL("**/game", { timeout: 10000 });
+  await guest.waitForURL("**/game", { timeout: 10000 });
+  await expect(host.locator("p.text-xl")).toBeVisible({ timeout: 10000 });
+
+  // One player should see "Réponds en premier" and the other "Tente de voler"
+  const hostText = await host.locator(".mb-4 p").textContent();
+  const guestText = await guest.locator(".mb-4 p").textContent();
+
+  const texts = [hostText, guestText];
+  const hasMainIndicator = texts.some((t) => t?.includes("Réponds en premier"));
+  const hasStealIndicator = texts.some((t) => t?.includes("Tente de voler"));
+
+  expect(hasMainIndicator).toBe(true);
+  expect(hasStealIndicator).toBe(true);
+});
