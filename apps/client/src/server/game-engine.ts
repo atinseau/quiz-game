@@ -1,3 +1,4 @@
+import { shuffle } from "../shared/scoring";
 import {
   CHRONO_DURATION,
   CHRONO_TIMEOUT_PENALTY,
@@ -31,16 +32,6 @@ const NEXT_QUESTION_DELAY = 3_000;
 setOnRoundEnd((room) => {
   sendQuestion(room);
 });
-
-// Fisher-Yates shuffle
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j] as T, a[i] as T];
-  }
-  return a;
-}
 
 function stripAnswer(q: QuestionFull): QuestionWithoutAnswer {
   return {
@@ -278,7 +269,8 @@ function resolveClassicOrChrono(room: Room): void {
   if (!question) return;
 
   const answer = game.answers.get(pid);
-  const correct = checkAnswer(answer as string | boolean, question);
+  if (answer === undefined) return;
+  const correct = checkAnswer(answer, question);
 
   let pointsDelta = 0;
   if (correct) {
@@ -325,7 +317,8 @@ function resolveVoleur(room: Room): void {
   if (!question) return;
 
   const mainAnswer = game.answers.get(mainPlayerId);
-  const mainCorrect = checkAnswer(mainAnswer as string | boolean, question);
+  if (mainAnswer === undefined) return;
+  const mainCorrect = checkAnswer(mainAnswer, question);
 
   // If main player answered correctly → turn ends immediately, no steal window
   if (mainCorrect) {
@@ -366,7 +359,7 @@ function resolveVoleur(room: Room): void {
   let stealerWon: string | null = null;
   for (const id of otherPlayerIds) {
     const ans = game.answers.get(id);
-    if (ans !== undefined && checkAnswer(ans as string | boolean, question)) {
+    if (ans !== undefined && checkAnswer(ans, question)) {
       stealerWon = id;
       break;
     }
