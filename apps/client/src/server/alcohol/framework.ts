@@ -1,5 +1,5 @@
 import { broadcast } from "../rooms";
-import type { Room } from "../types";
+import type { ClientMessage, Room } from "../types";
 import { roundRegistry } from "./rounds";
 import type { AlcoholConfig, AlcoholState, SpecialRoundType } from "./types";
 
@@ -105,7 +105,7 @@ export function checkTrigger(room: Room): boolean {
 export function handleAlcoholMessage(
   room: Room,
   clerkId: string,
-  msg: Record<string, unknown>,
+  msg: ClientMessage,
 ): void {
   const game = room.game;
   if (!game?.alcoholState) return;
