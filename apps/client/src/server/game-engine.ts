@@ -177,6 +177,16 @@ export function submitAnswer(
   }
 }
 
+export function handlePlayerDisconnect(room: Room): void {
+  const game = room.game;
+  if (!game || game.resolved) return;
+
+  // Re-trigger voleur resolution — a disconnected stealer should not block the turn
+  if (room.mode === "voleur") {
+    resolveVoleur(room);
+  }
+}
+
 export function handleChronoTimeout(room: Room, playerId: string): void {
   const game = room.game;
   if (!game || game.resolved) return;

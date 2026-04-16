@@ -1,6 +1,7 @@
 import type { ServerWebSocket } from "bun";
 import { handleAlcoholMessage } from "./alcohol/framework";
 import {
+  handlePlayerDisconnect,
   startGame as startGameEngine,
   submitAnswer as submitAnswerEngine,
 } from "./game-engine";
@@ -37,7 +38,12 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
       break;
     }
     case "join_room": {
-      leaveRoom(clerkId);
+      // Only leave the current room if joining a *different* one,
+      // otherwise leaveRoom deletes the player (and possibly the room).
+      const current = findRoomByPlayer(clerkId);
+      if (current && current.code !== msg.code.toUpperCase()) {
+        leaveRoom(clerkId);
+      }
       joinRoom(ws, msg.code);
       break;
     }
@@ -201,7 +207,9 @@ export const websocketHandlers = {
     const room = findRoomByPlayer(ws.data.clerkId);
     if (room) {
       const player = room.players.get(ws.data.clerkId);
-      if (player && !player.connected) {
+      if (player) {
+        // Always update the ws ref — on page reload the old socket may not
+        // have closed yet, so player.connected can still be true.
         player.ws = ws;
         player.connected = true;
         player.disconnectedAt = null;
@@ -226,6 +234,12 @@ export const websocketHandlers = {
   },
   close(ws: ServerWebSocket<WsData>) {
     console.log(`[ws] Disconnected: ${ws.data.username} (${ws.data.clerkId})`);
+    const room = findRoomByPlayer(ws.data.clerkId);
     handleDisconnect(ws.data.clerkId);
+    // Re-trigger game resolution after disconnect — a disconnected stealer
+    // should not block the voleur turn from resolving
+    if (room?.game) {
+      handlePlayerDisconnect(room);
+    }
   },
 };

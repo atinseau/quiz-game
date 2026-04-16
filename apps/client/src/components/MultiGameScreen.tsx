@@ -217,20 +217,26 @@ export function MultiGameScreen() {
               />
             )}
 
-            {/* Answered badges (voleur mode) */}
-            {isVoleur && game.answeredPlayers.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {game.answeredPlayers.map((clerkId) => {
-                  const username = clerkIdToUsername[clerkId] ?? clerkId;
-                  return (
-                    <Badge key={clerkId} variant="secondary" className="gap-1">
-                      <User className="size-3" />
-                      {username} a répondu
-                    </Badge>
-                  );
-                })}
-              </div>
-            )}
+            {/* Answered badges (voleur mode) — hide once turn is resolved */}
+            {isVoleur &&
+              !game.turnResult &&
+              game.answeredPlayers.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {game.answeredPlayers.map((clerkId) => {
+                    const username = clerkIdToUsername[clerkId] ?? clerkId;
+                    return (
+                      <Badge
+                        key={clerkId}
+                        variant="secondary"
+                        className="gap-1"
+                      >
+                        <User className="size-3" />
+                        {username} a répondu
+                      </Badge>
+                    );
+                  })}
+                </div>
+              )}
 
             {/* Turn result feedback */}
             {game.turnResult &&
@@ -242,6 +248,7 @@ export function MultiGameScreen() {
                   (r) => r.stole,
                 );
                 const isCorrect = myResult?.correct ?? false;
+                const didAnswer = myResult?.answered ?? false;
                 const points = myResult?.pointsDelta ?? 0;
 
                 // Determine if this is a steal scenario
@@ -251,23 +258,31 @@ export function MultiGameScreen() {
                   stealResult.clerkId !== myClerkId &&
                   isMyTurn;
                 const isStealScenario = iStole || someoneStoleFromMe;
+                // Player never got to answer (e.g. main answered correctly in voleur, instant resolve)
+                const didNotParticipate = !didAnswer && !isMyTurn && isVoleur;
 
-                // Pick colors: amber for steal, green for correct, red for incorrect
+                // Pick colors: amber for steal, blue for spectator, green for correct, red for incorrect
                 const bgClass = isStealScenario
                   ? "bg-amber-500/10 border border-amber-500/30"
-                  : isCorrect
-                    ? "bg-emerald-500/10 border border-emerald-500/30"
-                    : "bg-red-500/10 border border-red-500/30";
+                  : didNotParticipate
+                    ? "bg-blue-500/10 border border-blue-500/30"
+                    : isCorrect
+                      ? "bg-emerald-500/10 border border-emerald-500/30"
+                      : "bg-red-500/10 border border-red-500/30";
                 const iconColor = isStealScenario
                   ? "text-amber-400"
-                  : isCorrect
-                    ? "text-emerald-400"
-                    : "text-red-400";
+                  : didNotParticipate
+                    ? "text-blue-400"
+                    : isCorrect
+                      ? "text-emerald-400"
+                      : "text-red-400";
                 const titleColor = isStealScenario
                   ? "text-amber-400"
-                  : isCorrect
-                    ? "text-emerald-400"
-                    : "text-red-400";
+                  : didNotParticipate
+                    ? "text-blue-400"
+                    : isCorrect
+                      ? "text-emerald-400"
+                      : "text-red-400";
 
                 // Pick title text
                 let title: string;
@@ -277,6 +292,8 @@ export function MultiGameScreen() {
                   const stealerUsername =
                     clerkIdToUsername[stealResult.clerkId] ?? "???";
                   title = `${stealerUsername} t'a vole la reponse !`;
+                } else if (didNotParticipate) {
+                  title = `${currentPlayerUsername} a bien repondu`;
                 } else if (isCorrect) {
                   title = "Bonne reponse !";
                 } else {
@@ -285,9 +302,11 @@ export function MultiGameScreen() {
 
                 const Icon = isStealScenario
                   ? Zap
-                  : isCorrect
+                  : didNotParticipate
                     ? CheckCircle2
-                    : XCircle;
+                    : isCorrect
+                      ? CheckCircle2
+                      : XCircle;
 
                 return (
                   <div
