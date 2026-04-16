@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { fetchPackQuestions } from "../lib/queries/questions";
+import { shuffle } from "../shared/scoring";
 import type { FeedbackState, GameMode, Player, Question } from "../types";
 import {
   BLIND_MULTIPLIER,
@@ -25,14 +26,7 @@ function randomizeQuestion(questions: Question[], idx: number): void {
   if (idx >= questions.length) return;
   const q = questions[idx];
   if (!q?.choices) return;
-  const arr = [...q.choices];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = arr[i];
-    arr[i] = arr[j] as string;
-    arr[j] = tmp as string;
-  }
-  questions[idx] = { ...q, choices: arr };
+  questions[idx] = { ...q, choices: shuffle(q.choices) };
 }
 
 function formatCorrectAnswer(q: Question): string {
@@ -209,13 +203,9 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   startGame: async (packSlug: string, mode: GameMode) => {
     const questions = await fetchPackQuestions(packSlug);
 
-    // Shuffle all questions (Fisher-Yates)
-    for (let i = questions.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const tmp = questions[i];
-      questions[i] = questions[j] as Question;
-      questions[j] = tmp as Question;
-    }
+    const shuffled = shuffle(questions);
+    questions.length = 0;
+    questions.push(...shuffled);
 
     // Randomize choices of first question
     randomizeQuestion(questions, 0);
