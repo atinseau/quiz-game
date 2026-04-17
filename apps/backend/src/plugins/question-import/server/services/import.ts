@@ -188,3 +188,170 @@ export function createKnnSearcher(knex: any): KnnSearcher {
     },
   };
 }
+
+export type QuestionDecision = "import" | "skip";
+
+export interface CommitQuestion extends ImportQuestion {
+  embedding: number[];
+  normalizedAnswer: string;
+  status: ClassifiedCandidate["status"] | "intra_batch_duplicate";
+  decision: QuestionDecision;
+  overrideReason?: string;
+}
+
+export interface CommitBody {
+  pack: ImportPack & { slug: string };
+  embeddingModel: string;
+  questions: CommitQuestion[];
+}
+
+export interface CommitSummary {
+  pack: { slug: string; status: "created" | "existing" };
+  categories: Array<{ name: string; status: "created" | "existing" }>;
+  questions: { created: number; skipped: number; total: number };
+}
+
+export interface CommitDeps {
+  strapi: any;
+}
+
+export function validateCommitBody(body: CommitBody): string[] {
+  const errors: string[] = [];
+  if (!body.pack?.slug) errors.push("pack.slug required");
+  if (!body.embeddingModel) errors.push("embeddingModel required");
+  if (!Array.isArray(body.questions) || body.questions.length === 0) {
+    errors.push("questions must be non-empty");
+    return errors;
+  }
+  for (let i = 0; i < body.questions.length; i++) {
+    const q = body.questions[i];
+    const p = `questions[${i}]`;
+    if (!["import", "skip"].includes(q.decision)) {
+      errors.push(`${p}.decision must be import|skip`);
+    }
+    if (
+      q.status === "auto_blocked" &&
+      q.decision === "import" &&
+      (!q.overrideReason || q.overrideReason.trim() === "")
+    ) {
+      errors.push(`${p}.overrideReason required when overriding auto_blocked`);
+    }
+    if (q.decision === "import") {
+      if (!Array.isArray(q.embedding) || q.embedding.length !== 1536) {
+        errors.push(`${p}.embedding must be 1536-dim array`);
+      }
+    }
+  }
+  return errors;
+}
+
+function slugifyName(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export async function runCommit(
+  body: CommitBody,
+  deps: CommitDeps,
+): Promise<CommitSummary> {
+  const errors = validateCommitBody(body);
+  if (errors.length > 0) {
+    const err = new Error("Validation failed") as Error & { details?: string[] };
+    err.details = errors;
+    throw err;
+  }
+  const { strapi } = deps;
+
+  let pack: any = await strapi
+    .documents("api::question-pack.question-pack")
+    .findFirst({ filters: { slug: body.pack.slug } });
+  let packStatus: "created" | "existing" = "existing";
+  if (!pack) {
+    pack = await strapi.documents("api::question-pack.question-pack").create({
+      data: {
+        slug: body.pack.slug,
+        name: body.pack.name as string,
+        description: body.pack.description ?? null,
+        icon: body.pack.icon ?? null,
+        gradient: body.pack.gradient ?? null,
+        isFree: true,
+      },
+    });
+    packStatus = "created";
+  }
+
+  const toImport = body.questions.filter((q) => q.decision === "import");
+  const uniqueCategoryNames = [...new Set(toImport.map((q) => q.category as string))];
+  const catSummary: Array<{ name: string; status: "created" | "existing" }> = [];
+  const catMap = new Map<string, any>();
+
+  for (const name of uniqueCategoryNames) {
+    let cat = await strapi.documents("api::category.category").findFirst({
+      filters: { name },
+      populate: ["packs"],
+    });
+    let status: "created" | "existing" = "existing";
+    if (!cat) {
+      const created = await strapi.documents("api::category.category").create({
+        data: { name, slug: slugifyName(name) },
+      });
+      cat = await strapi.documents("api::category.category").findFirst({
+        filters: { documentId: created.documentId },
+        populate: ["packs"],
+      });
+      status = "created";
+    }
+    const linked: string[] = (cat.packs ?? []).map((p: any) => p.documentId);
+    if (!linked.includes(pack.documentId)) {
+      await strapi.documents("api::category.category").update({
+        documentId: cat.documentId,
+        data: { packs: [...linked, pack.documentId] },
+      });
+    }
+    catMap.set(name, cat);
+    catSummary.push({ name, status });
+  }
+
+  let created = 0;
+  for (const q of toImport) {
+    const cat = catMap.get(q.category as string);
+    const doc = await strapi.documents("api::question.question").create({
+      data: {
+        type: q.type as "qcm" | "vrai_faux" | "texte",
+        text: q.question as string,
+        choices: q.type === "qcm" ? (q.choices as string[]) : null,
+        answer: q.answer as string,
+        category: cat?.documentId,
+        pack: pack.documentId,
+      },
+    });
+    await strapi.db.connection.raw(
+      `UPDATE questions
+       SET embedding = ?::vector,
+           embedding_model = ?,
+           normalized_answer = ?
+       WHERE document_id = ?`,
+      [
+        JSON.stringify(q.embedding),
+        body.embeddingModel,
+        q.normalizedAnswer,
+        doc.documentId,
+      ],
+    );
+    created++;
+  }
+
+  return {
+    pack: { slug: pack.slug, status: packStatus },
+    categories: catSummary,
+    questions: {
+      created,
+      skipped: body.questions.length - created,
+      total: body.questions.length,
+    },
+  };
+}
