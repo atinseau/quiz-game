@@ -4,6 +4,7 @@
     "types": ["bun-types"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "noEmit": true
   },
   "include": ["tests/**/*.ts", "src/plugins/**/*.ts", "src/plugins/**/*.tsx"],
