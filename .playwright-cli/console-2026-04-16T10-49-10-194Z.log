@@ -1,0 +1,44 @@
+[      39ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-00000000bfc341e3.js:72499
+[      46ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-00000000bfc341e3.js:20
+[     145ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     145ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     374ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[     677ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    1281ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    2286ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    2588ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    3191ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   14116ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   14419ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   15023ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   16029ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   16333ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   16937ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   85253ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   85253ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   85556ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   85556ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   86159ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   86159ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   87163ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   87164ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   87466ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   87466ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   88069ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   88069ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   89708ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-00000000f402697f.js:72499
+[   89737ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-00000000f402697f.js:20
+[   89833ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[   89833ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[   90092ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   90093ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   90396ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   90396ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   91002ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   91003ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   92006ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   92007ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   92309ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   92309ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   92913ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[   92913ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0

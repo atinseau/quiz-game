@@ -19,6 +19,7 @@ export interface PlayerResult {
   correct: boolean;
   stole: boolean;
   pointsDelta: number;
+  answer?: string | boolean;
 }
 
 export interface TurnResult {
@@ -46,7 +47,7 @@ export interface RoomState {
   code: string;
   hostClerkId: string;
   players: PlayerInfo[];
-  status: "lobby" | "playing";
+  status: "lobby" | "playing" | "ended";
   packSlug: string | null;
   mode: GameMode | null;
 }

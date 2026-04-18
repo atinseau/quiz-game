@@ -9,6 +9,16 @@ import { useRoomStore } from "../stores/roomStore";
 import type { Player } from "../types";
 import { CHRONO_DURATION, STEAL_GAIN } from "../types";
 import { QcmChoices, TextInput, VraiFaux } from "./AnswerInputs";
+
+function formatAnswer(
+  value: string | boolean | undefined,
+  questionType: "qcm" | "vrai_faux" | "texte",
+): string {
+  if (value === undefined) return "—";
+  if (questionType === "vrai_faux") return value === true ? "Vrai" : "Faux";
+  return String(value);
+}
+
 import { DrinkAlert } from "./alcohol/DrinkAlert";
 import { SpecialRoundOverlay } from "./alcohol/SpecialRoundOverlay";
 import { ScoreBoard } from "./ScoreBoard";
@@ -247,6 +257,9 @@ export function MultiGameScreen() {
                 const stealResult = game.turnResult.playerResults.find(
                   (r) => r.stole,
                 );
+                const mainResult = game.turnResult.playerResults.find(
+                  (r) => r.clerkId === game.currentPlayerClerkId,
+                );
                 const isCorrect = myResult?.correct ?? false;
                 const didAnswer = myResult?.answered ?? false;
                 const points = myResult?.pointsDelta ?? 0;
@@ -258,8 +271,10 @@ export function MultiGameScreen() {
                   stealResult.clerkId !== myClerkId &&
                   isMyTurn;
                 const isStealScenario = iStole || someoneStoleFromMe;
-                // Player never got to answer (e.g. main answered correctly in voleur, instant resolve)
-                const didNotParticipate = !didAnswer && !isMyTurn && isVoleur;
+                // Spectator: didn't participate in this turn (classic/chrono
+                // non-current player, or voleur non-current player who didn't
+                // attempt a steal before main resolved correctly).
+                const didNotParticipate = !didAnswer && !isMyTurn;
 
                 // Pick colors: amber for steal, blue for spectator, green for correct, red for incorrect
                 const bgClass = isStealScenario
@@ -287,23 +302,28 @@ export function MultiGameScreen() {
                 // Pick title text
                 let title: string;
                 if (iStole) {
-                  title = `Vol reussi ! +${STEAL_GAIN} pt`;
+                  title = `Vol réussi ! +${STEAL_GAIN} pt`;
                 } else if (someoneStoleFromMe) {
                   const stealerUsername =
                     clerkIdToUsername[stealResult.clerkId] ?? "???";
-                  title = `${stealerUsername} t'a vole la reponse !`;
+                  title = `${stealerUsername} t'a volé la réponse !`;
                 } else if (didNotParticipate) {
-                  title = `${currentPlayerUsername} a bien repondu`;
+                  const mainCorrect = mainResult?.correct ?? false;
+                  title = `${currentPlayerUsername} a ${
+                    mainCorrect ? "bien" : "mal"
+                  } répondu`;
                 } else if (isCorrect) {
-                  title = "Bonne reponse !";
+                  title = "Bonne réponse !";
                 } else {
-                  title = "Mauvaise reponse";
+                  title = "Mauvaise réponse";
                 }
 
                 const Icon = isStealScenario
                   ? Zap
                   : didNotParticipate
-                    ? CheckCircle2
+                    ? mainResult?.correct
+                      ? CheckCircle2
+                      : XCircle
                     : isCorrect
                       ? CheckCircle2
                       : XCircle;
@@ -315,10 +335,22 @@ export function MultiGameScreen() {
                     <Icon className={`size-5 ${iconColor} shrink-0 mt-0.5`} />
                     <div>
                       <p className={`font-semibold ${titleColor}`}>{title}</p>
+                      {didNotParticipate &&
+                        mainResult?.answer !== undefined && (
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Sa réponse :{" "}
+                            <span className="font-medium text-foreground">
+                              {formatAnswer(mainResult.answer, question.type)}
+                            </span>
+                          </p>
+                        )}
                       <p className="text-sm text-muted-foreground mt-1">
-                        Reponse correcte :{" "}
+                        Réponse correcte :{" "}
                         <span className="font-medium text-foreground">
-                          {String(game.turnResult.correctAnswer)}
+                          {formatAnswer(
+                            game.turnResult.correctAnswer,
+                            question.type,
+                          )}
                         </span>
                       </p>
                       {points !== 0 && (

@@ -2,6 +2,7 @@ import { Copy, Crown, Pencil, Wifi, WifiOff } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,6 +22,7 @@ export function MultiLobby() {
   const gameStarting = useRoomStore((s) => s.gameStarting);
   const joinRoom = useRoomStore((s) => s.joinRoom);
   const leaveRoom = useRoomStore((s) => s.leaveRoom);
+  const clearError = useRoomStore((s) => s.clearError);
   const selectPack = useRoomStore((s) => s.selectPack);
   const selectMode = useRoomStore((s) => s.selectMode);
   const startGame = useRoomStore((s) => s.startGame);
@@ -35,12 +37,31 @@ export function MultiLobby() {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState("");
 
+  // URL is the source of truth for which room we're in.
+  // When URL code differs from the current room (e.g. manual URL edit after
+  // server auto-reconnected us to a previous room), clear the stale room so
+  // the auto-join effect below issues a fresh join for the URL code.
+  useEffect(() => {
+    if (code && room && room.code.toUpperCase() !== code.toUpperCase()) {
+      useRoomStore.setState({ room: null });
+    }
+  }, [code, room]);
+
   // Auto-join room if not already in it
   useEffect(() => {
     if (!room && code) {
       joinRoom(code);
     }
   }, [room, code, joinRoom]);
+
+  // Redirect to /play if joining failed (room not found, game already started, etc.)
+  useEffect(() => {
+    if (error && !room) {
+      toast.error(error);
+      clearError();
+      navigate("/play", { replace: true });
+    }
+  }, [error, room, navigate, clearError]);
 
   // Generate QR code
   useEffect(() => {
@@ -242,20 +263,20 @@ export function MultiLobby() {
               <CardTitle className="text-lg">Choisis un mode</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {GAME_MODES.map((mode) => (
                   <button
                     type="button"
                     key={mode.id}
                     onClick={() => selectMode(mode.id)}
-                    className={`bg-gradient-to-br ${mode.gradient} rounded-xl p-4 text-center transition-all ${
+                    className={`bg-gradient-to-br ${mode.gradient} rounded-xl p-3 sm:p-4 text-center transition-all ${
                       room.mode === mode.id
                         ? "ring-2 ring-primary scale-[1.02]"
                         : "opacity-70 hover:opacity-100"
                     }`}
                   >
                     <span className="text-2xl">{mode.icon}</span>
-                    <p className="text-sm font-bold text-white mt-1">
+                    <p className="text-xs sm:text-sm font-bold text-white mt-1">
                       {mode.name}
                     </p>
                   </button>

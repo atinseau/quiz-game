@@ -1,0 +1,38 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - button "Previous error" [disabled] [ref=e6] [cursor=pointer]
+    - button "Next error" [disabled] [ref=e7] [cursor=pointer]
+    - generic [ref=e8]:
+      - code [ref=e9]: "1"
+      - text: of
+      - code [ref=e10]: "1"
+      - text: Error
+    - button "Dismiss all errors" [ref=e11] [cursor=pointer]
+  - banner [ref=e12]:
+    - generic [ref=e13]: Runtime Error
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - code [ref=e17]: TypeError
+      - code [ref=e18]: ":"
+      - code [ref=e19]: import_react_query.QueryClient is not a constructor
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - text: at src/index.tsx in http://localhost:3000/_bun/client/index-01000000ab6d99ff.js
+        - code [ref=e22]: :47:23
+      - generic [ref=e23]:
+        - text: at CY in http://localhost:3000/_bun/client/index-01000000ab6d99ff.js
+        - code [ref=e24]: :21:8972
+      - generic [ref=e25]:
+        - text: at m in http://localhost:3000/_bun/client/index-01000000ab6d99ff.js
+        - code [ref=e26]: :21:8863
+      - generic [ref=e27]:
+        - text: at nY in http://localhost:3000/_bun/client/index-01000000ab6d99ff.js
+        - code [ref=e28]: :21:9284
+      - generic [ref=e29]:
+        - text: at m in http://localhost:3000/_bun/client/index-01000000ab6d99ff.js
+        - code [ref=e30]: :21:8771
+      - generic [ref=e31]:
+        - text: at unknown in http://localhost:3000/_bun/client/index-01000000ab6d99ff.js
+        - code [ref=e32]: :24:6481
+  - contentinfo [ref=e33]:
+    - generic [ref=e35]: Bun v1.3.10

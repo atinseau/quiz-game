@@ -82,7 +82,7 @@ function advanceToNextConnectedPlayer(room: Room): string | undefined {
 // --- Chrono timers ---
 const chronoTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
-function clearChronoTimer(roomCode: string) {
+export function clearChronoTimer(roomCode: string) {
   const timer = chronoTimers.get(roomCode);
   if (timer) {
     clearTimeout(timer);
@@ -289,6 +289,7 @@ function resolveClassicOrChrono(room: Room): void {
       correct,
       stole: false,
       pointsDelta,
+      answer,
     },
   ];
 
@@ -335,6 +336,7 @@ function resolveVoleur(room: Room): void {
         correct: true,
         stole: false,
         pointsDelta: 1,
+        answer: mainAnswer,
       },
     ];
 
@@ -394,6 +396,7 @@ function resolveVoleur(room: Room): void {
       correct: false,
       stole: false,
       pointsDelta: -STEAL_LOSS,
+      answer: mainAnswer,
     });
 
     // Stealer result
@@ -403,6 +406,7 @@ function resolveVoleur(room: Room): void {
       correct: true,
       stole: true,
       pointsDelta: STEAL_GAIN,
+      answer: game.answers.get(stealerWon),
     });
 
     // Other stealers who answered wrong
@@ -417,6 +421,7 @@ function resolveVoleur(room: Room): void {
           correct: false,
           stole: false,
           pointsDelta: -STEAL_FAIL_PENALTY,
+          answer: game.answers.get(id),
         });
       }
     }
@@ -429,6 +434,7 @@ function resolveVoleur(room: Room): void {
       correct: false,
       stole: false,
       pointsDelta: 0,
+      answer: mainAnswer,
     });
 
     // Stealers who tried and failed
@@ -442,6 +448,7 @@ function resolveVoleur(room: Room): void {
           correct: false,
           stole: false,
           pointsDelta: -STEAL_FAIL_PENALTY,
+          answer: game.answers.get(id),
         });
       }
     }
@@ -459,7 +466,11 @@ function resolveVoleur(room: Room): void {
 }
 
 function scheduleNextQuestion(room: Room): void {
-  setTimeout(() => {
+  if (room.nextQuestionTimer) {
+    clearTimeout(room.nextQuestionTimer);
+  }
+  room.nextQuestionTimer = setTimeout(() => {
+    room.nextQuestionTimer = null;
     const game = room.game;
     if (!game) return;
 

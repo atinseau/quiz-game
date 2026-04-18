@@ -60,6 +60,7 @@ interface RoomStore {
   submitAnswer: (answer: string | boolean) => void;
   updateNickname: (nickname: string) => void;
   updateGender: (gender: "homme" | "femme") => void;
+  clearError: () => void;
   reset: () => void;
 }
 
@@ -332,6 +333,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
   },
 
   createRoom: () => {
+    set({ room: null, gameStarting: false, error: null });
     const { connect } = get();
     connect();
     // Wait for connection then send
@@ -394,6 +396,10 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
 
   updateGender: (gender: "homme" | "femme") => {
     sendMsg(get().ws, { type: "update_gender", gender });
+  },
+
+  clearError: () => {
+    set({ error: null });
   },
 
   reset: () => {

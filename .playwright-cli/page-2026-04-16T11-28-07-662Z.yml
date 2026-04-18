@@ -1,0 +1,80 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - button "Couper le son" [ref=e4]:
+      - img
+    - generic [ref=e6]:
+      - button "Retour aux joueurs" [ref=e89]:
+        - img
+        - text: Retour aux joueurs
+      - generic [ref=e23]:
+        - generic [ref=e49]: 🧪
+        - heading "Pack Test" [level=2] [ref=e51]
+      - paragraph [ref=e90]: "4 joueurs : Alice, Bob, Charlie, Diana"
+      - heading "Choisis un mode de jeu" [level=2] [ref=e91]:
+        - img [ref=e92]
+        - text: Choisis un mode de jeu
+      - generic [ref=e94]:
+        - button "🎯 Classique Chacun son tour, pas de vol. Une réponse par joueur." [active] [ref=e95] [cursor=pointer]:
+          - generic [ref=e96]:
+            - generic [ref=e97]: 🎯
+            - generic [ref=e98]:
+              - heading "Classique" [level=3] [ref=e99]
+              - paragraph [ref=e100]: Chacun son tour, pas de vol. Une réponse par joueur.
+        - button "🦹 Voleur Les autres joueurs peuvent voler la réponse avant toi." [ref=e101] [cursor=pointer]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: 🦹
+            - generic [ref=e104]:
+              - heading "Voleur" [level=3] [ref=e105]
+              - paragraph [ref=e106]: Les autres joueurs peuvent voler la réponse avant toi.
+        - button "⏱️ Contre la montre Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout." [ref=e107] [cursor=pointer]:
+          - generic [ref=e108]:
+            - generic [ref=e109]: ⏱️
+            - generic [ref=e110]:
+              - heading "Contre la montre" [level=3] [ref=e111]
+              - paragraph [ref=e112]: Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - img [ref=e118]
+          - text: Mode Soirée
+        - button "Désactivé" [ref=e122]
+  - generic [ref=e125]:
+    - navigation [ref=e126]:
+      - button "Previous error" [disabled] [ref=e127] [cursor=pointer]
+      - button "Next error" [disabled] [ref=e128] [cursor=pointer]
+      - generic [ref=e129]:
+        - code [ref=e130]: "1"
+        - text: of
+        - code [ref=e131]: "1"
+        - text: Error
+      - button "Dismiss all errors" [ref=e132] [cursor=pointer]
+    - banner [ref=e133]:
+      - generic [ref=e134]: Unhandled Promise Rejection
+    - generic [ref=e136]:
+      - generic [ref=e137]:
+        - code [ref=e138]: NetworkError
+        - code [ref=e139]: ":"
+        - code [ref=e140]: "Request failed due to a network error: GET http://10.0.0.6:1337/api/questions?filters[pack][slug][$eq]=test&populate=category&pagination[pageSize]=1000"
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - text: "at #fetch in http://localhost:3000/_bun/client/index-00000000f402697f.js"
+          - code [ref=e143]: :2541:19
+        - generic [ref=e144]:
+          - text: "at async #retry in http://localhost:3000/_bun/client/index-00000000f402697f.js"
+          - code [ref=e145]: :2454:18
+        - generic [ref=e146]:
+          - text: at async function_ in http://localhost:3000/_bun/client/index-00000000f402697f.js
+          - code [ref=e147]: :1986:51
+        - generic [ref=e148]:
+          - text: at unknown in async http://localhost:3000/_bun/client/index-00000000f402697f.js
+          - code [ref=e149]: :2038:20
+        - generic [ref=e150]:
+          - text: at async result.<computed> [as json] in http://localhost:3000/_bun/client/index-00000000f402697f.js
+          - code [ref=e151]: :2073:30
+        - generic [ref=e152]:
+          - text: at async Object.fetchPackQuestions2 [as fetchPackQuestions] in http://localhost:3000/_bun/client/index-00000000f402697f.js
+          - code [ref=e153]: :5040:20
+        - generic [ref=e154]:
+          - text: at async startGame in http://localhost:3000/_bun/client/index-00000000f402697f.js
+          - code [ref=e155]: :3693:27
+    - contentinfo [ref=e156]:
+      - generic [ref=e158]: Bun v1.3.10

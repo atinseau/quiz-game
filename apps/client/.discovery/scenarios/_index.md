@@ -4,7 +4,7 @@
 
 | Domain | Pages | Scenarios | Covered | Last explored |
 |--------|-------|-----------|---------|---------------|
-| e2e    | 9     | 38        | 35      | 2026-04-16    |
+| e2e    | 9     | 39        | 36      | 2026-04-17    |
 
 ## Stale
 
@@ -54,6 +54,7 @@
 | [Voleur main correct instant](./voleur-main-correct-instant.md) | multi-game | discovered | critical | multi-voleur-flow |
 | [Voleur amber steal feedback](./voleur-amber-steal-feedback.md) | multi-game | discovered | high | multi-voleur-flow |
 | [Multi reconnection](./multi-reconnection.md) | lobby | covered | high | multi-game |
+| [Create room twice](./create-room-twice.md) | mode-choice | covered | critical | multi-lobby |
 
 ### e2e — Alcohol mode
 

@@ -185,16 +185,17 @@ export async function setTestUser(page: Page, username: string) {
      * join_room messages that occur during component navigation (CreateRoom
      * -> MultiLobby, JoinRoom -> MultiLobby).
      *
-     * The suppression uses a global flag: when any WS instance on this page
-     * receives room_joined, subsequent join_room messages are suppressed
-     * unless a create_room was explicitly sent. This handles the case where
-     * the server auto-reconnects the player via the open handler but the
-     * app still sends join_room from useEffect.
+     * We track the current room code from room_joined events. Join_room
+     * messages for the SAME code are suppressed (race: server auto-reconnect
+     * already put us in that room). Join_room for a DIFFERENT code is a
+     * legitimate URL-change transition and must go through.
      */
-    // Global flag: set when ANY WS on this page receives room_joined.
-    // Reset when create_room is sent (new room creation).
-    let anyWsHasRoom = false;
+    // Code of the room the client is currently in (from last room_joined).
+    // Null until joined, or after create_room is sent (new room pending).
+    let currentRoomCode: string | null = null;
     let joinRoomTimer: ReturnType<typeof setTimeout> | null = null;
+    const normalizeCode = (c: unknown) =>
+      typeof c === "string" ? c.toUpperCase() : null;
 
     // biome-ignore lint/suspicious/noExplicitAny: test global
     (window as any).WebSocket = class extends OriginalWebSocket {
@@ -213,7 +214,7 @@ export async function setTestUser(page: Page, username: string) {
           try {
             const data = JSON.parse((evt as MessageEvent).data);
             if (data.type === "room_joined") {
-              anyWsHasRoom = true;
+              currentRoomCode = normalizeCode(data.room?.code);
               // Cancel any pending delayed join_room
               if (joinRoomTimer) {
                 clearTimeout(joinRoomTimer);
@@ -232,20 +233,24 @@ export async function setTestUser(page: Page, username: string) {
             const msg = JSON.parse(data);
             if (msg.type === "create_room") {
               this._sentCreate = true;
-              anyWsHasRoom = false;
+              currentRoomCode = null;
             }
             // For join_room (not after explicit create_room):
-            // 1. If any WS already got room_joined, suppress entirely
-            // 2. Otherwise, delay 300ms to let server process WS close
-            //    and auto-reconnect via the open handler
+            // 1. If already in the SAME room, suppress (component re-mount race)
+            // 2. Otherwise delay 300ms to let server auto-reconnect first,
+            //    then re-check before sending
             if (msg.type === "join_room" && !this._sentCreate) {
-              if (anyWsHasRoom) return;
+              const newCode = normalizeCode(msg.code);
+              if (currentRoomCode !== null && currentRoomCode === newCode) {
+                return;
+              }
               // Only schedule one delayed join_room at a time
               if (!joinRoomTimer) {
                 joinRoomTimer = setTimeout(() => {
                   joinRoomTimer = null;
-                  if (anyWsHasRoom) return;
-                  // Auto-reconnect didn't happen, send the join_room
+                  if (currentRoomCode !== null && currentRoomCode === newCode) {
+                    return;
+                  }
                   const activeWs = // biome-ignore lint/suspicious/noExplicitAny: test global
                     (window as any).__testActiveWs;
                   if (activeWs?.readyState === WebSocket.OPEN) {

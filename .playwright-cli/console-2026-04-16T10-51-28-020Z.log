@@ -1,0 +1,10 @@
+[      41ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-00000000f402697f.js:72499
+[      48ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-00000000f402697f.js:20
+[     246ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     246ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     502ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[     805ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    1409ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    2413ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    2717ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0
+[    3320ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/player/me:0

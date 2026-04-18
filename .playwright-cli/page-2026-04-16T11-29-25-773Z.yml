@@ -1,0 +1,42 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e161]:
+    - generic [ref=e162]:
+      - generic [ref=e163]: Sciences
+      - generic [ref=e165]: 3 / 6
+    - generic [ref=e166]:
+      - paragraph [ref=e167]: C'est au tour de
+      - paragraph [ref=e168]: Charlie
+    - paragraph
+    - generic [ref=e212]:
+      - button "8" [disabled]
+      - button "10" [disabled]
+      - button "9" [disabled]
+      - button "7" [disabled]
+    - generic [ref=e217]:
+      - img [ref=e218]
+      - text: Correct ! +1 pt
+    - button "Question suivante" [ref=e222]:
+      - img
+      - text: Question suivante
+    - generic [ref=e172]:
+      - separator [ref=e173]
+      - heading "Scores" [level=3] [ref=e174]:
+        - img [ref=e175]
+        - text: Scores
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - generic [ref=e183]: Alice
+          - generic [ref=e184]: "1"
+        - generic [ref=e185]:
+          - generic [ref=e186]: Bob
+          - generic [ref=e187]: "0"
+        - generic [ref=e188]:
+          - generic [ref=e189]: Charlie
+          - generic [ref=e190]: "1"
+        - generic [ref=e191]:
+          - generic [ref=e192]: Diana
+          - generic [ref=e193]: "0"
+  - button "Recommencer la partie" [ref=e194]:
+    - img

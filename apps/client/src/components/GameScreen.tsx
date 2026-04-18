@@ -78,7 +78,7 @@ export function GameScreen() {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen px-4 py-8">
+      <div className="flex items-start sm:items-center justify-center min-h-screen px-4 pt-16 sm:py-8">
         <Card className="w-full max-w-2xl">
           <CardContent className="p-8">
             {/* Header */}

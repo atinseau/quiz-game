@@ -1,0 +1,80 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e7]
+          - generic [ref=e13]: Quiz Party
+        - generic [ref=e14]:
+          - button "Couper le son" [ref=e15]:
+            - img
+          - button "Connexion" [ref=e37]:
+            - img
+            - generic [ref=e38]: Connexion
+          - button "Inscription" [ref=e39]:
+            - img
+            - generic [ref=e40]: Inscription
+    - main [ref=e16]:
+      - generic [ref=e17]:
+        - heading "Quiz Party" [level=1] [ref=e18]
+        - paragraph [ref=e19]: Le quiz qui pimente tes soirées. Défie tes potes, vole leurs points, et prouve que tu es le plus cultivé de la bande.
+        - button "Jouer maintenant" [ref=e42]:
+          - img
+          - text: Jouer maintenant
+      - generic [ref=e20]:
+        - heading "Des centaines de questions pour tous les goûts" [level=2] [ref=e21]
+        - paragraph [ref=e22]: Et bien d'autres packs à découvrir...
+      - generic [ref=e23]:
+        - heading "3 modes de jeu, 0 temps mort" [level=2] [ref=e24]
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - text: 🎯
+            - heading "Classique" [level=3] [ref=e27]
+            - paragraph [ref=e28]: Chacun son tour, pas de vol. Une réponse par joueur.
+          - generic [ref=e29]:
+            - text: 🦹
+            - heading "Voleur" [level=3] [ref=e30]
+            - paragraph [ref=e31]: Les autres joueurs peuvent voler la réponse avant toi.
+          - generic [ref=e32]:
+            - text: ⏱️
+            - heading "Contre la montre" [level=3] [ref=e33]
+            - paragraph [ref=e34]: Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.
+        - button "Voir les règles détaillées" [ref=e36]:
+          - img
+          - text: Voir les règles détaillées
+  - dialog [ref=e45]:
+    - generic [ref=e184]:
+      - generic [ref=e185]:
+        - button "Close modal" [ref=e186] [cursor=pointer]:
+          - img [ref=e187]
+        - generic [ref=e190]:
+          - heading "Check your email" [level=1] [ref=e191]
+          - paragraph [ref=e192]: to continue to Quiz game
+          - paragraph [ref=e194]: arthurtinseau@live.fr
+        - generic [ref=e195]:
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - generic:
+                  - group
+                  - textbox "Enter verification code" [active] [ref=e199]
+              - generic [ref=e200]: Enter code.
+              - paragraph [ref=e224]:
+                - img [ref=e225]
+                - text: Enter code.
+            - button "Didn't receive a code? Resend" [ref=e230] [cursor=pointer]
+          - paragraph [ref=e202]: You're signing in from a new device. We're asking for verification to keep your account secure.
+          - generic [ref=e203]:
+            - button "Continue" [ref=e204] [cursor=pointer]:
+              - generic [ref=e227]:
+                - text: Continue
+                - img [ref=e228]
+            - link "Use another method" [ref=e209] [cursor=pointer]:
+              - /url: http://localhost:3000/CLERK-ROUTER/VIRTUAL/sign-in/factor-two
+      - generic [ref=e212]:
+        - generic [ref=e214]:
+          - paragraph [ref=e215]: Secured by
+          - link "Clerk logo" [ref=e216] [cursor=pointer]:
+            - /url: https://go.clerk.com/components
+            - img [ref=e217]
+        - paragraph [ref=e222]: Development mode

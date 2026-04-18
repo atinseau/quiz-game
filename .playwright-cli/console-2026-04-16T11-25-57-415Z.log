@@ -1,0 +1,25 @@
+[      38ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-00000000f402697f.js:72499
+[      47ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-00000000f402697f.js:20
+[     243ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     243ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[    4662ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[    4965ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[    5567ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[    6569ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[    6872ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[    7474ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[   82493ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-00000000f402697f.js:72499
+[   82503ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-00000000f402697f.js:20
+[   82598ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[   82598ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[  128236ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/questions?filters[pack][slug][$eq]=test&populate=category&pagination[pageSize]=1000:0
+[  128539ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/questions?filters[pack][slug][$eq]=test&populate=category&pagination[pageSize]=1000:0
+[  129143ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/questions?filters[pack][slug][$eq]=test&populate=category&pagination[pageSize]=1000:0
+[  129146ms] NetworkError: Request failed due to a network error: GET http://10.0.0.6:1337/api/questions?filters[pack][slug][$eq]=test&populate=category&pagination[pageSize]=1000
+    at #fetch (http://localhost:3000/_bun/client/index-00000000f402697f.js:2541:19)
+    at async #retry (http://localhost:3000/_bun/client/index-00000000f402697f.js:2454:18)
+    at async function_ (http://localhost:3000/_bun/client/index-00000000f402697f.js:1986:51)
+    at async http://localhost:3000/_bun/client/index-00000000f402697f.js:2038:20
+    at async result.<computed> [as json] (http://localhost:3000/_bun/client/index-00000000f402697f.js:2073:30)
+    at async Object.fetchPackQuestions2 [as fetchPackQuestions] (http://localhost:3000/_bun/client/index-00000000f402697f.js:5040:20)
+    at async startGame (http://localhost:3000/_bun/client/index-00000000f402697f.js:3693:27)

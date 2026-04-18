@@ -1,9 +1,22 @@
 import { Monitor, Wifi } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useRoomStore } from "../stores/roomStore";
 
 export function ModeChoice() {
   const navigate = useNavigate();
+
+  // Clear any stale room reference from a previous session so CreateRoom's
+  // navigate effect can't redirect to an old lobby code before the new
+  // create_room response arrives.
+  const goCreate = () => {
+    useRoomStore.setState({
+      room: null,
+      gameStarting: false,
+      error: null,
+    });
+    navigate("/play/create");
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -28,7 +41,7 @@ export function ModeChoice() {
               size="lg"
               variant="secondary"
               className="py-8 text-base"
-              onClick={() => navigate("/play/create")}
+              onClick={goCreate}
             >
               <Wifi className="size-5 mr-2" />
               Créer une partie

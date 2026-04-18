@@ -1,0 +1,38 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e6]:
+    - button "Retour aux joueurs" [ref=e89]:
+      - img
+      - text: Retour aux joueurs
+    - generic [ref=e23]:
+      - generic [ref=e49]: 🧪
+      - heading "Pack Test" [level=2] [ref=e51]
+    - paragraph [ref=e90]: "4 joueurs : Alice, Bob, Charlie, Diana"
+    - heading "Choisis un mode de jeu" [level=2] [ref=e91]:
+      - img [ref=e92]
+      - text: Choisis un mode de jeu
+    - generic [ref=e94]:
+      - button "🎯 Classique Chacun son tour, pas de vol. Une réponse par joueur." [ref=e95] [cursor=pointer]:
+        - generic [ref=e96]:
+          - generic [ref=e97]: 🎯
+          - generic [ref=e98]:
+            - heading "Classique" [level=3] [ref=e99]
+            - paragraph [ref=e100]: Chacun son tour, pas de vol. Une réponse par joueur.
+      - button "🦹 Voleur Les autres joueurs peuvent voler la réponse avant toi." [ref=e101] [cursor=pointer]:
+        - generic [ref=e102]:
+          - generic [ref=e103]: 🦹
+          - generic [ref=e104]:
+            - heading "Voleur" [level=3] [ref=e105]
+            - paragraph [ref=e106]: Les autres joueurs peuvent voler la réponse avant toi.
+      - button "⏱️ Contre la montre Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout." [ref=e107] [cursor=pointer]:
+        - generic [ref=e108]:
+          - generic [ref=e109]: ⏱️
+          - generic [ref=e110]:
+            - heading "Contre la montre" [level=3] [ref=e111]
+            - paragraph [ref=e112]: Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - img [ref=e118]
+        - text: Mode Soirée
+      - button "Désactivé" [ref=e122]

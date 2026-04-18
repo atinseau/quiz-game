@@ -24,14 +24,14 @@ export function BlindInput({ onSubmit, onReveal }: BlindProps) {
     <div>
       <p className="text-sm text-muted-foreground mb-2 flex items-center gap-1.5">
         <Sparkles className="size-4 text-amber-400" />
-        Tente ta reponse sans les choix pour{" "}
+        Tente ta réponse sans les choix pour{" "}
         <span className="text-amber-400 font-semibold">+2 pts</span>
       </p>
       <div className="flex gap-2 mb-3">
         <Input
           ref={inputRef}
           type="text"
-          placeholder="Ta reponse..."
+          placeholder="Ta réponse..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -130,7 +130,7 @@ export function TextInput({ disabled, onSubmit }: TextProps) {
       <Input
         ref={inputRef}
         type="text"
-        placeholder="Votre reponse..."
+        placeholder="Votre réponse..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}

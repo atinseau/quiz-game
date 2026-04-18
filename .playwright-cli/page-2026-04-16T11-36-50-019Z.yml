@@ -1,0 +1,32 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e15]:
+    - button "Retour aux joueurs" [ref=e75]:
+      - img
+      - text: Retour aux joueurs
+    - generic [ref=e32]:
+      - generic [ref=e50]: 🧪
+      - heading "Pack Test" [level=2] [ref=e52]
+    - paragraph [ref=e76]: "1 joueur : Alice"
+    - heading "Choisis un mode de jeu" [level=2] [ref=e77]:
+      - img [ref=e78]
+      - text: Choisis un mode de jeu
+    - generic [ref=e80]:
+      - button "🎯 Classique Chacun son tour, pas de vol. Une réponse par joueur." [ref=e81] [cursor=pointer]:
+        - generic [ref=e82]:
+          - generic [ref=e83]: 🎯
+          - generic [ref=e84]:
+            - heading "Classique" [level=3] [ref=e85]
+            - paragraph [ref=e86]: Chacun son tour, pas de vol. Une réponse par joueur.
+      - button "⏱️ Contre la montre Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout." [ref=e87] [cursor=pointer]:
+        - generic [ref=e88]:
+          - generic [ref=e89]: ⏱️
+          - generic [ref=e90]:
+            - heading "Contre la montre" [level=3] [ref=e91]
+            - paragraph [ref=e92]: Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.
+    - generic [ref=e96]:
+      - generic [ref=e97]:
+        - img [ref=e98]
+        - text: Mode Soirée
+      - button "Désactivé" [ref=e102]

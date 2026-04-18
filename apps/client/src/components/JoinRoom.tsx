@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRoomStore } from "../stores/roomStore";
@@ -12,6 +13,7 @@ export function JoinRoom() {
   const joinRoom = useRoomStore((s) => s.joinRoom);
   const room = useRoomStore((s) => s.room);
   const error = useRoomStore((s) => s.error);
+  const clearError = useRoomStore((s) => s.clearError);
 
   // Auto-join from URL param (/join/:code)
   useEffect(() => {
@@ -27,6 +29,14 @@ export function JoinRoom() {
       navigate(`/play/lobby/${room.code}`, { replace: true });
     }
   }, [room, navigate]);
+
+  // Show toast on join errors
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      clearError();
+    }
+  }, [error, clearError]);
 
   const handleJoin = () => {
     const trimmed = code.trim().toUpperCase();
@@ -52,7 +62,6 @@ export function JoinRoom() {
           maxLength={6}
           className="text-center text-2xl tracking-widest font-mono h-14"
         />
-        {error && <p className="text-sm text-destructive">{error}</p>}
         <Button
           size="lg"
           className="w-full"

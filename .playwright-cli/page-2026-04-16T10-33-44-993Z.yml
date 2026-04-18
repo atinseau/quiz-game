@@ -1,0 +1,90 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e7]
+          - generic [ref=e13]: Quiz Party
+        - generic [ref=e14]:
+          - button "Couper le son" [ref=e15]:
+            - img
+          - button "Connexion" [ref=e37]:
+            - img
+            - generic [ref=e38]: Connexion
+          - button "Inscription" [ref=e39]:
+            - img
+            - generic [ref=e40]: Inscription
+    - main [ref=e16]:
+      - generic [ref=e17]:
+        - heading "Quiz Party" [level=1] [ref=e18]
+        - paragraph [ref=e19]: Le quiz qui pimente tes soirées. Défie tes potes, vole leurs points, et prouve que tu es le plus cultivé de la bande.
+        - button "Jouer maintenant" [ref=e42]:
+          - img
+          - text: Jouer maintenant
+      - generic [ref=e20]:
+        - heading "Des centaines de questions pour tous les goûts" [level=2] [ref=e21]
+        - paragraph [ref=e22]: Et bien d'autres packs à découvrir...
+      - generic [ref=e23]:
+        - heading "3 modes de jeu, 0 temps mort" [level=2] [ref=e24]
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - text: 🎯
+            - heading "Classique" [level=3] [ref=e27]
+            - paragraph [ref=e28]: Chacun son tour, pas de vol. Une réponse par joueur.
+          - generic [ref=e29]:
+            - text: 🦹
+            - heading "Voleur" [level=3] [ref=e30]
+            - paragraph [ref=e31]: Les autres joueurs peuvent voler la réponse avant toi.
+          - generic [ref=e32]:
+            - text: ⏱️
+            - heading "Contre la montre" [level=3] [ref=e33]
+            - paragraph [ref=e34]: Réponds avant la fin du temps ! +1 si correct, -0.5 si timeout.
+        - button "Voir les règles détaillées" [ref=e36]:
+          - img
+          - text: Voir les règles détaillées
+  - dialog [active] [ref=e45]:
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - button "Close modal" [ref=e49] [cursor=pointer]:
+          - img [ref=e50]
+        - generic [ref=e53]:
+          - heading "Sign in to Quiz game" [level=1] [ref=e54]
+          - paragraph [ref=e55]: Welcome back! Please sign in to continue
+        - generic [ref=e56]:
+          - button "Sign in with Google Continue with Google" [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]:
+              - img "Sign in with Google" [ref=e62]
+              - generic [ref=e63]: Continue with Google
+          - paragraph [ref=e66]: or
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - generic [ref=e72]:
+                - generic [ref=e74]: Email address
+                - textbox "Email address" [ref=e75]:
+                  - /placeholder: Enter your email address
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: Password
+                    - generic:
+                      - textbox "Password":
+                        - /placeholder: Enter your password
+                      - button "Show password":
+                        - img
+            - button "Continue" [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]:
+                - text: Continue
+                - img [ref=e80]
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]: Don’t have an account?
+          - link "Sign up" [ref=e85] [cursor=pointer]:
+            - /url: http://localhost:3000/CLERK-ROUTER/VIRTUAL/sign-up
+        - generic [ref=e87]:
+          - generic [ref=e89]:
+            - paragraph [ref=e90]: Secured by
+            - link "Clerk logo" [ref=e91] [cursor=pointer]:
+              - /url: https://go.clerk.com/components
+              - img [ref=e92]
+          - paragraph [ref=e97]: Development mode

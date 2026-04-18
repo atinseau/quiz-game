@@ -1,0 +1,29 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e6]:
+    - button "Changer de pack" [ref=e48]:
+      - img
+      - text: Changer de pack
+    - generic [ref=e23]:
+      - generic [ref=e49]: 🧪
+      - generic [ref=e50]:
+        - heading "Pack Test" [level=2] [ref=e51]
+        - paragraph [ref=e52]: Pack de test
+    - generic [ref=e53]:
+      - generic [ref=e55]:
+        - img [ref=e56]
+        - text: Qui joue ?
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - textbox "Nom du joueur" [ref=e61]
+          - button "Ajouter" [ref=e62]:
+            - img
+            - text: Ajouter
+        - generic [ref=e63]:
+          - button "Homme" [ref=e64]
+          - button "Femme" [ref=e65]
+        - paragraph [ref=e66]: Ajoute au moins un joueur pour commencer
+    - button "Choisir le mode de jeu" [disabled]:
+      - img
+      - text: Choisir le mode de jeu

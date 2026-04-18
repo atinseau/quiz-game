@@ -45,6 +45,25 @@ Use HTML imports with `Bun.serve()`. HTML imports fully support React, CSS, Tail
 - Theme CSS variables are in `apps/client/src/index.css`
 - shadcn config is in `apps/client/components.json`
 
+### Mobile / PWA safe areas
+
+The app is a PWA installable on iOS/Android. `index.html` uses `viewport-fit=cover`, so content extends under the notch / Dynamic Island / home indicator. **Any element fixed to a screen edge or spanning the full width must respect `env(safe-area-inset-*)`**.
+
+⚠️ **Tailwind v4 can't parse `env()` inside arbitrary `calc()` values** (e.g. `max-w-[calc(100%-env(safe-area-inset-left))]` silently fails and falls back to defaults). Use the dedicated utility classes defined in `apps/client/src/index.css` instead:
+
+- **Padding**: `safe-pt` / `safe-pr` / `safe-pb` / `safe-pl` / `safe-px` / `safe-py` / `safe-p`
+- **Margin**: `safe-mt` / `safe-mr` / `safe-mb` / `safe-ml`
+- **Size**: `safe-max-w` / `safe-max-h` (optional extra gutter via inline `style={{ "--gutter": "1rem" }}`)
+- **Dialog-specific**: `.dialog-safe-area` (already applied in `components/ui/dialog.tsx`)
+
+Rules of thumb:
+- `fixed top-0` / header → add `safe-pt safe-px`
+- `fixed bottom-0` / bottom nav / sticky CTA → add `safe-pb safe-px`
+- Full-viewport layouts → `safe-p` on the outer container
+- Custom modals or full-screen sheets → `safe-max-w safe-max-h` + `overflow-y-auto`
+
+If you need a new safe-area variant, add it to `index.css` as a real CSS class — **do not** inline `env()` inside Tailwind arbitrary values.
+
 ### Server
 
 ```ts#index.ts

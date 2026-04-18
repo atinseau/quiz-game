@@ -1,0 +1,15 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e105]:
+    - generic [ref=e106]:
+      - generic [ref=e107]: Culture
+      - generic [ref=e108]:
+        - generic [ref=e109]: 0 pts
+        - generic [ref=e110]: 1 / 1
+    - paragraph
+    - generic [ref=e111]:
+      - button "Vrai" [ref=e112]
+      - button "Faux" [ref=e113]
+  - button "Recommencer la partie" [ref=e114]:
+    - img

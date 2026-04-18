@@ -28,6 +28,7 @@ export interface RoomPlayer {
   ws: ServerWebSocket<WsData> | null;
   connected: boolean;
   disconnectedAt: number | null;
+  graceTimer: ReturnType<typeof setTimeout> | null;
 }
 
 // --- Game Engine Types ---
@@ -52,11 +53,13 @@ export interface Room {
   code: string;
   hostClerkId: string;
   players: Map<string, RoomPlayer>;
-  status: "lobby" | "playing";
+  status: "lobby" | "playing" | "ended";
   packSlug: string | null;
   mode: GameMode | null;
   game: GameState | null;
   alcoholConfig: AlcoholConfig | null;
+  endedAt: number | null;
+  nextQuestionTimer: ReturnType<typeof setTimeout> | null;
 }
 
 export type ClientMessage =

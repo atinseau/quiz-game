@@ -1,6 +1,7 @@
-import { Volume2, VolumeX } from "lucide-react";
+import { LogOut, Volume2, VolumeX } from "lucide-react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { AuthGuard } from "./components/AuthGuard";
 import { EndScreen } from "./components/EndScreen";
@@ -21,9 +22,34 @@ import { useSettingsStore } from "./stores/settingsStore";
 function InGameHeader() {
   useSyncPlayer();
   const { muted, toggleMute } = useSettingsStore();
+  const navigate = useNavigate();
+  const room = useRoomStore((s) => s.room);
+  const leaveRoom = useRoomStore((s) => s.leaveRoom);
+  const hasSoloGame = useGameStore((s) => s.questions.length > 0);
+  const resetSolo = useGameStore((s) => s.reset);
+
+  const canQuit = room !== null || hasSoloGame;
+
+  const handleQuit = () => {
+    if (!window.confirm("Quitter la partie en cours ?")) return;
+    if (room) leaveRoom();
+    else resetSolo();
+    navigate("/play");
+  };
 
   return (
     <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+      {canQuit && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleQuit}
+          title="Quitter la partie"
+          className="text-muted-foreground hover:text-destructive"
+        >
+          <LogOut className="w-5 h-5" />
+        </Button>
+      )}
       <Button
         variant="ghost"
         size="icon"
@@ -43,6 +69,8 @@ function InGameHeader() {
 function CreateRoom() {
   const createRoom = useRoomStore((s) => s.createRoom);
   const room = useRoomStore((s) => s.room);
+  const error = useRoomStore((s) => s.error);
+  const clearError = useRoomStore((s) => s.clearError);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +82,14 @@ function CreateRoom() {
       navigate(`/play/lobby/${room.code}`, { replace: true });
     }
   }, [room, navigate]);
+
+  useEffect(() => {
+    if (error && !room) {
+      toast.error(error);
+      clearError();
+      navigate("/play", { replace: true });
+    }
+  }, [error, room, navigate, clearError]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

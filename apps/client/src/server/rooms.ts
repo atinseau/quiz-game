@@ -1,4 +1,5 @@
 import type { ServerWebSocket } from "bun";
+import { clearChronoTimer } from "./game-engine";
 import type {
   PlayerInfo,
   Room,
@@ -79,6 +80,7 @@ export function createRoom(ws: ServerWebSocket<WsData>): Room {
     ws,
     connected: true,
     disconnectedAt: null,
+    graceTimer: null,
   };
 
   const room: Room = {
@@ -90,6 +92,8 @@ export function createRoom(ws: ServerWebSocket<WsData>): Room {
     mode: null,
     game: null,
     alcoholConfig: null,
+    endedAt: null,
+    nextQuestionTimer: null,
   };
 
   rooms.set(code, room);
@@ -141,6 +145,7 @@ export function joinRoom(
     ws,
     connected: true,
     disconnectedAt: null,
+    graceTimer: null,
   };
 
   room.players.set(clerkId, player);
@@ -173,7 +178,7 @@ export function leaveRoom(clerkId: string): void {
   broadcast(room, { type: "player_left", clerkId });
 
   if (room.players.size === 0) {
-    rooms.delete(code);
+    deleteRoom(code);
     return;
   }
 
@@ -210,7 +215,7 @@ export function handleDisconnect(clerkId: string): void {
       playerToRoom.delete(clerkId);
       broadcast(room, { type: "player_left", clerkId });
       if (room.players.size === 0) {
-        rooms.delete(code);
+        deleteRoom(code);
       }
     }
   }, 60_000);
@@ -226,6 +231,32 @@ export function getRoom(code: string): Room | undefined {
   return rooms.get(code.toUpperCase());
 }
 
+/**
+ * Single chokepoint for room removal. Clears every timer attached to the room
+ * (chrono, scheduleNextQuestion, per-player grace) and removes the reverse
+ * index entries. Safe to call on an unknown code.
+ */
+export function deleteRoom(code: string): void {
+  const room = rooms.get(code);
+  if (!room) return;
+
+  if (room.nextQuestionTimer) {
+    clearTimeout(room.nextQuestionTimer);
+    room.nextQuestionTimer = null;
+  }
+
+  for (const player of room.players.values()) {
+    if (player.graceTimer) {
+      clearTimeout(player.graceTimer);
+      player.graceTimer = null;
+    }
+    playerToRoom.delete(player.clerkId);
+  }
+
+  clearChronoTimer(code);
+  rooms.delete(code);
+}
+
 setInterval(() => {
   const now = Date.now();
   for (const [code, room] of rooms) {
@@ -237,10 +268,7 @@ setInterval(() => {
         now - p.disconnectedAt > 10 * 60_000,
     );
     if (room.players.size === 0 || allDisconnected) {
-      for (const id of room.players.keys()) {
-        playerToRoom.delete(id);
-      }
-      rooms.delete(code);
+      deleteRoom(code);
     }
   }
 }, 5 * 60_000);

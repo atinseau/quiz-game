@@ -7,7 +7,11 @@ import type { AlcoholConfig, AlcoholState, SpecialRoundType } from "./types";
 // Callback wired by game-engine to avoid circular imports
 // ---------------------------------------------------------------------------
 
-let _onRoundEnd: ((room: Room) => void) | null = null;
+// `var` (not `let`) to avoid a TDZ error: game-engine.ts calls setOnRoundEnd at
+// module top-level while this file is still mid-evaluation through the cycle
+// framework → rooms → game-engine → framework.
+// eslint-disable-next-line no-var
+var _onRoundEnd: ((room: Room) => void) | null = null;
 
 export function setOnRoundEnd(cb: (room: Room) => void): void {
   _onRoundEnd = cb;

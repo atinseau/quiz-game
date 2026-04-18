@@ -1,0 +1,16 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - img [ref=e9]
+        - heading "Quiz Party" [level=1] [ref=e15]
+        - img [ref=e16]
+      - paragraph [ref=e22]: Choisis ton pack de questions
+    - generic [ref=e23]:
+      - img [ref=e24]
+      - textbox "Rechercher un pack..." [ref=e27]
+    - generic [ref=e28]:
+      - generic [ref=e29]: 0/0 packs terminés
+      - button "Non terminés" [ref=e30]

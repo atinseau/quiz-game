@@ -21,7 +21,7 @@ Feature alcool
 - pouvoir parametrer la frequence des manches special au debut de la parti
 - toutes les 5 tours il y a un alternance en plusieurs manche special
   - Celui qui a le moins de point boit une gorgé
-  - Conseil, toutes les personnes vote pour elise un boloss 
+  - Conseil, toutes les personnes vote pour elise un boloss , il boit
   - les deux personnes qui ont le moins de point se font un bisous ou sinon cul sec
   - La personne qui a le plus de point distribu trois gorgé à la personne de son choix avec l'interface de vote
   - un utilisateur est tiré au sort, tout le monde le voit, il va devoir choisir rapidement si il veut reprondre à une question difficile 
@@ -31,5 +31,4 @@ Feature alcool
     - tout les utilisateurs doivent voir ce qu'il se passe !!!
   - Manche "cupidon", deux utilisateurs sont choisi au hasard, par la suite tout ce qui arrive à l'un, arrive à l'autre
   - Manche "show us", liste de couleur fini (bleu, noir, blanc, rouge et autre), un utilisateur est choisi au hasard et les autres utilisateur doivent choisir la couleur de son sous vetemment, ils ont 15 secondes, apres se delai, l'utilisateur choisi, montre la couleur et la rentre dans l'application, tous les utilisateurs qui se sont trompé boivent, les autres non
-  - manche "smatch or pass", deux utilisateur de sexe opposé son choisi, l'un et le celui qui choisi, l'autre et celui qui recoit le vote, si l'utilisateur qui choisi dit pass alors petit gifle, sinon smach et bisous !!!
--
+  - manche "smatch or pass", deux utilisateur de sexe opposé son choisi, l'un est celui qui choisi, l'autre et celui qui recoit le vote, si l'utilisateur qui choisi dit pass alors petit gifle, sinon smach et bisous !!!

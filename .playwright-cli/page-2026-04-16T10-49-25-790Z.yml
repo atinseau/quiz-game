@@ -1,0 +1,46 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e6]:
+    - img
+  - generic [ref=e16]:
+    - generic [ref=e17]:
+      - paragraph [ref=e18]: Code de la room
+      - generic [ref=e19]:
+        - generic [ref=e20]: 9AXXV8
+        - button [ref=e21]:
+          - img
+    - generic [ref=e23]:
+      - generic [ref=e25]: Joueurs (1/1)
+      - generic [ref=e28]:
+        - img [ref=e29]
+        - generic [ref=e33]:
+          - text: Arthur Tinseau
+          - button "Modifier ton nom" [ref=e34]:
+            - img [ref=e35]
+        - generic [ref=e38]:
+          - button "♂ Homme" [ref=e39]
+          - button "♀ Femme" [ref=e40]
+        - generic [ref=e41]:
+          - img
+          - text: Host
+    - generic [ref=e42]:
+      - generic [ref=e45]: Choisis un pack
+      - generic [ref=e46]:
+        - generic [ref=e48]: Choisis un mode
+        - generic [ref=e50]:
+          - button "🎯 Classique" [ref=e51]:
+            - text: 🎯
+            - paragraph [ref=e52]: Classique
+          - button "🦹 Voleur" [ref=e53]:
+            - text: 🦹
+            - paragraph [ref=e54]: Voleur
+          - button "⏱️ Contre la montre" [ref=e55]:
+            - text: ⏱️
+            - paragraph [ref=e56]: Contre la montre
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - img [ref=e61]
+          - text: Mode Soirée
+        - button "Désactivé" [ref=e65]
+      - button "Lancer la partie" [disabled]
+      - paragraph [ref=e66]: Il faut au moins 2 joueurs
+    - button "Quitter la room" [ref=e68]

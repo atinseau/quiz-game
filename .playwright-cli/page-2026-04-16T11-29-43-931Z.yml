@@ -1,0 +1,37 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e161]:
+    - generic [ref=e162]:
+      - generic [ref=e163]: Culture
+      - generic [ref=e165]: 6 / 6
+    - generic [ref=e166]:
+      - paragraph [ref=e167]: C'est au tour de
+      - paragraph [ref=e168]: Bob
+    - paragraph
+    - generic [ref=e244]:
+      - button "Vrai" [ref=e245]
+      - button "Faux" [ref=e246]
+    - generic [ref=e172]:
+      - separator [ref=e173]
+      - heading "Scores" [level=3] [ref=e174]:
+        - img [ref=e175]
+        - text: Scores
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - generic [ref=e183]: Alice
+          - generic [ref=e243]:
+            - img
+            - text: x2
+          - generic [ref=e184]: "2.5"
+        - generic [ref=e185]:
+          - generic [ref=e186]: Bob
+          - generic [ref=e187]: "0"
+        - generic [ref=e188]:
+          - generic [ref=e189]: Charlie
+          - generic [ref=e190]: "1"
+        - generic [ref=e191]:
+          - generic [ref=e192]: Diana
+          - generic [ref=e193]: "1"
+  - button "Recommencer la partie" [ref=e194]:
+    - img

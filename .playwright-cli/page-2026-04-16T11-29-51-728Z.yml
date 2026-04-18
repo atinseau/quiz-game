@@ -1,0 +1,33 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e256]:
+    - generic [ref=e257]:
+      - img [ref=e259]
+      - generic [ref=e265]: Partie terminee !
+      - paragraph [ref=e266]: Voici le classement final
+    - generic [ref=e267]:
+      - generic [ref=e268]:
+        - generic [ref=e269]:
+          - generic [ref=e270]:
+            - img [ref=e271]
+            - generic [ref=e273]: Alice
+          - generic [ref=e274]: 2.5 pts
+        - generic [ref=e275]:
+          - generic [ref=e276]:
+            - img [ref=e277]
+            - generic [ref=e283]: Charlie
+          - generic [ref=e284]: 1 pts
+        - generic [ref=e285]:
+          - generic [ref=e286]:
+            - img [ref=e287]
+            - generic [ref=e293]: Diana
+          - generic [ref=e294]: 1 pts
+        - generic [ref=e295]:
+          - generic [ref=e296]:
+            - img [ref=e297]
+            - generic [ref=e303]: Bob
+          - generic [ref=e304]: 0 pts
+      - button "Nouvelle partie" [ref=e305]:
+        - img
+        - text: Nouvelle partie

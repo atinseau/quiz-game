@@ -1,2 +1,6 @@
 node_modules
 playwright-report
+test-results
+.playwright-cli
+.env
+public/sw.js

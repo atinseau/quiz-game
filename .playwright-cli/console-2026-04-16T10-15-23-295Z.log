@@ -1,0 +1,28 @@
+[     116ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:71834
+[     148ms] [ERROR] TypeError: import_react_query.QueryClient is not a constructor
+    at src/index.tsx (http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:47:23)
+    at CY (http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:21:8972)
+    at m (http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:21:8863)
+    at nY (http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:21:9284)
+    at m (http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:21:8771)
+    at http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:24:6481 @ http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:23
+[     155ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:20
+[  174049ms] [WARNING] [Bun] Hot-module-reloading socket disconnected, reconnecting... @ http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:20
+[  175052ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:20
+[  177554ms] [INFO] [Bun] Reconnected @ http://localhost:3000/_bun/client/index-01000000ab6d99ff.js:20
+[  177857ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-000000002caa0b36.js:72491
+[  177903ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-000000002caa0b36.js:20
+[  178189ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[  178189ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[  622253ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  622555ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  623157ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  624159ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  624461ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  625063ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  662300ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  662602ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  663205ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  664208ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  664511ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0
+[  665112ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://10.0.0.6:1337/api/question-packs?populate[questions][count]=true&sort=displayOrder:asc&pagination[pageSize]=100&filters[published][$eq]=true:0

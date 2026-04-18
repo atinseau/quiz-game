@@ -49,7 +49,7 @@ export function EndScreen() {
               <PartyPopper className="size-12 text-party-pink animate-float" />
             </div>
             <CardTitle className="text-4xl bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-              Partie terminee !
+              Partie terminée !
             </CardTitle>
             <p className="text-muted-foreground mt-1">
               {isSolo ? "Ton score final" : "Voici le classement final"}

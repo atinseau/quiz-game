@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePacks } from "../hooks/usePacks";
 import { useSettingsStore } from "../stores/settingsStore";
 import { GAME_MODES } from "../types";
+import { InstallButton } from "./InstallButton";
 
 export function LandingPage() {
   const { data: packs = [] } = usePacks();
@@ -40,7 +41,7 @@ export function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* --- Header --- */}
-      <header className="fixed top-0 inset-x-0 z-50 border-b border-border/30 bg-background/80 backdrop-blur-sm">
+      <header className="fixed top-0 inset-x-0 z-50 safe-pt safe-px border-b border-border/30 bg-background/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <PartyPopper className="w-6 h-6 text-party-purple" />
@@ -63,15 +64,15 @@ export function LandingPage() {
             </Button>
             <SignedOut>
               <SignInButton mode="modal">
-                <Button variant="default" size="sm">
+                <Button variant="default" size="sm" aria-label="Connexion">
                   <LogIn className="size-3.5" />
-                  Connexion
+                  <span className="sr-only sm:not-sr-only">Connexion</span>
                 </Button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <Button variant="secondary" size="sm">
+                <Button variant="secondary" size="sm" aria-label="Inscription">
                   <UserPlus className="size-3.5" />
-                  Inscription
+                  <span className="sr-only sm:not-sr-only">Inscription</span>
                 </Button>
               </SignUpButton>
             </SignedOut>
@@ -96,7 +97,7 @@ export function LandingPage() {
             Le quiz qui pimente tes soirées. Défie tes potes, vole leurs points,
             et prouve que tu es le plus cultivé de la bande.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 items-center justify-center">
             <SignedOut>
               <SignInButton mode="modal">
                 <Button size="lg" className="text-lg px-8 py-6 glow-purple">
@@ -115,6 +116,7 @@ export function LandingPage() {
                 Jouer maintenant
               </Button>
             </SignedIn>
+            <InstallButton />
           </div>
         </section>
 
