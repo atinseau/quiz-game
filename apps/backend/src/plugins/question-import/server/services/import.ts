@@ -191,10 +191,12 @@ export function createKnnSearcher(knex: any): KnnSearcher {
 
 export type QuestionDecision = "import" | "skip";
 
-export interface CommitQuestion extends ImportQuestion {
-  embedding: number[];
-  normalizedAnswer: string;
-  status: ClassifiedCandidate["status"] | "intra_batch_duplicate";
+export interface CommitQuestion {
+  category?: string;
+  type?: string;
+  question?: string;
+  choices?: unknown;
+  answer?: string;
   decision: QuestionDecision;
   overrideReason?: string;
 }
@@ -213,6 +215,8 @@ export interface CommitSummary {
 
 export interface CommitDeps {
   strapi: any;
+  embeddings: EmbeddingService;
+  knn: KnnSearcher;
 }
 
 export function validateCommitBody(body: CommitBody): string[] {
@@ -226,23 +230,86 @@ export function validateCommitBody(body: CommitBody): string[] {
   for (let i = 0; i < body.questions.length; i++) {
     const q = body.questions[i];
     const p = `questions[${i}]`;
-    if (!["import", "skip"].includes(q.decision)) {
+    if (!["import", "skip"].includes(q.decision as any)) {
       errors.push(`${p}.decision must be import|skip`);
     }
-    if (
-      q.status === "auto_blocked" &&
-      q.decision === "import" &&
-      (!q.overrideReason || q.overrideReason.trim() === "")
-    ) {
-      errors.push(`${p}.overrideReason required when overriding auto_blocked`);
+    if (!q.question || typeof q.question !== "string") {
+      errors.push(`${p}.question is required`);
     }
-    if (q.decision === "import") {
-      if (!Array.isArray(q.embedding) || q.embedding.length !== 1536) {
-        errors.push(`${p}.embedding must be 1536-dim array`);
-      }
+    if (!q.answer || typeof q.answer !== "string") {
+      errors.push(`${p}.answer is required`);
+    }
+    if (!q.category || typeof q.category !== "string") {
+      errors.push(`${p}.category is required`);
+    }
+    if (!q.type || !["qcm", "vrai_faux", "texte"].includes(q.type as any)) {
+      errors.push(`${p}.type invalid`);
     }
   }
   return errors;
+}
+
+export interface ClientCommitQuestion {
+  category?: string;
+  type?: string;
+  question?: string;
+  choices?: unknown;
+  answer?: string;
+  decision: "import" | "skip";
+  overrideReason?: string;
+}
+
+export interface ReclassifyDeps {
+  embeddings: EmbeddingService;
+  knn: KnnSearcher;
+}
+
+export interface ReclassifiedQuestion {
+  source: ClientCommitQuestion;
+  embedding: number[];
+  normalizedAnswer: string;
+  status: ClassifiedCandidate["status"];
+  matches: ClassifiedCandidate["matches"];
+  requiresOverrideReason: boolean;
+}
+
+export async function reclassifyForCommit(args: {
+  questions: ClientCommitQuestion[];
+  embeddings: EmbeddingService;
+  knn: KnnSearcher;
+}): Promise<ReclassifiedQuestion[]> {
+  const texts = args.questions.map((q) => (q.question as string) ?? "");
+  const embeddingVecs = await args.embeddings.embedBatch(texts);
+  const normalized = args.questions.map((q) => normalizeAnswer((q.answer as string) ?? ""));
+
+  const intraDup = detectIntraBatchDuplicates(
+    embeddingVecs.map((e, i) => ({
+      embedding: e,
+      normalizedAnswer: normalized[i],
+    })),
+  );
+
+  const out: ReclassifiedQuestion[] = [];
+  for (let i = 0; i < args.questions.length; i++) {
+    const matches = await args.knn.search({ embedding: embeddingVecs[i], limit: 10 });
+    const classified = classifyCandidate(
+      { normalizedAnswer: normalized[i] },
+      matches,
+    );
+    const status = intraDup.has(i) ? "intra_batch_duplicate" : classified.status;
+    const requiresOverrideReason =
+      (status === "auto_blocked" || status === "intra_batch_duplicate") &&
+      args.questions[i].decision === "import";
+    out.push({
+      source: args.questions[i],
+      embedding: embeddingVecs[i],
+      normalizedAnswer: normalized[i],
+      status,
+      matches: classified.matches,
+      requiresOverrideReason,
+    });
+  }
+  return out;
 }
 
 export async function runCommit(
@@ -256,16 +323,40 @@ export async function runCommit(
     throw err;
   }
 
-  const toImport = body.questions
-    .filter((q) => q.decision === "import")
-    .map((q) => ({
-      category: q.category as string,
-      type: q.type as "qcm" | "vrai_faux" | "texte",
-      text: q.question as string,
-      choices: q.choices,
-      answer: q.answer as string,
-      embedding: q.embedding,
-      normalizedAnswer: q.normalizedAnswer,
+  const reclassified = await reclassifyForCommit({
+    questions: body.questions,
+    embeddings: deps.embeddings,
+    knn: deps.knn,
+  });
+
+  const overrideErrors: string[] = [];
+  for (let i = 0; i < reclassified.length; i++) {
+    const r = reclassified[i];
+    if (
+      r.requiresOverrideReason &&
+      (!r.source.overrideReason || r.source.overrideReason.trim() === "")
+    ) {
+      overrideErrors.push(
+        `questions[${i}].overrideReason required for server-computed status "${r.status}"`,
+      );
+    }
+  }
+  if (overrideErrors.length > 0) {
+    const err = new Error("Override required") as Error & { details?: string[] };
+    err.details = overrideErrors;
+    throw err;
+  }
+
+  const toImport = reclassified
+    .filter((r) => r.source.decision === "import")
+    .map((r) => ({
+      category: r.source.category as string,
+      type: r.source.type as "qcm" | "vrai_faux" | "texte",
+      text: r.source.question as string,
+      choices: r.source.choices,
+      answer: r.source.answer as string,
+      embedding: r.embedding,
+      normalizedAnswer: r.normalizedAnswer,
     }));
 
   const { persistImport } = await import("./persistImport");

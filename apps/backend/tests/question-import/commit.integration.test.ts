@@ -1,8 +1,6 @@
 import { test, expect, describe } from "bun:test";
 import { validateCommitBody } from "../../src/plugins/question-import/server/services/import";
 
-const vec = new Array(1536).fill(0);
-
 function baseBody(overrides: any = {}) {
   const base = {
     pack: { slug: "p", name: "P" },
@@ -14,9 +12,6 @@ function baseBody(overrides: any = {}) {
         question: "Q",
         choices: ["a", "b", "c", "d"],
         answer: "a",
-        embedding: vec,
-        normalizedAnswer: "a",
-        status: "clean",
         decision: "import",
       },
     ],
@@ -26,59 +21,39 @@ function baseBody(overrides: any = {}) {
 
 describe("validateCommitBody", () => {
   test("valid body → no errors", () => {
-    expect(validateCommitBody(baseBody() as any)).toEqual([]);
+    expect(validateCommitBody(baseBody())).toEqual([]);
   });
 
   test("missing pack.slug → error", () => {
-    const body = baseBody({ pack: { name: "P" } });
-    expect(validateCommitBody(body as any)).toContain("pack.slug required");
+    expect(validateCommitBody(baseBody({ pack: { name: "P" } }))).toContain(
+      "pack.slug required",
+    );
   });
 
-  test("auto_blocked override without reason → error", () => {
-    const body = baseBody({
-      questions: [
-        {
-          ...baseBody().questions[0],
-          status: "auto_blocked",
-          decision: "import",
-          overrideReason: "",
-        },
-      ],
-    });
-    expect(validateCommitBody(body as any)[0]).toMatch(/overrideReason/);
+  test("missing embeddingModel → error", () => {
+    expect(validateCommitBody(baseBody({ embeddingModel: "" }))).toContain(
+      "embeddingModel required",
+    );
   });
 
-  test("auto_blocked override with reason → no error", () => {
+  test("invalid decision → error", () => {
     const body = baseBody({
-      questions: [
-        {
-          ...baseBody().questions[0],
-          status: "auto_blocked",
-          decision: "import",
-          overrideReason: "duplicate is intentional",
-        },
-      ],
+      questions: [{ ...baseBody().questions[0], decision: "bogus" }],
     });
-    expect(validateCommitBody(body as any)).toEqual([]);
+    expect(validateCommitBody(body)[0]).toMatch(/decision/);
   });
 
-  test("wrong embedding dim → error", () => {
+  test("missing question text → error", () => {
     const body = baseBody({
-      questions: [{ ...baseBody().questions[0], embedding: [1, 2, 3] }],
+      questions: [{ ...baseBody().questions[0], question: "" }],
     });
-    expect(validateCommitBody(body as any)[0]).toMatch(/1536/);
+    expect(validateCommitBody(body)[0]).toMatch(/question/);
   });
 
-  test("skip decision doesn't require embedding", () => {
+  test("skip decision is valid", () => {
     const body = baseBody({
-      questions: [
-        {
-          ...baseBody().questions[0],
-          embedding: [],
-          decision: "skip",
-        },
-      ],
+      questions: [{ ...baseBody().questions[0], decision: "skip" }],
     });
-    expect(validateCommitBody(body as any)).toEqual([]);
+    expect(validateCommitBody(body)).toEqual([]);
   });
 });
