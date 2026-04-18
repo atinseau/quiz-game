@@ -1,6 +1,13 @@
-import { test, expect, beforeAll, afterAll, beforeEach, describe } from "bun:test";
-import { startTestDb, type TestDb } from "../helpers/testDb";
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 import { persistImport } from "../../src/plugins/question-import/server/services/persistImport";
+import { startTestDb, type TestDb } from "../helpers/testDb";
 import { mockEmbed } from "../mocks/openai-embeddings";
 
 describe("persistImport (integration)", () => {
@@ -42,9 +49,7 @@ describe("persistImport (integration)", () => {
     expect(result.categories[0].status).toBe("created");
     expect(result.questions.created).toBe(1);
 
-    const packRows = await db.knex.raw(
-      `SELECT slug, name FROM question_packs`,
-    );
+    const packRows = await db.knex.raw(`SELECT slug, name FROM question_packs`);
     expect(packRows.rows[0].slug).toBe("smoke");
 
     const questionRows = await db.knex.raw(
@@ -77,9 +82,7 @@ describe("persistImport (integration)", () => {
     );
     expect(links.rows[0].n).toBe(2);
 
-    const cats = await db.knex.raw(
-      `SELECT COUNT(*)::int AS n FROM categories`,
-    );
+    const cats = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM categories`);
     expect(cats.rows[0].n).toBe(1);
   });
 
@@ -138,13 +141,17 @@ describe("persistImport transaction safety", () => {
 
     await expect(persistImport(db.knex, input)).rejects.toThrow();
 
-    const packs = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM question_packs`);
+    const packs = await db.knex.raw(
+      `SELECT COUNT(*)::int AS n FROM question_packs`,
+    );
     expect(packs.rows[0].n).toBe(0);
 
     const cats = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM categories`);
     expect(cats.rows[0].n).toBe(0);
 
-    const questions = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM questions`);
+    const questions = await db.knex.raw(
+      `SELECT COUNT(*)::int AS n FROM questions`,
+    );
     expect(questions.rows[0].n).toBe(0);
   });
 });

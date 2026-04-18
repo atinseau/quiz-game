@@ -1,8 +1,11 @@
-import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
-import { Wait } from "testcontainers";
-import Knex, { type Knex as KnexType } from "knex";
-import path from "node:path";
 import { readdir } from "node:fs/promises";
+import path from "node:path";
+import {
+  PostgreSqlContainer,
+  type StartedPostgreSqlContainer,
+} from "@testcontainers/postgresql";
+import Knex, { type Knex as KnexType } from "knex";
+import { Wait } from "testcontainers";
 
 export interface TestDb {
   knex: KnexType;

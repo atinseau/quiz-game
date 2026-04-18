@@ -1,4 +1,4 @@
-import { test, expect, beforeAll, afterAll, describe } from "bun:test";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { startTestDb, type TestDb } from "../helpers/testDb";
 
 describe("testDb fixture", () => {

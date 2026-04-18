@@ -1,4 +1,4 @@
-import type { ImportBody, CommitBody } from "./types";
+import type { CommitBody, ImportBody } from "./types";
 
 export const VALID_TYPES = ["qcm", "vrai_faux", "texte"] as const;
 
@@ -7,7 +7,11 @@ export const MAX_QUESTIONS_PER_IMPORT = 500;
 export function validateImportBody(body: ImportBody): string[] {
   const errors: string[] = [];
   if (!body.pack) return ["pack is required"];
-  if (!body.pack.slug || typeof body.pack.slug !== "string" || body.pack.slug.trim() === "") {
+  if (
+    !body.pack.slug ||
+    typeof body.pack.slug !== "string" ||
+    body.pack.slug.trim() === ""
+  ) {
     errors.push("pack.slug is required");
   }
   if (!Array.isArray(body.questions) || body.questions.length === 0) {
@@ -24,7 +28,10 @@ export function validateImportBody(body: ImportBody): string[] {
     const q = body.questions[i];
     const p = `questions[${i}]`;
     if (!q.category) errors.push(`${p}.category is required`);
-    if (!q.type || !VALID_TYPES.includes(q.type as (typeof VALID_TYPES)[number])) {
+    if (
+      !q.type ||
+      !VALID_TYPES.includes(q.type as (typeof VALID_TYPES)[number])
+    ) {
       errors.push(`${p}.type invalid`);
     }
     if (!q.question) errors.push(`${p}.question is required`);

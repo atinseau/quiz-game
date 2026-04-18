@@ -1,6 +1,12 @@
-import { Box, Typography, Badge } from "@strapi/design-system";
+import { Badge, Box, Typography } from "@strapi/design-system";
 
-export function SectionTitle({ label, count }: { label: string; count: number }) {
+export function SectionTitle({
+  label,
+  count,
+}: {
+  label: string;
+  count: number;
+}) {
   return (
     <Box paddingBottom={3}>
       <Typography variant="beta">

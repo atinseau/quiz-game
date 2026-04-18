@@ -71,6 +71,9 @@ const config = ({
   };
 
   return {
+    settings: {
+      useTypescriptMigrations: true,
+    },
     connection: {
       client,
       ...connections[client],

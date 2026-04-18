@@ -1,5 +1,5 @@
-import type { EmbeddingService } from "./embeddings";
 import type { ClassifiedCandidate } from "./analyzer";
+import type { EmbeddingService } from "./embeddings";
 
 export interface ImportPack {
   slug?: string;

@@ -36,7 +36,11 @@ export function mockEmbed(text: string): number[] {
  * Returns a controlled blend of two seeds so test cases can craft
  * predictable cosine similarities.
  */
-export function blendedEmbed(baseText: string, other: string, weight: number): number[] {
+export function blendedEmbed(
+  baseText: string,
+  other: string,
+  weight: number,
+): number[] {
   const a = mockEmbed(baseText);
   const b = mockEmbed(other);
   const mixed = a.map((v, i) => v * weight + b[i] * (1 - weight));

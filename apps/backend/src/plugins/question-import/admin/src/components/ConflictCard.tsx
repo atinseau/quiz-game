@@ -1,6 +1,6 @@
-import { Box, Typography, Badge } from "@strapi/design-system";
-import { SimilarityBar } from "./SimilarityBar";
+import { Badge, Box, Typography } from "@strapi/design-system";
 import type { PreviewCandidate } from "../lib/api";
+import { SimilarityBar } from "./SimilarityBar";
 
 interface Props {
   match: PreviewCandidate["matches"][number];

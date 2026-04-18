@@ -1,5 +1,6 @@
-import pgvector from "pgvector/utils";
 import { randomUUID } from "node:crypto";
+import type { Knex } from "knex";
+import pgvector from "pgvector/utils";
 
 export interface PersistQuestion {
   category: string;
@@ -39,10 +40,10 @@ function slugifyName(text: string): string {
 }
 
 export async function persistImport(
-  knex: any,
+  knex: Knex,
   input: PersistInput,
 ): Promise<PersistResult> {
-  return await knex.transaction(async (trx: any) => {
+  return await knex.transaction(async (trx: Knex.Transaction) => {
     // 1. Upsert pack
     const packRows = await trx.raw(
       `SELECT id, document_id, slug FROM question_packs WHERE slug = ?`,
@@ -77,8 +78,13 @@ export async function persistImport(
     }
 
     // 2. Upsert categories + link
-    const uniqueCategoryNames = [...new Set(input.questions.map((q) => q.category))];
-    const categorySummary: Array<{ name: string; status: "created" | "existing" }> = [];
+    const uniqueCategoryNames = [
+      ...new Set(input.questions.map((q) => q.category)),
+    ];
+    const categorySummary: Array<{
+      name: string;
+      status: "created" | "existing";
+    }> = [];
     const categoryIdByName = new Map<string, number>();
 
     for (const name of uniqueCategoryNames) {

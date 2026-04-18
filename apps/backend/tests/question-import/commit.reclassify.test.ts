@@ -1,10 +1,10 @@
-import { test, expect, describe } from "bun:test";
+import { describe, expect, test } from "bun:test";
+import { createEmbeddingService } from "../../src/plugins/question-import/server/services/embeddings";
 import {
-  reclassifyForCommit,
   type ClientCommitQuestion,
+  reclassifyForCommit,
 } from "../../src/plugins/question-import/server/services/import";
 import { mockEmbed } from "../mocks/openai-embeddings";
-import { createEmbeddingService } from "../../src/plugins/question-import/server/services/embeddings";
 
 function fakeOpenAIClient() {
   return {
@@ -21,7 +21,9 @@ const embeddings = createEmbeddingService({
   model: "test",
 });
 
-function baseQ(overrides: Partial<ClientCommitQuestion> = {}): ClientCommitQuestion {
+function baseQ(
+  overrides: Partial<ClientCommitQuestion> = {},
+): ClientCommitQuestion {
   return {
     category: "Cat",
     type: "qcm",
@@ -50,14 +52,16 @@ describe("reclassifyForCommit", () => {
       questions: [baseQ({ question: "Q" })],
       embeddings,
       knn: {
-        search: async () => [{
-          questionId: 1,
-          text: "existing",
-          packSlug: "p",
-          categoryName: "c",
-          similarity: 0.95,
-          normalizedAnswer: "a",
-        }],
+        search: async () => [
+          {
+            questionId: 1,
+            text: "existing",
+            packSlug: "p",
+            categoryName: "c",
+            similarity: 0.95,
+            normalizedAnswer: "a",
+          },
+        ],
       },
     });
     expect(result[0].status).toBe("auto_blocked");
@@ -68,14 +72,16 @@ describe("reclassifyForCommit", () => {
       questions: [baseQ({ question: "Q" })],
       embeddings,
       knn: {
-        search: async () => [{
-          questionId: 1,
-          text: "existing",
-          packSlug: "p",
-          categoryName: "c",
-          similarity: 0.95,
-          normalizedAnswer: "a",
-        }],
+        search: async () => [
+          {
+            questionId: 1,
+            text: "existing",
+            packSlug: "p",
+            categoryName: "c",
+            similarity: 0.95,
+            normalizedAnswer: "a",
+          },
+        ],
       },
     });
     expect(result[0].status).toBe("auto_blocked");
@@ -84,7 +90,10 @@ describe("reclassifyForCommit", () => {
 
   test("intra_batch_duplicate on the server regardless of client status", async () => {
     const result = await reclassifyForCommit({
-      questions: [baseQ({ question: "Duplicate" }), baseQ({ question: "Duplicate" })],
+      questions: [
+        baseQ({ question: "Duplicate" }),
+        baseQ({ question: "Duplicate" }),
+      ],
       embeddings,
       knn: { search: async () => [] },
     });

@@ -1,5 +1,5 @@
-import { runPreview, runCommit, createKnnSearcher } from "../services/import";
 import { createDefaultEmbeddingService } from "../services/embeddings";
+import { createKnnSearcher, runCommit, runPreview } from "../services/import";
 
 const MODEL = "text-embedding-3-small";
 

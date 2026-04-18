@@ -1,15 +1,10 @@
+import { Alert, Box, Button, Typography } from "@strapi/design-system";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Typography,
-  Alert,
-} from "@strapi/design-system";
-import { loadDraft, deleteDraft, type Draft } from "../lib/draftStore";
-import { postCommit, type PreviewCandidate } from "../lib/api";
-import { SectionTitle } from "../components/SectionTitle";
+import { useNavigate, useParams } from "react-router-dom";
 import { CandidateRow } from "../components/CandidateRow";
+import { SectionTitle } from "../components/SectionTitle";
+import { type PreviewCandidate, postCommit } from "../lib/api";
+import { type Draft, deleteDraft, loadDraft } from "../lib/draftStore";
 
 type DecisionMap = Record<number, { include: boolean; overrideReason: string }>;
 
@@ -71,7 +66,10 @@ export default function Review() {
       const requestQuestions = draft.request.questions;
       const questions = draft.response.candidates.map((c) => {
         const src = requestQuestions[c.index];
-        const dec = decisions[c.index] ?? { include: false, overrideReason: "" };
+        const dec = decisions[c.index] ?? {
+          include: false,
+          overrideReason: "",
+        };
         return {
           ...src,
           embedding: c.embedding,

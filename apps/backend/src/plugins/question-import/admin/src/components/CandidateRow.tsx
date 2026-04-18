@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography, Textarea } from "@strapi/design-system";
+import { Box, Checkbox, Textarea, Typography } from "@strapi/design-system";
 import type { PreviewCandidate } from "../lib/api";
 import { ConflictCard } from "./ConflictCard";
 
@@ -40,9 +40,11 @@ export function CandidateRow({
           Réponse: {request.answer} · Catégorie: {request.category}
         </Typography>
       </Box>
-      {candidate.matches.filter((m) => m.similarity >= 0.85).map((m) => (
-        <ConflictCard key={m.questionId} match={m} />
-      ))}
+      {candidate.matches
+        .filter((m) => m.similarity >= 0.85)
+        .map((m) => (
+          <ConflictCard key={m.questionId} match={m} />
+        ))}
       {requireReason && decision?.include && (
         <Box paddingTop={2}>
           <Textarea
@@ -50,7 +52,9 @@ export function CandidateRow({
             placeholder="Pourquoi importer malgré le doublon ?"
             rows={2}
             value={decision.overrideReason}
-            onChange={(e: any) => onReasonChange(candidate.index, e.target.value)}
+            onChange={(e: any) =>
+              onReasonChange(candidate.index, e.target.value)
+            }
           />
         </Box>
       )}

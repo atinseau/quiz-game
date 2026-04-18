@@ -1,4 +1,4 @@
-import { test, expect, describe } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { validateCommitBody } from "../../src/plugins/question-import/server/services/import";
 
 function baseBody(overrides: any = {}) {

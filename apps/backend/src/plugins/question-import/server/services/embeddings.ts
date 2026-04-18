@@ -62,7 +62,9 @@ export function createEmbeddingService(opts: Options): EmbeddingService {
           model: opts.model,
           input: missing,
         });
-        resp.data.forEach((d, i) => put(missing[i], d.embedding));
+        resp.data.forEach((d, i) => {
+          put(missing[i], d.embedding);
+        });
       }
 
       return texts.map((t) => {

@@ -1,11 +1,18 @@
-import { test, expect, beforeAll, afterAll, beforeEach, describe } from "bun:test";
-import pgvector from "pgvector/utils";
-import { startTestDb, type TestDb } from "../helpers/testDb";
 import {
-  runCommit,
-  createKnnSearcher,
-} from "../../src/plugins/question-import/server/services/import";
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from "bun:test";
+import pgvector from "pgvector/utils";
 import { createEmbeddingService } from "../../src/plugins/question-import/server/services/embeddings";
+import {
+  createKnnSearcher,
+  runCommit,
+} from "../../src/plugins/question-import/server/services/import";
+import { startTestDb, type TestDb } from "../helpers/testDb";
 import { mockEmbed } from "../mocks/openai-embeddings";
 
 function fakeOpenAIClient() {
@@ -36,7 +43,10 @@ describe("runCommit (integration)", () => {
   function makeDeps() {
     return {
       strapi: { db: { connection: db.knex } },
-      embeddings: createEmbeddingService({ client: fakeOpenAIClient() as any, model: "test" }),
+      embeddings: createEmbeddingService({
+        client: fakeOpenAIClient() as any,
+        model: "test",
+      }),
       knn: createKnnSearcher(db.knex),
     };
   }
@@ -75,7 +85,15 @@ describe("runCommit (integration)", () => {
     await db.knex.raw(
       `INSERT INTO questions (document_id, type, text, answer, pack_id, normalized_answer, embedding, embedding_model)
        VALUES (:did, :type, :text, :ans, 1, :norm, CAST(:vec AS vector), :model)`,
-      { did: "q1", type: "qcm", text: "Capitale du Japon ?", ans: "Tokyo", norm: "tokyo", vec, model: "test" },
+      {
+        did: "q1",
+        type: "qcm",
+        text: "Capitale du Japon ?",
+        ans: "Tokyo",
+        norm: "tokyo",
+        vec,
+        model: "test",
+      },
     );
 
     const body = {
@@ -92,9 +110,13 @@ describe("runCommit (integration)", () => {
         },
       ],
     };
-    await expect(runCommit(body as any, makeDeps() as any)).rejects.toThrow(/Override required/);
+    await expect(runCommit(body as any, makeDeps() as any)).rejects.toThrow(
+      /Override required/,
+    );
 
-    const packs = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM question_packs WHERE slug='int2'`);
+    const packs = await db.knex.raw(
+      `SELECT COUNT(*)::int AS n FROM question_packs WHERE slug='int2'`,
+    );
     expect(packs.rows[0].n).toBe(0);
   });
 

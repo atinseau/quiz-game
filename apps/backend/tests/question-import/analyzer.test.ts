@@ -1,4 +1,4 @@
-import { test, expect, describe } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { classifyCandidate } from "../../src/plugins/question-import/server/services/analyzer";
 
 type ExistingMatch = {
@@ -72,7 +72,7 @@ describe("classifyCandidate", () => {
         text: "unrelated",
         packSlug: "x",
         categoryName: "y",
-        similarity: 0.80,
+        similarity: 0.8,
         normalizedAnswer: "paris",
       },
     ];
@@ -82,9 +82,30 @@ describe("classifyCandidate", () => {
 
   test("worst status wins across multiple matches", () => {
     const matches: ExistingMatch[] = [
-      { questionId: 1, text: "a", packSlug: "p", categoryName: "c", similarity: 0.70, normalizedAnswer: "other" },
-      { questionId: 2, text: "b", packSlug: "p", categoryName: "c", similarity: 0.88, normalizedAnswer: "paris" },
-      { questionId: 3, text: "c", packSlug: "p", categoryName: "c", similarity: 0.95, normalizedAnswer: "paris" },
+      {
+        questionId: 1,
+        text: "a",
+        packSlug: "p",
+        categoryName: "c",
+        similarity: 0.7,
+        normalizedAnswer: "other",
+      },
+      {
+        questionId: 2,
+        text: "b",
+        packSlug: "p",
+        categoryName: "c",
+        similarity: 0.88,
+        normalizedAnswer: "paris",
+      },
+      {
+        questionId: 3,
+        text: "c",
+        packSlug: "p",
+        categoryName: "c",
+        similarity: 0.95,
+        normalizedAnswer: "paris",
+      },
     ];
     const result = classifyCandidate(candidate, matches);
     expect(result.status).toBe("auto_blocked");
@@ -92,8 +113,22 @@ describe("classifyCandidate", () => {
 
   test("returned sameAnswer flag reflects comparison", () => {
     const matches: ExistingMatch[] = [
-      { questionId: 1, text: "t", packSlug: "p", categoryName: "c", similarity: 0.88, normalizedAnswer: "paris" },
-      { questionId: 2, text: "t", packSlug: "p", categoryName: "c", similarity: 0.88, normalizedAnswer: "lyon" },
+      {
+        questionId: 1,
+        text: "t",
+        packSlug: "p",
+        categoryName: "c",
+        similarity: 0.88,
+        normalizedAnswer: "paris",
+      },
+      {
+        questionId: 2,
+        text: "t",
+        packSlug: "p",
+        categoryName: "c",
+        similarity: 0.88,
+        normalizedAnswer: "lyon",
+      },
     ];
     const result = classifyCandidate(candidate, matches);
     expect(result.matches[0].sameAnswer).toBe(true);
@@ -102,7 +137,7 @@ describe("classifyCandidate", () => {
 });
 
 import { detectIntraBatchDuplicates } from "../../src/plugins/question-import/server/services/analyzer";
-import { mockEmbed, blendedEmbed } from "../mocks/openai-embeddings";
+import { blendedEmbed, mockEmbed } from "../mocks/openai-embeddings";
 
 describe("detectIntraBatchDuplicates", () => {
   test("empty batch → empty set", () => {

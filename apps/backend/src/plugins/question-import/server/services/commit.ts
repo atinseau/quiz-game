@@ -1,7 +1,6 @@
+import { classifyCandidate, detectIntraBatchDuplicates } from "./analyzer";
 import type { EmbeddingService } from "./embeddings";
 import { normalizeAnswer } from "./normalize";
-import { classifyCandidate, detectIntraBatchDuplicates } from "./analyzer";
-import { validateCommitBody } from "./validation";
 import type {
   ClientCommitQuestion,
   CommitBody,
@@ -10,6 +9,7 @@ import type {
   KnnSearcher,
   ReclassifiedQuestion,
 } from "./types";
+import { validateCommitBody } from "./validation";
 
 export async function reclassifyForCommit(args: {
   questions: ClientCommitQuestion[];
@@ -18,7 +18,9 @@ export async function reclassifyForCommit(args: {
 }): Promise<ReclassifiedQuestion[]> {
   const texts = args.questions.map((q) => (q.question as string) ?? "");
   const embeddingVecs = await args.embeddings.embedBatch(texts);
-  const normalized = args.questions.map((q) => normalizeAnswer((q.answer as string) ?? ""));
+  const normalized = args.questions.map((q) =>
+    normalizeAnswer((q.answer as string) ?? ""),
+  );
 
   const intraDup = detectIntraBatchDuplicates(
     embeddingVecs.map((e, i) => ({
@@ -38,7 +40,9 @@ export async function reclassifyForCommit(args: {
       { normalizedAnswer: normalized[i] },
       matches,
     );
-    const status = intraDup.has(i) ? "intra_batch_duplicate" : classified.status;
+    const status = intraDup.has(i)
+      ? "intra_batch_duplicate"
+      : classified.status;
     const requiresOverrideReason =
       (status === "auto_blocked" || status === "intra_batch_duplicate") &&
       args.questions[i].decision === "import";
@@ -60,7 +64,9 @@ export async function runCommit(
 ): Promise<CommitSummary> {
   const errors = validateCommitBody(body);
   if (errors.length > 0) {
-    const err = new Error("Validation failed") as Error & { details?: string[] };
+    const err = new Error("Validation failed") as Error & {
+      details?: string[];
+    };
     err.details = errors;
     throw err;
   }
@@ -84,7 +90,9 @@ export async function runCommit(
     }
   }
   if (overrideErrors.length > 0) {
-    const err = new Error("Override required") as Error & { details?: string[] };
+    const err = new Error("Override required") as Error & {
+      details?: string[];
+    };
     err.details = overrideErrors;
     throw err;
   }

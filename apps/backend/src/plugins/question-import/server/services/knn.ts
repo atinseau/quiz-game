@@ -1,11 +1,21 @@
+import type { Knex } from "knex";
 import pgvector from "pgvector/utils";
-import type { KnnSearcher } from "./types";
+import type { KnnRow, KnnSearcher } from "./types";
 
-export function createKnnSearcher(knex: any): KnnSearcher {
+interface RawKnnRow {
+  questionId: number;
+  text: string;
+  packSlug: string;
+  categoryName: string;
+  similarity: string | number;
+  normalizedAnswer: string;
+}
+
+export function createKnnSearcher(knex: Knex): KnnSearcher {
   return {
     async search({ embedding, limit }) {
       const vec = pgvector.toSql(embedding);
-      const rows = await knex.raw(
+      const rows = await knex.raw<{ rows: RawKnnRow[] }>(
         `
         SELECT
           q.id AS "questionId",
@@ -23,7 +33,7 @@ export function createKnnSearcher(knex: any): KnnSearcher {
       `,
         [vec, vec, limit],
       );
-      return rows.rows.map((r: any) => ({
+      return rows.rows.map<KnnRow>((r) => ({
         questionId: r.questionId,
         text: r.text,
         packSlug: r.packSlug,

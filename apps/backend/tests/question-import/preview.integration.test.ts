@@ -1,11 +1,11 @@
-import { test, expect, describe } from "bun:test";
+import { describe, expect, test } from "bun:test";
+import { createEmbeddingService } from "../../src/plugins/question-import/server/services/embeddings";
 import {
-  runPreview,
-  type KnnSearcher,
   type KnnRow,
+  type KnnSearcher,
+  runPreview,
 } from "../../src/plugins/question-import/server/services/import";
 import { mockEmbed } from "../mocks/openai-embeddings";
-import { createEmbeddingService } from "../../src/plugins/question-import/server/services/embeddings";
 
 function fakeOpenAIClient() {
   return {

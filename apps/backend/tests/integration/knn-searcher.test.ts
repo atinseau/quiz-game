@@ -1,8 +1,15 @@
-import { test, expect, beforeAll, afterAll, beforeEach, describe } from "bun:test";
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 import pgvector from "pgvector/utils";
-import { startTestDb, type TestDb } from "../helpers/testDb";
 import { createKnnSearcher } from "../../src/plugins/question-import/server/services/import";
-import { mockEmbed, blendedEmbed } from "../mocks/openai-embeddings";
+import { startTestDb, type TestDb } from "../helpers/testDb";
+import { blendedEmbed, mockEmbed } from "../mocks/openai-embeddings";
 
 describe("createKnnSearcher (integration)", () => {
   let db: TestDb;
@@ -24,9 +31,27 @@ describe("createKnnSearcher (integration)", () => {
       INSERT INTO categories (document_id, name, slug) VALUES ('c1', 'Europe', 'europe');
     `);
     const rows: Array<[string, string, string, string, number[]]> = [
-      ["q1", "Capitale de la France ?", "Paris", "paris", mockEmbed("cap france")],
-      ["q2", "Plus grande ville française ?", "Paris", "paris", blendedEmbed("cap france", "alt", 0.9)],
-      ["q3", "Fleuve traversant Paris ?", "Seine", "seine", mockEmbed("fleuve paris")],
+      [
+        "q1",
+        "Capitale de la France ?",
+        "Paris",
+        "paris",
+        mockEmbed("cap france"),
+      ],
+      [
+        "q2",
+        "Plus grande ville française ?",
+        "Paris",
+        "paris",
+        blendedEmbed("cap france", "alt", 0.9),
+      ],
+      [
+        "q3",
+        "Fleuve traversant Paris ?",
+        "Seine",
+        "seine",
+        mockEmbed("fleuve paris"),
+      ],
     ];
     for (const [docId, text, answer, norm, emb] of rows) {
       await db.knex.raw(

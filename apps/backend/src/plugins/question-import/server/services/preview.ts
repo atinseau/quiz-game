@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
-import { normalizeAnswer } from "./normalize";
 import { classifyCandidate, detectIntraBatchDuplicates } from "./analyzer";
-import { validateImportBody } from "./validation";
+import { normalizeAnswer } from "./normalize";
 import type {
   ImportBody,
   ImportQuestion,
@@ -9,6 +8,7 @@ import type {
   PreviewDeps,
   PreviewResult,
 } from "./types";
+import { validateImportBody } from "./validation";
 
 export async function runPreview(
   body: ImportBody,
@@ -30,7 +30,10 @@ export async function runPreview(
   const normalized = questions.map((q) => normalizeAnswer(q.answer as string));
 
   const intraBatchDuplicates = detectIntraBatchDuplicates(
-    embeddings.map((e, i) => ({ embedding: e, normalizedAnswer: normalized[i] })),
+    embeddings.map((e, i) => ({
+      embedding: e,
+      normalizedAnswer: normalized[i],
+    })),
   );
 
   const allExistingMatches = await Promise.all(
