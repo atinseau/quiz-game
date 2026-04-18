@@ -136,9 +136,13 @@ export async function runPreview(
     embeddings.map((e, i) => ({ embedding: e, normalizedAnswer: normalized[i] })),
   );
 
+  const allExistingMatches = await Promise.all(
+    embeddings.map((e) => deps.knn.search({ embedding: e, limit: 10 })),
+  );
+
   const candidates: PreviewCandidate[] = [];
   for (let i = 0; i < questions.length; i++) {
-    const existing = await deps.knn.search({ embedding: embeddings[i], limit: 10 });
+    const existing = allExistingMatches[i];
     const classified = classifyCandidate(
       { normalizedAnswer: normalized[i] },
       existing,
@@ -299,9 +303,13 @@ export async function reclassifyForCommit(args: {
     })),
   );
 
+  const allMatches = await Promise.all(
+    embeddingVecs.map((e) => args.knn.search({ embedding: e, limit: 10 })),
+  );
+
   const out: ReclassifiedQuestion[] = [];
   for (let i = 0; i < args.questions.length; i++) {
-    const matches = await args.knn.search({ embedding: embeddingVecs[i], limit: 10 });
+    const matches = allMatches[i];
     const classified = classifyCandidate(
       { normalizedAnswer: normalized[i] },
       matches,
