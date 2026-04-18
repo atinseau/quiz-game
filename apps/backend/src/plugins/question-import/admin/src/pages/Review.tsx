@@ -25,6 +25,8 @@ export default function Review() {
 
   useEffect(() => {
     if (!previewId) return;
+    setDraft(null);
+    setDecisions({});
     loadDraft(previewId).then((d) => {
       if (!d) return;
       setDraft(d);
@@ -71,7 +73,7 @@ export default function Review() {
       const requestQuestions = draft.request.questions;
       const questions = draft.response.candidates.map((c) => {
         const src = requestQuestions[c.index];
-        const dec = decisions[c.index];
+        const dec = decisions[c.index] ?? { include: false, overrideReason: "" };
         return {
           ...src,
           embedding: c.embedding,
