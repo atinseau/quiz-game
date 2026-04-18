@@ -245,15 +245,6 @@ export function validateCommitBody(body: CommitBody): string[] {
   return errors;
 }
 
-function slugifyName(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 export async function runCommit(
   body: CommitBody,
   deps: CommitDeps,
@@ -264,93 +255,32 @@ export async function runCommit(
     err.details = errors;
     throw err;
   }
-  const { strapi } = deps;
 
-  let pack: any = await strapi
-    .documents("api::question-pack.question-pack")
-    .findFirst({ filters: { slug: body.pack.slug } });
-  let packStatus: "created" | "existing" = "existing";
-  if (!pack) {
-    pack = await strapi.documents("api::question-pack.question-pack").create({
-      data: {
-        slug: body.pack.slug,
-        name: body.pack.name as string,
-        description: body.pack.description ?? null,
-        icon: body.pack.icon ?? null,
-        gradient: body.pack.gradient ?? null,
-        isFree: true,
-      },
-    });
-    packStatus = "created";
-  }
+  const toImport = body.questions
+    .filter((q) => q.decision === "import")
+    .map((q) => ({
+      category: q.category as string,
+      type: q.type as "qcm" | "vrai_faux" | "texte",
+      text: q.question as string,
+      choices: q.choices,
+      answer: q.answer as string,
+      embedding: q.embedding,
+      normalizedAnswer: q.normalizedAnswer,
+    }));
 
-  const toImport = body.questions.filter((q) => q.decision === "import");
-  const uniqueCategoryNames = [...new Set(toImport.map((q) => q.category as string))];
-  const catSummary: Array<{ name: string; status: "created" | "existing" }> = [];
-  const catMap = new Map<string, any>();
-
-  for (const name of uniqueCategoryNames) {
-    let cat = await strapi.documents("api::category.category").findFirst({
-      filters: { name },
-      populate: ["packs"],
-    });
-    let status: "created" | "existing" = "existing";
-    if (!cat) {
-      const created = await strapi.documents("api::category.category").create({
-        data: { name, slug: slugifyName(name) },
-      });
-      cat = await strapi.documents("api::category.category").findFirst({
-        filters: { documentId: created.documentId },
-        populate: ["packs"],
-      });
-      status = "created";
-    }
-    const linked: string[] = (cat.packs ?? []).map((p: any) => p.documentId);
-    if (!linked.includes(pack.documentId)) {
-      await strapi.documents("api::category.category").update({
-        documentId: cat.documentId,
-        data: { packs: [...linked, pack.documentId] },
-      });
-    }
-    catMap.set(name, cat);
-    catSummary.push({ name, status });
-  }
-
-  let created = 0;
-  for (const q of toImport) {
-    const cat = catMap.get(q.category as string);
-    const doc = await strapi.documents("api::question.question").create({
-      data: {
-        type: q.type as "qcm" | "vrai_faux" | "texte",
-        text: q.question as string,
-        choices: q.type === "qcm" ? (q.choices as string[]) : null,
-        answer: q.answer as string,
-        category: cat?.documentId,
-        pack: pack.documentId,
-      },
-    });
-    await strapi.db.connection.raw(
-      `UPDATE questions
-       SET embedding = ?::vector,
-           embedding_model = ?,
-           normalized_answer = ?
-       WHERE document_id = ?`,
-      [
-        JSON.stringify(q.embedding),
-        body.embeddingModel,
-        q.normalizedAnswer,
-        doc.documentId,
-      ],
-    );
-    created++;
-  }
+  const { persistImport } = await import("./persistImport");
+  const result = await persistImport(deps.strapi.db.connection, {
+    pack: body.pack,
+    embeddingModel: body.embeddingModel,
+    questions: toImport,
+  });
 
   return {
-    pack: { slug: pack.slug, status: packStatus },
-    categories: catSummary,
+    pack: result.pack,
+    categories: result.categories,
     questions: {
-      created,
-      skipped: body.questions.length - created,
+      created: result.questions.created,
+      skipped: body.questions.length - result.questions.created,
       total: body.questions.length,
     },
   };
