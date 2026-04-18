@@ -7,7 +7,7 @@ export default {
         id: "question-import.plugin.name",
         defaultMessage: "Question Import",
       },
-      Component: async () => import("./pages/Upload"),
+      Component: async () => import("./App"),
       permissions: [],
     });
   },
