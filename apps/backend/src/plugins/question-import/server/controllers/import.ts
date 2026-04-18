@@ -23,6 +23,7 @@ export default {
         ctx.body = { success: false, errors: details };
         return;
       }
+      strapi.log.error("[question-import] preview failed", err);
       ctx.status = 500;
       ctx.body = { success: false, error: (err as Error).message };
     }
@@ -30,7 +31,13 @@ export default {
 
   async commit(ctx: any) {
     try {
-      const summary = await runCommit(ctx.request.body as any, { strapi });
+      const embeddings = createDefaultEmbeddingService();
+      const knn = createKnnSearcher(strapi.db.connection);
+      const summary = await runCommit(ctx.request.body as any, {
+        strapi,
+        embeddings,
+        knn,
+      });
       ctx.body = { success: true, summary };
     } catch (err) {
       const details = (err as any).details;
@@ -39,6 +46,7 @@ export default {
         ctx.body = { success: false, errors: details };
         return;
       }
+      strapi.log.error("[question-import] commit failed", err);
       ctx.status = 500;
       ctx.body = { success: false, error: (err as Error).message };
     }
