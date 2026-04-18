@@ -1,8 +1,10 @@
+import type { Gender } from "./shared/types";
+
+export type { Gender };
+
 export interface StrapiList<T> {
   data: T[];
 }
-
-export type Gender = "homme" | "femme";
 
 export interface Player {
   name: string;

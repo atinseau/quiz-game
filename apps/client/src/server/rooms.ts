@@ -10,6 +10,9 @@ import type {
 
 const rooms = new Map<string, Room>();
 
+/** Reverse index: clerkId → room code for O(1) lookups. */
+const playerToRoom = new Map<string, string>();
+
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 function generateCode(): string {
@@ -41,6 +44,15 @@ export function toRoomState(room: Room): RoomState {
     packSlug: room.packSlug,
     mode: room.mode,
   };
+}
+
+function reassignHost(room: Room, oldHostId: string): void {
+  if (room.hostClerkId !== oldHostId) return;
+  const nextHost = Array.from(room.players.values()).find((p) => p.connected);
+  if (nextHost) {
+    room.hostClerkId = nextHost.clerkId;
+    broadcast(room, { type: "host_changed", clerkId: nextHost.clerkId });
+  }
 }
 
 export function broadcast(room: Room, msg: ServerMessage, exclude?: string) {
@@ -81,6 +93,7 @@ export function createRoom(ws: ServerWebSocket<WsData>): Room {
   };
 
   rooms.set(code, room);
+  playerToRoom.set(clerkId, code);
   send(ws, { type: "room_created", code });
   send(ws, {
     type: "room_joined",
@@ -131,6 +144,7 @@ export function joinRoom(
   };
 
   room.players.set(clerkId, player);
+  playerToRoom.set(clerkId, room.code);
   broadcast(
     room,
     { type: "player_joined", player: toPlayerInfo(player) },
@@ -145,70 +159,67 @@ export function joinRoom(
 }
 
 export function leaveRoom(clerkId: string): void {
-  for (const [code, room] of rooms) {
-    if (!room.players.has(clerkId)) continue;
+  const code = playerToRoom.get(clerkId);
+  if (!code) return;
 
-    room.players.delete(clerkId);
-    broadcast(room, { type: "player_left", clerkId });
-
-    if (room.players.size === 0) {
-      rooms.delete(code);
-      return;
-    }
-
-    if (room.hostClerkId === clerkId) {
-      const nextHost = Array.from(room.players.values()).find(
-        (p) => p.connected,
-      );
-      if (nextHost) {
-        room.hostClerkId = nextHost.clerkId;
-        broadcast(room, { type: "host_changed", clerkId: nextHost.clerkId });
-      }
-    }
+  const room = rooms.get(code);
+  if (!room?.players.has(clerkId)) {
+    playerToRoom.delete(clerkId);
     return;
   }
+
+  room.players.delete(clerkId);
+  playerToRoom.delete(clerkId);
+  broadcast(room, { type: "player_left", clerkId });
+
+  if (room.players.size === 0) {
+    rooms.delete(code);
+    return;
+  }
+
+  reassignHost(room, clerkId);
 }
 
 export function handleDisconnect(clerkId: string): void {
-  for (const [code, room] of rooms) {
-    const player = room.players.get(clerkId);
-    if (!player) continue;
+  const code = playerToRoom.get(clerkId);
+  if (!code) return;
 
-    player.ws = null;
-    player.connected = false;
-    player.disconnectedAt = Date.now();
-    broadcast(room, { type: "player_disconnected", clerkId });
-
-    if (room.hostClerkId === clerkId) {
-      const nextHost = Array.from(room.players.values()).find(
-        (p) => p.connected,
-      );
-      if (nextHost) {
-        room.hostClerkId = nextHost.clerkId;
-        broadcast(room, { type: "host_changed", clerkId: nextHost.clerkId });
-      }
-    }
-
-    setTimeout(() => {
-      const current = room.players.get(clerkId);
-      if (current && !current.connected) {
-        room.players.delete(clerkId);
-        broadcast(room, { type: "player_left", clerkId });
-        if (room.players.size === 0) {
-          rooms.delete(code);
-        }
-      }
-    }, 60_000);
-
+  const room = rooms.get(code);
+  if (!room) {
+    playerToRoom.delete(clerkId);
     return;
   }
+
+  const player = room.players.get(clerkId);
+  if (!player) {
+    playerToRoom.delete(clerkId);
+    return;
+  }
+
+  player.ws = null;
+  player.connected = false;
+  player.disconnectedAt = Date.now();
+  broadcast(room, { type: "player_disconnected", clerkId });
+
+  reassignHost(room, clerkId);
+
+  setTimeout(() => {
+    const current = room.players.get(clerkId);
+    if (current && !current.connected) {
+      room.players.delete(clerkId);
+      playerToRoom.delete(clerkId);
+      broadcast(room, { type: "player_left", clerkId });
+      if (room.players.size === 0) {
+        rooms.delete(code);
+      }
+    }
+  }, 60_000);
 }
 
 export function findRoomByPlayer(clerkId: string): Room | undefined {
-  for (const room of rooms.values()) {
-    if (room.players.has(clerkId)) return room;
-  }
-  return undefined;
+  const code = playerToRoom.get(clerkId);
+  if (!code) return undefined;
+  return rooms.get(code);
 }
 
 export function getRoom(code: string): Room | undefined {
@@ -226,6 +237,9 @@ setInterval(() => {
         now - p.disconnectedAt > 10 * 60_000,
     );
     if (room.players.size === 0 || allDisconnected) {
+      for (const id of room.players.keys()) {
+        playerToRoom.delete(id);
+      }
       rooms.delete(code);
     }
   }

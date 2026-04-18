@@ -1,58 +1,23 @@
 import { create } from "zustand";
+import type {
+  PlayerInfo,
+  PlayerResult,
+  QuestionWithoutAnswer,
+  RankingEntry,
+  RoomState,
+  ServerMessage,
+  TurnResult,
+} from "../shared/types";
 import type { GameMode } from "../types";
 import { sounds } from "../utils/sounds";
 import type { AlcoholConfig } from "./alcoholStore";
 import { useAlcoholStore } from "./alcoholStore";
 
-// --- Types ---
-
-export interface PlayerInfo {
-  clerkId: string;
-  username: string;
-  gender: "homme" | "femme";
-  connected: boolean;
-}
-
-export interface RoomState {
-  code: string;
-  hostClerkId: string;
-  players: PlayerInfo[];
-  status: "lobby" | "playing";
-  packSlug: string | null;
-  mode: GameMode | null;
-}
-
-export interface QuestionData {
-  type: "qcm" | "vrai_faux" | "texte";
-  text: string;
-  choices?: string[];
-  category: string;
-}
-
-export interface PlayerResult {
-  clerkId: string;
-  answered: boolean;
-  correct: boolean;
-  stole: boolean;
-  pointsDelta: number;
-}
-
-export interface TurnResult {
-  correctAnswer: string | boolean;
-  playerResults: PlayerResult[];
-  scores: Record<string, number>;
-  combos: Record<string, number>;
-}
-
-export interface RankingEntry {
-  clerkId: string;
-  username: string;
-  score: number;
-  rank: number;
-}
+// Re-export for consumers that import from roomStore
+export type { PlayerInfo, RankingEntry, RoomState, TurnResult };
 
 interface GameState {
-  question: QuestionData | null;
+  question: QuestionWithoutAnswer | null;
   questionIndex: number;
   currentPlayerClerkId: string | null;
   startsAt: number;
@@ -150,7 +115,7 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
     };
 
     newWs.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
+      const msg: ServerMessage = JSON.parse(event.data);
       const state = get();
 
       switch (msg.type) {

@@ -1,0 +1,10 @@
+{
+  "name": "question-import",
+  "version": "0.1.0",
+  "strapi": {
+    "displayName": "Question Import",
+    "name": "question-import",
+    "description": "AI-assisted question import with semantic deduplication",
+    "kind": "plugin"
+  }
+}

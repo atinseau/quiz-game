@@ -57,7 +57,7 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
         });
         return;
       }
-      const nickname = (msg.nickname as string)?.trim();
+      const nickname = msg.nickname.trim();
       if (!nickname || nickname.length > 20) {
         send(ws, { type: "error", message: "Nom invalide (1-20 caractères)" });
         return;
@@ -84,7 +84,7 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
         });
         return;
       }
-      const gender = msg.gender as string;
+      const { gender } = msg;
       if (gender !== "homme" && gender !== "femme") {
         send(ws, { type: "error", message: "Genre invalide" });
         return;
@@ -192,7 +192,7 @@ async function handleMessage(ws: ServerWebSocket<WsData>, raw: string) {
         send(ws, { type: "error", message: "Pas de partie en cours" });
         return;
       }
-      handleAlcoholMessage(room, clerkId, msg as Record<string, unknown>);
+      handleAlcoholMessage(room, clerkId, msg);
       break;
     }
     default: {

@@ -1,12 +1,19 @@
 import type { ServerWebSocket } from "bun";
+import type { Gender, QuestionWithoutAnswer } from "../shared/types";
 import type { GameMode } from "../types";
-import type {
-  AlcoholConfig,
-  AlcoholState,
-  SpecialRoundType,
-} from "./alcohol/types";
+import type { AlcoholConfig, AlcoholState } from "./alcohol/types";
 
-export type Gender = "homme" | "femme";
+// Re-export shared types so existing server imports keep working
+export type {
+  Gender,
+  PlayerInfo,
+  PlayerResult,
+  QuestionWithoutAnswer,
+  RankingEntry,
+  RoomState,
+  ServerMessage,
+  TurnResult,
+} from "../shared/types";
 
 export interface WsData {
   clerkId: string;
@@ -25,37 +32,8 @@ export interface RoomPlayer {
 
 // --- Game Engine Types ---
 
-export interface QuestionWithoutAnswer {
-  type: "qcm" | "vrai_faux" | "texte";
-  text: string;
-  choices?: string[];
-  category: string;
-}
-
 export interface QuestionFull extends QuestionWithoutAnswer {
   answer: string;
-}
-
-export interface PlayerResult {
-  clerkId: string;
-  answered: boolean;
-  correct: boolean;
-  stole: boolean;
-  pointsDelta: number;
-}
-
-export interface TurnResult {
-  correctAnswer: string | boolean;
-  playerResults: PlayerResult[];
-  scores: Record<string, number>;
-  combos: Record<string, number>;
-}
-
-export interface RankingEntry {
-  clerkId: string;
-  username: string;
-  score: number;
-  rank: number;
 }
 
 export interface GameState {
@@ -99,90 +77,3 @@ export type ClientMessage =
   | { type: "show_us_vote"; color: string }
   | { type: "show_us_reveal"; color: string }
   | { type: "smatch_choice"; choice: "smatch" | "pass" };
-
-export interface PlayerInfo {
-  clerkId: string;
-  username: string;
-  gender: Gender;
-  connected: boolean;
-}
-
-export interface RoomState {
-  code: string;
-  hostClerkId: string;
-  players: PlayerInfo[];
-  status: "lobby" | "playing";
-  packSlug: string | null;
-  mode: GameMode | null;
-}
-
-export type ServerMessage =
-  | { type: "room_created"; code: string }
-  | { type: "room_joined"; room: RoomState; yourClerkId: string }
-  | { type: "player_joined"; player: PlayerInfo }
-  | { type: "player_left"; clerkId: string }
-  | { type: "player_disconnected"; clerkId: string }
-  | { type: "player_reconnected"; clerkId: string }
-  | { type: "host_changed"; clerkId: string }
-  | {
-      type: "player_updated";
-      clerkId: string;
-      username: string;
-      gender: Gender;
-    }
-  | { type: "pack_selected"; packSlug: string }
-  | { type: "mode_selected"; mode: GameMode }
-  | { type: "game_starting" }
-  | { type: "error"; message: string }
-  | {
-      type: "question";
-      index: number;
-      currentPlayerClerkId: string;
-      question: QuestionWithoutAnswer;
-      startsAt: number;
-    }
-  | { type: "player_answered"; clerkId: string }
-  | { type: "turn_result"; results: TurnResult }
-  | {
-      type: "game_over";
-      scores: Record<string, number>;
-      rankings: RankingEntry[];
-    }
-  | {
-      type: "special_round_start";
-      roundType: SpecialRoundType;
-      data: Record<string, unknown>;
-    }
-  | {
-      type: "drink_alert";
-      targetClerkId: string;
-      emoji: string;
-      message: string;
-    }
-  | { type: "courage_decision"; playerClerkId: string; countdown: number }
-  | { type: "courage_question"; question: QuestionWithoutAnswer }
-  | { type: "courage_result"; correct: boolean; pointsDelta: number }
-  | { type: "distribute_prompt"; distributorClerkId: string; remaining: number }
-  | { type: "special_round_end" }
-  | {
-      type: "conseil_result";
-      votes: Record<string, string>;
-      loserClerkIds: string[];
-    }
-  | {
-      type: "show_us_result";
-      correctColor: string | null;
-      wrongClerkIds: string[];
-      timedOut?: boolean;
-    }
-  | {
-      type: "love_or_drink_result";
-      choice: "bisou" | "cul_sec";
-      players: { clerkId: string; username: string }[];
-    }
-  | {
-      type: "smatch_or_pass_result";
-      decideur: { clerkId: string; username: string; gender: string };
-      receveur: { clerkId: string; username: string; gender: string };
-      choice: "smatch" | "pass";
-    };
