@@ -1,123 +1,190 @@
-import { Client } from "pg";
+/// <reference types="bun-types" />
+import KnexCtor, { type Knex } from "knex";
 import OpenAI from "openai";
 import pgvector from "pgvector/utils";
+import { requireEnv } from "../src/env";
 import { normalizeAnswer } from "../src/plugins/question-import/server/services/normalize";
 
-const MODEL = "text-embedding-3-small";
-const BATCH_SIZE = 100;
+const DEFAULT_MODEL = "text-embedding-3-small";
+const DEFAULT_BATCH_SIZE = 100;
+const DEFAULT_RETRY_ATTEMPTS = 3;
+const DEFAULT_RETRY_BASE_DELAY_MS = 1_000;
 
 interface QuestionRow {
   id: number;
-  text: string;
+  text: string | null;
   answer: string | null;
 }
 
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value || value.trim() === "" || value.includes("your-openai-key-here")) {
-    throw new Error(`Missing or placeholder env var: ${name}`);
-  }
-  return value;
+export interface Embedder {
+  embeddings: {
+    create(args: {
+      model: string;
+      input: string[];
+    }): Promise<{ data: Array<{ embedding: number[] }> }>;
+  };
 }
 
-async function connectPg(): Promise<Client> {
-  const connectionString = requireEnv("DATABASE_URL");
-  const client = new Client({ connectionString });
-  await client.connect();
-  return client;
+export interface BackfillDeps {
+  knex: Knex;
+  embedder: Embedder;
+  model?: string;
+  batchSize?: number;
+  retryAttempts?: number;
+  retryBaseDelayMs?: number;
+  log?: (msg: string) => void;
 }
 
 const PENDING_WHERE =
-  "embedding IS NULL OR embedding_model IS DISTINCT FROM $1";
+  "embedding IS NULL OR embedding_model IS DISTINCT FROM :model";
 
-async function countPending(client: Client): Promise<number> {
-  const res = await client.query<{ count: string }>(
+async function countPending(knex: Knex, model: string): Promise<number> {
+  const { rows } = await knex.raw<{ rows: { count: string }[] }>(
     `SELECT COUNT(*)::text AS count FROM questions WHERE ${PENDING_WHERE}`,
-    [MODEL],
+    { model },
   );
-  return Number(res.rows[0]?.count ?? 0);
+  return Number(rows[0]?.count ?? 0);
 }
 
 async function fetchBatch(
-  client: Client,
+  knex: Knex,
+  model: string,
   limit: number,
 ): Promise<QuestionRow[]> {
-  const res = await client.query<QuestionRow>(
-    `SELECT id, text, answer
-       FROM questions
-      WHERE ${PENDING_WHERE}
-      ORDER BY id ASC
-      LIMIT $2`,
-    [MODEL, limit],
+  const { rows } = await knex.raw<{ rows: QuestionRow[] }>(
+    `SELECT id, text, answer FROM questions
+     WHERE ${PENDING_WHERE}
+     ORDER BY id ASC
+     LIMIT :limit`,
+    { model, limit },
   );
-  return res.rows;
+  return rows;
 }
 
-async function embedBatch(
-  openai: OpenAI,
+function assertNonEmptyText(rows: QuestionRow[]): void {
+  const bad = rows.filter((r) => !r.text || r.text.trim() === "");
+  if (bad.length > 0) {
+    const ids = bad.map((r) => r.id).join(", ");
+    throw new Error(
+      `Questions with null/empty text cannot be embedded: ${ids}`,
+    );
+  }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function retry<T>(
+  fn: () => Promise<T>,
+  attempts: number,
+  baseDelayMs: number,
+  log: (msg: string) => void,
+): Promise<T> {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      if (i < attempts - 1) {
+        const delay = baseDelayMs * 2 ** i;
+        log(
+          `retry ${i + 1}/${attempts - 1} after ${delay}ms: ${(err as Error).message}`,
+        );
+        await sleep(delay);
+      }
+    }
+  }
+  throw lastErr;
+}
+
+async function embedTexts(
+  embedder: Embedder,
+  model: string,
   texts: string[],
 ): Promise<number[][]> {
-  const resp = await openai.embeddings.create({ model: MODEL, input: texts });
+  const resp = await embedder.embeddings.create({ model, input: texts });
   return resp.data.map((d) => d.embedding);
 }
 
-async function updateRow(
-  client: Client,
-  row: QuestionRow,
-  vec: number[],
+async function updateBatch(
+  knex: Knex,
+  model: string,
+  rows: QuestionRow[],
+  vectors: number[][],
 ): Promise<void> {
-  await client.query(
-    `UPDATE questions
-        SET embedding = $1::vector,
-            embedding_model = $2,
-            normalized_answer = $3
-      WHERE id = $4`,
-    [pgvector.toSql(vec), MODEL, normalizeAnswer(row.answer ?? ""), row.id],
+  const ids = rows.map((r) => r.id);
+  const embeddings = vectors.map((v) => pgvector.toSql(v));
+  const normalized = rows.map((r) => normalizeAnswer(r.answer ?? ""));
+  await knex.raw(
+    `UPDATE questions AS q
+     SET embedding = data.embedding::vector,
+         embedding_model = :model,
+         normalized_answer = data.normalized_answer
+     FROM (
+       SELECT UNNEST(:ids::int[]) AS id,
+              UNNEST(:embeddings::text[]) AS embedding,
+              UNNEST(:normalized::text[]) AS normalized_answer
+     ) AS data
+     WHERE q.id = data.id`,
+    { model, ids, embeddings, normalized },
   );
 }
 
-async function processBatch(
-  client: Client,
-  openai: OpenAI,
-  rows: QuestionRow[],
-): Promise<void> {
-  const vectors = await embedBatch(
-    openai,
-    rows.map((r) => r.text ?? ""),
-  );
-  for (let i = 0; i < rows.length; i++) {
-    await updateRow(client, rows[i], vectors[i]);
+export async function runBackfill(
+  deps: BackfillDeps,
+): Promise<{ processed: number }> {
+  const model = deps.model ?? DEFAULT_MODEL;
+  const batchSize = deps.batchSize ?? DEFAULT_BATCH_SIZE;
+  const retryAttempts = deps.retryAttempts ?? DEFAULT_RETRY_ATTEMPTS;
+  const retryBaseDelayMs = deps.retryBaseDelayMs ?? DEFAULT_RETRY_BASE_DELAY_MS;
+  const log = deps.log ?? ((m) => console.log(m));
+
+  const total = await countPending(deps.knex, model);
+  if (total === 0) {
+    log("Nothing to backfill — all questions are up to date.");
+    return { processed: 0 };
   }
+  log(`Backfilling ${total} question(s) with model ${model}...`);
+
+  let processed = 0;
+  while (true) {
+    const rows = await fetchBatch(deps.knex, model, batchSize);
+    if (rows.length === 0) break;
+    assertNonEmptyText(rows);
+
+    const texts = rows.map((r) => r.text as string);
+    const vectors = await retry(
+      () => embedTexts(deps.embedder, model, texts),
+      retryAttempts,
+      retryBaseDelayMs,
+      log,
+    );
+    await updateBatch(deps.knex, model, rows, vectors);
+    processed += rows.length;
+    log(`${processed}/${total}`);
+  }
+  log("Done.");
+  return { processed };
 }
 
 async function main(): Promise<void> {
-  const apiKey = requireEnv("OPENAI_API_KEY");
-  const openai = new OpenAI({ apiKey });
-  const client = await connectPg();
-
+  const knex = KnexCtor({
+    client: "pg",
+    connection: requireEnv("DATABASE_URL"),
+  });
+  const embedder = new OpenAI({ apiKey: requireEnv("OPENAI_API_KEY") });
   try {
-    const total = await countPending(client);
-    if (total === 0) {
-      console.log("Nothing to backfill — all questions are up to date.");
-      return;
-    }
-    console.log(`Backfilling ${total} question(s) with model ${MODEL}...`);
-
-    let processed = 0;
-    while (true) {
-      const rows = await fetchBatch(client, BATCH_SIZE);
-      if (rows.length === 0) break;
-      await processBatch(client, openai, rows);
-      processed += rows.length;
-      console.log(`${processed}/${total}`);
-    }
-    console.log("Done.");
+    await runBackfill({ knex, embedder });
   } finally {
-    await client.end();
+    await knex.destroy();
   }
 }
 
-main().catch((err) => {
-  console.error(err instanceof Error ? err.message : String(err));
-  process.exit(1);
-});
+if (import.meta.main) {
+  main().catch((err) => {
+    console.error(err instanceof Error ? err.message : String(err));
+    process.exit(1);
+  });
+}
