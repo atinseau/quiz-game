@@ -61,4 +61,26 @@ describe("embeddings service", () => {
     const svc = createEmbeddingService({ client: client as any, model: "test" });
     expect(svc.embedBatch(["x"])).rejects.toThrow("rate limit");
   });
+
+  test("LRU: bumps recency on hit, evicts least-recently-used", async () => {
+    const client = makeFakeClient();
+    const svc = createEmbeddingService({
+      client: client as any,
+      model: "test",
+      cacheSize: 2,
+    });
+    await svc.embedBatch(["a"]); // cache = [a]
+    await svc.embedBatch(["b"]); // cache = [a, b]
+    await svc.embedBatch(["a"]); // hit; LRU order = [b, a] (b oldest)
+    await svc.embedBatch(["c"]); // evict b (oldest after bump), cache = [a, c]
+
+    // Now request "a" again — should be cache hit
+    const before = client.calls.length;
+    await svc.embedBatch(["a"]);
+    expect(client.calls.length).toBe(before); // no new call
+
+    // Request "b" — should trigger a new call since it was evicted
+    await svc.embedBatch(["b"]);
+    expect(client.calls.length).toBe(before + 1);
+  });
 });

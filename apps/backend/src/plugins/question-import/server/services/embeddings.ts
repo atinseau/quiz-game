@@ -28,7 +28,13 @@ export function createEmbeddingService(opts: Options): EmbeddingService {
   }
 
   function get(text: string): number[] | undefined {
-    return cache.get(cacheKey(text));
+    const key = cacheKey(text);
+    const v = cache.get(key);
+    if (v !== undefined) {
+      cache.delete(key);
+      cache.set(key, v); // bump recency
+    }
+    return v;
   }
 
   function put(text: string, vec: number[]): void {
