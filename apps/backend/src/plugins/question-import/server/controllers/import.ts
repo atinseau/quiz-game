@@ -5,32 +5,42 @@ const MODEL = "text-embedding-3-small";
 
 declare const strapi: any;
 
+async function handleWithErrorMapping(
+  ctx: any,
+  op: string,
+  run: () => Promise<unknown>,
+) {
+  try {
+    const result = await run();
+    ctx.body = result;
+  } catch (err) {
+    const details = (err as any).details;
+    if (details) {
+      ctx.status = 400;
+      ctx.body = { success: false, errors: details };
+      return;
+    }
+    strapi.log.error(`[question-import] ${op} failed`, err);
+    ctx.status = 500;
+    ctx.body = { success: false, error: (err as Error).message };
+  }
+}
+
 export default {
   async preview(ctx: any) {
-    try {
+    await handleWithErrorMapping(ctx, "preview", async () => {
       const embeddings = createDefaultEmbeddingService();
       const knn = createKnnSearcher(strapi.db.connection);
-      const result = await runPreview(ctx.request.body as any, {
+      return runPreview(ctx.request.body as any, {
         embeddings,
         knn,
         model: MODEL,
       });
-      ctx.body = result;
-    } catch (err) {
-      const details = (err as any).details;
-      if (details) {
-        ctx.status = 400;
-        ctx.body = { success: false, errors: details };
-        return;
-      }
-      strapi.log.error("[question-import] preview failed", err);
-      ctx.status = 500;
-      ctx.body = { success: false, error: (err as Error).message };
-    }
+    });
   },
 
   async commit(ctx: any) {
-    try {
+    await handleWithErrorMapping(ctx, "commit", async () => {
       const embeddings = createDefaultEmbeddingService();
       const knn = createKnnSearcher(strapi.db.connection);
       const summary = await runCommit(ctx.request.body as any, {
@@ -38,17 +48,7 @@ export default {
         embeddings,
         knn,
       });
-      ctx.body = { success: true, summary };
-    } catch (err) {
-      const details = (err as any).details;
-      if (details) {
-        ctx.status = 400;
-        ctx.body = { success: false, errors: details };
-        return;
-      }
-      strapi.log.error("[question-import] commit failed", err);
-      ctx.status = 500;
-      ctx.body = { success: false, error: (err as Error).message };
-    }
+      return { success: true, summary };
+    });
   },
 };
