@@ -22,6 +22,7 @@
     "@strapi/plugin-cloud": "5.42.0",
     "@strapi/plugin-users-permissions": "5.42.0",
     "@strapi/strapi": "5.42.0",
+    "idb-keyval": "^6.2.0",
     "openai": "^4.70.0",
     "pg": "^8.13.0",
     "pgvector": "^0.2.0",
