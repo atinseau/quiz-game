@@ -145,3 +145,31 @@ describe("detectIntraBatchDuplicates", () => {
     expect(dup.has(1)).toBe(false);
   });
 });
+
+describe("cosine similarity (internal)", () => {
+  test("returns true cosine for unnormalized vectors", () => {
+    // Scaled vector — dot product would misleadingly be large
+    // Verify via intra-batch detection: two identical texts should still be duplicates
+    // even if their embeddings get scaled weirdly.
+    const a = [2, 0, 0];
+    const b = [4, 0, 0];
+    // dot=8, cosine=1
+    const items = [
+      { embedding: a, normalizedAnswer: "x" },
+      { embedding: b, normalizedAnswer: "x" },
+    ];
+    const dup = detectIntraBatchDuplicates(items);
+    expect(dup.has(1)).toBe(true);
+  });
+
+  test("different vectors below threshold are not duplicates", () => {
+    const a = [1, 0, 0];
+    const b = [0, 1, 0]; // orthogonal → cosine=0
+    const items = [
+      { embedding: a, normalizedAnswer: "x" },
+      { embedding: b, normalizedAnswer: "x" },
+    ];
+    const dup = detectIntraBatchDuplicates(items);
+    expect(dup.has(1)).toBe(false);
+  });
+});
