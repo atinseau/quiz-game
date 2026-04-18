@@ -8,7 +8,6 @@
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "bash -c 'trap \"kill 0\" EXIT; strapi develop & stripe listen --forward-to localhost:1337/api/webhooks/stripe & wait'",
-    "develop": "strapi develop",
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
@@ -17,7 +16,9 @@
     "test": "bun test tests/",
     "test:unit": "bun test tests/question-import/",
     "test:integration": "bun test tests/integration/",
-    "seed": "bun run scripts/seed-packs.ts"
+    "seed": "bun run scripts/seed-packs.ts",
+    "migrate:up": "bun run scripts/migrate.ts up",
+    "migrate:down": "bun run scripts/migrate.ts down"
   },
   "dependencies": {
     "@clerk/backend": "^3.2.8",
