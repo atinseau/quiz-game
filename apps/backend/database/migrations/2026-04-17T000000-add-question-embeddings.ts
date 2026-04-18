@@ -1,13 +1,11 @@
-"use strict";
+import type { Knex } from "knex";
 
-async function up(knex) {
+export async function up(knex: Knex) {
   await knex.raw("CREATE EXTENSION IF NOT EXISTS vector;");
 
   const hasEmbedding = await knex.schema.hasColumn("questions", "embedding");
   if (!hasEmbedding) {
-    await knex.raw(
-      "ALTER TABLE questions ADD COLUMN embedding vector(1536);",
-    );
+    await knex.raw("ALTER TABLE questions ADD COLUMN embedding vector(1536);");
   }
 
   const hasModel = await knex.schema.hasColumn("questions", "embedding_model");
@@ -17,10 +15,7 @@ async function up(knex) {
     );
   }
 
-  const hasNorm = await knex.schema.hasColumn(
-    "questions",
-    "normalized_answer",
-  );
+  const hasNorm = await knex.schema.hasColumn("questions", "normalized_answer");
   if (!hasNorm) {
     await knex.raw(
       "ALTER TABLE questions ADD COLUMN normalized_answer varchar(255) NOT NULL DEFAULT '';",
@@ -36,12 +31,14 @@ async function up(knex) {
   );
 }
 
-async function down(knex) {
+export async function down(knex: Knex) {
   await knex.raw("DROP INDEX IF EXISTS questions_normalized_answer;");
   await knex.raw("DROP INDEX IF EXISTS questions_embedding_hnsw;");
-  await knex.raw("ALTER TABLE questions DROP COLUMN IF EXISTS normalized_answer;");
-  await knex.raw("ALTER TABLE questions DROP COLUMN IF EXISTS embedding_model;");
+  await knex.raw(
+    "ALTER TABLE questions DROP COLUMN IF EXISTS normalized_answer;",
+  );
+  await knex.raw(
+    "ALTER TABLE questions DROP COLUMN IF EXISTS embedding_model;",
+  );
   await knex.raw("ALTER TABLE questions DROP COLUMN IF EXISTS embedding;");
 }
-
-module.exports = { up, down };
