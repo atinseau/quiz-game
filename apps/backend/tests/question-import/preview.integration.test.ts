@@ -138,4 +138,14 @@ describe("runPreview", () => {
       runPreview(body, { embeddings, knn: fakeKnn([]), model: "test" }),
     ).rejects.toThrow("Validation failed");
   });
+
+  test("rejects batch larger than MAX_QUESTIONS_PER_IMPORT", async () => {
+    const questions = Array.from({ length: 501 }, (_, i) =>
+      qcm(`Q${i} ?`, `A${i}`),
+    );
+    const body = { pack: samplePack, questions };
+    await expect(
+      runPreview(body, { embeddings, knn: fakeKnn([]), model: "test" }),
+    ).rejects.toThrow(/too many/i);
+  });
 });

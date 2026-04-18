@@ -46,6 +46,8 @@ export interface PreviewResult {
 
 const VALID_TYPES = ["qcm", "vrai_faux", "texte"] as const;
 
+export const MAX_QUESTIONS_PER_IMPORT = 500;
+
 export function validateImportBody(body: ImportBody): string[] {
   const errors: string[] = [];
   if (!body.pack) return ["pack is required"];
@@ -54,6 +56,12 @@ export function validateImportBody(body: ImportBody): string[] {
   }
   if (!Array.isArray(body.questions) || body.questions.length === 0) {
     errors.push("questions must be a non-empty array");
+    return errors;
+  }
+  if (body.questions.length > MAX_QUESTIONS_PER_IMPORT) {
+    errors.push(
+      `too many questions (${body.questions.length}); max ${MAX_QUESTIONS_PER_IMPORT}`,
+    );
     return errors;
   }
   for (let i = 0; i < body.questions.length; i++) {
@@ -111,7 +119,9 @@ export async function runPreview(
 ): Promise<PreviewResult> {
   const errors = validateImportBody(body);
   if (errors.length > 0) {
-    const err = new Error("Validation failed") as Error & { details?: string[] };
+    const err = new Error(
+      `Validation failed: ${errors.join("; ")}`,
+    ) as Error & { details?: string[] };
     err.details = errors;
     throw err;
   }
