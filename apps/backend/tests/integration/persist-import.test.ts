@@ -92,3 +92,59 @@ describe("persistImport (integration)", () => {
     expect(Number(rows.rows[0].similarity)).toBeGreaterThan(0.99);
   });
 });
+
+describe("persistImport transaction safety", () => {
+  let db: TestDb;
+
+  beforeAll(async () => {
+    db = await startTestDb();
+  }, 60_000);
+
+  afterAll(async () => {
+    await db.stop();
+  });
+
+  beforeEach(async () => {
+    await db.truncate();
+  });
+
+  test("rolls back pack + category + earlier questions when a later insert fails", async () => {
+    const badEmbedding = [1, 2, 3]; // wrong dimension — will be rejected by pgvector
+
+    const input = {
+      pack: { slug: "rollback-test", name: "Rollback" },
+      embeddingModel: "test",
+      questions: [
+        {
+          category: "Cat",
+          type: "qcm" as const,
+          text: "Good",
+          choices: ["a", "b", "c", "d"],
+          answer: "a",
+          embedding: mockEmbed("good"),
+          normalizedAnswer: "a",
+        },
+        {
+          category: "Cat",
+          type: "qcm" as const,
+          text: "Bad",
+          choices: ["a", "b", "c", "d"],
+          answer: "a",
+          embedding: badEmbedding,
+          normalizedAnswer: "a",
+        },
+      ],
+    };
+
+    await expect(persistImport(db.knex, input)).rejects.toThrow();
+
+    const packs = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM question_packs`);
+    expect(packs.rows[0].n).toBe(0);
+
+    const cats = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM categories`);
+    expect(cats.rows[0].n).toBe(0);
+
+    const questions = await db.knex.raw(`SELECT COUNT(*)::int AS n FROM questions`);
+    expect(questions.rows[0].n).toBe(0);
+  });
+});
