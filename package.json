@@ -5,8 +5,8 @@
     "apps/*"
   ],
   "scripts": {
-    "up": "docker compose up -d --wait",
-    "down": "docker compose down",
+    "up": "docker compose --env-file apps/backend/.env up -d --wait",
+    "down": "docker compose --env-file apps/backend/.env down",
     "dev": "bun --filter '*' --parallel dev",
     "build": "bun --filter '*' --parallel build",
     "check-types": "bun --filter '*' check-types",
