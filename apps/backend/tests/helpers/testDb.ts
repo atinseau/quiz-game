@@ -1,4 +1,5 @@
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
+import { Wait } from "testcontainers";
 import Knex, { type Knex as KnexType } from "knex";
 import path from "node:path";
 import { readdir } from "node:fs/promises";
@@ -74,10 +75,15 @@ async function applyOurMigration(knex: KnexType): Promise<void> {
 }
 
 export async function startTestDb(): Promise<TestDb> {
+  // Bun + node-docker-modem's stream handling doesn't finalize `docker exec` streams,
+  // which causes `Wait.forListeningPorts()` (the default for PostgreSqlContainer) to
+  // hang indefinitely after the health check already passes. Override with health-check
+  // only, which is sufficient for Postgres readiness.
   const container = await new PostgreSqlContainer("pgvector/pgvector:pg16")
     .withDatabase("quiz_test")
     .withUsername("tester")
     .withPassword("tester")
+    .withWaitStrategy(Wait.forHealthCheck())
     .start();
 
   const knex = Knex({
