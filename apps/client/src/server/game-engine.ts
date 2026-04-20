@@ -474,7 +474,12 @@ function scheduleNextQuestion(room: Room): void {
     const game = room.game;
     if (!game) return;
 
-    const nextIndex = game.currentQuestionIndex + 1;
+    // Skip indexes consumed by a courage round so courage doesn't cut the game short.
+    let nextIndex = game.currentQuestionIndex + 1;
+    const used = game.alcoholState?.usedByCourage;
+    while (used?.has(nextIndex) && nextIndex < game.questions.length) {
+      nextIndex++;
+    }
     if (nextIndex >= game.questions.length) {
       endGame(room);
       return;

@@ -23,6 +23,10 @@ export interface AlcoholState {
   specialRoundQueue: SpecialRoundType[];
   activeRound: SpecialRoundType | null;
   cupidLinks: [string, string][];
+  // Indexes in `game.questions` that have been consumed by a courage round.
+  // The game engine skips these when advancing, so courage no longer shrinks
+  // the pool by mutating the array.
+  usedByCourage: Set<number>;
 }
 
 export interface ServerRound {

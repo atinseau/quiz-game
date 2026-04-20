@@ -23,10 +23,12 @@ function getRandomConnectedPlayer(room: Room): string | null {
 function pickCourageQuestion(room: Room): QuestionFull | null {
   const game = room.game;
   if (!game) return null;
+  const used = game.alcoholState?.usedByCourage;
   for (let i = game.currentQuestionIndex + 1; i < game.questions.length; i++) {
+    if (used?.has(i)) continue;
     const q = game.questions[i];
     if (q && q.type === "qcm") {
-      game.questions.splice(i, 1);
+      used?.add(i);
       return q;
     }
   }
