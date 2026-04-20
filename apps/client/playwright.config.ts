@@ -28,8 +28,20 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "bun --hot index.ts",
+    // Unset CLERK_SECRET_KEY so the WS auth falls back to `?testUser=`
+    // (see src/server/auth.ts). Without this, the server tries to verify a
+    // Clerk JWT cookie that tests don't set and rejects every WS handshake.
+    // Plain `bun index.ts` (no --hot). HMR was re-evaluating framework.ts
+    // between edits and the game-engine's reference to _onRoundEnd drifted
+    // across module instances, making special rounds never resume the game.
+    // Dev uses --hot via `bun run dev`; tests want a stable single-instance
+    // runtime.
+    command: "bun index.ts",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
+    env: {
+      CLERK_SECRET_KEY: "",
+      STRAPI_URL: "http://localhost:1337/api",
+    },
   },
 });

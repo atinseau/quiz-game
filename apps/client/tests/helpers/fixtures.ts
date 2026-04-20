@@ -142,14 +142,14 @@ export async function detectQuestionType(
   // Wait for any answer input to be rendered before detecting
   await page
     .locator(
-      'button:has-text("Vrai"), [placeholder="Votre reponse..."], .grid button',
+      'button:has-text("Vrai"), [placeholder="Votre réponse..."], .grid button',
     )
     .first()
     .waitFor({ timeout: 5000 });
 
   if (await page.getByRole("button", { name: "Vrai", exact: true }).isVisible())
     return "vrai_faux";
-  if (await page.getByPlaceholder("Votre reponse...").isVisible())
+  if (await page.getByPlaceholder("Votre réponse...").isVisible())
     return "texte";
   return "qcm";
 }
@@ -172,7 +172,7 @@ export async function answerCorrectly(page: Page): Promise<string> {
   } else if (type === "texte") {
     const answer = ANSWERS_TEXT[questionText];
     if (!answer) throw new Error(`Unknown texte question: ${questionText}`);
-    const input = page.getByPlaceholder("Votre reponse...");
+    const input = page.getByPlaceholder("Votre réponse...");
     await input.fill(answer);
     await input.press("Enter");
   } else {
@@ -197,7 +197,7 @@ export async function answerIncorrectly(page: Page): Promise<string> {
       .getByRole("button", { name: answer ? "Faux" : "Vrai", exact: true })
       .click();
   } else if (type === "texte") {
-    const input = page.getByPlaceholder("Votre reponse...");
+    const input = page.getByPlaceholder("Votre réponse...");
     await input.fill("mauvaise reponse xyz");
     await input.press("Enter");
   } else {

@@ -151,7 +151,7 @@ export async function answerViaUI(page: Page): Promise<boolean> {
   }
 
   // Texte: input field
-  const texteInput = page.getByPlaceholder("Votre reponse...");
+  const texteInput = page.getByPlaceholder("Votre réponse...");
   if (await texteInput.isVisible({ timeout: 300 }).catch(() => false)) {
     if (await texteInput.isEnabled({ timeout: 200 }).catch(() => false)) {
       await texteInput.fill("Paris");
