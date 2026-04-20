@@ -316,6 +316,38 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
             pointsDelta: msg.pointsDelta,
           });
           break;
+        case "conseil_result":
+          useAlcoholStore.getState().setActiveRound("conseil", {
+            ...useAlcoholStore.getState().activeRoundData,
+            phase: "result",
+            votes: msg.votes,
+            loserClerkIds: msg.loserClerkIds,
+          });
+          break;
+        case "love_or_drink_result":
+          useAlcoholStore.getState().setActiveRound("love_or_drink", {
+            ...useAlcoholStore.getState().activeRoundData,
+            choice: msg.choice,
+            players: msg.players,
+          });
+          break;
+        case "show_us_result":
+          useAlcoholStore.getState().setActiveRound("show_us", {
+            ...useAlcoholStore.getState().activeRoundData,
+            phase: "result",
+            correctColor: msg.correctColor,
+            wrongClerkIds: msg.wrongClerkIds,
+            timedOut: msg.timedOut,
+          });
+          break;
+        case "smatch_or_pass_result":
+          useAlcoholStore.getState().setActiveRound("smatch_or_pass", {
+            ...useAlcoholStore.getState().activeRoundData,
+            decideur: msg.decideur,
+            receveur: msg.receveur,
+            choice: msg.choice,
+          });
+          break;
 
         case "error":
           set({ error: msg.message });
