@@ -35,13 +35,13 @@ export function LoveOrDrink({ data }: Props) {
     }
     if (isSolo) {
       setLocalResult(choice);
-      if (choice === "cul_sec") {
-        for (const p of players) {
-          addDrinkAlert({
-            emoji: "🍺",
-            message: `${p.username} boit — cul sec !`,
-          });
-        }
+      if (choice === "cul_sec" && player1 && player2) {
+        // Single aggregated alert — DrinkAlert is a fullscreen overlay, so
+        // emitting one per participant stacked two full-screen modals.
+        addDrinkAlert({
+          emoji: "🍺",
+          message: `${player1.username} et ${player2.username} boivent — cul sec !`,
+        });
       }
       setTimeout(() => endActiveRound(), 5000);
     }
