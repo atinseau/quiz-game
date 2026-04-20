@@ -16,10 +16,21 @@ export const distributeurRound: ServerRound = {
       endSpecialRound(room);
       return;
     }
+    // Break ties by rotation order (starting at currentPlayerIndex) rather
+    // than Object.entries insertion order — matches the spec's "tour par tour"
+    // semantics when several players share the top score.
     const maxScore = Math.max(...Object.values(game.scores));
-    const winnerId = Object.entries(game.scores).find(
-      ([_, s]) => s === maxScore,
-    )?.[0];
+    const rotation = Array.from(room.players.keys());
+    const startIdx = game.currentPlayerIndex;
+    let winnerId: string | null = null;
+    for (let i = 0; i < rotation.length; i++) {
+      const idx = (startIdx + i) % rotation.length;
+      const id = rotation[idx];
+      if (id && (game.scores[id] ?? 0) === maxScore) {
+        winnerId = id;
+        break;
+      }
+    }
     if (!winnerId) {
       endSpecialRound(room);
       return;
