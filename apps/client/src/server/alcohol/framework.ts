@@ -9,9 +9,19 @@ import type { AlcoholConfig, AlcoholState, SpecialRoundType } from "./types";
 
 // `var` (not `let`) to avoid a TDZ error: game-engine.ts calls setOnRoundEnd at
 // module top-level while this file is still mid-evaluation through the cycle
-// framework → rooms → game-engine → framework.
+// framework → rooms → game-engine → framework. A `let`/`const` initializer
+// would run only AFTER the cycle (because declarations without an initializer
+// are the only ones hoisted), while a `var` declaration is hoisted to the
+// top of the module with value `undefined`, so setOnRoundEnd can assign to it
+// during the cyclic traversal.
+//
+// CRITICAL: do NOT give this variable an initializer (`= null`). The
+// initializer would run AFTER the cycle finishes, wiping out the callback
+// that game-engine set during the cycle. Silent bug: special rounds would
+// never resume the game because _onRoundEnd was reset right before the first
+// round fires.
 // eslint-disable-next-line no-var
-var _onRoundEnd: ((room: Room) => void) | null = null;
+var _onRoundEnd: ((room: Room) => void) | null;
 
 export function setOnRoundEnd(cb: (room: Room) => void): void {
   _onRoundEnd = cb;
@@ -21,7 +31,7 @@ export function setOnRoundEnd(cb: (room: Room) => void): void {
 // Init
 // ---------------------------------------------------------------------------
 
-function shuffleArray<T>(arr: T[]): T[] {
+export function shuffleArray<T>(arr: T[]): T[] {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -39,6 +49,7 @@ export function initAlcoholState(config: AlcoholConfig): AlcoholState {
     specialRoundQueue: shuffleArray([...config.enabledRounds]),
     activeRound: null,
     cupidLinks: [],
+    usedByCourage: new Set(),
   };
 }
 
@@ -133,10 +144,7 @@ export function endSpecialRound(room: Room): void {
 
   game.alcoholState.activeRound = null;
   broadcast(room, { type: "special_round_end" });
-
-  setTimeout(() => {
-    if (_onRoundEnd) _onRoundEnd(room);
-  }, 1000);
+  if (_onRoundEnd) _onRoundEnd(room);
 }
 
 // ---------------------------------------------------------------------------
