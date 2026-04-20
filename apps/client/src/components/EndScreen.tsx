@@ -25,8 +25,10 @@ export function EndScreen() {
   const players = usePlayerStore((s) => s.players);
 
   const isSolo = players.length === 1;
-  const drinkAlerts = useAlcoholStore((s) => s.drinkAlerts);
-  const removeDrinkAlert = useAlcoholStore((s) => s.removeDrinkAlert);
+  const currentDrinkAlert = useAlcoholStore((s) => s.currentDrinkAlert);
+  const dismissCurrentDrinkAlert = useAlcoholStore(
+    (s) => s.dismissCurrentDrinkAlert,
+  );
 
   useEffect(() => {
     if (Object.keys(scores).length === 0) {
@@ -110,14 +112,14 @@ export function EndScreen() {
           </CardContent>
         </Card>
       </div>
-      {drinkAlerts.map((alert) => (
+      {currentDrinkAlert && (
         <DrinkAlert
-          key={alert.id}
-          emoji={alert.emoji}
-          message={alert.message}
-          onClose={() => removeDrinkAlert(alert.id)}
+          key={currentDrinkAlert.id}
+          emoji={currentDrinkAlert.emoji}
+          message={currentDrinkAlert.message}
+          onClose={dismissCurrentDrinkAlert}
         />
-      ))}
+      )}
     </>
   );
 }

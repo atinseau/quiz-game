@@ -18,8 +18,10 @@ export function MultiEndScreen() {
   const navigate = useNavigate();
   const game = useRoomStore((s) => s.game);
   const room = useRoomStore((s) => s.room);
-  const drinkAlerts = useAlcoholStore((s) => s.drinkAlerts);
-  const removeDrinkAlert = useAlcoholStore((s) => s.removeDrinkAlert);
+  const currentDrinkAlert = useAlcoholStore((s) => s.currentDrinkAlert);
+  const dismissCurrentDrinkAlert = useAlcoholStore(
+    (s) => s.dismissCurrentDrinkAlert,
+  );
 
   useEffect(() => {
     fireGameEnd();
@@ -109,14 +111,14 @@ export function MultiEndScreen() {
           </div>
         </div>
       </div>
-      {drinkAlerts.map((alert) => (
+      {currentDrinkAlert && (
         <DrinkAlert
-          key={alert.id}
-          emoji={alert.emoji}
-          message={alert.message}
-          onClose={() => removeDrinkAlert(alert.id)}
+          key={currentDrinkAlert.id}
+          emoji={currentDrinkAlert.emoji}
+          message={currentDrinkAlert.message}
+          onClose={dismissCurrentDrinkAlert}
         />
-      ))}
+      )}
     </>
   );
 }

@@ -35,8 +35,10 @@ export function MultiGameScreen() {
 
   const activeRound = useAlcoholStore((s) => s.activeRound);
   const activeRoundData = useAlcoholStore((s) => s.activeRoundData);
-  const drinkAlerts = useAlcoholStore((s) => s.drinkAlerts);
-  const removeDrinkAlert = useAlcoholStore((s) => s.removeDrinkAlert);
+  const currentDrinkAlert = useAlcoholStore((s) => s.currentDrinkAlert);
+  const dismissCurrentDrinkAlert = useAlcoholStore(
+    (s) => s.dismissCurrentDrinkAlert,
+  );
 
   // Local chrono timer
   const [timeLeft, setTimeLeft] = useState(CHRONO_DURATION);
@@ -383,14 +385,14 @@ export function MultiGameScreen() {
       {activeRound && activeRoundData && (
         <SpecialRoundOverlay roundType={activeRound} data={activeRoundData} />
       )}
-      {drinkAlerts.map((alert) => (
+      {currentDrinkAlert && (
         <DrinkAlert
-          key={alert.id}
-          emoji={alert.emoji}
-          message={alert.message}
-          onClose={() => removeDrinkAlert(alert.id)}
+          key={currentDrinkAlert.id}
+          emoji={currentDrinkAlert.emoji}
+          message={currentDrinkAlert.message}
+          onClose={dismissCurrentDrinkAlert}
         />
-      ))}
+      )}
     </>
   );
 }

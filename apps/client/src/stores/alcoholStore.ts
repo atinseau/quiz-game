@@ -29,6 +29,11 @@ interface AlcoholStore {
   specialRoundQueue: SpecialRoundType[];
   activeRound: SpecialRoundType | null;
   activeRoundData: Record<string, unknown> | null;
+  // Single-slot display + FIFO queue behind it. DrinkAlert is a fullscreen
+  // overlay (fixed inset-0), so stacking multiple simultaneously would pile
+  // them visually. We show `currentDrinkAlert` only; `drinkAlerts` buffers
+  // pending alerts until the current one closes.
+  currentDrinkAlert: DrinkAlertData | null;
   drinkAlerts: DrinkAlertData[];
   cupidLinks: [string, string][];
 
@@ -40,7 +45,7 @@ interface AlcoholStore {
   ) => void;
   endActiveRound: () => void;
   addDrinkAlert: (alert: Omit<DrinkAlertData, "id">) => void;
-  removeDrinkAlert: (id: string) => void;
+  dismissCurrentDrinkAlert: () => void;
   reset: () => void;
 }
 
@@ -86,6 +91,7 @@ export const useAlcoholStore = create<AlcoholStore>((set, get) => ({
   specialRoundQueue: [],
   activeRound: null,
   activeRoundData: null,
+  currentDrinkAlert: null,
   drinkAlerts: [],
   cupidLinks: [],
 
@@ -123,11 +129,19 @@ export const useAlcoholStore = create<AlcoholStore>((set, get) => ({
 
   addDrinkAlert: (alert) => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    set((s) => ({ drinkAlerts: [...s.drinkAlerts, { ...alert, id }] }));
+    const entry = { ...alert, id };
+    set((s) =>
+      s.currentDrinkAlert
+        ? { drinkAlerts: [...s.drinkAlerts, entry] }
+        : { currentDrinkAlert: entry },
+    );
   },
 
-  removeDrinkAlert: (id) =>
-    set((s) => ({ drinkAlerts: s.drinkAlerts.filter((a) => a.id !== id) })),
+  dismissCurrentDrinkAlert: () =>
+    set((s) => {
+      const [next, ...rest] = s.drinkAlerts;
+      return { currentDrinkAlert: next ?? null, drinkAlerts: rest };
+    }),
 
   reset: () =>
     set({
@@ -135,6 +149,7 @@ export const useAlcoholStore = create<AlcoholStore>((set, get) => ({
       specialRoundQueue: [],
       activeRound: null,
       activeRoundData: null,
+      currentDrinkAlert: null,
       drinkAlerts: [],
       cupidLinks: [],
     }),
