@@ -37,16 +37,20 @@ export function QuestionDeCourage({ data }: Props) {
   useEffect(() => {
     if (phase !== "decision") return;
     const timer = setInterval(() => {
-      setCountdown((c) => {
-        if (c <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return c - 1;
-      });
+      setCountdown((c) => (c <= 1 ? 0 : c - 1));
     }, 1000);
     return () => clearInterval(timer);
   }, [phase]);
+
+  // Solo: when the counter hits 0, auto-force refus so decision buttons don't
+  // linger past expiry. Kept in a separate effect to avoid triggering state
+  // updates from within a setState updater (React "setState in render" warning).
+  useEffect(() => {
+    if (!isSolo) return;
+    if (phase !== "decision") return;
+    if (countdown !== 0) return;
+    sendChoice(false);
+  }, [isSolo, phase, countdown]);
 
   const sendChoice = (accept: boolean) => {
     if (ws?.readyState === WebSocket.OPEN) {
@@ -58,6 +62,9 @@ export function QuestionDeCourage({ data }: Props) {
           emoji: "🥃",
           message: `${playerName} refuse — la moitié du verre !`,
         });
+        // Move out of the decision phase immediately so the accept/refuse
+        // buttons disappear — the round itself wraps up 2s later.
+        setLocalPhase("waiting");
         setTimeout(() => endActiveRound(), 2000);
       } else {
         setLocalPhase("question");
