@@ -1,7 +1,7 @@
+import type { Page } from "@playwright/test";
+import { playTurnsSolo } from "../helpers/alcohol-fixtures";
 import {
   addPlayers,
-  answerCorrectly,
-  answerIncorrectly,
   expect,
   goToModeSelection,
   selectPack,
@@ -9,7 +9,7 @@ import {
 } from "../helpers/fixtures";
 
 async function setupAlcoholGame(
-  page: any,
+  page: Page,
   roundName: string,
   playerCount: number,
 ) {
@@ -48,93 +48,59 @@ async function setupAlcoholGame(
   await page.waitForURL("**/game");
 }
 
-async function playTurns(page: any, count: number) {
-  for (let q = 0; q < count; q++) {
-    try {
-      await answerCorrectly(page);
-    } catch {
-      await answerIncorrectly(page);
-    }
-    await page.waitForTimeout(500);
-    const nextBtn = page.getByRole("button", { name: "Question suivante" });
-    if (await nextBtn.isVisible().catch(() => false)) {
-      await nextBtn.click();
-    }
-    await page.waitForTimeout(500);
-  }
-}
-
-async function waitForOverlay(
-  page: any,
-  textPattern: RegExp,
-  timeout = 10000,
-): Promise<boolean> {
-  for (let i = 0; i < timeout / 500; i++) {
-    if (
-      await page
-        .getByText(textPattern)
-        .first()
-        .isVisible()
-        .catch(() => false)
-    )
-      return true;
-    await page.waitForTimeout(500);
-  }
-  return false;
-}
-
 test.describe("Phase B alcohol rounds", () => {
   test("Conseil du village triggers after 3 turns", async ({
     mockApp: page,
   }) => {
-    test.slow();
     await setupAlcoholGame(page, "Conseil du village", 2);
-    await playTurns(page, 3);
+    await playTurnsSolo(page, 3);
 
-    const seen = await waitForOverlay(page, /Conseil|vote/i);
-    expect(seen).toBe(true);
+    await expect(page.getByText(/Conseil|vote/i).first()).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   test("Love or Drink triggers after 3 turns", async ({ mockApp: page }) => {
-    test.slow();
     await setupAlcoholGame(page, "Love or Drink", 2);
-    await playTurns(page, 3);
+    await playTurnsSolo(page, 3);
 
-    const seen = await waitForOverlay(page, /Love or Drink|Bisou|Cul sec/i);
-    expect(seen).toBe(true);
+    await expect(
+      page.getByText(/Love or Drink|Bisou|Cul sec/i).first(),
+    ).toBeVisible({ timeout: 10000 });
   });
 
   test("Cupidon triggers after 3 turns", async ({ mockApp: page }) => {
-    test.slow();
     await setupAlcoholGame(page, "Cupidon", 2);
-    await playTurns(page, 3);
+    await playTurnsSolo(page, 3);
 
-    const seen = await waitForOverlay(page, /Cupidon|lié/i);
-    expect(seen).toBe(true);
+    await expect(page.getByText(/Cupidon|lié/i).first()).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   test("Show Us triggers after 3 turns", async ({ mockApp: page }) => {
-    test.slow();
     await setupAlcoholGame(page, "Show Us", 2);
-    await playTurns(page, 3);
+    await playTurnsSolo(page, 3);
 
-    const seen = await waitForOverlay(
-      page,
-      /Show Us|Bleu|Noir|Blanc|Rouge|Autre/i,
-    );
-    expect(seen).toBe(true);
+    await expect(
+      page.getByText(/Show Us|Bleu|Noir|Blanc|Rouge|Autre/i).first(),
+    ).toBeVisible({ timeout: 10000 });
   });
 
   test("Smatch or Pass triggers after 3 turns", async ({ mockApp: page }) => {
-    test.slow();
     await setupAlcoholGame(page, "Smatch or Pass", 2);
-    await playTurns(page, 3);
+    await playTurnsSolo(page, 3);
 
     // Smatch or Pass requires opposite genders. Since addPlayers defaults
     // all to "homme", the round may be skipped. We check for either the
     // round overlay or that the game continued without error.
-    const seen = await waitForOverlay(page, /Smatch|Pass/i, 5000);
-    if (!seen) {
+    const overlayShown = await page
+      .getByText(/Smatch|Pass/i)
+      .first()
+      .isVisible({ timeout: 5000 })
+      .catch(() => false);
+
+    if (!overlayShown) {
       // The game should still be functional (no crash)
       const gameVisible = await page
         .locator("p.text-xl")

@@ -11,7 +11,6 @@ import {
 } from "../helpers/multi-fixtures";
 
 test("Multi-device: two players complete a classic game", async ({ multi }) => {
-  test.slow();
   const { host, guest } = multi;
 
   await setTestUser(host, "Alice");
@@ -33,34 +32,50 @@ test("Multi-device: two players complete a classic game", async ({ multi }) => {
   // First question should appear
   await expect(host.locator("p.text-xl")).toBeVisible({ timeout: 10000 });
 
-  // Play through all questions
+  // Play through all questions — stop as soon as anyone reaches the end screen.
   const maxQuestions = 8;
 
   for (let q = 0; q < maxQuestions; q++) {
-    // Check if we reached end screen
     if (host.url().includes("/end") || guest.url().includes("/end")) break;
 
-    // Wait for a question to be visible (not feedback)
     await host
       .locator("p.text-xl")
       .waitFor({ state: "visible", timeout: 10000 })
       .catch(() => {});
 
-    // Try to answer on the active player
+    const prevQuestion =
+      (await host
+        .locator("p.text-xl")
+        .textContent()
+        .catch(() => "")) ?? "";
+
     for (const player of [host, guest]) {
       if (await answerViaUI(player)) break;
     }
 
-    // Wait for turn result (3s) + next question transition
-    await host.waitForTimeout(5000);
+    // Wait for transition instead of a fixed 5s sleep.
+    const questionChanged = (p: typeof host) =>
+      p.waitForFunction(
+        (prev) => {
+          const el = document.querySelector("p.text-xl");
+          const txt = el?.textContent?.trim();
+          return !!txt && txt !== prev;
+        },
+        prevQuestion.trim(),
+        { timeout: 8000 },
+      );
+    await Promise.any([
+      questionChanged(host),
+      questionChanged(guest),
+      host.waitForURL("**/end", { timeout: 8000 }),
+      guest.waitForURL("**/end", { timeout: 8000 }),
+    ]).catch(() => {});
   }
 
-  // Wait for end screen
-  let ended = false;
-  for (let i = 0; i < 20; i++) {
+  // Final assertion: someone reached the end screen.
+  const endCondition = async () => {
     if (host.url().includes("/end") || guest.url().includes("/end")) {
-      ended = true;
-      break;
+      return true;
     }
     const hostEnd = await host
       .getByText(/Fin de la partie/)
@@ -70,12 +85,7 @@ test("Multi-device: two players complete a classic game", async ({ multi }) => {
       .getByText(/Fin de la partie/)
       .isVisible()
       .catch(() => false);
-    if (hostEnd || guestEnd) {
-      ended = true;
-      break;
-    }
-    await host.waitForTimeout(1000);
-  }
-
-  expect(ended).toBe(true);
+    return hostEnd || guestEnd;
+  };
+  await expect.poll(endCondition, { timeout: 20000 }).toBe(true);
 });

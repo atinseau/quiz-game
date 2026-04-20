@@ -43,7 +43,7 @@ test.describe("All question types display correctly", () => {
         await expect(page.getByRole("button", { name: "Faux" })).toBeDisabled();
       } else {
         // Texte — should have text input and Valider button
-        const input = page.getByPlaceholder("Votre reponse...");
+        const input = page.getByPlaceholder("Votre réponse...");
         await expect(input).toBeVisible();
         await expect(
           page.getByRole("button", { name: "Valider" }),
@@ -84,13 +84,13 @@ test.describe("All question types display correctly", () => {
 
       if (type === "texte" && answeredText) {
         // This is the second text question — input should be empty
-        const input = page.getByPlaceholder("Votre reponse...");
+        const input = page.getByPlaceholder("Votre réponse...");
         await expect(input).toHaveValue("");
         return; // Test passed
       }
 
       if (type === "texte" && !answeredText) {
-        const input = page.getByPlaceholder("Votre reponse...");
+        const input = page.getByPlaceholder("Votre réponse...");
         await input.fill("some answer");
         await input.press("Enter");
         answeredText = true;

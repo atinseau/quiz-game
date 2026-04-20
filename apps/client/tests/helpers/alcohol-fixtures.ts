@@ -195,18 +195,48 @@ export async function playTurnsSolo(
       }
     }
 
-    await page.waitForTimeout(300);
-
-    // If a special round overlay is already showing, stop here
-    const overlayVisible = await hasAnyRoundOverlay(page);
-    if (overlayVisible) return q + 1;
-
-    // Otherwise click "Question suivante" if present
+    // Wait for the answer to land: either "Question suivante" shows up,
+    // or a special-round overlay takes over. Whichever happens first.
     const nextBtn = page.getByRole("button", { name: "Question suivante" });
+    const overlay = anyRoundOverlayLocator(page);
+    await Promise.any([
+      nextBtn.waitFor({ state: "visible", timeout: 5000 }),
+      overlay.waitFor({ state: "visible", timeout: 5000 }),
+    ]).catch(() => {});
+
+    if (await hasAnyRoundOverlay(page)) return q + 1;
+
     if (await nextBtn.isVisible().catch(() => false)) {
+      // Capture the current question text so we can assert the transition
+      // actually happened before looping to the next iteration.
+      const prevQuestion =
+        (await page
+          .locator("p.text-xl")
+          .textContent()
+          .catch(() => "")) ?? "";
       await nextQuestion(page);
+
+      // The next click triggers `gameStore.nextQuestion()` which calls
+      // `checkTrigger`. We have to wait for ONE of:
+      //  - a special-round overlay (trigger fired)
+      //  - the question text to actually change (normal next question)
+      // Waiting only for `nextBtn` to hide is not enough: Cupidon in solo
+      // toggles nextBtn quickly but still needs time for the store update
+      // to settle, and starting the next iteration too fast leaves
+      // `turnsSinceLastSpecial` out of sync.
+      await Promise.any([
+        overlay.waitFor({ state: "visible", timeout: 5000 }),
+        page.waitForFunction(
+          (prev) => {
+            const el = document.querySelector("p.text-xl");
+            const txt = el?.textContent?.trim();
+            return !!txt && txt !== prev;
+          },
+          prevQuestion.trim(),
+          { timeout: 5000 },
+        ),
+      ]).catch(() => {});
     }
-    await page.waitForTimeout(300);
   }
   return turns;
 }
@@ -249,25 +279,47 @@ export async function sendStartGameWithAlcohol(
  * Update the current player's gender via WS.
  * Needed for `smatch_or_pass` (requires one homme + one femme).
  * Must be called while in lobby, before start_game.
+ *
+ * Waits for the server's `player_updated` broadcast instead of a blind
+ * sleep, so downstream `start_game` sees the new gender.
  */
 export async function setPlayerGender(
   page: Page,
   gender: "homme" | "femme",
 ): Promise<void> {
-  await page.evaluate((g) => {
-    // biome-ignore lint/suspicious/noExplicitAny: test globals
-    const activeWs = (window as any).__testActiveWs as WebSocket;
-    if (activeWs?.readyState === WebSocket.OPEN) {
-      // biome-ignore lint/suspicious/noExplicitAny: test globals
-      const OrigWs = (window as any).__OriginalWebSocket;
-      OrigWs.prototype.send.call(
-        activeWs,
-        JSON.stringify({ type: "update_gender", gender: g }),
-      );
-    }
-  }, gender);
-  // Let the server broadcast player_updated back
-  await page.waitForTimeout(300);
+  await page.evaluate(
+    (g) =>
+      new Promise<void>((resolve) => {
+        // biome-ignore lint/suspicious/noExplicitAny: test globals
+        const ws = (window as any).__testActiveWs as WebSocket | undefined;
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+          resolve();
+          return;
+        }
+        const handler = (evt: MessageEvent) => {
+          try {
+            const data = JSON.parse(evt.data);
+            if (data.type === "player_updated" && data.gender === g) {
+              ws.removeEventListener("message", handler);
+              resolve();
+            }
+          } catch {}
+        };
+        ws.addEventListener("message", handler);
+        // biome-ignore lint/suspicious/noExplicitAny: test globals
+        const OrigWs = (window as any).__OriginalWebSocket;
+        OrigWs.prototype.send.call(
+          ws,
+          JSON.stringify({ type: "update_gender", gender: g }),
+        );
+        // Safety net in case the broadcast is missed (e.g. server error).
+        setTimeout(() => {
+          ws.removeEventListener("message", handler);
+          resolve();
+        }, 1500);
+      }),
+    gender,
+  );
 }
 
 /**
@@ -331,6 +383,14 @@ export async function playTurnsMulti(
       .waitFor({ state: "visible", timeout: 10000 })
       .catch(() => {});
 
+    // Capture the current question so we can detect the transition to the
+    // next one, instead of sleeping through turn_result + scheduleNextQuestion.
+    const prevQuestion =
+      (await host
+        .locator("p.text-xl")
+        .textContent()
+        .catch(() => "")) ?? "";
+
     let answered = false;
     for (const player of [host, guest]) {
       if (await answerViaUI(player)) {
@@ -344,8 +404,33 @@ export async function playTurnsMulti(
       if (await hasAnyRoundOverlay(guest)) return q;
     }
 
-    // 3s for turn_result + 1-2s margin for scheduleNextQuestion → checkTrigger
-    await host.waitForTimeout(4000);
+    // Wait for one of: question text changes (next turn loaded),
+    // an overlay appears (special round), or the game ends.
+    // Budget matches the old 4s buffer but returns as soon as observable.
+    const questionChanged = (p: Page) =>
+      p.waitForFunction(
+        (prev) => {
+          const el = document.querySelector("p.text-xl");
+          const txt = el?.textContent?.trim();
+          return !!txt && txt !== prev;
+        },
+        prevQuestion.trim(),
+        { timeout: 8000 },
+      );
+    await Promise.any([
+      questionChanged(host),
+      questionChanged(guest),
+      anyRoundOverlayLocator(host).waitFor({
+        state: "visible",
+        timeout: 8000,
+      }),
+      anyRoundOverlayLocator(guest).waitFor({
+        state: "visible",
+        timeout: 8000,
+      }),
+      host.waitForURL("**/end", { timeout: 8000 }),
+      guest.waitForURL("**/end", { timeout: 8000 }),
+    ]).catch(() => {});
 
     // Early exit if special round started
     if ((await hasAnyRoundOverlay(host)) || (await hasAnyRoundOverlay(guest))) {
@@ -399,35 +484,39 @@ export async function waitForRoundOverlayAnyPlayer(
   timeoutMs = 15000,
 ): Promise<Page> {
   const title = ROUND_TITLES[round];
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    for (const player of [host, guest]) {
-      if (
-        await player
-          .getByText(title, { exact: true })
-          .first()
-          .isVisible()
-          .catch(() => false)
-      ) {
-        return player;
-      }
-    }
-    await host.waitForTimeout(500);
+  const waitOn = (p: Page) =>
+    p
+      .getByText(title, { exact: true })
+      .first()
+      .waitFor({ state: "visible", timeout: timeoutMs })
+      .then(() => p);
+  try {
+    return await Promise.any([waitOn(host), waitOn(guest)]);
+  } catch {
+    throw new RoundOverlayTimeoutError(round, timeoutMs);
   }
-  throw new RoundOverlayTimeoutError(round, timeoutMs);
+}
+
+/**
+ * Locator matching the first visible overlay title among the 8 round titles.
+ * Used with `waitFor({ state: "visible" })` to await "any overlay appeared"
+ * without polling in a loop.
+ *
+ * Regex escape handles the `!` and `é` in titles (they are safe in regex
+ * but future-proofs the join against anything punctuation-heavy).
+ */
+function anyRoundOverlayLocator(page: Page) {
+  const pattern = ALL_ROUND_IDS.map((id) =>
+    ROUND_TITLES[id].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+  ).join("|");
+  return page.getByText(new RegExp(pattern)).first();
 }
 
 /** Return true if any of the 8 round overlays is currently visible. */
 export async function hasAnyRoundOverlay(page: Page): Promise<boolean> {
-  for (const id of ALL_ROUND_IDS) {
-    const visible = await page
-      .getByText(ROUND_TITLES[id], { exact: true })
-      .first()
-      .isVisible()
-      .catch(() => false);
-    if (visible) return true;
-  }
-  return false;
+  return await anyRoundOverlayLocator(page)
+    .isVisible()
+    .catch(() => false);
 }
 
 /**
@@ -459,7 +548,7 @@ export async function getDrinkAlertMessages(page: Page): Promise<string[]> {
 }
 
 /**
- * Poll until one of the two pages shows the given text.
+ * Wait until one of the two pages shows the given text.
  * Use instead of `locator.or()` (which requires locators from the same page).
  * Throws if neither page shows the text within `timeoutMs`.
  */
@@ -473,22 +562,17 @@ export async function waitForTextAnyPlayer(
     typeof text === "string"
       ? (p: Page) => p.getByText(text, { exact: true }).first()
       : (p: Page) => p.getByText(text).first();
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    for (const player of [host, guest]) {
-      if (
-        await matcher(player)
-          .isVisible()
-          .catch(() => false)
-      ) {
-        return player;
-      }
-    }
-    await host.waitForTimeout(200);
+  const waitOn = (p: Page) =>
+    matcher(p)
+      .waitFor({ state: "visible", timeout: timeoutMs })
+      .then(() => p);
+  try {
+    return await Promise.any([waitOn(host), waitOn(guest)]);
+  } catch {
+    throw new Error(
+      `Timeout waiting for text ${JSON.stringify(text)} on either player (${timeoutMs}ms)`,
+    );
   }
-  throw new Error(
-    `Timeout waiting for text ${JSON.stringify(text)} on either player (${timeoutMs}ms)`,
-  );
 }
 
 /**

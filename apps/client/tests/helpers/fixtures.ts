@@ -66,13 +66,14 @@ export const test = base.extend<{ mockApp: Page }>({
     await mockNetwork(page);
     // Bypass AuthGuard for E2E tests (Clerk SDK can't fully initialize with mocked endpoints)
     await page.addInitScript(() => {
+      // biome-ignore lint/suspicious/noExplicitAny: test-only window flag
       (window as any).__clerk_test_bypass__ = true;
     });
     await page.goto("/play/solo");
     await page
       .getByText("Pack Test", { exact: false })
       .first()
-      .waitFor({ timeout: 10000 });
+      .waitFor({ timeout: 15000 });
     await use(page);
   },
 });

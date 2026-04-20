@@ -6,7 +6,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: 1,
+  workers: 4,
   reporter: "html",
   use: {
     baseURL: "http://localhost:3000",
@@ -16,15 +16,21 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      testIgnore: /multi-.*\.spec\.ts/,
+      // Any spec whose filename contains "multi" uses the `multi` fixture
+      // (host + guest contexts sharing a single WS server) and MUST run
+      // in the multi-device project. Match substring anywhere so both
+      // `multi-lobby.spec.ts` and `alcohol-phase-b-multi.spec.ts` are
+      // excluded from this project.
+      testIgnore: /multi[-.][^/]*\.spec\.ts|[^/]*-multi\.spec\.ts/,
     },
     {
       // Multi-device tests share a single WS server and must run serially
-      // to avoid race conditions with concurrent WebSocket connections
+      // to avoid race conditions with concurrent WebSocket connections.
       name: "multi-device",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /multi-.*\.spec\.ts/,
+      testMatch: /multi[-.][^/]*\.spec\.ts|[^/]*-multi\.spec\.ts/,
       fullyParallel: false,
+      workers: 1,
     },
   ],
   webServer: {

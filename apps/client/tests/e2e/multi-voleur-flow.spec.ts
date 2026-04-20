@@ -82,17 +82,36 @@ async function setupVoleurGame(host: Page, guest: Page): Promise<string> {
   return code;
 }
 
+// Waits for the current question text to change, or the game to end.
+// Bounds the transition after an answer without sleeping for a fixed 5s.
+async function waitForNextTurnOrEnd(host: Page, guest: Page, prev: string) {
+  const questionChanged = (p: Page) =>
+    p.waitForFunction(
+      (prevText) => {
+        const el = document.querySelector("p.text-xl");
+        const txt = el?.textContent?.trim();
+        return !!txt && txt !== prevText;
+      },
+      prev.trim(),
+      { timeout: 10_000 },
+    );
+  await Promise.any([
+    questionChanged(host),
+    questionChanged(guest),
+    host.waitForURL("**/end", { timeout: 10_000 }),
+    guest.waitForURL("**/end", { timeout: 10_000 }),
+  ]).catch(() => {});
+}
+
 // ---------------------------------------------------------------------------
 
 test("Multi-device voleur: both players answer and game completes", async ({
   multi,
 }) => {
-  test.slow();
   const { host, guest } = multi;
 
   await setupVoleurGame(host, guest);
 
-  // Play through all questions
   for (let q = 0; q < 10; q++) {
     if (isAtEnd(host, guest)) break;
     if (await checkEndVisible(host, guest)) break;
@@ -101,30 +120,28 @@ test("Multi-device voleur: both players answer and game completes", async ({
       .locator("p.text-xl")
       .waitFor({ state: "visible", timeout: 10000 })
       .catch(() => {});
+    const prev = await getQuestionText(host);
 
     for (const player of [host, guest]) {
       await answerViaUI(player);
     }
 
-    await host.waitForTimeout(5000);
+    await waitForNextTurnOrEnd(host, guest, prev);
   }
 
-  let ended = false;
-  for (let i = 0; i < 20; i++) {
-    if (isAtEnd(host, guest) || (await checkEndVisible(host, guest))) {
-      ended = true;
-      break;
-    }
-    await host.waitForTimeout(1000);
-  }
-
-  expect(ended).toBe(true);
+  await expect
+    .poll(
+      async () => isAtEnd(host, guest) || (await checkEndVisible(host, guest)),
+      {
+        timeout: 20_000,
+      },
+    )
+    .toBe(true);
 });
 
 test("Multi-device voleur: shows turn indicator and stealer cue", async ({
   multi,
 }) => {
-  test.slow();
   const { host, guest } = multi;
 
   await setupVoleurGame(host, guest);
@@ -140,7 +157,6 @@ test("Multi-device voleur: shows turn indicator and stealer cue", async ({
 test("Multi-device voleur: main correct ends turn immediately, inputs lock", async ({
   multi,
 }) => {
-  test.slow();
   const { host, guest } = multi;
 
   await setupVoleurGame(host, guest);
@@ -174,7 +190,6 @@ test("Multi-device voleur: main correct ends turn immediately, inputs lock", asy
 });
 
 test("Multi-device voleur: steal shows amber feedback", async ({ multi }) => {
-  test.slow();
   const { host, guest } = multi;
 
   await setupVoleurGame(host, guest);
@@ -188,22 +203,26 @@ test("Multi-device voleur: steal shows amber feedback", async ({ multi }) => {
   // biome-ignore lint/style/noNonNullAssertion: test data guaranteed by answer maps
   await submitAnswerViaWs(main, wrongAnswer!);
 
-  // Short wait for player_answered broadcast
-  await main.waitForTimeout(500);
+  // Wait for the steal window to open on the stealer (server broadcast).
+  await stealer
+    .getByText(/Quelqu'un a repondu|Vol|steal/i)
+    .first()
+    .waitFor({ state: "visible", timeout: 5000 })
+    .catch(() => {});
 
   // Stealer answers correctly — triggers steal
   // biome-ignore lint/style/noNonNullAssertion: test data guaranteed by answer maps
   await submitAnswerViaWs(stealer, correctAnswer!);
 
-  // Stealer should see amber "Vol reussi" feedback
-  await expect(stealer.getByText(/Vol reussi/)).toBeVisible({ timeout: 5000 });
+  // Stealer should see amber "Vol réussi" feedback
+  await expect(stealer.getByText(/Vol réussi/)).toBeVisible({ timeout: 5000 });
 
   // Verify amber styling on stealer's feedback box
   const stealerFeedback = stealer.locator(".border-amber-500\\/30");
   await expect(stealerFeedback).toBeVisible({ timeout: 2000 });
 
-  // Main should see amber "t'a vole la reponse" feedback
-  await expect(main.getByText(/vole la reponse/)).toBeVisible({
+  // Main should see amber "t'a volé la réponse" feedback
+  await expect(main.getByText(/volé la réponse/)).toBeVisible({
     timeout: 5000,
   });
 });

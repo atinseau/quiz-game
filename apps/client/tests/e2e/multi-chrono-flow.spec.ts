@@ -27,8 +27,11 @@ async function checkEndVisible(host: Page, guest: Page): Promise<boolean> {
   return hostEnd || guestEnd;
 }
 
+// Chrono mode uses a 15s server timeout per turn. Letting one question
+// timeout is intentional and bounds the test duration.
+test.setTimeout(90_000);
+
 test("Multi-device chrono: answers and timeout work", async ({ multi }) => {
-  test.slow();
   const { host, guest } = multi;
 
   await setTestUser(host, "Alice");
@@ -46,55 +49,79 @@ test("Multi-device chrono: answers and timeout work", async ({ multi }) => {
   await guest.waitForURL("**/game", { timeout: 10000 });
   await expect(host.locator("p.text-xl")).toBeVisible({ timeout: 10000 });
 
-  // Play through all questions
-  // In chrono mode, one player per turn (alternating), 15s server timeout
-  // We'll let Q2 (third question, index 2) timeout by not answering
+  // Play through all questions. On Q3 (index 2), let the 15s chrono elapse.
   let questionsAnswered = 0;
 
   for (let q = 0; q < 10; q++) {
     if (isAtEnd(host, guest)) break;
     if (await checkEndVisible(host, guest)) break;
 
-    // Wait for a question to be visible
     await host
       .locator("p.text-xl")
       .waitFor({ state: "visible", timeout: 10000 })
       .catch(() => {});
 
-    // On the 3rd question (index 2), let it timeout
+    const prevQuestion =
+      (await host
+        .locator("p.text-xl")
+        .textContent()
+        .catch(() => "")) ?? "";
+
     if (questionsAnswered === 2) {
-      // Wait for the 15s chrono timeout + 3s next question delay + buffer
-      await host.waitForTimeout(20000);
+      // Don't answer — wait for the server-side 15s timeout, then the
+      // scheduleNextQuestion transition.
+      const questionChanged = (p: Page) =>
+        p.waitForFunction(
+          (prev) => {
+            const el = document.querySelector("p.text-xl");
+            const txt = el?.textContent?.trim();
+            return !!txt && txt !== prev;
+          },
+          prevQuestion.trim(),
+          { timeout: 25_000 },
+        );
+      await Promise.any([
+        questionChanged(host),
+        questionChanged(guest),
+        host.waitForURL("**/end", { timeout: 25_000 }),
+        guest.waitForURL("**/end", { timeout: 25_000 }),
+      ]).catch(() => {});
       questionsAnswered++;
       continue;
     }
 
-    // Try to answer on the active player (try both, only one will have enabled inputs)
-    let answered = false;
     for (const player of [host, guest]) {
       if (await answerViaUI(player)) {
-        answered = true;
+        questionsAnswered++;
         break;
       }
     }
 
-    if (answered) {
-      questionsAnswered++;
-    }
-
-    // Wait for turn result (3s) + next question transition
-    await host.waitForTimeout(5000);
+    // Wait for transition: either next question or end screen.
+    const questionChanged = (p: Page) =>
+      p.waitForFunction(
+        (prev) => {
+          const el = document.querySelector("p.text-xl");
+          const txt = el?.textContent?.trim();
+          return !!txt && txt !== prev;
+        },
+        prevQuestion.trim(),
+        { timeout: 10_000 },
+      );
+    await Promise.any([
+      questionChanged(host),
+      questionChanged(guest),
+      host.waitForURL("**/end", { timeout: 10_000 }),
+      guest.waitForURL("**/end", { timeout: 10_000 }),
+    ]).catch(() => {});
   }
 
-  // Wait for end screen
-  let ended = false;
-  for (let i = 0; i < 20; i++) {
-    if (isAtEnd(host, guest) || (await checkEndVisible(host, guest))) {
-      ended = true;
-      break;
-    }
-    await host.waitForTimeout(1000);
-  }
-
-  expect(ended).toBe(true);
+  await expect
+    .poll(
+      async () => isAtEnd(host, guest) || (await checkEndVisible(host, guest)),
+      {
+        timeout: 20_000,
+      },
+    )
+    .toBe(true);
 });

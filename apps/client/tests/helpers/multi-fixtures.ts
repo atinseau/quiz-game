@@ -26,7 +26,6 @@ async function setupPage(page: Page) {
     (window as unknown as Record<string, unknown>).__clerk_test_bypass__ = true;
   });
 
-  // Mock Clerk endpoints
   await page.route("**/clerk.*.com/v1/**", (route) =>
     route.fulfill({
       status: 200,

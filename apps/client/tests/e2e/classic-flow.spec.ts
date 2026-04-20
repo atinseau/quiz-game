@@ -42,7 +42,7 @@ test.describe("Classic mode — full solo game flow", () => {
 
     // Should be on end screen
     await expect(page).toHaveURL(/\/end/);
-    await expect(page.getByText("Partie terminee")).toBeVisible();
+    await expect(page.getByText("Partie terminée")).toBeVisible();
     await expect(page.getByText("Ton score final")).toBeVisible();
     await expect(page.getByText("pts")).toBeVisible();
 

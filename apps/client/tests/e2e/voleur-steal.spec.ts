@@ -14,7 +14,9 @@ test.describe("Voleur mode — steal mechanics", () => {
     await expect(page.getByText("Mauvaise réponse")).toBeVisible();
 
     // Steal zone should be visible with other player's name
-    await expect(page.getByText("Quelqu'un a repondu plus vite")).toBeVisible();
+    await expect(
+      page.getByText("Quelqu'un a répondu plus vite ?"),
+    ).toBeVisible();
     await expect(page.getByRole("button", { name: "Bob" })).toBeVisible();
 
     // "Compter le point" should NOT be visible in voleur mode
