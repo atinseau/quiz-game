@@ -38,14 +38,17 @@ export const smatchOrPassRound: ServerRound = {
       (p) => p.connected,
     );
 
-    // Find a pair of players with opposite genders
-    const homme = connected.find((p) => p.gender === "homme") ?? null;
-    const femme = connected.find((p) => p.gender === "femme") ?? null;
-
-    if (!homme || !femme) {
+    // Pick a random pair with opposite genders (spec 2026-04-14: "au hasard").
+    const hommes = connected.filter((p) => p.gender === "homme");
+    const femmes = connected.filter((p) => p.gender === "femme");
+    if (hommes.length === 0 || femmes.length === 0) {
       endSpecialRound(room);
       return;
     }
+    // biome-ignore lint/style/noNonNullAssertion: length checked above
+    const homme = hommes[Math.floor(Math.random() * hommes.length)]!;
+    // biome-ignore lint/style/noNonNullAssertion: length checked above
+    const femme = femmes[Math.floor(Math.random() * femmes.length)]!;
 
     // Randomise who is décideur
     const isSwapped = Math.random() < 0.5;
