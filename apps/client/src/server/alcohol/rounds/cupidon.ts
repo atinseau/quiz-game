@@ -1,6 +1,6 @@
 import { broadcast } from "../../rooms";
 import type { Room } from "../../types";
-import { endSpecialRound } from "../framework";
+import { endSpecialRound, shuffleArray } from "../framework";
 import type { AlcoholState, ServerRound } from "../types";
 
 export const cupidonRound: ServerRound = {
@@ -12,7 +12,7 @@ export const cupidonRound: ServerRound = {
       return;
     }
 
-    const shuffled = [...players].sort(() => Math.random() - 0.5);
+    const shuffled = shuffleArray(players);
     // biome-ignore lint/style/noNonNullAssertion: length >= 2 guaranteed above
     const playerA = shuffled[0]!;
     // biome-ignore lint/style/noNonNullAssertion: length >= 2 guaranteed above
