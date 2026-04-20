@@ -503,17 +503,17 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
           playerClerkId: randomPlayer?.name,
           playerName: randomPlayer?.name,
         });
-      } else if (roundType === "conseil") {
+      } else if (roundType === "conseil" && players.length >= 2) {
         alcoholStore.setActiveRound("conseil", {
           players: players.map((p) => ({ clerkId: p.name, username: p.name })),
         });
-      } else if (roundType === "love_or_drink") {
+      } else if (roundType === "love_or_drink" && players.length >= 2) {
         const shuffled = [...players].sort(() => Math.random() - 0.5);
         const pair = shuffled.slice(0, 2);
         alcoholStore.setActiveRound("love_or_drink", {
           players: pair.map((p) => ({ clerkId: p.name, username: p.name })),
         });
-      } else if (roundType === "cupidon") {
+      } else if (roundType === "cupidon" && players.length >= 2) {
         const shuffled = [...players].sort(() => Math.random() - 0.5);
         const [a, b] = shuffled;
         alcoholStore.setActiveRound("cupidon", {
