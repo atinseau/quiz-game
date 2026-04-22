@@ -1,9 +1,10 @@
 # Scenario: Landing page displays correctly
 
-**Status:** discovered
+**Status:** covered
 **Priority:** high
 **Page:** landing
-**Domain:** e2e
+**Domain:** solo
+**Spec:** landing-page
 
 ## Preconditions
 

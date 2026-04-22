@@ -1,0 +1,58 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - button "Quitter la partie" [ref=e14]:
+      - img
+    - button "Couper le son" [ref=e4]:
+      - img
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - paragraph [ref=e17]: Code de la room
+      - generic [ref=e18]:
+        - generic [ref=e19]: 5ASJN9
+        - button [ref=e20]:
+          - img
+    - generic [ref=e22]:
+      - generic [ref=e24]: Joueurs (1/1)
+      - generic [ref=e27]:
+        - img [ref=e28]
+        - generic [ref=e32]:
+          - text: explorer-1776689961480
+          - button "Modifier ton nom" [ref=e33]:
+            - img [ref=e34]
+        - generic [ref=e37]:
+          - button "♂ Homme" [ref=e38]
+          - button "♀ Femme" [ref=e39]
+        - generic [ref=e40]:
+          - img
+          - text: Host
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - generic [ref=e44]: Choisis un pack
+        - generic [ref=e46]:
+          - button "🧪 Pack Test" [active] [ref=e47]:
+            - text: 🧪
+            - paragraph [ref=e48]: Pack Test
+          - button "🔬 Pack Test 2" [ref=e49]:
+            - text: 🔬
+            - paragraph [ref=e50]: Pack Test 2
+      - generic [ref=e51]:
+        - generic [ref=e53]: Choisis un mode
+        - generic [ref=e55]:
+          - button "🎯 Classique" [ref=e56]:
+            - text: 🎯
+            - paragraph [ref=e57]: Classique
+          - button "🦹 Voleur" [ref=e58]:
+            - text: 🦹
+            - paragraph [ref=e59]: Voleur
+          - button "⏱️ Contre la montre" [ref=e60]:
+            - text: ⏱️
+            - paragraph [ref=e61]: Contre la montre
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - img [ref=e66]
+          - text: Mode Soirée
+        - button "Désactivé" [ref=e70]
+      - button "Lancer la partie" [disabled]
+      - paragraph [ref=e71]: Il faut au moins 2 joueurs
+    - button "Quitter la room" [ref=e73]
+  - region "Notifications alt+T"

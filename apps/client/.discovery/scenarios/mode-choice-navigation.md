@@ -1,9 +1,10 @@
 # Scenario: Mode choice navigation
 
-**Status:** discovered
+**Status:** covered
 **Priority:** high
 **Page:** mode-choice
-**Domain:** e2e
+**Domain:** solo
+**Spec:** mode-choice
 
 ## Preconditions
 

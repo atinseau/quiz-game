@@ -1,9 +1,9 @@
 # Scenario: Chrono mode — timer and timeout
 
-**Status:** discovered
+**Status:** covered
 **Priority:** critical
 **Page:** game
-**Domain:** e2e
+**Domain:** solo
 **Spec:** chrono-timer
 
 ## Preconditions

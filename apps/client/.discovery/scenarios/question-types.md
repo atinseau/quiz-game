@@ -1,9 +1,9 @@
 # Scenario: All question types display correctly
 
-**Status:** discovered
+**Status:** covered
 **Priority:** high
 **Page:** game
-**Domain:** e2e
+**Domain:** solo
 **Spec:** question-types
 
 ## Preconditions

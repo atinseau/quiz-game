@@ -1,9 +1,9 @@
 # Scenario: Home page navigation and setup
 
-**Status:** discovered
+**Status:** covered
 **Priority:** high
 **Page:** home
-**Domain:** e2e
+**Domain:** solo
 **Spec:** home-nav
 
 ## Preconditions

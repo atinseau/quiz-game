@@ -1,9 +1,9 @@
 # Scenario: Voleur mode — steal mechanics
 
-**Status:** discovered
+**Status:** covered
 **Priority:** critical
 **Page:** game
-**Domain:** e2e
+**Domain:** solo
 **Spec:** voleur-steal
 
 ## Preconditions

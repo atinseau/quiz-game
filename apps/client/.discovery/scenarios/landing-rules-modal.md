@@ -1,9 +1,10 @@
 # Scenario: Rules modal with tabs
 
-**Status:** discovered
+**Status:** covered
 **Priority:** medium
 **Page:** landing
-**Domain:** e2e
+**Domain:** solo
+**Spec:** landing-page
 
 ## Preconditions
 

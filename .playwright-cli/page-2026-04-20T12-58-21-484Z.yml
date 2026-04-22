@@ -1,0 +1,18 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e15]:
+    - heading "Comment tu veux jouer ?" [level=1] [ref=e16]
+    - paragraph [ref=e17]: Choisis ton mode de jeu avant de commencer.
+    - generic [ref=e18]:
+      - button "Un seul appareil" [ref=e19]:
+        - img
+        - text: Un seul appareil
+      - generic [ref=e20]:
+        - button "Créer une partie" [ref=e21]:
+          - img
+          - text: Créer une partie
+        - button "Rejoindre" [ref=e22]:
+          - img
+          - text: Rejoindre
+  - region "Notifications alt+T"

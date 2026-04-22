@@ -1,0 +1,26 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - button "Quitter la partie" [ref=e14]:
+      - img
+    - button "Couper le son" [ref=e4]:
+      - img
+  - generic [ref=e84]:
+    - generic [ref=e85]:
+      - generic [ref=e86]: Culture
+      - generic [ref=e88]: "1"
+    - paragraph [ref=e90]: C'est ton tour !
+    - paragraph [ref=e91]: Quelle est la capitale de la France ?
+    - generic [ref=e92]:
+      - button "Paris" [ref=e93]
+      - button "Lyon" [ref=e94]
+      - button "Marseille" [ref=e95]
+      - button "Toulouse" [ref=e96]
+    - generic [ref=e97]:
+      - separator [ref=e98]
+      - heading "Scores" [level=3] [ref=e99]:
+        - img [ref=e100]
+        - text: Scores
+      - generic [ref=e106]:
+        - generic [ref=e108]: host-1776690323522
+        - generic [ref=e110]: guest-1776690377333
+  - region "Notifications alt+T"

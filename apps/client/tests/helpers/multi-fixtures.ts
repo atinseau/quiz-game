@@ -362,3 +362,48 @@ export async function hostStartsGame(host: Page) {
 export async function submitAnswerViaWs(page: Page, answer: string | boolean) {
   await sendAppWsMessage(page, { type: "submit_answer", answer });
 }
+
+/**
+ * Canonical locator for the current question text. Centralizes the
+ * `p.text-xl` CSS pattern used across multi specs so a future markup change
+ * needs a single edit.
+ */
+export function questionText(page: Page) {
+  return page.locator("p.text-xl");
+}
+
+/**
+ * Full multi-device game setup: identify users, create room, join, configure,
+ * start, and wait for both devices to land on /game with the first question
+ * visible. Consolidates the boilerplate shared across multi-classic, multi-chrono,
+ * multi-voleur, and alcohol-multi specs.
+ */
+export async function startMultiGame(
+  multi: { host: Page; guest: Page },
+  opts: {
+    mode: "classic" | "chrono" | "voleur";
+    pack?: string;
+    hostName?: string;
+    guestName?: string;
+  },
+): Promise<string> {
+  const { host, guest } = multi;
+  await setTestUser(host, opts.hostName ?? "Alice");
+  await setTestUser(guest, opts.guestName ?? "Bob");
+
+  const code = await hostCreatesRoom(host);
+  await guestJoinsRoom(guest, code);
+  await expect(host.getByText(opts.guestName ?? "Bob")).toBeVisible({
+    timeout: 5000,
+  });
+
+  await hostSelectsPack(host, opts.pack ?? "pack-test");
+  await hostSelectsMode(host, opts.mode);
+  await hostStartsGame(host);
+
+  await host.waitForURL("**/game", { timeout: 10000 });
+  await guest.waitForURL("**/game", { timeout: 10000 });
+  await expect(questionText(host)).toBeVisible({ timeout: 10000 });
+
+  return code;
+}

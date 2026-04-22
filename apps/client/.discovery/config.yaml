@@ -5,6 +5,8 @@ dev_command: bun --hot index.ts
 base_url: http://localhost:3000
 test_command: bunx playwright test
 test_dirs:
-  e2e: tests/e2e
+  solo: tests/e2e/solo
+  multi: tests/e2e/multi
+  regression: tests/e2e/regression
 helpers_dir: tests/helpers
 mocks_dir: tests/mocks/data

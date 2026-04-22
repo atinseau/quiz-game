@@ -1,9 +1,10 @@
 # Scenario: Alcohol mode triggers special round in solo
 
-**Status:** discovered
+**Status:** covered
 **Priority:** critical
 **Page:** game
-**Domain:** e2e
+**Domain:** solo
+**Spec:** alcohol-solo-flow
 
 ## Preconditions
 

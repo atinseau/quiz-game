@@ -1,0 +1,42 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - button "Quitter la partie" [ref=e12]:
+      - img
+    - button "Couper le son" [ref=e4]:
+      - img
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - paragraph [ref=e15]: Code de la room
+      - generic [ref=e16]:
+        - generic [ref=e17]: 5ASJN9
+        - button [ref=e18]:
+          - img
+    - generic [ref=e20]:
+      - generic [ref=e22]: Joueurs (2/2)
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - img [ref=e26]
+          - generic [ref=e30]: explorer-1776689961480
+          - generic [ref=e31]: ♂ Homme
+          - generic [ref=e32]:
+            - img
+            - text: Host
+        - generic [ref=e33]:
+          - img [ref=e34]
+          - generic [ref=e38]:
+            - text: guest-1776690106506
+            - button "Modifier ton nom" [ref=e39]:
+              - img [ref=e40]
+          - generic [ref=e43]:
+            - button "♂ Homme" [ref=e44]
+            - button "♀ Femme" [ref=e45]
+    - generic [ref=e47]:
+      - paragraph [ref=e48]: Le host a choisi -- en attente du lancement...
+      - paragraph [ref=e49]:
+        - text: "Pack :"
+        - strong [ref=e50]: Pack Test
+      - paragraph [ref=e51]:
+        - text: "Mode :"
+        - strong [ref=e52]: Classique
+    - button "Quitter la room" [ref=e54]
+  - region "Notifications alt+T"

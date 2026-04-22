@@ -3,7 +3,7 @@
 **Status:** discovered
 **Priority:** critical
 **Page:** multi-game
-**Domain:** e2e
+**Domain:** multi
 **Spec:** multi-voleur-flow
 
 ## Preconditions

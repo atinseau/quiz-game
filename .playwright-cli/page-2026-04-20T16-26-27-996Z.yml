@@ -1,0 +1,113 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - button "Quitter la partie" [ref=e14]:
+      - img
+    - button "Couper le son" [ref=e4]:
+      - img
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - paragraph [ref=e17]: Code de la room
+      - generic [ref=e18]:
+        - generic [ref=e19]: CTLBV7
+        - button [ref=e20]:
+          - img
+    - generic [ref=e22]:
+      - generic [ref=e24]: Joueurs (1/1)
+      - generic [ref=e27]:
+        - img [ref=e28]
+        - generic [ref=e32]:
+          - text: host-1776702380402
+          - button "Modifier ton nom" [ref=e33]:
+            - img [ref=e34]
+        - generic [ref=e37]:
+          - button "♂ Homme" [ref=e38]
+          - button "♀ Femme" [ref=e39]
+        - generic [ref=e40]:
+          - img
+          - text: Host
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - generic [ref=e44]: Choisis un pack
+        - generic [ref=e46]:
+          - button "🧪 Pack Test" [ref=e47]:
+            - text: 🧪
+            - paragraph [ref=e48]: Pack Test
+          - button "🔬 Pack Test 2" [ref=e49]:
+            - text: 🔬
+            - paragraph [ref=e50]: Pack Test 2
+      - generic [ref=e51]:
+        - generic [ref=e53]: Choisis un mode
+        - generic [ref=e55]:
+          - button "🎯 Classique" [ref=e56]:
+            - text: 🎯
+            - paragraph [ref=e57]: Classique
+          - button "🦹 Voleur" [ref=e58]:
+            - text: 🦹
+            - paragraph [ref=e59]: Voleur
+          - button "⏱️ Contre la montre" [ref=e60]:
+            - text: ⏱️
+            - paragraph [ref=e61]: Contre la montre
+      - generic [ref=e62]:
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - img [ref=e66]
+            - text: Mode Soirée
+          - button "Activé 🍻" [active] [ref=e74]
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - paragraph [ref=e77]:
+              - text: Manche spéciale tous les
+              - strong [ref=e78]: "5"
+              - text: tours
+            - generic [ref=e79]:
+              - button "3" [ref=e80]
+              - button "4" [ref=e81]
+              - button "5" [ref=e82]
+              - button "6" [ref=e83]
+              - button "7" [ref=e84]
+              - button "8" [ref=e85]
+              - button "9" [ref=e86]
+              - button "10" [ref=e87]
+          - generic [ref=e88]:
+            - paragraph [ref=e89]: Manches actives
+            - generic [ref=e90]:
+              - button "🍺 Petit buveur ✓" [ref=e91]:
+                - generic [ref=e92]: 🍺
+                - generic [ref=e93]: Petit buveur
+                - generic [ref=e94]: ✓
+              - button "🎯 Distributeur ✓" [ref=e95]:
+                - generic [ref=e96]: 🎯
+                - generic [ref=e97]: Distributeur
+                - generic [ref=e98]: ✓
+              - button "🎰 Question de courage ✓" [ref=e99]:
+                - generic [ref=e100]: 🎰
+                - generic [ref=e101]: Question de courage
+                - generic [ref=e102]: ✓
+              - button "🗳️ Conseil du village ✓" [ref=e103]:
+                - generic [ref=e104]: 🗳️
+                - generic [ref=e105]: Conseil du village
+                - generic [ref=e106]: ✓
+              - button "💋 Love or Drink ✓" [ref=e107]:
+                - generic [ref=e108]: 💋
+                - generic [ref=e109]: Love or Drink
+                - generic [ref=e110]: ✓
+              - button "💘 Cupidon ✓" [ref=e111]:
+                - generic [ref=e112]: 💘
+                - generic [ref=e113]: Cupidon
+                - generic [ref=e114]: ✓
+              - button "👀 Show Us ✓" [ref=e115]:
+                - generic [ref=e116]: 👀
+                - generic [ref=e117]: Show Us
+                - generic [ref=e118]: ✓
+              - button "💥 Smatch or Pass ✓" [ref=e119]:
+                - generic [ref=e120]: 💥
+                - generic [ref=e121]: Smatch or Pass
+                - generic [ref=e122]: ✓
+          - button "🍻 Le perdant boit cul sec ✓" [ref=e123]:
+            - generic [ref=e124]: 🍻
+            - generic [ref=e125]: Le perdant boit cul sec
+            - generic [ref=e126]: ✓
+      - button "Lancer la partie" [disabled]
+      - paragraph [ref=e71]: Il faut au moins 2 joueurs
+    - button "Quitter la room" [ref=e73]
+  - region "Notifications alt+T"

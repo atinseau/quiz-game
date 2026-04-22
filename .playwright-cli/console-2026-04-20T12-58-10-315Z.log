@@ -1,0 +1,22 @@
+[      95ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-000000003711de40.js:74392
+[     104ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-000000003711de40.js:20
+[     300ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     300ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[    4126ms] [ERROR] WebSocket connection to 'ws://localhost:3000/ws?testUser=explorer-1776689890345' failed: HTTP Authentication failed; no valid credentials available @ :9
+[   36222ms] [WARNING] [Bun] Hot-module-reloading socket disconnected, reconnecting... @ http://localhost:3000/_bun/client/index-000000003711de40.js:20
+[   37225ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   39728ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   42233ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   44738ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   47244ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   49748ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   52253ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   54757ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   57261ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   59765ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   62269ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689890345' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[   64774ms] [INFO] [Bun] Reconnected @ http://localhost:3000/_bun/client/index-000000003711de40.js:20
+[   65131ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-000000003dc661f6.js:74392
+[   65169ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-000000003dc661f6.js:20
+[   65458ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[   65458ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18

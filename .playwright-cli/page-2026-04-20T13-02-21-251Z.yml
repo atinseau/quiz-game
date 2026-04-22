@@ -1,0 +1,8 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - button "Quitter la partie" [ref=e14]:
+      - img
+    - button "Couper le son" [ref=e4]:
+      - img
+  - generic [ref=e136]: En attente de la question...
+  - region "Notifications alt+T"

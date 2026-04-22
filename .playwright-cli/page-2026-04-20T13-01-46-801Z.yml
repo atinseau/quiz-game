@@ -1,0 +1,12 @@
+- generic [ref=e2]:
+  - button "Couper le son" [ref=e4]:
+    - img
+  - generic [ref=e6]:
+    - button "Retour" [ref=e7]:
+      - img
+      - text: Retour
+    - heading "Rejoindre une partie" [level=1] [ref=e8]
+    - paragraph [ref=e9]: Entre le code de la room donné par le host.
+    - 'textbox "Ex: A3K9F2" [ref=e10]'
+    - button "Rejoindre" [disabled]
+  - region "Notifications alt+T"

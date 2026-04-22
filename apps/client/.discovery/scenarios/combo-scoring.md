@@ -1,9 +1,9 @@
 # Scenario: Combo scoring system
 
-**Status:** discovered
+**Status:** covered
 **Priority:** medium
 **Page:** game
-**Domain:** e2e
+**Domain:** solo
 **Spec:** combo-scoring
 
 ## Preconditions

@@ -1,15 +1,9 @@
----
-name: create-room-twice
-description: Creating a room, navigating back to /play, then creating again must produce a fresh room without "Room introuvable" error
-type: scenario
----
-
 # Scenario: Create room twice in a row
 
 **Status:** covered
 **Priority:** critical
-**Page:** mode-choice / lobby
-**Domain:** e2e
+**Page:** mode-choice
+**Domain:** multi
 **Spec:** multi-lobby
 
 ## Preconditions

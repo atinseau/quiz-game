@@ -14,21 +14,20 @@ export default defineConfig({
   },
   projects: [
     {
+      // Single-device specs: live under tests/e2e/solo/ and any single-device
+      // regression tests (regression/repro-*). Multi-device regression files
+      // (regression/multi-repro-*) belong to the multi-device project.
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      // Any spec whose filename contains "multi" uses the `multi` fixture
-      // (host + guest contexts sharing a single WS server) and MUST run
-      // in the multi-device project. Match substring anywhere so both
-      // `multi-lobby.spec.ts` and `alcohol-phase-b-multi.spec.ts` are
-      // excluded from this project.
-      testIgnore: /multi[-.][^/]*\.spec\.ts|[^/]*-multi\.spec\.ts/,
+      testMatch: /(solo|regression)\/[^/]*\.spec\.ts/,
+      testIgnore: /regression\/multi-repro-[^/]*\.spec\.ts/,
     },
     {
       // Multi-device tests share a single WS server and must run serially
       // to avoid race conditions with concurrent WebSocket connections.
       name: "multi-device",
       use: { ...devices["Desktop Chrome"] },
-      testMatch: /multi[-.][^/]*\.spec\.ts|[^/]*-multi\.spec\.ts/,
+      testMatch: /multi\/[^/]*\.spec\.ts|regression\/multi-repro-[^/]*\.spec\.ts/,
       fullyParallel: false,
       workers: 1,
     },

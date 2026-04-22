@@ -1,0 +1,45 @@
+[      81ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-000000003dc661f6.js:74392
+[     111ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-000000003dc661f6.js:20
+[     204ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[     204ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[  177809ms] [WARNING] [Bun] Hot-module-reloading socket disconnected, reconnecting... @ http://localhost:3000/_bun/client/index-000000003dc661f6.js:20
+[  178811ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  181314ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  183816ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  186318ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  188820ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  191324ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  193826ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  196328ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  198831ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  201333ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  203835ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  206337ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  208841ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  211343ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  213846ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  216350ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  218854ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  221358ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  223860ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  226362ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  228865ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  231368ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  233870ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  236374ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  238885ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  241401ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  243936ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  246492ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  249140ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  251834ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  254544ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  258268ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  262013ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  265701ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  271895ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_bun/hmr?testUser=explorer-1776689961480' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ :9
+[  278179ms] [INFO] [Bun] Reconnected @ http://localhost:3000/_bun/client/index-000000003dc661f6.js:20
+[  278565ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_bun/client/index-00000000ab88e587.js:74392
+[  278604ms] [INFO] [Bun] Hot-module-reloading socket connected, waiting for changes... @ http://localhost:3000/_bun/client/index-00000000ab88e587.js:20
+[  278693ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
+[  278694ms] [WARNING] Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props @ https://fun-salmon-70.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js:18
