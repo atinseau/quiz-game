@@ -272,7 +272,12 @@ export async function setTestUser(page: Page, username: string) {
             }
           } catch {}
         }
-        super.send(data);
+        // The override signature accepts the wider `ArrayBufferLike` (includes
+        // SharedArrayBuffer) to mirror the WebSocket interface in older lib
+        // defs; the runtime WebSocket.send only accepts the narrower BufferSource.
+        // SharedArrayBuffer never flows through app code — the cast silences
+        // a strict-mode LSP diagnostic.
+        super.send(data as string | BufferSource | Blob);
       }
     };
   }, uniqueName);

@@ -323,10 +323,20 @@ export async function setPlayerGender(
 }
 
 /**
+ * Default display names for players 3+ when `extraPages` is provided and
+ * no `extraNames` override is given.
+ */
+const DEFAULT_EXTRA_NAMES = ["Carol", "Dave", "Eve", "Frank", "Grace", "Heidi"];
+
+/**
  * Full multi setup: host creates room, guest joins, pack + mode selected,
  * game started with alcohol config. Ends with both pages on `/game`.
  *
  * If `genders` is provided, both players' gender is updated before start.
+ *
+ * `extraPages` lets tests run with 3+ players: each extra page joins the
+ * same room, shows up in the host's lobby, and lands on `/game` when the
+ * game starts. Backwards compatible — omit the option for 2-player specs.
  */
 export async function startMultiAlcoholGame(
   host: Page,
@@ -338,13 +348,26 @@ export async function startMultiAlcoholGame(
     guestGender?: "homme" | "femme";
     mode?: string;
     pack?: string;
+    extraPages?: Page[];
+    extraNames?: string[];
   },
 ): Promise<{ code: string }> {
   const hostName = opts.hostName ?? "Alice";
   const guestName = opts.guestName ?? "Bob";
+  // Pair each extra page with its resolved username up front so we can
+  // iterate without index-access (strict TS + noUncheckedIndexedAccess).
+  const extras: { page: Page; name: string }[] = (opts.extraPages ?? []).map(
+    (page, i) => ({
+      page,
+      name: opts.extraNames?.[i] ?? DEFAULT_EXTRA_NAMES[i] ?? `Player${i + 3}`,
+    }),
+  );
 
   await setTestUser(host, hostName);
   await setTestUser(guest, guestName);
+  for (const { page, name } of extras) {
+    await setTestUser(page, name);
+  }
 
   const code = await hostCreatesRoom(host);
   await guestJoinsRoom(guest, code);
@@ -352,15 +375,31 @@ export async function startMultiAlcoholGame(
   // Wait for guest to appear in host's lobby
   await host.getByText(guestName).waitFor({ timeout: 5000 });
 
+  // Join any extra players sequentially so the host lobby can observe each
+  // one (and so the server never sees two join_room races).
+  for (const { page, name } of extras) {
+    await guestJoinsRoom(page, code);
+    await host.getByText(name, { exact: false }).waitFor({ timeout: 5000 });
+  }
+
   if (opts.hostGender) await setPlayerGender(host, opts.hostGender);
   if (opts.guestGender) await setPlayerGender(guest, opts.guestGender);
 
   await hostSelectsPack(host, opts.pack ?? "pack-test");
   await hostSelectsMode(host, opts.mode ?? "classic");
-  await sendStartGameWithAlcohol(host, opts);
+  // Only pass the serializable AlcoholTestConfig subset — opts also carries
+  // Page objects (extraPages) which Playwright's evaluate can't serialize.
+  await sendStartGameWithAlcohol(host, {
+    frequency: opts.frequency,
+    enabledRounds: opts.enabledRounds,
+    culSecEndGame: opts.culSecEndGame,
+  });
 
   await host.waitForURL("**/game", { timeout: 10000 });
   await guest.waitForURL("**/game", { timeout: 10000 });
+  for (const { page } of extras) {
+    await page.waitForURL("**/game", { timeout: 10000 });
+  }
 
   return { code };
 }
@@ -368,14 +407,20 @@ export async function startMultiAlcoholGame(
 /**
  * Play N turns in multi mode, answering on whoever is the active player.
  * Uses answerViaUI which tries QCM / VF / texte in order.
+ *
+ * `extraPages` extends the answerer pool and the transition-detection set
+ * so 3+ player games can be driven through the same loop.
  */
 export async function playTurnsMulti(
   host: Page,
   guest: Page,
   turns: number,
+  opts: { extraPages?: Page[] } = {},
 ): Promise<number> {
+  const extraPages = opts.extraPages ?? [];
+  const allPages = [host, guest, ...extraPages];
   for (let q = 0; q < turns; q++) {
-    if (host.url().includes("/end") || guest.url().includes("/end")) {
+    if (allPages.some((p) => p.url().includes("/end"))) {
       return q;
     }
     await host
@@ -392,7 +437,7 @@ export async function playTurnsMulti(
         .catch(() => "")) ?? "";
 
     let answered = false;
-    for (const player of [host, guest]) {
+    for (const player of allPages) {
       if (await answerViaUI(player)) {
         answered = true;
         break;
@@ -400,8 +445,9 @@ export async function playTurnsMulti(
     }
     if (!answered) {
       // Couldn't answer — check if a special round overlay is already up
-      if (await hasAnyRoundOverlay(host)) return q;
-      if (await hasAnyRoundOverlay(guest)) return q;
+      for (const p of allPages) {
+        if (await hasAnyRoundOverlay(p)) return q;
+      }
     }
 
     // Wait for one of: question text changes (next turn loaded),
@@ -418,23 +464,19 @@ export async function playTurnsMulti(
         { timeout: 8000 },
       );
     await Promise.any([
-      questionChanged(host),
-      questionChanged(guest),
-      anyRoundOverlayLocator(host).waitFor({
-        state: "visible",
-        timeout: 8000,
-      }),
-      anyRoundOverlayLocator(guest).waitFor({
-        state: "visible",
-        timeout: 8000,
-      }),
-      host.waitForURL("**/end", { timeout: 8000 }),
-      guest.waitForURL("**/end", { timeout: 8000 }),
+      ...allPages.map(questionChanged),
+      ...allPages.map((p) =>
+        anyRoundOverlayLocator(p).waitFor({
+          state: "visible",
+          timeout: 8000,
+        }),
+      ),
+      ...allPages.map((p) => p.waitForURL("**/end", { timeout: 8000 })),
     ]).catch(() => {});
 
-    // Early exit if special round started
-    if ((await hasAnyRoundOverlay(host)) || (await hasAnyRoundOverlay(guest))) {
-      return q + 1;
+    // Early exit if special round started on any page
+    for (const p of allPages) {
+      if (await hasAnyRoundOverlay(p)) return q + 1;
     }
   }
   return turns;
