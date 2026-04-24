@@ -33,7 +33,7 @@ test.describe("Question de courage — solo flow", () => {
     await expect(
       page
         .getByText(
-          /boit|gorgée|CUL SEC|moitié|défi|Bonne réponse|Mauvaise réponse|a répondu au défi/,
+          /boit|gorgée|cul sec|moitié|défi|bonne réponse|mauvaise réponse|relevé/i,
         )
         .first(),
     ).toBeVisible({ timeout: 5000 });

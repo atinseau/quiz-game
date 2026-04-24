@@ -85,7 +85,7 @@ export function ShowUs({ data }: Props) {
       const isWrong = selectedColor && selectedColor !== color;
       if (isWrong) {
         addDrinkAlert({
-          targetClerkIds: [],
+          targetClerkIds: [targetName],
           emoji: "🍺",
           action: "boire une gorgée — mauvais vote",
         });

@@ -88,7 +88,7 @@ export function QuestionDeCourage({ data }: Props) {
       addDrinkAlert({
         targetClerkIds: [playerClerkId],
         emoji: "🎯",
-        action: "a répondu au défi",
+        action: "défi relevé",
       });
       setTimeout(() => endActiveRound(), 2000);
       return;
