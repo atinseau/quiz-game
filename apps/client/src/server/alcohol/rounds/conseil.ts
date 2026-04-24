@@ -1,12 +1,27 @@
 import { broadcast } from "../../rooms";
 import type { Room } from "../../types";
-import { broadcastDrinkAlert, endSpecialRound } from "../framework";
+import {
+  broadcastDrinkAlert,
+  endSpecialRound,
+  shuffleArray,
+} from "../framework";
 import type { AlcoholState, ServerRound } from "../types";
 
-const conseilState = new Map<
-  string,
-  { votes: Map<string, string>; timeoutId: ReturnType<typeof setTimeout> }
->();
+type ConseilState = {
+  votes: Map<string, string>;
+  timeoutId: ReturnType<typeof setTimeout>;
+  phase: "vote" | "tiebreaker" | "done";
+  tiebreakerTimeoutId?: ReturnType<typeof setTimeout>;
+  tiedClerkIds?: string[];
+  selectedClerkId?: string;
+  spinStartedAt?: number;
+};
+
+const conseilState = new Map<string, ConseilState>();
+
+const REVEAL_DURATION = 1500;
+const SPIN_DURATION = 4000;
+const SETTLE_DURATION = 800;
 
 export const conseilRound: ServerRound = {
   type: "conseil",
@@ -41,7 +56,11 @@ export const conseilRound: ServerRound = {
       resolveVotes(room);
     }, 30_000);
 
-    conseilState.set(room.code, { votes: new Map(), timeoutId });
+    conseilState.set(room.code, {
+      votes: new Map(),
+      timeoutId,
+      phase: "vote",
+    });
   },
 
   handleMessage(
@@ -54,6 +73,7 @@ export const conseilRound: ServerRound = {
 
     const cs = conseilState.get(room.code);
     if (!cs) return;
+    if (cs.phase !== "vote") return;
 
     const targetClerkId = msg.targetClerkId as string;
     if (targetClerkId === clerkId) return;
@@ -76,8 +96,6 @@ export const conseilRound: ServerRound = {
 
 function resolveVotes(room: Room): void {
   const cs = conseilState.get(room.code);
-  conseilState.delete(room.code);
-
   if (!cs) {
     endSpecialRound(room);
     return;
@@ -88,12 +106,11 @@ function resolveVotes(room: Room): void {
   for (const targetId of cs.votes.values()) {
     voteCounts.set(targetId, (voteCounts.get(targetId) ?? 0) + 1);
   }
-
   const maxVotes = Math.max(0, ...voteCounts.values());
   const loserClerkIds =
     maxVotes > 0
       ? Array.from(voteCounts.entries())
-          .filter(([_, count]) => count === maxVotes)
+          .filter(([, count]) => count === maxVotes)
           .map(([clerkId]) => clerkId)
       : [];
 
@@ -109,14 +126,49 @@ function resolveVotes(room: Room): void {
     loserClerkIds,
   });
 
-  if (loserClerkIds.length > 0) {
-    broadcastDrinkAlert(
-      room,
-      loserClerkIds,
-      "🗳️",
-      "boire — désigné par le conseil",
-    );
+  if (loserClerkIds.length <= 1) {
+    // Mono-loser or zero-vote path — finalize directly (no wheel).
+    finalizeConseil(room, loserClerkIds[0]);
+    return;
+  }
+
+  // Tiebreaker path — pick a single loser via shuffleArray and spin the wheel.
+  const firstPick = shuffleArray(loserClerkIds)[0];
+  if (!firstPick) {
+    finalizeConseil(room, undefined);
+    return;
+  }
+  const selectedClerkId = firstPick;
+  cs.phase = "tiebreaker";
+  cs.tiedClerkIds = loserClerkIds;
+  cs.selectedClerkId = selectedClerkId;
+  cs.spinStartedAt = Date.now();
+
+  broadcast(room, {
+    type: "conseil_tiebreaker",
+    tiedClerkIds: loserClerkIds,
+    selectedClerkId,
+    spinDurationMs: SPIN_DURATION,
+  });
+
+  cs.tiebreakerTimeoutId = setTimeout(
+    () => finalizeConseil(room, selectedClerkId),
+    REVEAL_DURATION + SPIN_DURATION + SETTLE_DURATION,
+  );
+}
+
+function finalizeConseil(room: Room, loserId: string | undefined): void {
+  const cs = conseilState.get(room.code);
+  if (cs) cs.phase = "done";
+  conseilState.delete(room.code);
+
+  if (loserId) {
+    broadcastDrinkAlert(room, [loserId], "🗳️", "boire une gorgée");
   }
 
   setTimeout(() => endSpecialRound(room), 5000);
 }
+
+// Test-only: expose resolveVotes so unit tests can simulate the 30s vote
+// timeout without real timers. Consumers other than tests MUST NOT use this.
+export const _resolveVotesForTest = resolveVotes;
