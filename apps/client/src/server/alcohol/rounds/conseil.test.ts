@@ -13,7 +13,9 @@ import type { AlcoholState } from "../types";
 
 // Break the framework ↔ rounds circular import before importing the round.
 await import("../framework");
-const { _resolveVotesForTest, conseilRound } = await import("./conseil");
+const { _resolveVotesForTest, conseilRound } = (await import(
+  "./conseil"
+)) as typeof import("./conseil");
 
 const originalSetTimeout = globalThis.setTimeout;
 const originalRandom = Math.random;
