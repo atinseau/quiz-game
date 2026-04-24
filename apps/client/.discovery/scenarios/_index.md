@@ -6,7 +6,7 @@
 |------------|-------|-----------|---------|---------------|
 | solo       | 5     | 19        | 19      | 2026-04-20    |
 | multi      | 3     | 15        | 11      | 2026-04-20    |
-| regression | 1     | 7         | 7       | 2026-04-23    |
+| regression | 1     | 9         | 9       | 2026-04-24    |
 
 ## Stale
 
@@ -103,3 +103,5 @@
 | [Player leave — 2 players aborts game](./player-leave-2-players.md) | multi-game | covered | critical | multi-repro-player-leave-2-players |
 | [Player leave — 3 players keeps playing](./player-leave-3-players.md) | multi-game | covered | critical | multi-repro-player-leave-3-players |
 | [Courage — result overlay shows answers](./courage-result-shows-answers.md) | multi-game | covered | high | multi-repro-courage-result-shows-answers |
+| [Conseil — tie → fortune wheel](./conseil-tie-wheel.md) | multi-game | covered | critical | multi-repro-conseil-tie-wheel |
+| [Drink alert — personalization](./drink-alert-personalization.md) | multi-game | covered | critical | drink-alert-personalization |
