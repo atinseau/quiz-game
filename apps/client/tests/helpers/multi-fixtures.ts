@@ -89,8 +89,10 @@ async function setupPage(page: Page) {
 interface MultiPlayers {
   host: Page;
   guest: Page;
+  third: Page;
   hostContext: BrowserContext;
   guestContext: BrowserContext;
+  thirdContext: BrowserContext;
 }
 
 // Counter to generate unique usernames across parallel test runs
@@ -100,9 +102,11 @@ export const test = base.extend<{ multi: MultiPlayers }>({
   multi: async ({ browser }, use) => {
     const hostContext = await browser.newContext();
     const guestContext = await browser.newContext();
+    const thirdContext = await browser.newContext();
 
     const host = await hostContext.newPage();
     const guest = await guestContext.newPage();
+    const third = await thirdContext.newPage();
 
     // Generate unique IDs to avoid WS conflicts when tests run in parallel
     const id = `${Date.now()}-${++testCounter}`;
@@ -110,14 +114,18 @@ export const test = base.extend<{ multi: MultiPlayers }>({
     (host as any).__testId = id;
     // biome-ignore lint/suspicious/noExplicitAny: Playwright page extension
     (guest as any).__testId = id;
+    // biome-ignore lint/suspicious/noExplicitAny: Playwright page extension
+    (third as any).__testId = id;
 
     await setupPage(host);
     await setupPage(guest);
+    await setupPage(third);
 
-    await use({ host, guest, hostContext, guestContext });
+    await use({ host, guest, third, hostContext, guestContext, thirdContext });
 
     await hostContext.close();
     await guestContext.close();
+    await thirdContext.close();
   },
 });
 
