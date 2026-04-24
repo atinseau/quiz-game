@@ -1,4 +1,5 @@
 import type { ServerWebSocket } from "bun";
+import { cleanupConseilRoom } from "./alcohol/rounds/conseil";
 import { clearChronoTimer, onPlayerLeft } from "./game-engine";
 import type {
   PlayerInfo,
@@ -257,6 +258,7 @@ export function deleteRoom(code: string): void {
   }
 
   clearChronoTimer(code);
+  cleanupConseilRoom(code);
   rooms.delete(code);
 }
 

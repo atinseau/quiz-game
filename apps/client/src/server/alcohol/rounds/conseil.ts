@@ -159,7 +159,12 @@ function resolveVotes(room: Room): void {
 
 function finalizeConseil(room: Room, loserId: string | undefined): void {
   const cs = conseilState.get(room.code);
-  if (cs) cs.phase = "done";
+  // Idempotent: once the first finalize runs and clears state, any stray
+  // second call (e.g. a timeout firing after finalize already ran on
+  // all-voted) is a no-op. Without this guard a duplicate would re-fire the
+  // drink alert and schedule a second endSpecialRound.
+  if (!cs) return;
+  cs.phase = "done";
   conseilState.delete(room.code);
 
   if (loserId) {
@@ -167,6 +172,19 @@ function finalizeConseil(room: Room, loserId: string | undefined): void {
   }
 
   setTimeout(() => endSpecialRound(room), 5000);
+}
+
+/**
+ * Clear any in-flight Conseil state/timers for a room. Called by rooms.ts
+ * on deleteRoom so the 30s vote timer and the REVEAL+SPIN+SETTLE timeout
+ * don't fire against a dead room.
+ */
+export function cleanupConseilRoom(roomCode: string): void {
+  const cs = conseilState.get(roomCode);
+  if (!cs) return;
+  clearTimeout(cs.timeoutId);
+  if (cs.tiebreakerTimeoutId) clearTimeout(cs.tiebreakerTimeoutId);
+  conseilState.delete(roomCode);
 }
 
 // Test-only: expose resolveVotes so unit tests can simulate the 30s vote
