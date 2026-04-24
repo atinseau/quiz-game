@@ -1,7 +1,7 @@
 # Multi Game
 
 **URL:** /game (multi mode)
-**Last explored:** 2026-04-20
+**Last explored:** 2026-04-24
 
 ## Layout
 
@@ -66,6 +66,42 @@ Same shape as solo `game.md` — steal zone appears on the main player's device 
 
 Rendered on top of the game layer for special rounds. See solo `game.md` zones — the multi server synchronizes overlay state across devices.
 
+### Conseil — Tiebreaker Reveal overlay
+
+Shown when `conseil_result` ships `loserClerkIds.length >= 2`. Auto-advances to the spin overlay after 1.5 s.
+
+| Element | Role | Text/Label | Notes |
+|---------|------|-----------|-------|
+| Emoji | generic | ⚖️ | 6xl block, above the title |
+| Title | heading h2 | "Égalité !" | amber-400, bold 3xl |
+| Subtitle | paragraph | "{N} joueurs à égalité" | muted text |
+| Pastille | span (each) | "{username}" | amber-500 bg, rounded-full, flex-wrap list |
+
+### Conseil — Tiebreaker Spin overlay
+
+Follows the reveal. Wheel SVG rotates ~4 s then settles ~0.8 s before advancing to the result phase.
+
+| Element | Role | Text/Label | Notes |
+|---------|------|-----------|-------|
+| Title | heading h2 | "Tirage au sort..." | amber-400 |
+| Wheel | svg | aria-label="Roue de la fortune" | 220x220 px, cubic-bezier ease-out, 5 full rotations |
+| Pointer | generic | — | amber triangle fixed on top |
+| Slice label | text (svg, each) | "{username}" | centered radially at 60% of radius |
+
+### Drink alert — personalized (plateforme)
+
+Fires via `drink_alert` WS message. Different text shown to the drinker vs observers based on `myClerkId ∈ targetClerkIds`.
+
+| Element | Role | Text/Label | Notes |
+|---------|------|-----------|-------|
+| Overlay | button (fullscreen) | — | fixed inset-0 black/70 backdrop, click-to-close |
+| Emoji | generic | "🗳️" / "🍺" / "🥃" / "💘" etc. | text-8xl |
+| Verdict (self) | paragraph | "C'est pour toi !" | text-2xl white bold (when myClerkId in targetClerkIds) |
+| Verdict (observer) | paragraph | "C'est pour {joinNames} !" | same styling, name(s) of drinker(s) |
+| Action | paragraph | "Boire une gorgée" / "Faire un cul-sec" | text-lg amber-400 (capitalized first letter) |
+| Others hint | paragraph | "(+ {names})" | text-sm white/60, only when self and multi-drinker |
+| Details | generic | — | optional `DrinkAlertDetails` (e.g. courage given + correct answer) |
+
 ## States
 
 | State | Trigger | Key changes |
@@ -75,6 +111,10 @@ Rendered on top of the game layer for special rounds. See solo `game.md` zones �
 | turn-other | Server sends question for another player | Inputs disabled, "C'est au tour de {name}" |
 | answered | Player submits via enabled input | Feedback + next-question transition (server-driven) |
 | scoreboard-updated | Server pushes score update | Scoreboard reflects new values |
+| conseil-tiebreaker-reveal | `conseil_result` with `loserClerkIds.length >= 2` | overlay ⚖️ + "Égalité !" pastilles, auto-advance 1.5 s |
+| conseil-tiebreaker-spin | 1.5 s after reveal | wheel SVG rotates to server `selectedClerkId`, 4 s + 0.8 s settle |
+| drink-alert-self | `drink_alert` with myClerkId in targetClerkIds | verdict "C'est pour toi !", 4 s auto-close |
+| drink-alert-observer | `drink_alert` without myClerkId in targetClerkIds | verdict "C'est pour {name(s)} !", 4 s auto-close |
 
 ## Interactions
 
