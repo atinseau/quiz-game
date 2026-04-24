@@ -23,7 +23,7 @@
    - **Expect:** After the 3rd turn, a special round or drink alert appears on at least one screen
 
 3. Verify overlay or alert
-   - **Do:** Wait for text matching /Petit buveur|Distributeur|Question de courage|boit une gorgée|gorgée|CUL SEC|moitié du verre/
+   - **Do:** Wait for text matching /Petit buveur|Distributeur|Question de courage|C'est pour|Boire une gorgée|Faire cul-sec|moitié du verre/i
    - **Expect:** Text visible on host or guest within 15s
 
 ## Assertions
@@ -34,3 +34,9 @@
 ## Notes
 
 Multi helper fixtures live in `tests/helpers/alcohol-fixtures.ts` and `tests/helpers/multi-fixtures.ts`.
+
+Post Part A (2026-04-24): the drink alert verdict is now personalized
+("C'est pour toi !" / "C'est pour {name} !") with a capitalized action
+line ("Boire une gorgée" / "Faire cul-sec — ..."). The regex was updated
+to match the new copy; the old literal strings "boit une gorgée" and
+"CUL SEC" no longer appear in the DOM.

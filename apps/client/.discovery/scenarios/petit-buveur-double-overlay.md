@@ -30,6 +30,12 @@ it auto-dismissed at 4s, the card underneath was then revealed → two
 sequential notifications for the same event.
 
 Fix: removed petit_buveur from `clientRoundRegistry` + aggregated multiple
-losers/Cupidon partners into a single drink_alert message ("A et B
-boivent une gorgée !"). Round timers aligned to 4s on both client (solo)
-and server (multi) to avoid stale UI gap.
+losers/Cupidon partners into a single drink_alert payload
+(`{ targetClerkIds: [loser1, loser2, ...], action: "boire une gorgée" }`
+after Part A). Round timers aligned to 4s on both client (solo) and
+server (multi) to avoid stale UI gap.
+
+Post Part A (2026-04-24): the rendered text depends on `myClerkId`:
+a loser sees "C'est pour toi !" + "(+ {other losers})" (when multiple)
+and a non-loser observer sees "C'est pour {joinNames(names)} !" (e.g.
+"C'est pour A et B !"). Both show the amber action line "Boire une gorgée".

@@ -28,7 +28,7 @@
 
 4. Submit a response
    - **Do:** Fill input + Enter
-   - **Expect:** Result text or drink alert appears (matches /boit|gorgée|CUL SEC|moitié|défi|Bonne réponse|Mauvaise réponse|a répondu au défi/)
+   - **Expect:** Result text or drink alert appears (matches /boit|gorgée|cul sec|moitié|défi|bonne réponse|mauvaise réponse|relevé/i)
 
 ## Assertions
 
@@ -39,3 +39,8 @@
 ## Notes
 
 Countdown auto-refuse behavior is covered separately by FIX #6 logic (10s countdown).
+
+Post Part A (2026-04-24): solo courage drink alert action is now "défi relevé"
+(renders as "Défi relevé" after capitalize). Refusal path uses "boire la moitié
+du verre — refus". The regex is now case-insensitive and includes "relevé" to
+match the new action phrasing; "a répondu au défi" was removed.

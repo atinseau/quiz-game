@@ -34,8 +34,14 @@
 
 - [ ] End screen shows "Partie terminée"
 - [ ] "Nouvelle partie" button visible on /end
-- [ ] Either CUL SEC alert present OR end screen is functional (current solo limitation documented)
+- [ ] Either cul-sec alert present OR end screen is functional (current solo limitation documented)
 
 ## Notes
 
 Solo mode does NOT implement cul-sec at game end — alcoholStore.culSecEndGame is set but gameStore.nextQuestion does not trigger a drink alert. Cul-sec at end-of-game is only implemented for multiplayer via WS (server sends drink_alert before game_over).
+
+Post Part A (2026-04-24): multiplayer cul-sec end-of-game alert is aggregated
+into a single `drink_alert` with `{ targetClerkIds: [...lowest_scorers],
+emoji: "🥃", action: "faire cul-sec — score le plus bas" }`. Rendered as
+"C'est pour toi !" / "C'est pour {names} !" + amber "Faire cul-sec — score
+le plus bas" on each client.
