@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import type { DrinkAlertDetails } from "../shared/types";
 
 export type SpecialRoundType =
   | "petit_buveur"
@@ -21,6 +22,7 @@ export interface DrinkAlertData {
   id: string;
   emoji: string;
   message: string;
+  details?: DrinkAlertDetails;
 }
 
 interface AlcoholStore {

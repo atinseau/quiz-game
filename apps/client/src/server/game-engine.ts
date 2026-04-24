@@ -178,6 +178,50 @@ export function handlePlayerDisconnect(room: Room): void {
   }
 }
 
+/**
+ * Called after a player has been fully removed from `room.players` (either
+ * via explicit `leave_room` or after the 60s disconnect grace). Two cases:
+ *
+ * 1. Fewer than 2 players remain → a multi game can't continue. Tear it
+ *    down, broadcast `game_aborted` so the remaining client navigates home.
+ * 2. The current player was the one who left → the turn is stuck (no one is
+ *    expected to answer). Advance to the next question.
+ */
+export function onPlayerLeft(room: Room, _leftClerkId: string): void {
+  const game = room.game;
+  if (!game) return;
+
+  if (room.players.size < 2) {
+    if (room.nextQuestionTimer) {
+      clearTimeout(room.nextQuestionTimer);
+      room.nextQuestionTimer = null;
+    }
+    clearChronoTimer(room.code);
+    broadcast(room, {
+      type: "game_aborted",
+      reason: "not_enough_players",
+    });
+    room.game = null;
+    room.status = "lobby";
+    return;
+  }
+
+  if (game.resolved) return;
+
+  // If no remaining player has submitted an answer, the turn was waiting on
+  // someone (very likely the player who just left). Force-advance so the
+  // game doesn't stall. We don't know for sure it was the current player
+  // since they've already been removed from `room.players`, but skipping a
+  // turn is safe: scores aren't changed.
+  const someoneAnswered = Array.from(room.players.keys()).some((id) =>
+    game.answers.has(id),
+  );
+  if (!someoneAnswered) {
+    game.resolved = true;
+    scheduleNextQuestion(room);
+  }
+}
+
 export function handleChronoTimeout(room: Room, playerId: string): void {
   const game = room.game;
   if (!game || game.resolved) return;
@@ -311,53 +355,21 @@ function resolveVoleur(room: Room): void {
   const mainPlayerId = currentPlayerId(room);
   if (!mainPlayerId) return;
 
-  // Main player must have answered
-  if (!game.answers.has(mainPlayerId)) return;
-
   const question = game.questions[game.currentQuestionIndex];
   if (!question) return;
 
-  const mainAnswer = game.answers.get(mainPlayerId);
-  if (mainAnswer === undefined) return;
-  const mainCorrect = checkAnswer(mainAnswer, question);
-
-  // If main player answered correctly → turn ends immediately, no steal window
-  if (mainCorrect) {
-    game.resolved = true;
-
-    const combo = Math.min((game.combos[mainPlayerId] ?? 0) + 1, MAX_COMBO);
-    game.combos[mainPlayerId] = combo;
-    game.scores[mainPlayerId] = (game.scores[mainPlayerId] ?? 0) + 1;
-
-    const playerResults: PlayerResult[] = [
-      {
-        clerkId: mainPlayerId,
-        answered: true,
-        correct: true,
-        stole: false,
-        pointsDelta: 1,
-        answer: mainAnswer,
-      },
-    ];
-
-    const result: TurnResult = {
-      correctAnswer: question.answer,
-      playerResults,
-      scores: { ...game.scores },
-      combos: { ...game.combos },
-    };
-
-    broadcast(room, { type: "turn_result", results: result });
-    scheduleNextQuestion(room);
-    return;
-  }
-
-  // Main answered incorrectly → stealers get a chance
+  // Voleur rules:
+  //   1. A stealer with a correct answer wins the turn instantly ("c'est un vol").
+  //   2. Main correct → main wins.
+  //   3. Main wrong → turn ends immediately, no more stealing. Leaking that
+  //      main was wrong would tell stealers "there's still a correct answer
+  //      up for grabs" — that breaks the "beat main" premise of the mode.
+  //   4. Any stealer who already submitted a wrong answer eats
+  //      STEAL_FAIL_PENALTY when the turn resolves.
   const otherPlayerIds = getConnectedPlayerIds(room).filter(
     (id) => id !== mainPlayerId,
   );
 
-  // Check if a stealer already answered correctly
   let stealerWon: string | null = null;
   for (const id of otherPlayerIds) {
     const ans = game.answers.get(id);
@@ -367,20 +379,42 @@ function resolveVoleur(room: Room): void {
     }
   }
 
-  // If no stealer won yet, check if all others have tried (or are disconnected)
-  if (!stealerWon) {
-    const allOthersTried = otherPlayerIds.every(
-      (id) => game.answers.has(id) || !room.players.get(id)?.connected,
-    );
-    if (!allOthersTried) return; // Still waiting for more answers
+  const mainPlayer = room.players.get(mainPlayerId);
+  const mainHasAnswered = game.answers.has(mainPlayerId);
+  const mainAnswer = game.answers.get(mainPlayerId);
+  const mainCorrect =
+    mainHasAnswered && mainAnswer !== undefined
+      ? checkAnswer(mainAnswer, question)
+      : false;
+
+  // Still waiting: nobody has settled the turn and main can still answer.
+  if (!stealerWon && !mainHasAnswered) {
+    if (mainPlayer?.connected) return;
+    // Main disconnected without answering → abort the turn below.
   }
 
   game.resolved = true;
 
   const playerResults: PlayerResult[] = [];
 
+  const penalizeLosingStealers = (excludeId?: string) => {
+    for (const id of otherPlayerIds) {
+      if (id === excludeId) continue;
+      if (!game.answers.has(id)) continue;
+      game.scores[id] = (game.scores[id] ?? 0) - STEAL_FAIL_PENALTY;
+      game.combos[id] = 0;
+      playerResults.push({
+        clerkId: id,
+        answered: true,
+        correct: false,
+        stole: false,
+        pointsDelta: -STEAL_FAIL_PENALTY,
+        answer: game.answers.get(id),
+      });
+    }
+  };
+
   if (stealerWon) {
-    // Stealer gets STEAL_GAIN, main player loses STEAL_LOSS
     game.scores[stealerWon] = (game.scores[stealerWon] ?? 0) + STEAL_GAIN;
     game.combos[stealerWon] = Math.min(
       (game.combos[stealerWon] ?? 0) + 1,
@@ -389,17 +423,14 @@ function resolveVoleur(room: Room): void {
     game.scores[mainPlayerId] = (game.scores[mainPlayerId] ?? 0) - STEAL_LOSS;
     game.combos[mainPlayerId] = 0;
 
-    // Main player result
     playerResults.push({
       clerkId: mainPlayerId,
-      answered: true,
+      answered: mainHasAnswered,
       correct: false,
       stole: false,
       pointsDelta: -STEAL_LOSS,
       answer: mainAnswer,
     });
-
-    // Stealer result
     playerResults.push({
       clerkId: stealerWon,
       answered: true,
@@ -408,25 +439,24 @@ function resolveVoleur(room: Room): void {
       pointsDelta: STEAL_GAIN,
       answer: game.answers.get(stealerWon),
     });
+    penalizeLosingStealers(stealerWon);
+  } else if (mainHasAnswered && mainCorrect) {
+    const combo = Math.min((game.combos[mainPlayerId] ?? 0) + 1, MAX_COMBO);
+    game.combos[mainPlayerId] = combo;
+    game.scores[mainPlayerId] = (game.scores[mainPlayerId] ?? 0) + 1;
 
-    // Other stealers who answered wrong
-    for (const id of otherPlayerIds) {
-      if (id === stealerWon) continue;
-      if (game.answers.has(id)) {
-        game.scores[id] = (game.scores[id] ?? 0) - STEAL_FAIL_PENALTY;
-        game.combos[id] = 0;
-        playerResults.push({
-          clerkId: id,
-          answered: true,
-          correct: false,
-          stole: false,
-          pointsDelta: -STEAL_FAIL_PENALTY,
-          answer: game.answers.get(id),
-        });
-      }
-    }
-  } else {
-    // No stealer won — main already incorrect
+    playerResults.push({
+      clerkId: mainPlayerId,
+      answered: true,
+      correct: true,
+      stole: false,
+      pointsDelta: 1,
+      answer: mainAnswer,
+    });
+    penalizeLosingStealers();
+  } else if (mainHasAnswered && !mainCorrect) {
+    // Main wrong → turn closes. Stealers who hadn't answered lose their chance;
+    // those who already answered wrong pay the failure penalty.
     game.combos[mainPlayerId] = 0;
     playerResults.push({
       clerkId: mainPlayerId,
@@ -436,22 +466,17 @@ function resolveVoleur(room: Room): void {
       pointsDelta: 0,
       answer: mainAnswer,
     });
-
-    // Stealers who tried and failed
-    for (const id of otherPlayerIds) {
-      if (game.answers.has(id)) {
-        game.scores[id] = (game.scores[id] ?? 0) - STEAL_FAIL_PENALTY;
-        game.combos[id] = 0;
-        playerResults.push({
-          clerkId: id,
-          answered: true,
-          correct: false,
-          stole: false,
-          pointsDelta: -STEAL_FAIL_PENALTY,
-          answer: game.answers.get(id),
-        });
-      }
-    }
+    penalizeLosingStealers();
+  } else {
+    // Main disconnected with no stealer win → skip the turn, no scoring.
+    playerResults.push({
+      clerkId: mainPlayerId,
+      answered: false,
+      correct: false,
+      stole: false,
+      pointsDelta: 0,
+    });
+    penalizeLosingStealers();
   }
 
   const result: TurnResult = {

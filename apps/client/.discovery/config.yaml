@@ -8,5 +8,6 @@ test_dirs:
   solo: tests/e2e/solo
   multi: tests/e2e/multi
   regression: tests/e2e/regression
+
 helpers_dir: tests/helpers
 mocks_dir: tests/mocks/data

@@ -1,5 +1,5 @@
 import type { ServerWebSocket } from "bun";
-import { clearChronoTimer } from "./game-engine";
+import { clearChronoTimer, onPlayerLeft } from "./game-engine";
 import type {
   PlayerInfo,
   Room,
@@ -183,6 +183,7 @@ export function leaveRoom(clerkId: string): void {
   }
 
   reassignHost(room, clerkId);
+  if (room.game) onPlayerLeft(room, clerkId);
 }
 
 export function handleDisconnect(clerkId: string): void {
@@ -216,7 +217,9 @@ export function handleDisconnect(clerkId: string): void {
       broadcast(room, { type: "player_left", clerkId });
       if (room.players.size === 0) {
         deleteRoom(code);
+        return;
       }
+      if (room.game) onPlayerLeft(room, clerkId);
     }
   }, 60_000);
 }

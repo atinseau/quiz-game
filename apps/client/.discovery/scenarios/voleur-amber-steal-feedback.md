@@ -14,19 +14,15 @@
 
 ## Steps
 
-1. Main responder answers incorrectly
-   - **Do:** Submit wrong answer via WS for the main player
-   - **Expect:** Inputs remain open for stealer
+1. Stealer answers correctly BEFORE the main responder
+   - **Do:** Submit correct answer via WS for the stealer only
+   - **Expect:** Turn resolves immediately — steal is successful
 
-2. Stealer answers correctly
-   - **Do:** Submit correct answer via WS for the other player
-   - **Expect:** Turn resolves — steal is successful
-
-3. Stealer sees amber "Vol reussi" feedback
+2. Stealer sees amber "Vol reussi" feedback
    - **Do:** Check stealer's feedback box
    - **Expect:** Amber/orange box with "Vol reussi" text and Zap icon
 
-4. Main player sees amber "t'a vole la reponse" feedback
+3. Main player sees amber "t'a vole la reponse" feedback
    - **Do:** Check main player's feedback box
    - **Expect:** Amber/orange box with "{stealer} t'a vole la reponse" text
 
@@ -39,4 +35,4 @@
 
 ## Notes
 
-In solo mode, the steal box was already amber. This verifies the multi-device implementation matches.
+Only the "stealer beats main" path can trigger a steal under the current rules — main wrong now closes the turn immediately (see `voleur-main-wrong-closes-turn.md`). In solo mode, the steal box was already amber; this verifies the multi-device implementation matches the same styling.

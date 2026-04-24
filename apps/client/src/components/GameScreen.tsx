@@ -242,6 +242,7 @@ export function GameScreen() {
           key={currentDrinkAlert.id}
           emoji={currentDrinkAlert.emoji}
           message={currentDrinkAlert.message}
+          details={currentDrinkAlert.details}
           onClose={dismissCurrentDrinkAlert}
         />
       )}

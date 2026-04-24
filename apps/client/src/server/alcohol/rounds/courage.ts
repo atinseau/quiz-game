@@ -17,7 +17,9 @@ function getRandomConnectedPlayer(room: Room): string | null {
     (p) => p.connected,
   );
   if (connected.length === 0) return null;
-  return connected[Math.floor(Math.random() * connected.length)]!.clerkId;
+  return (
+    connected[Math.floor(Math.random() * connected.length)]?.clerkId ?? null
+  );
 }
 
 function pickCourageQuestion(room: Room): QuestionFull | null {
@@ -123,13 +125,27 @@ export const courageRound: ServerRound = {
         pointsDelta = 2;
         game.scores[clerkId] = (game.scores[clerkId] ?? 0) + 2;
       }
-      broadcast(room, { type: "courage_result", correct, pointsDelta });
+      broadcast(room, {
+        type: "courage_result",
+        correct,
+        pointsDelta,
+        givenAnswer: answer,
+        correctAnswer: cs.question.answer,
+      });
       if (!correct) {
+        // The DrinkAlert carries the submitted + correct answer inline so
+        // the round stays at 4s total — no need for a separate Courage
+        // result card underneath that would be occluded anyway.
         broadcastDrinkAlert(
           room,
           clerkId,
           "🍻",
           `${player?.username ?? "?"} se trompe — CUL SEC !`,
+          {
+            kind: "courage",
+            givenAnswer: String(answer),
+            correctAnswer: String(cs.question.answer),
+          },
         );
       }
       setTimeout(() => endSpecialRound(room), 4000);

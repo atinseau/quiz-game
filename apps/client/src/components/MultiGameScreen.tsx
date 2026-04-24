@@ -390,6 +390,7 @@ export function MultiGameScreen() {
           key={currentDrinkAlert.id}
           emoji={currentDrinkAlert.emoji}
           message={currentDrinkAlert.message}
+          details={currentDrinkAlert.details}
           onClose={dismissCurrentDrinkAlert}
         />
       )}

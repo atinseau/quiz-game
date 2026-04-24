@@ -66,12 +66,12 @@ export interface AlcoholTestConfig {
 }
 
 /**
- * Visible labels for each special round overlay.
- * Use strict text match (exact title) instead of loose regex to avoid
- * false positives (e.g. `/conseil|vote/i` matching other texts).
+ * Visible labels for each special round overlay. Matched as substring (not
+ * exact) so `petit_buveur` can point at the DrinkAlert message body — it's the
+ * only round without a dedicated `<SpecialRoundOverlay>` card.
  */
 export const ROUND_TITLES: Record<SpecialRoundId, string> = {
-  petit_buveur: "Petit buveur !",
+  petit_buveur: "une gorgée",
   distributeur: "Distributeur !",
   courage: "Question de courage !",
   conseil: "Conseil du village",
@@ -464,7 +464,7 @@ export async function waitForRoundOverlay(
 ): Promise<void> {
   const title = ROUND_TITLES[round];
   try {
-    await page.getByText(title, { exact: true }).first().waitFor({
+    await page.getByText(title).first().waitFor({
       timeout: timeoutMs,
       state: "visible",
     });
@@ -486,7 +486,7 @@ export async function waitForRoundOverlayAnyPlayer(
   const title = ROUND_TITLES[round];
   const waitOn = (p: Page) =>
     p
-      .getByText(title, { exact: true })
+      .getByText(title)
       .first()
       .waitFor({ state: "visible", timeout: timeoutMs })
       .then(() => p);
@@ -585,7 +585,7 @@ export async function waitForRoundOverlayGone(
   timeoutMs = 10000,
 ): Promise<void> {
   await page
-    .getByText(ROUND_TITLES[round], { exact: true })
+    .getByText(ROUND_TITLES[round])
     .first()
     .waitFor({ state: "hidden", timeout: timeoutMs });
 }

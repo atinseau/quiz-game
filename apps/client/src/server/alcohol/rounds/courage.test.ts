@@ -26,9 +26,17 @@ afterAll(() => {
   Math.random = originalRandom;
 });
 
+const captured: Record<string, unknown>[] = [];
+
 function fakeWs() {
   return {
-    send: () => {},
+    send: (payload: string) => {
+      try {
+        captured.push(JSON.parse(payload));
+      } catch {
+        // ignore non-JSON
+      }
+    },
     readyState: 1,
     // biome-ignore lint/suspicious/noExplicitAny: test stub
   } as any;
@@ -151,5 +159,82 @@ describe("BUG-courage-splice — pickCourageQuestion mutates game.questions.leng
 
     expect(game.questions.length).toBe(lengthBefore);
     // Today (buggy): lengthBefore - 1 (one QCM spliced out of the pool).
+  });
+});
+
+describe("courage_result broadcast — shows answer + correctAnswer to everyone", () => {
+  function setupAndAccept(targetAnswer: string) {
+    captured.length = 0;
+    const room = makeRoom([
+      { clerkId: "p1", username: "Alice" },
+      { clerkId: "p2", username: "Bob" },
+    ]);
+    // biome-ignore lint/style/noNonNullAssertion: test setup
+    const game = room.game!;
+    // pickCourageQuestion scans from currentQuestionIndex + 1 onwards for a
+    // QCM. Put the current (unused) question at 0 and the target at 1.
+    game.questions = [
+      {
+        type: "qcm",
+        text: "placeholder",
+        choices: ["a", "b"],
+        answer: "a",
+        category: "x",
+      },
+      {
+        type: "qcm",
+        text: "Capitale de l'Espagne ?",
+        choices: ["Madrid", "Barcelone"],
+        answer: "Madrid",
+        category: "geo",
+      },
+    ];
+    game.currentQuestionIndex = 0;
+    // biome-ignore lint/style/noNonNullAssertion: test setup
+    const state = game.alcoholState!;
+
+    // Pin the random pick to p1 (Alice).
+    Math.random = () => 0;
+    courageRound.start(room, state);
+    Math.random = originalRandom;
+
+    // Clear captures from the start phase — we only care about the answer
+    // phase broadcasts.
+    courageRound.handleMessage(room, state, "p1", {
+      type: "courage_choice",
+      accept: true,
+    });
+    captured.length = 0;
+
+    courageRound.handleMessage(room, state, "p1", {
+      type: "courage_answer",
+      answer: targetAnswer,
+    });
+
+    const result = captured.find((m) => m.type === "courage_result") as
+      | {
+          correct: boolean;
+          pointsDelta: number;
+          givenAnswer?: string | boolean;
+          correctAnswer?: string | boolean;
+        }
+      | undefined;
+    return { result, captured: [...captured] };
+  }
+
+  test("wrong answer — broadcast includes the player's answer and the truth", () => {
+    const { result } = setupAndAccept("Barcelone");
+    expect(result).toBeDefined();
+    expect(result?.correct).toBe(false);
+    expect(result?.givenAnswer).toBe("Barcelone");
+    expect(result?.correctAnswer).toBe("Madrid");
+  });
+
+  test("correct answer — broadcast still carries both fields", () => {
+    const { result } = setupAndAccept("Madrid");
+    expect(result).toBeDefined();
+    expect(result?.correct).toBe(true);
+    expect(result?.givenAnswer).toBe("Madrid");
+    expect(result?.correctAnswer).toBe("Madrid");
   });
 });

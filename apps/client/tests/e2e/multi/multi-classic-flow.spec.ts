@@ -53,8 +53,14 @@ test("Multi-device: two players complete a classic game", async ({ multi }) => {
   // After 3 transitions, at least one question should have advanced —
   // verify the game is alive either on /game with a new question or at /end.
   const stillRunning =
-    (await host.locator("p.text-xl").isVisible().catch(() => false)) ||
-    (await guest.locator("p.text-xl").isVisible().catch(() => false));
+    (await host
+      .locator("p.text-xl")
+      .isVisible()
+      .catch(() => false)) ||
+    (await guest
+      .locator("p.text-xl")
+      .isVisible()
+      .catch(() => false));
   const reachedEnd =
     host.url().includes("/end") || guest.url().includes("/end");
   expect(stillRunning || reachedEnd).toBe(true);

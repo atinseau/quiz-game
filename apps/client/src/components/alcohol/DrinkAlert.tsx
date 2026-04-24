@@ -1,10 +1,13 @@
 import { useEffect } from "react";
+import type { DrinkAlertDetails as Details } from "../../shared/types";
+import { DrinkAlertDetails } from "./drink-alert-details";
 
 interface DrinkAlertProps {
   emoji: string;
   message: string;
   onClose: () => void;
   duration?: number;
+  details?: Details;
 }
 
 export function DrinkAlert({
@@ -12,6 +15,7 @@ export function DrinkAlert({
   message,
   onClose,
   duration = 4000,
+  details,
 }: DrinkAlertProps) {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);
@@ -25,9 +29,12 @@ export function DrinkAlert({
       onClick={onClose}
       onKeyDown={(e) => e.key === "Escape" && onClose()}
     >
-      <div className="text-center animate-bounce-in">
+      <div className="text-center animate-bounce-in px-6">
         <span className="text-8xl block mb-6">{emoji}</span>
-        <p className="text-2xl font-bold text-white max-w-sm">{message}</p>
+        <p className="text-2xl font-bold text-white max-w-sm mx-auto">
+          {message}
+        </p>
+        {details && <DrinkAlertDetails details={details} />}
       </div>
     </button>
   );

@@ -62,7 +62,7 @@ test.describe("BUG-FLOW-2 — multiple drink_alerts stack fullscreen", () => {
     // broadcasts are effectively synchronous server-side, but the client WS
     // handler still needs a tick to update the store and re-render.
     await victim
-      .getByText(ROUND_TITLES.petit_buveur, { exact: true })
+      .getByText(ROUND_TITLES.petit_buveur)
       .first()
       .waitFor({ state: "visible", timeout: 5000 });
     await victim.waitForTimeout(500);

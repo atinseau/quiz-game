@@ -52,6 +52,18 @@ export interface RoomState {
   mode: GameMode | null;
 }
 
+/**
+ * Discriminated union for extra context attached to a `drink_alert`. Each
+ * special round can add its own `kind` to enrich the fullscreen alert
+ * without bloating the core message shape — the DrinkAlert component picks
+ * the matching renderer by `kind`.
+ */
+export type DrinkAlertDetails = {
+  kind: "courage";
+  givenAnswer: string;
+  correctAnswer: string;
+};
+
 export type ServerMessage =
   | { type: "room_created"; code: string }
   | { type: "room_joined"; room: RoomState; yourClerkId: string }
@@ -84,6 +96,7 @@ export type ServerMessage =
       scores: Record<string, number>;
       rankings: RankingEntry[];
     }
+  | { type: "game_aborted"; reason: "not_enough_players" }
   | {
       type: "special_round_start";
       roundType: SpecialRoundType;
@@ -94,10 +107,17 @@ export type ServerMessage =
       targetClerkId: string;
       emoji: string;
       message: string;
+      details?: DrinkAlertDetails;
     }
   | { type: "courage_decision"; playerClerkId: string; countdown: number }
   | { type: "courage_question"; question: QuestionWithoutAnswer }
-  | { type: "courage_result"; correct: boolean; pointsDelta: number }
+  | {
+      type: "courage_result";
+      correct: boolean;
+      pointsDelta: number;
+      givenAnswer: string | boolean;
+      correctAnswer: string | boolean;
+    }
   | { type: "distribute_prompt"; distributorClerkId: string; remaining: number }
   | { type: "special_round_end" }
   | {
@@ -105,6 +125,7 @@ export type ServerMessage =
       votes: Record<string, string>;
       loserClerkIds: string[];
     }
+  | { type: "show_us_all_voted" }
   | {
       type: "show_us_result";
       correctColor: string | null;

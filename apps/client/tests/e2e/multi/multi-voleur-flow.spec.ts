@@ -17,16 +17,6 @@ const CORRECT_ANSWERS: Record<string, string | boolean> = {
   "Quel gaz les plantes absorbent-elles ?": "CO2",
 };
 
-/** Wrong answers keyed by question text */
-const WRONG_ANSWERS: Record<string, string | boolean> = {
-  "Quelle est la capitale de la France ?": "Lyon",
-  "Le soleil se lève à l'ouest.": true,
-  "Quel est le plus grand océan du monde ?": "Atlantique",
-  "Combien de planètes dans le système solaire ?": "7",
-  "L'eau bout à 100°C au niveau de la mer.": false,
-  "Quel gaz les plantes absorbent-elles ?": "Oxygène",
-};
-
 async function getQuestionText(page: Page): Promise<string> {
   return (await page.locator("p.text-xl").textContent()) ?? "";
 }
@@ -114,8 +104,14 @@ test("Multi-device voleur: both players answer across multiple turns", async ({
   }
 
   const stillRunning =
-    (await host.locator("p.text-xl").isVisible().catch(() => false)) ||
-    (await guest.locator("p.text-xl").isVisible().catch(() => false));
+    (await host
+      .locator("p.text-xl")
+      .isVisible()
+      .catch(() => false)) ||
+    (await guest
+      .locator("p.text-xl")
+      .isVisible()
+      .catch(() => false));
   expect(stillRunning || isAtEnd(host, guest)).toBe(true);
 });
 
@@ -176,21 +172,10 @@ test("Multi-device voleur: steal shows amber feedback", async ({ multi }) => {
 
   const [main, stealer] = await identifyRoles(host, guest);
   const questionText = await getQuestionText(main);
-  const wrongAnswer = WRONG_ANSWERS[questionText];
   const correctAnswer = CORRECT_ANSWERS[questionText];
 
-  // Main answers incorrectly — steal window opens
-  // biome-ignore lint/style/noNonNullAssertion: test data guaranteed by answer maps
-  await submitAnswerViaWs(main, wrongAnswer!);
-
-  // Wait for the steal window to open on the stealer (server broadcast).
-  await stealer
-    .getByText(/Quelqu'un a repondu|Vol|steal/i)
-    .first()
-    .waitFor({ state: "visible", timeout: 5000 })
-    .catch(() => {});
-
-  // Stealer answers correctly — triggers steal
+  // Stealer beats main to the correct answer — the only path to a steal under
+  // the current rules (main wrong closes the turn with no steal window).
   // biome-ignore lint/style/noNonNullAssertion: test data guaranteed by answer maps
   await submitAnswerViaWs(stealer, correctAnswer!);
 

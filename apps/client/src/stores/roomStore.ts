@@ -12,6 +12,7 @@ import type { GameMode } from "../types";
 import { sounds } from "../utils/sounds";
 import type { AlcoholConfig } from "./alcoholStore";
 import { useAlcoholStore } from "./alcoholStore";
+import { getNavigate } from "./router";
 
 // Re-export for consumers that import from roomStore
 export type { PlayerInfo, RankingEntry, RoomState, TurnResult };
@@ -276,6 +277,20 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           });
           break;
 
+        case "game_aborted": {
+          // A multi game with fewer than 2 players left can't continue. Wipe
+          // game + room state and navigate back to the multi home — the
+          // remaining client shouldn't be stranded on /game.
+          set({
+            room: null,
+            gameStarting: false,
+            game: { ...initialGame },
+          });
+          useAlcoholStore.getState().reset();
+          getNavigate()("/play");
+          break;
+        }
+
         case "special_round_start":
           useAlcoholStore.getState().setActiveRound(msg.roundType, msg.data);
           break;
@@ -283,9 +298,11 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           useAlcoholStore.getState().endActiveRound();
           break;
         case "drink_alert":
-          useAlcoholStore
-            .getState()
-            .addDrinkAlert({ emoji: msg.emoji, message: msg.message });
+          useAlcoholStore.getState().addDrinkAlert({
+            emoji: msg.emoji,
+            message: msg.message,
+            details: msg.details,
+          });
           break;
         case "distribute_prompt":
           useAlcoholStore.getState().setActiveRound("distributeur", {
@@ -314,6 +331,8 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
             phase: "result",
             correct: msg.correct,
             pointsDelta: msg.pointsDelta,
+            givenAnswer: msg.givenAnswer,
+            correctAnswer: msg.correctAnswer,
           });
           break;
         case "conseil_result":
@@ -329,6 +348,12 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
             ...useAlcoholStore.getState().activeRoundData,
             choice: msg.choice,
             players: msg.players,
+          });
+          break;
+        case "show_us_all_voted":
+          useAlcoholStore.getState().setActiveRound("show_us", {
+            ...useAlcoholStore.getState().activeRoundData,
+            phase: "waiting_reveal",
           });
           break;
         case "show_us_result":

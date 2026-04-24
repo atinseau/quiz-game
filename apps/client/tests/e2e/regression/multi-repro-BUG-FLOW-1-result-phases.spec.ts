@@ -34,7 +34,10 @@ type TriggerOutcome = "triggered" | "inconclusive";
 interface RoundCase {
   id: "conseil" | "love_or_drink" | "show_us" | "smatch_or_pass";
   label: string;
-  startOverrides?: { hostGender?: "homme" | "femme"; guestGender?: "homme" | "femme" };
+  startOverrides?: {
+    hostGender?: "homme" | "femme";
+    guestGender?: "homme" | "femme";
+  };
   trigger: (host: Page, guest: Page) => Promise<TriggerOutcome>;
   expectedResult: string | RegExp;
 }
@@ -54,13 +57,17 @@ const ROUND_CASES: RoundCase[] = [
         .filter({ hasText: "🗳️" })
         .first();
 
-      if (!(await hostVoteForBob.isVisible({ timeout: 2000 }).catch(() => false))) {
+      if (
+        !(await hostVoteForBob.isVisible({ timeout: 2000 }).catch(() => false))
+      ) {
         return "inconclusive";
       }
       await hostVoteForBob.click();
 
       if (
-        !(await guestVoteForAlice.isVisible({ timeout: 2000 }).catch(() => false))
+        !(await guestVoteForAlice
+          .isVisible({ timeout: 2000 })
+          .catch(() => false))
       ) {
         return "inconclusive";
       }
@@ -73,7 +80,10 @@ const ROUND_CASES: RoundCase[] = [
     label: "Love or Drink",
     expectedResult: "🍺 Cul sec !",
     trigger: async (host) => {
-      await sendRawWs(host, { type: "love_or_drink_choice", choice: "cul_sec" });
+      await sendRawWs(host, {
+        type: "love_or_drink_choice",
+        choice: "cul_sec",
+      });
       return "triggered";
     },
   },
@@ -147,7 +157,10 @@ const ROUND_CASES: RoundCase[] = [
         await host.waitForTimeout(300);
       }
       if (!decideurPage) return "inconclusive";
-      await sendRawWs(decideurPage, { type: "smatch_choice", choice: "smatch" });
+      await sendRawWs(decideurPage, {
+        type: "smatch_choice",
+        choice: "smatch",
+      });
       return "triggered";
     },
   },

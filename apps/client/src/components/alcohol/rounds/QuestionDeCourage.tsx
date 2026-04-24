@@ -45,6 +45,7 @@ export function QuestionDeCourage({ data }: Props) {
   // Solo: when the counter hits 0, auto-force refus so decision buttons don't
   // linger past expiry. Kept in a separate effect to avoid triggering state
   // updates from within a setState updater (React "setState in render" warning).
+  // biome-ignore lint/correctness/useExhaustiveDependencies: sendChoice is declared later; adding it to deps would re-fire on every render since it's re-created each render without useCallback.
   useEffect(() => {
     if (!isSolo) return;
     if (phase !== "decision") return;
@@ -158,6 +159,14 @@ export function QuestionDeCourage({ data }: Props) {
             <p className="text-2xl font-bold">
               {data.correct ? "✅ Bonne réponse !" : "❌ Mauvaise réponse !"}
             </p>
+            {data.correctAnswer !== undefined && (
+              <p className="text-sm text-muted-foreground">
+                Bonne réponse :{" "}
+                <span className="text-green-400 font-semibold">
+                  {String(data.correctAnswer)}
+                </span>
+              </p>
+            )}
             {(data.pointsDelta as number) > 0 && (
               <p className="text-green-400">
                 +{data.pointsDelta as number} pts

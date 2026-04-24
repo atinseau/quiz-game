@@ -1,3 +1,4 @@
+import type { DrinkAlertDetails } from "../../shared/types";
 import { broadcast } from "../rooms";
 import type { ClientMessage, Room } from "../types";
 import { roundRegistry } from "./rounds";
@@ -62,8 +63,15 @@ export function broadcastDrinkAlert(
   targetClerkId: string,
   emoji: string,
   message: string,
+  details?: DrinkAlertDetails,
 ): void {
-  broadcast(room, { type: "drink_alert", targetClerkId, emoji, message });
+  broadcast(room, {
+    type: "drink_alert",
+    targetClerkId,
+    emoji,
+    message,
+    details,
+  });
   // Cupidon propagation
   const links = room.game?.alcoholState?.cupidLinks ?? [];
   for (const [a, b] of links) {

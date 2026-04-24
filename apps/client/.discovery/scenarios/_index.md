@@ -6,6 +6,7 @@
 |------------|-------|-----------|---------|---------------|
 | solo       | 5     | 19        | 19      | 2026-04-20    |
 | multi      | 3     | 15        | 11      | 2026-04-20    |
+| regression | 1     | 7         | 7       | 2026-04-23    |
 
 ## Stale
 
@@ -90,3 +91,15 @@
 | Scenario | Page | Status | Priority | Spec |
 |----------|------|--------|----------|------|
 | [Alcohol multi trigger](./alcohol-multi-trigger.md) | multi-game | covered | high | multi-alcohol-flow |
+
+### regression
+
+| Scenario | Page | Status | Priority | Spec |
+|----------|------|--------|----------|------|
+| [Voleur — stealer correct first instant steal](./voleur-stealer-correct-first-instant.md) | multi-game | covered | critical | multi-repro-voleur-stealer-first |
+| [Voleur — main wrong closes the turn](./voleur-main-wrong-closes-turn.md) | multi-game | covered | critical | multi-repro-voleur-main-wrong-closes-turn |
+| [Show Us — target unblocks once voters done](./show-us-reveal-unblocks.md) | multi-game | covered | critical | multi-repro-show-us-reveal-unblocks |
+| [Petit Buveur — single overlay only](./petit-buveur-double-overlay.md) | multi-game | covered | critical | multi-repro-petit-buveur-double-overlay |
+| [Player leave — 2 players aborts game](./player-leave-2-players.md) | multi-game | covered | critical | multi-repro-player-leave-2-players |
+| [Player leave — 3 players keeps playing](./player-leave-3-players.md) | multi-game | covered | critical | multi-repro-player-leave-3-players |
+| [Courage — result overlay shows answers](./courage-result-shows-answers.md) | multi-game | covered | high | multi-repro-courage-result-shows-answers |

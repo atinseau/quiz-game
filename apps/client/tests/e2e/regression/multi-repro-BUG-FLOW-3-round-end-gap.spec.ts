@@ -13,7 +13,6 @@
 
 import {
   expect,
-  ROUND_TITLES,
   startMultiAlcoholGame,
   multiTest as test,
   waitForRoundOverlayAnyPlayer,
@@ -51,12 +50,12 @@ test.describe("BUG-FLOW-3 — 1s stale UI gap between special_round_end and next
       20000,
     );
 
-    // Wait for the overlay to auto-close (server: setTimeout 5000ms then
-    // endSpecialRound → broadcast special_round_end → client hides it).
+    // petit_buveur's only overlay is the fullscreen `<DrinkAlert>` button
+    // (z-[100]). Wait for it to unmount (auto-dismisses at 4s, in sync with
+    // server-side endSpecialRound).
     await victim
-      .getByText(ROUND_TITLES.petit_buveur, { exact: true })
-      .first()
-      .waitFor({ state: "hidden", timeout: 15000 });
+      .locator("button.fixed.inset-0")
+      .waitFor({ state: "detached", timeout: 15000 });
     const overlayClosedAt = Date.now();
 
     // After special_round_end, the client has removed the overlay but

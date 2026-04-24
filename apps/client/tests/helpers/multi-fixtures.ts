@@ -274,7 +274,7 @@ export async function setTestUser(page: Page, username: string) {
  * Send a WS message through the app's active WebSocket connection.
  * Uses the __testActiveWs reference tracked by the WS override.
  */
-async function sendAppWsMessage(
+export async function sendAppWsMessage(
   page: Page,
   message: Record<string, unknown>,
 ): Promise<void> {

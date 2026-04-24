@@ -480,12 +480,24 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
           .filter(([_, s]) => s === minScore)
           .map(([name]) => ({ clerkId: name, username: name }));
         alcoholStore.setActiveRound("petit_buveur", { losers });
-        for (const loser of losers) {
-          alcoholStore.addDrinkAlert({
-            emoji: "🍺",
-            message: `${loser.username} boit une gorgée !`,
-          });
-        }
+        // Single aggregated alert — one DrinkAlert per loser would replay the
+        // bounce-in animation N times via the FIFO queue.
+        const names =
+          losers.length > 1
+            ? `${losers
+                .slice(0, -1)
+                .map((l) => l.username)
+                .join(", ")} et ${losers[losers.length - 1]?.username ?? ""}`
+            : (losers[0]?.username ?? "");
+        const verb = losers.length > 1 ? "boivent" : "boit";
+        alcoholStore.addDrinkAlert({
+          emoji: "🍺",
+          message: `${names} ${verb} une gorgée !`,
+        });
+        // petit_buveur has no card of its own — the DrinkAlert is the whole
+        // UX. End the round when the DrinkAlert auto-dismisses (4s) to avoid
+        // a stale-UI gap before the next question.
+        setTimeout(() => useAlcoholStore.getState().endActiveRound(), 4000);
       } else if (roundType === "distributeur") {
         const scoreValues = Object.values(scores);
         const maxScore = scoreValues.length > 0 ? Math.max(...scoreValues) : 0;

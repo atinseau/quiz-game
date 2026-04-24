@@ -75,6 +75,20 @@ export const showUsRound: ServerRound = {
       const color = msg.color as string;
       if (!COLORS.includes(color as (typeof COLORS)[number])) return;
       rs.votes.set(clerkId, color);
+
+      // Once every connected non-target player has voted, nudge the target:
+      // without this, their UI stays stuck on "Les autres devinent ta couleur…"
+      // with no reveal buttons (see voleur-stealer-correct-first case — same
+      // family of "client waits for a message that never comes").
+      const connectedVoters = Array.from(room.players.values()).filter(
+        (p) => p.connected && p.clerkId !== rs.targetClerkId,
+      );
+      const allVoted =
+        connectedVoters.length > 0 &&
+        connectedVoters.every((p) => rs.votes.has(p.clerkId));
+      if (allVoted) {
+        broadcast(room, { type: "show_us_all_voted" });
+      }
       return;
     }
 
