@@ -85,8 +85,9 @@ export function ShowUs({ data }: Props) {
       const isWrong = selectedColor && selectedColor !== color;
       if (isWrong) {
         addDrinkAlert({
+          targetClerkIds: [],
           emoji: "🍺",
-          message: `Mauvaise réponse — bois une gorgée !`,
+          action: "boire une gorgée — mauvais vote",
         });
       }
       setTimeout(() => endActiveRound(), 5000);

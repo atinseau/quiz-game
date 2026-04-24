@@ -109,13 +109,12 @@ function resolveVotes(room: Room): void {
     loserClerkIds,
   });
 
-  for (const loserId of loserClerkIds) {
-    const loserName = room.players.get(loserId)?.username ?? "?";
+  if (loserClerkIds.length > 0) {
     broadcastDrinkAlert(
       room,
-      loserId,
+      loserClerkIds,
       "🗳️",
-      `${loserName} a été désigné par le conseil — boit !`,
+      "boire — désigné par le conseil",
     );
   }
 

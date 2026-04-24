@@ -60,31 +60,40 @@ export function initAlcoholState(config: AlcoholConfig): AlcoholState {
 
 export function broadcastDrinkAlert(
   room: Room,
-  targetClerkId: string,
+  targetClerkIds: string[],
   emoji: string,
-  message: string,
+  action: string,
   details?: DrinkAlertDetails,
 ): void {
   broadcast(room, {
     type: "drink_alert",
-    targetClerkId,
+    targetClerkIds,
     emoji,
-    message,
+    action,
     details,
   });
-  // Cupidon propagation
+  // Cupidon propagation — pour chaque cible qui a un partenaire lié,
+  // envoyer une alerte dédiée au partenaire (sauf s'il est déjà dans targetClerkIds).
   const links = room.game?.alcoholState?.cupidLinks ?? [];
-  for (const [a, b] of links) {
-    if (a === targetClerkId || b === targetClerkId) {
-      const partner = a === targetClerkId ? b : a;
-      const partnerName = room.players.get(partner)?.username ?? "?";
-      broadcast(room, {
-        type: "drink_alert",
-        targetClerkId: partner,
-        emoji: "💘",
-        message: `${partnerName} est lié — boit aussi !`,
-      });
+  const alreadyTargeted = new Set(targetClerkIds);
+  const cupidonPartners = new Set<string>();
+  for (const targetId of targetClerkIds) {
+    for (const [a, b] of links) {
+      if (a === targetId || b === targetId) {
+        const partner = a === targetId ? b : a;
+        if (!alreadyTargeted.has(partner) && !cupidonPartners.has(partner)) {
+          cupidonPartners.add(partner);
+        }
+      }
     }
+  }
+  for (const partner of cupidonPartners) {
+    broadcast(room, {
+      type: "drink_alert",
+      targetClerkIds: [partner],
+      emoji: "💘",
+      action: "boire — lié au cœur",
+    });
   }
 }
 
@@ -171,12 +180,12 @@ export function handleCulSecEndGame(room: Room): void {
   const minScore = Math.min(...playerIds.map((id) => scores[id] ?? 0));
   const losers = playerIds.filter((id) => (scores[id] ?? 0) === minScore);
 
-  for (const loserClerkId of losers) {
+  if (losers.length > 0) {
     broadcastDrinkAlert(
       room,
-      loserClerkId,
+      losers,
       "🥃",
-      "Cul-sec ! Tu as le score le plus bas !",
+      "faire cul-sec — score le plus bas",
     );
   }
 }

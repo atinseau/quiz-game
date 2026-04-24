@@ -299,8 +299,9 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
           break;
         case "drink_alert":
           useAlcoholStore.getState().addDrinkAlert({
+            targetClerkIds: msg.targetClerkIds,
             emoji: msg.emoji,
-            message: msg.message,
+            action: msg.action,
             details: msg.details,
           });
           break;

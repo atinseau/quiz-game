@@ -20,8 +20,9 @@ export interface AlcoholConfig {
 
 export interface DrinkAlertData {
   id: string;
+  targetClerkIds: string[];
   emoji: string;
-  message: string;
+  action: string;
   details?: DrinkAlertDetails;
 }
 

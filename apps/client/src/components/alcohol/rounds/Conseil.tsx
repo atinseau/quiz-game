@@ -54,11 +54,10 @@ export function Conseil({ data }: Props) {
       }
       setSoloVotes(newVotes);
 
-      const loserName =
-        allPlayers.find((p) => p.clerkId === targetClerkId)?.username ?? "?";
       addDrinkAlert({
+        targetClerkIds: [targetClerkId],
         emoji: "🗳️",
-        message: `${loserName} a été désigné par le conseil — boit !`,
+        action: "boire — désigné par le conseil",
       });
       setTimeout(() => endActiveRound(), 5000);
     } else {

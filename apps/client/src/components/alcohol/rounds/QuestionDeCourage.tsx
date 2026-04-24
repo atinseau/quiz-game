@@ -60,8 +60,9 @@ export function QuestionDeCourage({ data }: Props) {
     if (isSolo) {
       if (!accept) {
         addDrinkAlert({
+          targetClerkIds: [playerClerkId],
           emoji: "🥃",
-          message: `${playerName} refuse — la moitié du verre !`,
+          action: "boire la moitié du verre — refus",
         });
         // Move out of the decision phase immediately so the accept/refuse
         // buttons disappear — the round itself wraps up 2s later.
@@ -85,8 +86,9 @@ export function QuestionDeCourage({ data }: Props) {
     if (isSolo) {
       // In solo mode, show result immediately then end the round
       addDrinkAlert({
+        targetClerkIds: [playerClerkId],
         emoji: "🎯",
-        message: `${playerName} a répondu au défi !`,
+        action: "a répondu au défi",
       });
       setTimeout(() => endActiveRound(), 2000);
       return;

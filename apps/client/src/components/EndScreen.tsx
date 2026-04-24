@@ -115,8 +115,9 @@ export function EndScreen() {
       {currentDrinkAlert && (
         <DrinkAlert
           key={currentDrinkAlert.id}
+          targetClerkIds={currentDrinkAlert.targetClerkIds}
           emoji={currentDrinkAlert.emoji}
-          message={currentDrinkAlert.message}
+          action={currentDrinkAlert.action}
           details={currentDrinkAlert.details}
           onClose={dismissCurrentDrinkAlert}
         />

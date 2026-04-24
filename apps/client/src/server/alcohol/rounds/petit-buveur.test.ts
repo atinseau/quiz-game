@@ -140,7 +140,7 @@ describe("petit_buveur server broadcasts", () => {
     expect(countByType("drink_alert")).toBe(2);
   });
 
-  test("aggregated message names all tied losers", () => {
+  test("aggregated alert targets all tied losers", () => {
     captured.length = 0;
     const players = [
       { clerkId: "p1", username: "Alice" },
@@ -153,11 +153,12 @@ describe("petit_buveur server broadcasts", () => {
     petitBuveurRound.start(room, state);
 
     const drinkAlert = captured.find((m) => m.type === "drink_alert") as
-      | { message: string }
+      | { targetClerkIds: string[]; action: string }
       | undefined;
     expect(drinkAlert).toBeDefined();
-    expect(drinkAlert?.message).toContain("Alice");
-    expect(drinkAlert?.message).toContain("Bob");
+    expect(drinkAlert?.targetClerkIds).toContain("p1");
+    expect(drinkAlert?.targetClerkIds).toContain("p2");
+    expect(drinkAlert?.action).toBe("boire une gorgée");
   });
 
   test("does not double-emit when a loser is Cupidon-linked", () => {
@@ -175,13 +176,13 @@ describe("petit_buveur server broadcasts", () => {
 
     petitBuveurRound.start(room, state);
 
-    // Still 1 logical drink_alert × 3 players = 3 sends. Bob's name should
-    // be included in the aggregated message.
+    // Still 1 logical drink_alert × 3 players = 3 sends. Bob's clerkId should
+    // be included in the aggregated targetClerkIds (Cupidon-linked partner).
     expect(countByType("drink_alert")).toBe(3);
     const drinkAlert = captured.find((m) => m.type === "drink_alert") as
-      | { message: string }
+      | { targetClerkIds: string[] }
       | undefined;
-    expect(drinkAlert?.message).toContain("Alice");
-    expect(drinkAlert?.message).toContain("Bob");
+    expect(drinkAlert?.targetClerkIds).toContain("p1");
+    expect(drinkAlert?.targetClerkIds).toContain("p2");
   });
 });

@@ -39,8 +39,9 @@ export function LoveOrDrink({ data }: Props) {
         // Single aggregated alert — DrinkAlert is a fullscreen overlay, so
         // emitting one per participant stacked two full-screen modals.
         addDrinkAlert({
+          targetClerkIds: [player1.clerkId, player2.clerkId],
           emoji: "🍺",
-          message: `${player1.username} et ${player2.username} boivent — cul sec !`,
+          action: "faire cul-sec — Love or Drink",
         });
       }
       setTimeout(() => endActiveRound(), 5000);

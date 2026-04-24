@@ -62,9 +62,9 @@ export const courageRound: ServerRound = {
       courageStates.delete(room.code);
       broadcastDrinkAlert(
         room,
-        playerClerkId,
+        [playerClerkId],
         "🥃",
-        `${player?.username ?? "?"} n'a pas choisi — la moitié du verre !`,
+        "boire la moitié du verre — pas de choix",
       );
       setTimeout(() => endSpecialRound(room), 4000);
     }, 10_000);
@@ -85,14 +85,13 @@ export const courageRound: ServerRound = {
     if (msg.type === "courage_choice") {
       clearTimeout(cs.decisionTimeout);
       const accept = msg.accept as boolean;
-      const player = room.players.get(clerkId);
       if (!accept) {
         courageStates.delete(room.code);
         broadcastDrinkAlert(
           room,
-          clerkId,
+          [clerkId],
           "🥃",
-          `${player?.username ?? "?"} refuse — la moitié du verre !`,
+          "boire la moitié du verre — refus",
         );
         setTimeout(() => endSpecialRound(room), 4000);
         return;
@@ -118,7 +117,6 @@ export const courageRound: ServerRound = {
       courageStates.delete(room.code);
       const answer = msg.answer as string | boolean;
       const correct = checkAnswer(answer, cs.question);
-      const player = room.players.get(clerkId);
       const game = room.game;
       let pointsDelta = 0;
       if (correct && game) {
@@ -138,9 +136,9 @@ export const courageRound: ServerRound = {
         // result card underneath that would be occluded anyway.
         broadcastDrinkAlert(
           room,
-          clerkId,
+          [clerkId],
           "🍻",
-          `${player?.username ?? "?"} se trompe — CUL SEC !`,
+          "faire cul-sec — mauvaise réponse",
           {
             kind: "courage",
             givenAnswer: String(answer),

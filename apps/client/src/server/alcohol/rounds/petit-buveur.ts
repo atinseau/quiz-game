@@ -1,7 +1,6 @@
-import { joinNames } from "../../../shared/format";
 import { broadcast } from "../../rooms";
 import type { Room } from "../../types";
-import { endSpecialRound } from "../framework";
+import { broadcastDrinkAlert, endSpecialRound } from "../framework";
 import type { AlcoholState, ServerRound } from "../types";
 
 export const petitBuveurRound: ServerRound = {
@@ -34,20 +33,12 @@ export const petitBuveurRound: ServerRound = {
       }
     }
 
-    const names = joinNames([...drinkers.values()]);
-    const verb = drinkers.size > 1 ? "boivent" : "boit";
-
     broadcast(room, {
       type: "special_round_start",
       roundType: "petit_buveur",
       data: { losers },
     });
-    broadcast(room, {
-      type: "drink_alert",
-      targetClerkId: losers[0]?.clerkId ?? "",
-      emoji: "🍺",
-      message: `${names} ${verb} une gorgée !`,
-    });
+    broadcastDrinkAlert(room, [...drinkers.keys()], "🍺", "boire une gorgée");
 
     // Align with the client-side `<DrinkAlert>` auto-dismiss duration (4s).
     // petit_buveur has no dedicated overlay card — the DrinkAlert is the whole

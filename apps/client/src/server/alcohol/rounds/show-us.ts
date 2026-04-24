@@ -106,12 +106,11 @@ export const showUsRound: ServerRound = {
       for (const [voterId, vote] of rs.votes.entries()) {
         if (vote !== color) {
           wrongClerkIds.push(voterId);
-          const voter = room.players.get(voterId);
           broadcastDrinkAlert(
             room,
-            voterId,
+            [voterId],
             "🍺",
-            `${voter?.username ?? "?"} s'est planté — boit une gorgée !`,
+            "boire une gorgée — mauvais vote",
           );
         }
       }

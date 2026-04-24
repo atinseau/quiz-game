@@ -104,9 +104,9 @@ export type ServerMessage =
     }
   | {
       type: "drink_alert";
-      targetClerkId: string;
+      targetClerkIds: string[]; // qui doit agir (1..N) — client formate self vs others
       emoji: string;
-      message: string;
+      action: string; // "boire une gorgée", "faire un cul-sec", "boire 3 gorgées"
       details?: DrinkAlertDetails;
     }
   | { type: "courage_decision"; playerClerkId: string; countdown: number }
@@ -124,6 +124,12 @@ export type ServerMessage =
       type: "conseil_result";
       votes: Record<string, string>;
       loserClerkIds: string[];
+    }
+  | {
+      type: "conseil_tiebreaker";
+      tiedClerkIds: string[]; // 2..N — les ex æquo, ordre stable
+      selectedClerkId: string; // perdant tiré par shuffleArray côté serveur
+      spinDurationMs: number; // ex. 4000
     }
   | { type: "show_us_all_voted" }
   | {

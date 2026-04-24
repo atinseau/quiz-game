@@ -11,8 +11,8 @@ const ANY_ROUND_OR_ALERT = new RegExp(
     ...Object.values(ROUND_TITLES).map((t) =>
       t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
     ),
-    "boit une gorgée",
-    "CUL SEC",
+    "[Bb]oire une gorgée",
+    "cul-sec",
     "moitié du verre",
   ].join("|"),
 );
@@ -55,7 +55,7 @@ test.describe("Alcohol mode — solo", () => {
     await playTurnsSolo(page, 3);
 
     await expect(
-      page.getByText(/Petit buveur|boit une gorgée/).first(),
+      page.getByText(/Petit buveur|[Bb]oire une gorgée/).first(),
     ).toBeVisible({ timeout: 10000 });
   });
 });

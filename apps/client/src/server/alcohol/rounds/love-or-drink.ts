@@ -45,14 +45,12 @@ export const loveOrDrinkRound: ServerRound = {
       ls.resolved = true;
       loveOrDrinkStates.delete(room.code);
 
-      for (const player of bottom2) {
-        broadcastDrinkAlert(
-          room,
-          player.clerkId,
-          "🍺",
-          `${player.username} boit — cul sec !`,
-        );
-      }
+      broadcastDrinkAlert(
+        room,
+        bottom2.map((p) => p.clerkId),
+        "🍺",
+        "faire cul-sec — Love or Drink",
+      );
       broadcast(room, {
         type: "love_or_drink_result",
         choice: "cul_sec",
@@ -89,14 +87,12 @@ export const loveOrDrinkRound: ServerRound = {
     const choice = msg.choice as "bisou" | "cul_sec";
 
     if (choice === "cul_sec") {
-      for (const player of ls.players) {
-        broadcastDrinkAlert(
-          room,
-          player.clerkId,
-          "🍺",
-          `${player.username} boit — cul sec !`,
-        );
-      }
+      broadcastDrinkAlert(
+        room,
+        ls.players.map((p) => p.clerkId),
+        "🍺",
+        "faire cul-sec — Love or Drink",
+      );
     }
 
     broadcast(room, {

@@ -68,9 +68,9 @@ export const distributeurRound: ServerRound = {
     const distributor = room.players.get(clerkId);
     broadcastDrinkAlert(
       room,
-      targetClerkId,
+      [targetClerkId],
       "🍺",
-      `${distributor?.username ?? "?"} t'envoie une gorgée !`,
+      `boire — envoyé par ${distributor?.username ?? "?"}`,
     );
     ds.remaining--;
     if (ds.remaining <= 0) {

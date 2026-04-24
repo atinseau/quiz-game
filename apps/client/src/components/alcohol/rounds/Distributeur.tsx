@@ -38,12 +38,13 @@ export function Distributeur({ data }: Props) {
 
   const remaining = isSolo ? localRemaining : ((data.remaining as number) ?? 0);
 
-  const handleDrink = (targetId: string, targetName: string) => {
+  const handleDrink = (targetId: string, _targetName: string) => {
     if (isSolo) {
       // Solo: handle locally
       addDrinkAlert({
+        targetClerkIds: [targetId],
         emoji: "🍺",
-        message: `${distributorName} envoie une gorgée à ${targetName} !`,
+        action: `boire — envoyé par ${distributorName}`,
       });
       const next = localRemaining - 1;
       setLocalRemaining(next);
