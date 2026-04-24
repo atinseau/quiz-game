@@ -1,5 +1,6 @@
 import type { ServerWebSocket } from "bun";
 import { handleAlcoholMessage } from "./alcohol/framework";
+import { getConseilSnapshot } from "./alcohol/rounds/conseil";
 import {
   handlePlayerDisconnect,
   startGame as startGameEngine,
@@ -213,11 +214,16 @@ export const websocketHandlers = {
         player.ws = ws;
         player.connected = true;
         player.disconnectedAt = null;
+        const conseilSnapshot =
+          room.game?.alcoholState?.activeRound === "conseil"
+            ? (getConseilSnapshot(room.code) ?? undefined)
+            : undefined;
         ws.send(
           JSON.stringify({
             type: "room_joined",
             room: toRoomState(room),
             yourClerkId: ws.data.clerkId,
+            conseilSnapshot,
           }),
         );
         broadcast(

@@ -124,14 +124,41 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
         case "room_created":
           break;
 
-        case "room_joined":
+        case "room_joined": {
           set({
             room: msg.room,
             myClerkId: msg.yourClerkId,
             error: null,
             gameStarting: false,
           });
+          // Conseil tiebreaker resume: when a client reconnects mid-spin,
+          // the server sends the tiebreaker state so we can seed the
+          // alcohol store here — Conseil.tsx then mounts with the data it
+          // needs to jump straight to the correct phase (reveal, spin, or
+          // result) instead of replaying from the vote screen.
+          const snap = msg.conseilSnapshot;
+          if (
+            snap?.phase === "tiebreaker" &&
+            snap.tiedClerkIds &&
+            snap.selectedClerkId &&
+            snap.spinStartedAt !== undefined &&
+            snap.spinDurationMs !== undefined
+          ) {
+            useAlcoholStore.setState({
+              activeRound: "conseil",
+              activeRoundData: {
+                loserClerkIds: snap.tiedClerkIds,
+                tiebreaker: {
+                  tiedClerkIds: snap.tiedClerkIds,
+                  selectedClerkId: snap.selectedClerkId,
+                  spinDurationMs: snap.spinDurationMs,
+                  spinStartedAt: snap.spinStartedAt,
+                },
+              },
+            });
+          }
           break;
+        }
 
         case "player_joined":
           if (state.room) {

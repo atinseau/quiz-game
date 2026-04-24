@@ -25,7 +25,6 @@ export function Conseil({ data }: Props) {
 
   const [voted, setVoted] = useState(false);
   const [soloVotes, setSoloVotes] = useState<Record<string, string>>({});
-  const [phase, setPhase] = useState<Phase>("vote");
   const [fallbackSelected, setFallbackSelected] = useState<string | null>(null);
 
   const isSolo = myClerkId === null;
@@ -37,8 +36,23 @@ export function Conseil({ data }: Props) {
         tiedClerkIds: string[];
         selectedClerkId: string;
         spinDurationMs: number;
+        spinStartedAt?: number;
       }
     | undefined;
+
+  // Reconnection catch-up: when the component mounts with spinStartedAt
+  // already set, the wheel is mid-flight (or finished). We jump straight
+  // to the right phase so the user doesn't replay from `vote` or flash
+  // into `result` without the animation.
+  const [phase, setPhase] = useState<Phase>(() => {
+    if (!tiebreaker || tiebreaker.spinStartedAt === undefined) return "vote";
+    const elapsed = Date.now() - tiebreaker.spinStartedAt;
+    const SETTLE = 800;
+    if (elapsed >= REVEAL_MS + tiebreaker.spinDurationMs + SETTLE)
+      return "result";
+    if (elapsed >= REVEAL_MS) return "tiebreaker-spin";
+    return "tiebreaker-reveal";
+  });
 
   const allPlayers: { clerkId: string; username: string }[] = isSolo
     ? soloPlayers.map((p) => ({ clerkId: p.name, username: p.name }))

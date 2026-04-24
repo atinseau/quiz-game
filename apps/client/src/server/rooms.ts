@@ -1,5 +1,8 @@
 import type { ServerWebSocket } from "bun";
-import { cleanupConseilRoom } from "./alcohol/rounds/conseil";
+import {
+  cleanupConseilRoom,
+  getConseilSnapshot,
+} from "./alcohol/rounds/conseil";
 import { clearChronoTimer, onPlayerLeft } from "./game-engine";
 import type {
   PlayerInfo,
@@ -70,6 +73,16 @@ function send(ws: ServerWebSocket<WsData>, msg: ServerMessage) {
   ws.send(JSON.stringify(msg));
 }
 
+/**
+ * Build the optional conseilSnapshot attached to a `room_joined` payload
+ * when the active round is "conseil". Returns `undefined` in every other
+ * case so reconnecting clients don't receive stale tiebreaker data.
+ */
+function conseilSnapshotForRoom(room: Room) {
+  if (room.game?.alcoholState?.activeRound !== "conseil") return undefined;
+  return getConseilSnapshot(room.code) ?? undefined;
+}
+
 export function createRoom(ws: ServerWebSocket<WsData>): Room {
   const { clerkId, username, gender } = ws.data;
   const code = generateCode();
@@ -104,6 +117,7 @@ export function createRoom(ws: ServerWebSocket<WsData>): Room {
     type: "room_joined",
     room: toRoomState(room),
     yourClerkId: ws.data.clerkId,
+    conseilSnapshot: conseilSnapshotForRoom(room),
   });
   return room;
 }
@@ -129,6 +143,7 @@ export function joinRoom(
       type: "room_joined",
       room: toRoomState(room),
       yourClerkId: ws.data.clerkId,
+      conseilSnapshot: conseilSnapshotForRoom(room),
     });
     broadcast(room, { type: "player_reconnected", clerkId }, clerkId);
     return room;
@@ -160,6 +175,7 @@ export function joinRoom(
     type: "room_joined",
     room: toRoomState(room),
     yourClerkId: ws.data.clerkId,
+    conseilSnapshot: conseilSnapshotForRoom(room),
   });
   return room;
 }

@@ -66,7 +66,21 @@ export type DrinkAlertDetails = {
 
 export type ServerMessage =
   | { type: "room_created"; code: string }
-  | { type: "room_joined"; room: RoomState; yourClerkId: string }
+  | {
+      type: "room_joined";
+      room: RoomState;
+      yourClerkId: string;
+      // Optional catch-up payload emitted when a client reconnects
+      // while a Conseil round is in progress. Present only for the
+      // "conseil" active round; omitted otherwise.
+      conseilSnapshot?: {
+        phase: "vote" | "tiebreaker";
+        tiedClerkIds?: string[];
+        selectedClerkId?: string;
+        spinStartedAt?: number;
+        spinDurationMs?: number;
+      };
+    }
   | { type: "player_joined"; player: PlayerInfo }
   | { type: "player_left"; clerkId: string }
   | { type: "player_disconnected"; clerkId: string }

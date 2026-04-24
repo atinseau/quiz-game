@@ -190,3 +190,42 @@ export function cleanupConseilRoom(roomCode: string): void {
 // Test-only: expose resolveVotes so unit tests can simulate the 30s vote
 // timeout without real timers. Consumers other than tests MUST NOT use this.
 export const _resolveVotesForTest = resolveVotes;
+
+export type ConseilSnapshot =
+  | { phase: "vote" }
+  | {
+      phase: "tiebreaker";
+      tiedClerkIds: string[];
+      selectedClerkId: string;
+      spinStartedAt: number;
+      spinDurationMs: number;
+    };
+
+/**
+ * Read-only snapshot of the Conseil state for a room, used by the
+ * `room_joined` payload so reconnecting clients can catch up to the
+ * current phase instead of replaying from the vote screen (or flashing
+ * straight to the result without the wheel animation). Returns `null`
+ * when there's no active Conseil round or when tiebreaker fields are
+ * not yet populated.
+ */
+export function getConseilSnapshot(roomCode: string): ConseilSnapshot | null {
+  const cs = conseilState.get(roomCode);
+  if (!cs) return null;
+  if (cs.phase === "done") return null;
+  if (cs.phase !== "tiebreaker") return { phase: cs.phase };
+  if (
+    !cs.tiedClerkIds ||
+    !cs.selectedClerkId ||
+    cs.spinStartedAt === undefined
+  ) {
+    return null;
+  }
+  return {
+    phase: cs.phase,
+    tiedClerkIds: cs.tiedClerkIds,
+    selectedClerkId: cs.selectedClerkId,
+    spinStartedAt: cs.spinStartedAt,
+    spinDurationMs: SPIN_DURATION,
+  };
+}
