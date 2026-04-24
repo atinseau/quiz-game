@@ -344,6 +344,16 @@ export const useRoomStore = create<RoomStore>((set, get) => ({
             loserClerkIds: msg.loserClerkIds,
           });
           break;
+        case "conseil_tiebreaker":
+          useAlcoholStore.getState().setActiveRound("conseil", {
+            ...useAlcoholStore.getState().activeRoundData,
+            tiebreaker: {
+              tiedClerkIds: msg.tiedClerkIds,
+              selectedClerkId: msg.selectedClerkId,
+              spinDurationMs: msg.spinDurationMs,
+            },
+          });
+          break;
         case "love_or_drink_result":
           useAlcoholStore.getState().setActiveRound("love_or_drink", {
             ...useAlcoholStore.getState().activeRoundData,
