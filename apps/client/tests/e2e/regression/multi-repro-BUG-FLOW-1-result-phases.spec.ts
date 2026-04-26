@@ -46,7 +46,12 @@ const ROUND_CASES: RoundCase[] = [
   {
     id: "conseil",
     label: "Conseil",
-    expectedResult: "Résultat du conseil",
+    // 2 players → 1-1 tie → tiebreaker wheel. Post-fix, the result Card
+    // ("Résultat du conseil") is suppressed for the tiebreaker branch
+    // because it leaked behind the semi-transparent DrinkAlert. The
+    // round-end feedback is now the DrinkAlert itself — assert on its
+    // capitalized action line which is shown to every client.
+    expectedResult: /Boire une gorgée/,
     trigger: async (host, guest) => {
       const hostVoteForBob = host
         .getByRole("button", { name: /Bob/ })

@@ -205,13 +205,18 @@ export function Conseil({ data }: Props) {
     );
   }
 
-  // phase === "result" (multi) OR solo result
-  const displayLosers = (() => {
-    if (isSolo) return soloLosers;
-    if (tiebreaker) return [tiebreaker.selectedClerkId];
-    if (fallbackSelected) return [fallbackSelected];
-    return loserClerkIds.slice(0, 1); // mono-loser or 0-vote (empty)
-  })();
+  // phase === "result"
+  // After a tiebreaker, the wheel + personalized DrinkAlert have already
+  // told the whole story. Rendering the votes recap behind the
+  // semi-transparent (bg-black/70) DrinkAlert leaks a faintly-visible card.
+  // The recap is not even informative in this branch (split votes are
+  // arbitrary — the random pick is what matters), so we render nothing.
+  if (tiebreaker || fallbackSelected) return null;
+
+  // Mono-loser (or solo) path: keep the recap — it adds value (everyone
+  // voted for {name}). The Card is still drawn behind the DrinkAlert here,
+  // a separate visual issue tracked outside this fix.
+  const displayLosers = isSolo ? soloLosers : loserClerkIds.slice(0, 1);
   const displayVotes = isSolo ? soloVotes : resultVotes;
 
   return (
